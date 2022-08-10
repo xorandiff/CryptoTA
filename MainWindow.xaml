@@ -53,9 +53,11 @@
                             </GroupBox>
 
                             <GroupBox Header="Real currency" Margin="10" Padding="10">
-                                <ComboBox>
+                                <ComboBox x:Name="realCurrencyComboBox" SelectionChanged="realCurrencyComboBox_SelectionChanged">
                                     <ComboBoxItem IsSelected="True">USD</ComboBoxItem>
                                     <ComboBoxItem>PLN</ComboBoxItem>
+                                    <ComboBoxItem>GBP</ComboBoxItem>
+                                    <ComboBoxItem>EUR</ComboBoxItem>
                                 </ComboBox>
                             </GroupBox>
 

@@ -27,12 +27,41 @@ namespace CryptoTA.UserControls
             };
 
             Labels = new List<string>();
-            YFormatter = value => value.ToString("C", CultureInfo.CreateSpecificCulture("en-us"));
+            YFormatter = value => value.ToString("C", CultureInfo.CreateSpecificCulture(_cultureString));
+            Title = _realCurrency + " price for 1 " + _cryptoCurrency;
 
             DataContext = this;
         }
+        private string _cultureString = "en-us";
+        private string _realCurrency = "USD";
+        private string _cryptoCurrency = "ETH";
         public SeriesCollection SeriesCollection { get; set; }
         public List<string> Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
+        public string Title { get; set; }
+
+        public void changeByRate(double rate, string currencySymbol, string currencyCulture)
+        {
+            var newValues = new ChartValues<double> { };
+
+            foreach (var value in SeriesCollection[0].Values)
+            {
+                newValues.Add(rate * (double)value);
+            }
+
+            var newCurrencySeries = new LineSeries
+            {
+                Title = "ETH/" + currencySymbol,
+                Values = newValues,
+                PointGeometry = null
+            };
+
+            _cultureString = currencyCulture;
+            _realCurrency = currencySymbol;
+            Title = currencySymbol + " price for 1 " + _cryptoCurrency;
+
+            SeriesCollection.Clear();
+            SeriesCollection.Add(newCurrencySeries);
+        }
     }
 }

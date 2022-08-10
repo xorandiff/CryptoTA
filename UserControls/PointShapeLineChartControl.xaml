@@ -10,7 +10,7 @@
     <Grid>
         <lvc:CartesianChart Series="{Binding SeriesCollection}">
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="USD price for 1 ETH" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                <lvc:Axis Title="{Binding Title}" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="Time" Labels="{Binding Labels}"></lvc:Axis>

@@ -12,6 +12,15 @@ namespace CryptoTA
 {
     public partial class MainWindow : Window
     {
+        public class ExchangeRateConvertResponse
+        {
+            public bool Success { get; set; }
+            public bool Historical { get; set; }
+            public double Result { get; set; }
+            public DateTime Date { get; set; }
+
+        }
+
         public class BitstampTick
         {
             public double Last { get; set; }
@@ -50,11 +59,29 @@ namespace CryptoTA
         }
 
         public string cryptocurrency = "ETH";
+        public string realCurrency = "USD";
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
+        }
+
+        private string currencyToCulture(string currency)
+        {
+            if (currency == "USD")
+            {
+                return "en-us";
+            }
+            else if (currency == "PLN")
+            {
+                return "pl";
+            }
+            else if (currency == "GBP")
+            {
+                return "en-gb";
+            }
+            return "en-us";
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -108,7 +135,8 @@ namespace CryptoTA
 
                 if (response.IsSuccessful && response.Data != null)
                 {
-                    currentPriceText.Text = response.Data.Last.ToString("C", CultureInfo.CreateSpecificCulture("en-us"));
+                    double currentValue = response.Data.Last * await getCurrencyRate("USD", realCurrency);
+                    currentPriceText.Text = currentValue.ToString("C", CultureInfo.CreateSpecificCulture(currencyToCulture(realCurrency)));
 
                     float percents = response.Data.Percent_change_24;
                     string percentString = response.Data.Percent_change_24.ToString() + "%";
@@ -174,6 +202,39 @@ namespace CryptoTA
             }
         }
 
+        private async void realCurrencyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (realCurrencyComboBox.SelectedItem != null)
+            {
+                ComboBoxItem selectedItem = (ComboBoxItem)realCurrencyComboBox.SelectedItem;
+                string targetCurrency = (string)selectedItem.Content;
+
+                if (targetCurrency != null)
+                {
+                    realCurrency = targetCurrency;
+
+                    double currencyRate = await getCurrencyRate("USD", realCurrency);
+                    chartControl.changeByRate(currencyRate, realCurrency, currencyToCulture(realCurrency));
+                }
+            }
+        }
+
+        private async Task<double> getCurrencyRate(string sourceCurrency, string targetCurrency)
+        {
+            string uriString = "https://api.exchangerate.host/convert?from=" + sourceCurrency + "&to=" + targetCurrency;
+            Uri baseUrl = new Uri(uriString);
+            var client = new RestClient(baseUrl);
+            var request = new RestRequest(baseUrl, Method.Get);
+
+            var response = await client.ExecuteAsync<ExchangeRateConvertResponse>(request);
+            if (response.IsSuccessful && response.Data != null && response.Data.Success)
+            {
+                return response.Data.Result;
+            }
+
+            return 0d;
+        }
+
         private async void setChartTimeSpan(int limit, int timeSpanSeconds)
         {
             statusText.Text = "Downloading data...";
@@ -214,6 +275,9 @@ namespace CryptoTA
 
                 chartControl.SeriesCollection[0].Values.AddRange(values);
                 chartControl.Labels.AddRange(labels);
+
+                double currencyRate = await getCurrencyRate("USD", realCurrency);
+                chartControl.changeByRate(currencyRate, realCurrency, currencyToCulture(realCurrency));
 
                 statusText.Text = "Data synchronized";
             }

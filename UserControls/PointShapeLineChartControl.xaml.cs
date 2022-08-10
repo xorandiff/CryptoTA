@@ -28,7 +28,7 @@ namespace CryptoTA.UserControls
 
             Labels = new List<string>();
             YFormatter = value => value.ToString("C", CultureInfo.CreateSpecificCulture(_cultureString));
-            Title = _realCurrency + " price for 1 " + _cryptoCurrency;
+            ChartTitle = _realCurrency + " price for 1 " + _cryptoCurrency;
 
             DataContext = this;
         }
@@ -38,7 +38,7 @@ namespace CryptoTA.UserControls
         public SeriesCollection SeriesCollection { get; set; }
         public List<string> Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
-        public string Title { get; set; }
+        public string ChartTitle { get; set; }
 
         public void changeByRate(double rate, string currencySymbol, string currencyCulture)
         {
@@ -58,7 +58,7 @@ namespace CryptoTA.UserControls
 
             _cultureString = currencyCulture;
             _realCurrency = currencySymbol;
-            Title = currencySymbol + " price for 1 " + _cryptoCurrency;
+            ChartTitle = currencySymbol + " price for 1 " + _cryptoCurrency;
 
             SeriesCollection.Clear();
             SeriesCollection.Add(newCurrencySeries);

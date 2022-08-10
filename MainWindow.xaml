@@ -46,9 +46,20 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
                             <GroupBox Header="Cryptocurrency" Margin="10" Padding="10">
-                                <ComboBox x:Name="cryptocurrencyComboBox" SelectionChanged="cryptocurrencyComboBox_SelectionChanged">
+                                <ComboBox x:Name="cryptoCurrencyComboBox" SelectionChanged="cryptoCurrencyComboBox_SelectionChanged">
                                     <ComboBoxItem IsSelected="True">ETH</ComboBoxItem>
                                     <ComboBoxItem>BTC</ComboBoxItem>
+                                    <ComboBoxItem>ADA</ComboBoxItem>
+                                    <ComboBoxItem>XRP</ComboBoxItem>
+                                    <ComboBoxItem>AVAX</ComboBoxItem>
+                                    <ComboBoxItem>SHIB</ComboBoxItem>
+                                    <ComboBoxItem>WBTC</ComboBoxItem>
+                                    <ComboBoxItem>UNI</ComboBoxItem>
+                                    <ComboBoxItem>LTC</ComboBoxItem>
+                                    <ComboBoxItem>APE</ComboBoxItem>
+                                    <ComboBoxItem>USDC</ComboBoxItem>
+                                    <ComboBoxItem>ETH2</ComboBoxItem>
+                                    <ComboBoxItem>ALGO</ComboBoxItem>
                                 </ComboBox>
                             </GroupBox>
 
@@ -76,8 +87,9 @@
                             </GroupBox>
                         </StackPanel>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Orientation="Horizontal">
-                            <TextBlock x:Name="currentChangeText" Text="5%" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Bottom" Foreground="#FFB5FFB5" />
+                            <TextBlock x:Name="currentChangeText" Text="5%" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Bottom" />
                             <TextBlock x:Name="currentPriceText" Text="$1121,21" FontSize="36" />
+                            <TextBlock x:Name="currentCurrencyText" Text="/ETH" FontSize="36" Foreground="#FF797979" />
                         </StackPanel>
                     </Grid>
                     

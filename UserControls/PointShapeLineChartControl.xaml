@@ -9,8 +9,11 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <lvc:CartesianChart Series="{Binding SeriesCollection}">
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="#FF1D1D1D"/>
+            </lvc:CartesianChart.DataTooltip>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="{Binding Title}" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                <lvc:Axis Title="{Binding ChartTitle}" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="Time" Labels="{Binding Labels}"></lvc:Axis>

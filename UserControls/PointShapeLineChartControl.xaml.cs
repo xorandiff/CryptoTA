@@ -22,8 +22,7 @@ namespace CryptoTA.UserControls
                 {
                     Title = "ETH/USD",
                     Values = new ChartValues<double> { },
-                    PointGeometry = DefaultGeometries.Square,
-                    PointGeometrySize = 15
+                    PointGeometry = null
                 }
             };
 

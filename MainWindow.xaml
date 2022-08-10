@@ -39,21 +39,31 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Orientation="Horizontal">
-                        <GroupBox Header="Cryptocurrency" Margin="10" Padding="10">
-                            <ComboBox x:Name="cryptocurrencyComboBox" SelectionChanged="cryptocurrencyComboBox_SelectionChanged">
-                                <ComboBoxItem IsSelected="True">ETH</ComboBoxItem>
-                                <ComboBoxItem>BTC</ComboBoxItem>
-                            </ComboBox>
-                        </GroupBox>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <GroupBox Header="Cryptocurrency" Margin="10" Padding="10">
+                                <ComboBox x:Name="cryptocurrencyComboBox" SelectionChanged="cryptocurrencyComboBox_SelectionChanged">
+                                    <ComboBoxItem IsSelected="True">ETH</ComboBoxItem>
+                                    <ComboBoxItem>BTC</ComboBoxItem>
+                                </ComboBox>
+                            </GroupBox>
 
-                        <GroupBox Header="Real currency" Margin="10" Padding="10">
-                            <ComboBox>
-                                <ComboBoxItem IsSelected="True">USD</ComboBoxItem>
-                                <ComboBoxItem>PLN</ComboBoxItem>
-                            </ComboBox>
-                        </GroupBox>
-                    </StackPanel>
+                            <GroupBox Header="Real currency" Margin="10" Padding="10">
+                                <ComboBox>
+                                    <ComboBoxItem IsSelected="True">USD</ComboBoxItem>
+                                    <ComboBoxItem>PLN</ComboBoxItem>
+                                </ComboBox>
+                            </GroupBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Orientation="Horizontal">
+                            <TextBlock x:Name="currentChangeText" Text="5%" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Bottom" />
+                            <TextBlock x:Name="currentPriceText" Text="$1121,21" FontSize="36" />
+                        </StackPanel>
+                    </Grid>
                     
                     <uc:PointShapeLineChartControl Grid.Row="1" x:Name="chartControl" />
 

@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Images\icon_64.ico</ApplicationIcon>
+    <StartupObject>CryptoTA.App</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="icon_64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Content Include="Images\icon_64.ico" />
+  </ItemGroup>
+
+    <ItemGroup>
+	    <Content Include="Images\icon_64.png" />
+    </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="PresentationFramework.Aero2" Version="1.0.1" />
+    <PackageReference Include="RestSharp" Version="108.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="icon_64.png" />
+  </ItemGroup>
+
+</Project>

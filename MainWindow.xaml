@@ -58,9 +58,23 @@
                                     <ComboBoxItem>PLN</ComboBoxItem>
                                 </ComboBox>
                             </GroupBox>
+
+                            <GroupBox Header="Chart time span" Margin="10" Padding="10">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="timeSpan0Btn" Margin="0,0,5,0" Click="timeSpan0Btn_Click">All time</Button>
+                                    <Button x:Name="timeSpan1Btn" Margin="0,0,5,0" Click="timeSpan1Btn_Click">1 year</Button>
+                                    <Button x:Name="timeSpan2Btn" Margin="0,0,5,0" Click="timeSpan2Btn_Click">6 months</Button>
+                                    <Button x:Name="timeSpan3Btn" Margin="0,0,5,0" Click="timeSpan3Btn_Click">3 months</Button>
+                                    <Button x:Name="timeSpan4Btn" Margin="0,0,5,0" Click="timeSpan4Btn_Click">1 month</Button>
+                                    <Button x:Name="timeSpan5Btn" Margin="0,0,5,0" Click="timeSpan5Btn_Click">2 weeks</Button>
+                                    <Button x:Name="timeSpan6Btn" Margin="0,0,5,0" Click="timeSpan6Btn_Click">1 week</Button>
+                                    <Button x:Name="timeSpan7Btn" Margin="0,0,5,0" Click="timeSpan7Btn_Click">3 days</Button>
+                                    <Button x:Name="timeSpan8Btn" Click="timeSpan8Btn_Click">1 day</Button>
+                                </StackPanel>
+                            </GroupBox>
                         </StackPanel>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Orientation="Horizontal">
-                            <TextBlock x:Name="currentChangeText" Text="5%" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Bottom" />
+                            <TextBlock x:Name="currentChangeText" Text="5%" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Bottom" Foreground="#FFB5FFB5" />
                             <TextBlock x:Name="currentPriceText" Text="$1121,21" FontSize="36" />
                         </StackPanel>
                     </Grid>
@@ -93,6 +107,9 @@
             </TabItem>
             <TabItem Header="Indicators">
                 
+            </TabItem>
+            <TabItem Header="Exchange stats">
+
             </TabItem>
         </TabControl>
 

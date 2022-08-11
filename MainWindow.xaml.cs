@@ -89,33 +89,33 @@ namespace CryptoTA
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.AttachDBFilename = "Database.mdf";
-                builder.InitialCatalog = "";
+            //try
+            //{
+            //    SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            //    builder.AttachDBFilename = "Database.mdf";
+            //    builder.InitialCatalog = "";
 
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = "SELECT name, collation_name FROM sys.databases";
+            //    using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            //    {
+            //        String sql = "SELECT name, collation_name FROM sys.databases";
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
-                            }
-                        }
-                    }
-                }
-            }
-            catch (SqlException exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
+            //        using (SqlCommand command = new SqlCommand(sql, connection))
+            //        {
+            //            connection.Open();
+            //            using (SqlDataReader reader = command.ExecuteReader())
+            //            {
+            //                while (reader.Read())
+            //                {
+            //                    Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (SqlException exception)
+            //{
+            //    MessageBox.Show(exception.Message);
+            //}
 
             statusText.Text = "Downloading data...";
             currentCurrencyText.Text = "/" + _cryptoCurrency;

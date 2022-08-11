@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Microsoft.Data.SqlClient;
 
 namespace CryptoTA
 {
@@ -88,6 +89,34 @@ namespace CryptoTA
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.AttachDBFilename = "Database.mdf";
+                builder.InitialCatalog = "";
+
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    String sql = "SELECT name, collation_name FROM sys.databases";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+
             statusText.Text = "Downloading data...";
             currentCurrencyText.Text = "/" + _cryptoCurrency;
 
@@ -102,7 +131,7 @@ namespace CryptoTA
             {
                 Uri baseUrl = new Uri("https://www.bitstamp.net/api/v2/ticker/" + _cryptoCurrency.ToLower() + "usd/");
                 var client = new RestClient(baseUrl);
-                var request = new RestRequest("get", Method.Get);
+                var request = new RestRequest("get", RestSharp.Method.Get);
 
                 var response = client.Execute<BitstampTick>(request);
 
@@ -200,7 +229,7 @@ namespace CryptoTA
             string uriString = "https://api.exchangerate.host/convert?from=" + sourceCurrency + "&to=" + targetCurrency;
             Uri baseUrl = new Uri(uriString);
             var client = new RestClient(baseUrl);
-            var request = new RestRequest(baseUrl, Method.Get);
+            var request = new RestRequest(baseUrl, RestSharp.Method.Get);
 
             var response = await client.ExecuteAsync<ExchangeRateConvertResponse>(request);
             if (response.IsSuccessful && response.Data != null && response.Data.Success)
@@ -239,7 +268,7 @@ namespace CryptoTA
 
             Uri baseUrl = new Uri(uriString);
             var client = new RestClient(baseUrl);
-            var request = new RestRequest(baseUrl, Method.Get);
+            var request = new RestRequest(baseUrl, RestSharp.Method.Get);
 
             var response = await client.ExecuteAsync<BitstampOhlc>(request);
 
@@ -351,6 +380,13 @@ namespace CryptoTA
             _limit = 480;
             _timeInterval = 180;
             fetchChartData();
+        }
+
+        private void AccountsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var accountsWindow = new AccountsWindow();
+            accountsWindow.Owner = this;
+            accountsWindow.ShowDialog();
         }
     }
 }

@@ -21,8 +21,22 @@
 	    <Content Include="Images\icon_64.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <OpenApiReference Include="..\..\..\Downloads\openapi.json" CodeGenerator="NSwagCSharp" Namespace="Kraken" ClassName="KrakenClient" Link="OpenAPIs\openapi.json" />
+    </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NSwag.ApiDescription.Client" Version="13.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="PresentationFramework.Aero2" Version="1.0.1" />
     <PackageReference Include="RestSharp" Version="108.0.1" />
   </ItemGroup>

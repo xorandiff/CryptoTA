@@ -89,33 +89,36 @@ namespace CryptoTA
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //    SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            //    builder.AttachDBFilename = "Database.mdf";
-            //    builder.InitialCatalog = "";
+            try
+            {
+                string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mateusz\source\repos\CryptoTA\Database.mdf;Integrated Security=True";
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString);
+                builder.InitialCatalog = @"C:\USERS\MATEUSZ\SOURCE\REPOS\CRYPTOTA\DATABASE.MDF";
 
-            //    using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-            //    {
-            //        String sql = "SELECT name, collation_name FROM sys.databases";
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    String sql = "SELECT COUNT([Code]) FROM [dbo].[Cryptocurrencies]";
 
-            //        using (SqlCommand command = new SqlCommand(sql, connection))
-            //        {
-            //            connection.Open();
-            //            using (SqlDataReader reader = command.ExecuteReader())
-            //            {
-            //                while (reader.Read())
-            //                {
-            //                    Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            //catch (SqlException exception)
-            //{
-            //    MessageBox.Show(exception.Message);
-            //}
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            reader.Read();
+                            int recordCount = reader.GetInt32(0);
+                            if (recordCount == 0)
+                            {
+                                var downloadWindow = new DownloadWindow();
+                                downloadWindow.ShowDialog();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
 
             statusText.Text = "Downloading data...";
             currentCurrencyText.Text = "/" + _cryptoCurrency;

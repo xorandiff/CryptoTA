@@ -11,7 +11,8 @@
         Height="850"
         Width="1400"
         Icon="icon_64.png"
-        Style="{DynamicResource CustomWindowStyle}" WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource CustomWindowStyle}" 
+        WindowStartupLocation="CenterScreen"
         >
     <Grid>
         <Grid.RowDefinitions>
@@ -122,7 +123,27 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Indicators">
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Cryptocurrency" Margin="20">
+                        <ComboBox>
+                            <ComboBoxItem IsSelected="True">ETH</ComboBoxItem>
+                        </ComboBox>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Header="Oscillators" Margin="20">
+                        
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Grid.Column="1" Header="Moving averages" Margin="20">
+                        
+                    </GroupBox>
+                </Grid>
             </TabItem>
             <TabItem Header="Statistics">
                 <Grid>

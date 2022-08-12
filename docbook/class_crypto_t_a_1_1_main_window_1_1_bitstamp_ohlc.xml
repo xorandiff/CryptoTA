@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc" xml:lang="en-US">
+<title>CryptoTA.MainWindow.BitstampOhlc Class Reference</title>
+<indexterm><primary>CryptoTA.MainWindow.BitstampOhlc</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_1a7c8c90ad494cd3d20bd69463098928f9"/><link linkend="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_data">BitstampOhlcData</link>? <emphasis role="strong">Data</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+MainWindow.xaml.cs</section>

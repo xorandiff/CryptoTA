@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.4" xml:lang="en-US">
+  <compound refid="class_crypto_t_a_1_1_accounts_window" kind="class"><name>CryptoTA::AccountsWindow</name>
+    <member refid="class_crypto_t_a_1_1_accounts_window_1ad127c19354f1308ab52a3fe1f74a89a9" kind="function"><name>AccountsWindow</name></member>
+    <member refid="class_crypto_t_a_1_1_accounts_window_1acb49169e346cc3a77bccfe7b25211e0d" kind="function"><name>AccountsSaveButton_Click</name></member>
+  </compound>
+  <compound refid="class_crypto_t_a_1_1_app" kind="class"><name>CryptoTA::App</name>
+  </compound>
+  <compound refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc" kind="class"><name>CryptoTA::MainWindow::BitstampOhlc</name>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_1a7c8c90ad494cd3d20bd69463098928f9" kind="property"><name>Data</name></member>
+  </compound>
+  <compound refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_data" kind="class"><name>CryptoTA::MainWindow::BitstampOhlcData</name>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_data_1a4a5e7ca44c5d30705321fc6d0acd35c0" kind="property"><name>Pair</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_data_1af56a666511d93fbd6612775a443726e0" kind="property"><name>Ohlc</name></member>
+  </compound>
+  <compound refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item" kind="class"><name>CryptoTA::MainWindow::BitstampOhlcItem</name>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1ab59e24bbe94e0877bafd85f2352d449a" kind="property"><name>High</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1a6712d2d8b918813126dacecfa72f255b" kind="property"><name>Timestamp</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1aa19ca58c3aa4a92b25dd5d0328a5de61" kind="property"><name>Volume</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1a2f740e1c952c3f8cea6a166c601d5960" kind="property"><name>Low</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1a8055db255742c837c73fb140621ce627" kind="property"><name>Close</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1ab90208529778226c24c8baf2492fc7fe" kind="property"><name>Open</name></member>
+  </compound>
+  <compound refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick" kind="class"><name>CryptoTA::MainWindow::BitstampTick</name>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a05ebb82bb9f87a34ec2c90d856e3524c" kind="property"><name>Last</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a570b2f17115a666de586e1b7da561321" kind="property"><name>High</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1aa3798367b5aed4bb83d650178f8734b9" kind="property"><name>Low</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1ac1de13096f039ecf053db1c9c84fcea6" kind="property"><name>Vwap</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a2f493e8ded6e344c15e82521b90c5286" kind="property"><name>Volume</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a3fece3c344eb207a144a5d0b09a55423" kind="property"><name>Bid</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1ad198c93aaa4310f068166f89426bd7d8" kind="property"><name>Ask</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a1003db746dcaa3519577f6e15cffa65e" kind="property"><name>Timestamp</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a82b1246dde71996a30bf710634550095" kind="property"><name>Open</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a43d49887950311c3fffb1043d51ae918" kind="property"><name>Open_24</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a7317aa7395a988a97525037e5ed8ad89" kind="property"><name>Percent_change_24</name></member>
+  </compound>
+  <compound refid="class_crypto_t_a_1_1_download_window" kind="class"><name>CryptoTA::DownloadWindow</name>
+    <member refid="class_crypto_t_a_1_1_download_window_1a0e619d6488e387c522f54814c6f04c62" kind="function"><name>DownloadWindow</name></member>
+    <member refid="class_crypto_t_a_1_1_download_window_1a3e0768b196664b6fc3875d0a56ee7e96" kind="function"><name>Window_Loaded</name></member>
+  </compound>
+  <compound refid="class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response" kind="class"><name>CryptoTA::MainWindow::ExchangeRateConvertResponse</name>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response_1a0c72902037ea9c00f013a7c8763719f1" kind="property"><name>Success</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response_1a9744f98f944cf83ceee4db850d6afb86" kind="property"><name>Historical</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response_1afaf4e7cb75a2af49309cdb35c1e401a6" kind="property"><name>Result</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response_1a8937652301c7051576667d1d5e30daf7" kind="property"><name>Date</name></member>
+  </compound>
+  <compound refid="class_crypto_t_a_1_1_main_window" kind="class"><name>CryptoTA::MainWindow</name>
+    <member refid="class_crypto_t_a_1_1_main_window_1a4233729efdf37dd42c65b7be5c63c611" kind="variable"><name>_cryptoCurrency</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1ae73b3116520bb540d191af2e1232be72" kind="variable"><name>_realCurrency</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a637de081e4fd9e68d45c6dc2f2b4cf7f" kind="variable"><name>_limit</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a4ad06dd76591ffe1164f9d58ca05f131" kind="variable"><name>_timeInterval</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1af098af8d5fbc6c847bfb2cf49fc68ee8" kind="function"><name>MainWindow</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a07fa17561533ec5ca16658200d50a33b" kind="function"><name>fetchBitstampData</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a20e14ff79169d1c9831c28e83fa45444" kind="function"><name>currencyToCulture</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a90f4b2fc3d64f52ced6505961a211bbc" kind="function"><name>Window_Loaded</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a654ee9f8d5dbccb706b0f14ce81699e7" kind="function"><name>cryptoCurrencyComboBox_SelectionChanged</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1aa767f607cd5d107542eba28244242192" kind="function"><name>realCurrencyComboBox_SelectionChanged</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a53b205639fc36885802ce9f106cedb57" kind="function"><name>getCurrencyRate</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1aa113519d317239b84ca065c1448591f5" kind="function"><name>fetchChartData</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a73a8f3066db1198b066102f77a88b52d" kind="function"><name>timeSpan0Btn_Click</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1af559cf0a984a10a4136cac174d786c23" kind="function"><name>timeSpan1Btn_Click</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a651b230b6360b6afdcc24ee32d6ccf22" kind="function"><name>timeSpan2Btn_Click</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a883216906ce566e71321a4c8d2a59259" kind="function"><name>timeSpan3Btn_Click</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a1d1ec15ff0b91cfdab378c0cd7aad961" kind="function"><name>timeSpan4Btn_Click</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a48d3b6cf91becec834e50bde0a0380eb" kind="function"><name>timeSpan5Btn_Click</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a38b2d4dc30662ddd6cffc10a74376ee1" kind="function"><name>timeSpan6Btn_Click</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1ab1c024faaa9f6d53514890dbcfd44e44" kind="function"><name>timeSpan7Btn_Click</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1ad9640e717ff1b4c4ce934a8b5404f266" kind="function"><name>timeSpan8Btn_Click</name></member>
+    <member refid="class_crypto_t_a_1_1_main_window_1a0afbeba7ffe4f71c147c125824599bd7" kind="function"><name>AccountsMenuItem_Click</name></member>
+  </compound>
+  <compound refid="namespace_crypto_t_a" kind="namespace"><name>CryptoTA</name>
+  </compound>
+  <compound refid="namespace_microsoft_1_1_data_1_1_sql_client" kind="namespace"><name>Microsoft::Data::SqlClient</name>
+  </compound>
+  <compound refid="namespace_rest_sharp" kind="namespace"><name>RestSharp</name>
+  </compound>
+  <compound refid="namespace_system" kind="namespace"><name>System</name>
+  </compound>
+  <compound refid="namespace_system_1_1_collections_1_1_generic" kind="namespace"><name>System::Collections::Generic</name>
+  </compound>
+  <compound refid="namespace_system_1_1_configuration" kind="namespace"><name>System::Configuration</name>
+  </compound>
+  <compound refid="namespace_system_1_1_data" kind="namespace"><name>System::Data</name>
+  </compound>
+  <compound refid="namespace_system_1_1_globalization" kind="namespace"><name>System::Globalization</name>
+  </compound>
+  <compound refid="namespace_system_1_1_linq" kind="namespace"><name>System::Linq</name>
+  </compound>
+  <compound refid="namespace_system_1_1_text" kind="namespace"><name>System::Text</name>
+  </compound>
+  <compound refid="namespace_system_1_1_threading" kind="namespace"><name>System::Threading</name>
+  </compound>
+  <compound refid="namespace_system_1_1_threading_1_1_tasks" kind="namespace"><name>System::Threading::Tasks</name>
+  </compound>
+  <compound refid="namespace_system_1_1_windows" kind="namespace"><name>System::Windows</name>
+  </compound>
+  <compound refid="namespace_system_1_1_windows_1_1_controls" kind="namespace"><name>System::Windows::Controls</name>
+  </compound>
+  <compound refid="namespace_system_1_1_windows_1_1_data" kind="namespace"><name>System::Windows::Data</name>
+  </compound>
+  <compound refid="namespace_system_1_1_windows_1_1_documents" kind="namespace"><name>System::Windows::Documents</name>
+  </compound>
+  <compound refid="namespace_system_1_1_windows_1_1_input" kind="namespace"><name>System::Windows::Input</name>
+  </compound>
+  <compound refid="namespace_system_1_1_windows_1_1_media" kind="namespace"><name>System::Windows::Media</name>
+  </compound>
+  <compound refid="namespace_system_1_1_windows_1_1_media_1_1_imaging" kind="namespace"><name>System::Windows::Media::Imaging</name>
+  </compound>
+  <compound refid="namespace_system_1_1_windows_1_1_shapes" kind="namespace"><name>System::Windows::Shapes</name>
+  </compound>
+  <compound refid="_accounts_window_8xaml_8cs" kind="file"><name>AccountsWindow.xaml.cs</name>
+  </compound>
+  <compound refid="_app_8xaml_8cs" kind="file"><name>App.xaml.cs</name>
+  </compound>
+  <compound refid="_assembly_info_8cs" kind="file"><name>AssemblyInfo.cs</name>
+  </compound>
+  <compound refid="_download_window_8xaml_8cs" kind="file"><name>DownloadWindow.xaml.cs</name>
+  </compound>
+  <compound refid="_main_window_8xaml_8cs" kind="file"><name>MainWindow.xaml.cs</name>
+  </compound>
+  <compound refid="_r_e_a_d_m_e_8md" kind="file"><name>README.md</name>
+  </compound>
+  <compound refid="md__r_e_a_d_m_e" kind="page"><name>md_README</name>
+  </compound>
+</doxygenindex>

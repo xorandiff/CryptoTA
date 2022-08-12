@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response" xml:lang="en-US">
+<title>CryptoTA.MainWindow.ExchangeRateConvertResponse Class Reference</title>
+<indexterm><primary>CryptoTA.MainWindow.ExchangeRateConvertResponse</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response_1a0c72902037ea9c00f013a7c8763719f1"/>bool <emphasis role="strong">Success</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response_1a9744f98f944cf83ceee4db850d6afb86"/>bool <emphasis role="strong">Historical</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response_1afaf4e7cb75a2af49309cdb35c1e401a6"/>double <emphasis role="strong">Result</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response_1a8937652301c7051576667d1d5e30daf7"/>DateTime <emphasis role="strong">Date</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+MainWindow.xaml.cs</section>

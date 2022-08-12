@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_index" xml:lang="en-US">
+    <info>
+    <title>My Project</title>
+    </info>
+<chapter>
+    <title>Namespace Documentation</title>
+<xi:include href="namespace_crypto_t_a.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<chapter>
+    <title>Class Documentation</title>
+    <xi:include href="class_crypto_t_a_1_1_accounts_window.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_app.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_data.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_download_window.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<index/>
+</book>

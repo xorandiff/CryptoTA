@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_namespace_crypto_t_a" xml:lang="en-US">
+<title>CryptoTA Namespace Reference</title>
+<indexterm><primary>CryptoTA</primary></indexterm>
+<simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_accounts_window">AccountsWindow</link></para>
+
+<para>Logika interakcji dla klasy AccountsWindow.xaml </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_app">App</link></para>
+
+<para>Interaction logic for App.xaml </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_download_window">DownloadWindow</link></para>
+
+<para>Logika interakcji dla klasy DownloadWindow.xaml </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_main_window">MainWindow</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

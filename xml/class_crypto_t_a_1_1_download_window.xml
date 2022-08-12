@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="class_crypto_t_a_1_1_download_window" kind="class" language="C#" prot="public">
+    <compoundname>CryptoTA::DownloadWindow</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Window</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_crypto_t_a_1_1_download_window_1a0e619d6488e387c522f54814c6f04c62" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CryptoTA.DownloadWindow.DownloadWindow</definition>
+        <argsstring>()</argsstring>
+        <name>DownloadWindow</name>
+        <qualifiedname>CryptoTA.DownloadWindow.DownloadWindow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="DownloadWindow.xaml.cs" line="22" column="16" bodyfile="DownloadWindow.xaml.cs" bodystart="22" bodyend="25"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_crypto_t_a_1_1_download_window_1a3e0768b196664b6fc3875d0a56ee7e96" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CryptoTA.DownloadWindow.Window_Loaded</definition>
+        <argsstring>(object sender, RoutedEventArgs e)</argsstring>
+        <name>Window_Loaded</name>
+        <qualifiedname>CryptoTA.DownloadWindow.Window_Loaded</qualifiedname>
+        <param>
+          <type>object</type>
+          <declname>sender</declname>
+        </param>
+        <param>
+          <type>RoutedEventArgs</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="DownloadWindow.xaml.cs" line="27" column="22" bodyfile="DownloadWindow.xaml.cs" bodystart="27" bodyend="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Logika interakcji dla klasy DownloadWindow.xaml </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CryptoTA.DownloadWindow</label>
+        <link refid="class_crypto_t_a_1_1_download_window"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Window</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CryptoTA.DownloadWindow</label>
+        <link refid="class_crypto_t_a_1_1_download_window"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Window</label>
+      </node>
+    </collaborationgraph>
+    <location file="DownloadWindow.xaml.cs" line="20" column="19" bodyfile="DownloadWindow.xaml.cs" bodystart="21" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_crypto_t_a_1_1_download_window_1a0e619d6488e387c522f54814c6f04c62" prot="public" virt="non-virtual"><scope>CryptoTA::DownloadWindow</scope><name>DownloadWindow</name></member>
+      <member refid="class_crypto_t_a_1_1_download_window_1a3e0768b196664b6fc3875d0a56ee7e96" prot="private" virt="non-virtual"><scope>CryptoTA::DownloadWindow</scope><name>Window_Loaded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

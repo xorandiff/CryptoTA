@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item" xml:lang="en-US">
+<title>CryptoTA.MainWindow.BitstampOhlcItem Class Reference</title>
+<indexterm><primary>CryptoTA.MainWindow.BitstampOhlcItem</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1ab59e24bbe94e0877bafd85f2352d449a"/>double <emphasis role="strong">High</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1a6712d2d8b918813126dacecfa72f255b"/>long <emphasis role="strong">Timestamp</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1aa19ca58c3aa4a92b25dd5d0328a5de61"/>double <emphasis role="strong">Volume</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1a2f740e1c952c3f8cea6a166c601d5960"/>double <emphasis role="strong">Low</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1a8055db255742c837c73fb140621ce627"/>double <emphasis role="strong">Close</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item_1ab90208529778226c24c8baf2492fc7fe"/>double <emphasis role="strong">Open</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+MainWindow.xaml.cs</section>

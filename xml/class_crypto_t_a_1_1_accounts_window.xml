@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="class_crypto_t_a_1_1_accounts_window" kind="class" language="C#" prot="public">
+    <compoundname>CryptoTA::AccountsWindow</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Window</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_crypto_t_a_1_1_accounts_window_1ad127c19354f1308ab52a3fe1f74a89a9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CryptoTA.AccountsWindow.AccountsWindow</definition>
+        <argsstring>()</argsstring>
+        <name>AccountsWindow</name>
+        <qualifiedname>CryptoTA.AccountsWindow.AccountsWindow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="AccountsWindow.xaml.cs" line="22" column="16" bodyfile="AccountsWindow.xaml.cs" bodystart="22" bodyend="25"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_crypto_t_a_1_1_accounts_window_1acb49169e346cc3a77bccfe7b25211e0d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CryptoTA.AccountsWindow.AccountsSaveButton_Click</definition>
+        <argsstring>(object sender, RoutedEventArgs e)</argsstring>
+        <name>AccountsSaveButton_Click</name>
+        <qualifiedname>CryptoTA.AccountsWindow.AccountsSaveButton_Click</qualifiedname>
+        <param>
+          <type>object</type>
+          <declname>sender</declname>
+        </param>
+        <param>
+          <type>RoutedEventArgs</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="AccountsWindow.xaml.cs" line="27" column="22" bodyfile="AccountsWindow.xaml.cs" bodystart="27" bodyend="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Logika interakcji dla klasy AccountsWindow.xaml </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CryptoTA.AccountsWindow</label>
+        <link refid="class_crypto_t_a_1_1_accounts_window"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Window</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CryptoTA.AccountsWindow</label>
+        <link refid="class_crypto_t_a_1_1_accounts_window"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Window</label>
+      </node>
+    </collaborationgraph>
+    <location file="AccountsWindow.xaml.cs" line="20" column="19" bodyfile="AccountsWindow.xaml.cs" bodystart="21" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_crypto_t_a_1_1_accounts_window_1acb49169e346cc3a77bccfe7b25211e0d" prot="private" virt="non-virtual"><scope>CryptoTA::AccountsWindow</scope><name>AccountsSaveButton_Click</name></member>
+      <member refid="class_crypto_t_a_1_1_accounts_window_1ad127c19354f1308ab52a3fe1f74a89a9" prot="public" virt="non-virtual"><scope>CryptoTA::AccountsWindow</scope><name>AccountsWindow</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

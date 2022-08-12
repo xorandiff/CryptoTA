@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_download_window" xml:lang="en-US">
+<title>CryptoTA.DownloadWindow Class Reference</title>
+<indexterm><primary>CryptoTA.DownloadWindow</primary></indexterm>
+<para>
+
+<para>Logika interakcji dla klasy DownloadWindow.xaml </para>
+ 
+</para>
+<para>Inheritance diagram for CryptoTA.DownloadWindow:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_crypto_t_a_1_1_download_window.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<section>
+<title>Detailed Description</title>
+
+<para>Logika interakcji dla klasy DownloadWindow.xaml </para>
+<para>
+The documentation for this class was generated from the following file:</para>
+DownloadWindow.xaml.cs</section>
+</section>

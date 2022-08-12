@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick" xml:lang="en-US">
+<title>CryptoTA.MainWindow.BitstampTick Class Reference</title>
+<indexterm><primary>CryptoTA.MainWindow.BitstampTick</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a05ebb82bb9f87a34ec2c90d856e3524c"/>double <emphasis role="strong">Last</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a570b2f17115a666de586e1b7da561321"/>double <emphasis role="strong">High</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1aa3798367b5aed4bb83d650178f8734b9"/>double <emphasis role="strong">Low</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1ac1de13096f039ecf053db1c9c84fcea6"/>double <emphasis role="strong">Vwap</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a2f493e8ded6e344c15e82521b90c5286"/>double <emphasis role="strong">Volume</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a3fece3c344eb207a144a5d0b09a55423"/>double <emphasis role="strong">Bid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1ad198c93aaa4310f068166f89426bd7d8"/>double <emphasis role="strong">Ask</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a1003db746dcaa3519577f6e15cffa65e"/>double <emphasis role="strong">Timestamp</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a82b1246dde71996a30bf710634550095"/>double <emphasis role="strong">Open</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a43d49887950311c3fffb1043d51ae918"/>double <emphasis role="strong">Open_24</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick_1a7317aa7395a988a97525037e5ed8ad89"/>float <emphasis role="strong">Percent_change_24</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+MainWindow.xaml.cs</section>

@@ -44,27 +44,27 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Balance>> GetAccountBalance()
+        public Task<List<Balance>> GetAccountBalance()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Order>> GetClosedOrders()
+        public Task<List<Order>> GetClosedOrders()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<TickData>> GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval)
+        public Task<List<TickData>> GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<uint>> GetOhlcTimeIntervals(TradingPair tradingPair)
+        public Task<List<uint>> GetOhlcTimeIntervals(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Order>> GetOpenOrders()
+        public Task<List<Order>> GetOpenOrders()
         {
             throw new NotImplementedException();
         }
@@ -79,17 +79,17 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Balance>> GetTradingBalance()
+        public Task<List<Balance>> GetTradingBalance()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Fees>> GetTradingFees(TradingPair tradingPair)
+        public Task<List<Fees>> GetTradingFees(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<TradingPair>> GetTradingPairs()
+        public Task<List<TradingPair>> GetTradingPairs()
         {
             throw new NotImplementedException();
         }
@@ -99,7 +99,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Fees>> GetWithdrawalFees(TradingPair tradingPair)
+        public Task<List<Fees>> GetWithdrawalFees(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }

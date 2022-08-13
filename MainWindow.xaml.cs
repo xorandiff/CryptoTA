@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Data.SqlClient;
-using CryptoTA.Apis;
 
 namespace CryptoTA
 {

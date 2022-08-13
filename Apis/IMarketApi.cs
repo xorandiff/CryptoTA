@@ -104,6 +104,7 @@ namespace CryptoTA.Apis
         public double Open { get; set; }
         public double Close { get; set; }
         public double Volume { get; set; }
+        public DateTime? Date { get; set; }
     }
 
     /// <summary>

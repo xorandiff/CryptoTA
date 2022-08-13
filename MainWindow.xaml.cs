@@ -125,7 +125,7 @@ namespace CryptoTA
                 marketComboBox.InvalidateVisual();
 
                 TradingPairComboBox.ItemsSource = list;
-                TradingPairComboBox.DisplayMemberPath = "BaseSymbol";
+                TradingPairComboBox.DisplayMemberPath = "DisplayName";
                 TradingPairComboBox.SelectedItem = list[0];
                 TradingPairComboBox.InvalidateVisual();
 
@@ -136,7 +136,7 @@ namespace CryptoTA
             currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
 
             FetchTickData();
-            //FetchChartData();
+            LoadChartData();
         }
 
         public async Task FetchTickData()
@@ -213,6 +213,11 @@ namespace CryptoTA
             }
 
             return 0d;
+        }
+
+        private async Task LoadChartData()
+        {
+
         }
 
         //private async Task<bool> FetchChartData(uint? limit = null, uint? timeInterval = null, string? cryptoCurrency = null, string? realCurrency = null)

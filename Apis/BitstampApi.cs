@@ -9,6 +9,7 @@ namespace CryptoTA.Apis
     public class BitstampApi : IMarketApi
     {
         private readonly string name = "Bitstamp";
+        private readonly uint[] ohlcTimeIntervals = { };
         private bool enabled = false;
 
         public bool Enabled
@@ -29,6 +30,14 @@ namespace CryptoTA.Apis
             get
             {
                 return name;
+            }
+        }
+
+        public uint[] OhlcTimeIntervals
+        {
+            get
+            {
+                return ohlcTimeIntervals;
             }
         }
 
@@ -141,11 +150,6 @@ namespace CryptoTA.Apis
             }
             
             return ohlcData;
-        }
-
-        public Task<List<uint>> GetOhlcTimeIntervals(TradingPair tradingPair)
-        {
-            throw new NotImplementedException();
         }
 
         public Task<List<Order>> GetOpenOrders()

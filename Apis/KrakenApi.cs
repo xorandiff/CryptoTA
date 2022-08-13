@@ -8,6 +8,7 @@ namespace CryptoTA.Apis
     public class KrakenApi : IMarketApi
     {
         private readonly string name = "Kraken";
+        private readonly uint[] ohlcTimeIntervals = { };
         private bool enabled = false;
 
         public bool Enabled
@@ -27,6 +28,14 @@ namespace CryptoTA.Apis
             get
             {
                 return name;
+            }
+        }
+
+        public uint[] OhlcTimeIntervals
+        {
+            get
+            {
+                return ohlcTimeIntervals;
             }
         }
 
@@ -56,11 +65,6 @@ namespace CryptoTA.Apis
         }
 
         public Task<List<TickData>> GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<uint>> GetOhlcTimeIntervals(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }

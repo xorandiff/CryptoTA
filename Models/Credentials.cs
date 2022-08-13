@@ -1,12 +1,23 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace CryptoTA.Models
 {
     public class Credentials
     {
+        [Key]
         public int CredentialsId { get; set; }
-        public string? PublicKey { get; set; }
-        public string? PrivateKey { get; set; }
+
+        [Required]
+        public string PublicKey { get; set; }
+
+        [Required]
+        public string PrivateKey { get; set; }
+
+        [ForeignKey("Market"), Required]
         public int MarketId { get; set; }
-        public virtual Market? Market { get; set; }
+
+        public virtual Market Market { get; set; }
     }
 }

@@ -23,6 +23,11 @@ namespace CryptoTA.Apis
         /// </value>
         public string Name { get; }
 
+        /// <value>
+        /// Available time intervals (in seconds) for querying OHLC data.
+        /// </value>
+        public uint[] OhlcTimeIntervals { get; }
+
         /// <summary>
         /// Gets all available trading pairs.
         /// </summary>
@@ -30,15 +35,8 @@ namespace CryptoTA.Apis
         public Task<List<TradingPair>> GetTradingPairs();
 
         /// <summary>
-        /// Gets available time intervals for querying OHLC data.
-        /// </summary>
-        /// <param name="tradingPair"></param>
-        /// <returns>Array of time intervals in seconds.</returns>
-        public Task<List<uint>> GetOhlcTimeIntervals(TradingPair tradingPair);
-
-        /// <summary>
         /// Gets OHLC data for given trading pair, start date and time interval. 
-        /// Time interval must be one of intervals returned by <c>GetOhlcTimeIntervals</c>.
+        /// Time interval must be one of intervals from property <c>OhlcTimeIntervals</c>.
         /// </summary>
         /// <param name="tradingPair">One of available trading pairs</param>
         /// <param name="startDate"></param>

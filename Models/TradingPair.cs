@@ -1,4 +1,6 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace CryptoTA.Models
 {
     /// <summary>
@@ -10,6 +12,7 @@ namespace CryptoTA.Models
         /// <value>
         /// Database ID.
         /// </value>
+        [Key]
         public int TradingPairId { get; set; }
 
         /// <value>
@@ -18,7 +21,8 @@ namespace CryptoTA.Models
         /// <example>ETH/XBT</example>
         /// <example>ethxbt</example>
         /// </value>
-        public string? Name { get; set; }
+        [Required]
+        public string Name { get; set; }
         /// <value>
         /// Optional alternative name delivered by API. Used in case 
         /// <paramref name="Name"/> fails.
@@ -35,54 +39,71 @@ namespace CryptoTA.Models
         /// <example>For trading pair ETH/USD, base currency name would 
         /// be Etherum.</example>
         /// </value>
-        public string? BaseName { get; set; }
+        [Required]
+        public string BaseName { get; set; }
 
         /// <value>
         /// Counter currency full name.
         /// <example>For trading pair ETH/USD, counter currency name would 
         /// be US Dollar.</example>
         /// </value>
-        public string? CounterName { get; set; }
+        [Required]
+        public string CounterName { get; set; }
 
         /// <value>
         /// Base currency symbol.
         /// <example>For trading pair ETH/USD, base currency symbol would 
         /// be ETH.</example>
         /// </value>
-        public string? BaseSymbol { get; set; }
+        [Required]
+        public string BaseSymbol { get; set; }
 
         /// <value>
         /// Counter currency symbol.
         /// <example>For trading pair ETH/USD, counter currency symbol would 
         /// be USD.</example>
         /// </value>
-        public string? CounterSymbol { get; set; }
+        [Required]
+        public string CounterSymbol { get; set; }
 
         /// <value>
         /// Amount of decimal places of base currency. Shouldn't be more 
         /// than 18 (database precision limit).
         /// </value>
+        [Required]
         public uint BaseDecimals { get; set; }
 
         /// <value>
         /// Amount of decimal places of counter currency. Shouldn't be more 
         /// than 18 (database precision limit).
         /// </value>
+        [Required]
         public uint CounterDecimals { get; set; }
 
         /// <summary>
         /// Minimal amount required by market for order operations.
         /// </summary>
+        [Required]
         public double MinimalOrderAmount { get; set; }
 
         /// <value>
         /// Foreign key for market
         /// </value>
+        [ForeignKey("Market")]
         public int MarketId { get; set; }
 
         /// <value>
         /// Corresponding Market model.
         /// </value>
         public virtual Market? Market { get; set; }
+
+        [NotMapped]
+        public string DisplayName
+        {
+            get
+            {
+                return $"{BaseSymbol.ToUpper()}/{CounterSymbol.ToUpper()}";
+            }
+        }
     }
 }

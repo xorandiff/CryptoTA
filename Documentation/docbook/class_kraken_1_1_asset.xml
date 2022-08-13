@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_asset" xml:lang="en-US">
+<title>Kraken.Asset Class Reference</title>
+<indexterm><primary>Kraken.Asset</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1a83e7f8b2524ee03f5818eedccb064713"/>string <emphasis role="strong">Asset1</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> code/name</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1ad95b5bb3b0976192550220948f9a94d6"/>string <emphasis role="strong">Staking_asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Staking asset code/name</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1aa3f6c1ac2afc02d2c24b3f8f09a320be"/>string <emphasis role="strong">Method</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unique ID of the staking option (used in Stake/Unstake operations)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1af672ab5a7015c84a30436757a435b776"/>bool <emphasis role="strong">On_chain</emphasis> = true<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether the staking operation is on-chain or not.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1a6f8a85955518aa7b929fe90d5feb7546"/>bool <emphasis role="strong">Can_stake</emphasis> = true<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether the user will be able to stake this asset.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1aa3567bef1337f4885c5129316bf99c69"/>bool <emphasis role="strong">Can_unstake</emphasis> = true<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether the user will be able to unstake this asset.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1a8577c2f24e2411971f34538dd1a32ae1"/><link linkend="_class_kraken_1_1_minimum__amount">Minimum_amount</link> <emphasis role="strong">Minimum_amount</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Minimium amounts for staking/unstaking.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1acc7fb941ed9b418179dcf72b2046e785"/><link linkend="_class_kraken_1_1_lock2">Lock2</link> <emphasis role="strong">Lock</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Describes the locking periods and percentages for staking/unstaking operations.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1ad80a0343db3b4671c8eba8b33e40e8e1"/>bool <emphasis role="strong">Enabled_for_user</emphasis> = true<computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1a5944e0b0129838563cbda051cf4cf97e"/>bool <emphasis role="strong">Disabled</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1abd5d201e8b58939719dcba93916556d4"/><link linkend="_class_kraken_1_1_rewards">Rewards</link> <emphasis role="strong">Rewards</emphasis> = new <link linkend="_class_kraken_1_1_rewards">Rewards</link>()<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Describes the rewards earned while staking.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_asset_1aeaf434a3dc72e1947d31c48c4a40d3d2"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

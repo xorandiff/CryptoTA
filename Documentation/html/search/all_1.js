@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['b_0',['B',['../class_kraken_1_1_ticker.html#a1966966667e3d95994d7c1048a39b2bd',1,'Kraken::Ticker']]],
+  ['balance_1',['Balance',['../class_kraken_1_1_ledger.html#a2d3e7119660c066badf220f824e2823e',1,'Kraken.Ledger.Balance()'],['../class_crypto_t_a_1_1_apis_1_1_balance.html',1,'CryptoTA.Apis.Balance'],['../class_kraken_1_1_balance.html',1,'Kraken.Balance']]],
+  ['balance2_2',['Balance2',['../class_kraken_1_1_balance2.html',1,'Kraken']]],
+  ['balance3_3',['Balance3',['../class_kraken_1_1_balance3.html',1,'Kraken']]],
+  ['balance4_4',['Balance4',['../class_kraken_1_1_balance4.html',1,'Kraken']]],
+  ['base_5',['Base',['../class_kraken_1_1_pairs.html#a0283700ae487ede000871ad2197f2d73',1,'Kraken::Pairs']]],
+  ['basedecimals_6',['BaseDecimals',['../class_crypto_t_a_1_1_apis_1_1_trading_pair.html#a5d129c081140526ab0f747012b426874',1,'CryptoTA::Apis::TradingPair']]],
+  ['basename_7',['BaseName',['../class_crypto_t_a_1_1_apis_1_1_trading_pair.html#abdc3bdc332366092c8d9530d8ca3ace9',1,'CryptoTA::Apis::TradingPair']]],
+  ['basesymbol_8',['BaseSymbol',['../class_crypto_t_a_1_1_apis_1_1_trading_pair.html#a618818edfc1cf772378f93865a29b453',1,'CryptoTA::Apis::TradingPair']]],
+  ['batchadd_9',['Batchadd',['../class_kraken_1_1_batchadd.html',1,'Kraken']]],
+  ['batchadd2_10',['Batchadd2',['../class_kraken_1_1_batchadd2.html',1,'Kraken']]],
+  ['batchcancel_11',['Batchcancel',['../class_kraken_1_1_batchcancel.html',1,'Kraken']]],
+  ['batchcancel2_12',['Batchcancel2',['../class_kraken_1_1_batchcancel2.html',1,'Kraken']]],
+  ['bid_13',['Bid',['../class_kraken_1_1_order_book_entry.html#a05cc236f3f766f8e923d80bc7347fa37',1,'Kraken::OrderBookEntry']]],
+  ['bitstampohlc_14',['BitstampOhlc',['../class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc.html',1,'CryptoTA::MainWindow']]],
+  ['bitstampohlcdata_15',['BitstampOhlcData',['../class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_data.html',1,'CryptoTA::MainWindow']]],
+  ['bitstampohlcitem_16',['BitstampOhlcItem',['../class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item.html',1,'CryptoTA::MainWindow']]],
+  ['bitstamptick_17',['BitstampTick',['../class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick.html',1,'CryptoTA::MainWindow']]],
+  ['bond_5fend_18',['Bond_end',['../class_kraken_1_1_transaction.html#a9e5461c055e287b01c522bb91a0f7542',1,'Kraken::Transaction']]],
+  ['bond_5fstart_19',['Bond_start',['../class_kraken_1_1_transaction.html#a5087f3159b2e616a5252f2ca644be984',1,'Kraken::Transaction']]]
+];

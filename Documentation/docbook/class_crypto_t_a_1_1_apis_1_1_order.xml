@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_apis_1_1_order" xml:lang="en-US">
+<title>CryptoTA.Apis.Order Class Reference</title>
+<indexterm><primary>CryptoTA.Apis.Order</primary></indexterm>
+<para>
+
+<para>Class containing basic order data. </para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_1a1718a690e409f5e16b3bd30015790d2f">Id</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>int? <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_1acaad230de123a554c7dd1fa11d8890c0">ClientId</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>DateTime <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_1a0a002d003317a2ad6cf950dbd5e3e399">Date</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>double <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_1ada260bcc3f8bb3ab5ba5510ded670071">InitialVolume</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>double <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_1a1d86021fa29449a3ea0e5e2d39b6ebb5">RemainingVolume</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair">TradingPair</link>? <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_1a14e14d31b05eb5639cc0365f1be0a297">TradingPair</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Class containing basic order data. </para>
+
+
+
+<para><link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair">TradingPair</link> </para>
+</section>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_1acaad230de123a554c7dd1fa11d8890c0"/><section>
+    <title>ClientId</title>
+<indexterm><primary>ClientId</primary><secondary>CryptoTA.Apis.Order</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.Order</primary><secondary>ClientId</secondary></indexterm>
+<para><computeroutput>int? CryptoTA.Apis.Order.ClientId<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Optional client ID, which is included if API is used by more than one user. </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_1a0a002d003317a2ad6cf950dbd5e3e399"/><section>
+    <title>Date</title>
+<indexterm><primary>Date</primary><secondary>CryptoTA.Apis.Order</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.Order</primary><secondary>Date</secondary></indexterm>
+<para><computeroutput>DateTime CryptoTA.Apis.Order.Date<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Creation date of current order. </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_1a1718a690e409f5e16b3bd30015790d2f"/><section>
+    <title>Id</title>
+<indexterm><primary>Id</primary><secondary>CryptoTA.Apis.Order</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.Order</primary><secondary>Id</secondary></indexterm>
+<para><computeroutput>int CryptoTA.Apis.Order.Id<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para><link linkend="_class_crypto_t_a_1_1_apis_1_1_order">Order</link> ID used by market. </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_1ada260bcc3f8bb3ab5ba5510ded670071"/><section>
+    <title>InitialVolume</title>
+<indexterm><primary>InitialVolume</primary><secondary>CryptoTA.Apis.Order</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.Order</primary><secondary>InitialVolume</secondary></indexterm>
+<para><computeroutput>double CryptoTA.Apis.Order.InitialVolume<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Initial volume (amount) of current order. </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_1a1d86021fa29449a3ea0e5e2d39b6ebb5"/><section>
+    <title>RemainingVolume</title>
+<indexterm><primary>RemainingVolume</primary><secondary>CryptoTA.Apis.Order</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.Order</primary><secondary>RemainingVolume</secondary></indexterm>
+<para><computeroutput>double CryptoTA.Apis.Order.RemainingVolume<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Remaining volume (amount) of current order. </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_1a14e14d31b05eb5639cc0365f1be0a297"/><section>
+    <title>TradingPair</title>
+<indexterm><primary>TradingPair</primary><secondary>CryptoTA.Apis.Order</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.Order</primary><secondary>TradingPair</secondary></indexterm>
+<para><computeroutput><link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair">TradingPair</link>? CryptoTA.Apis.Order.TradingPair<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Trading pair data for current order. </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+Apis/IMarketApi.cs</section>
+</section>

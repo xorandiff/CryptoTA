@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result3" xml:lang="en-US">
+<title>Kraken.Result3 Class Reference</title>
+<indexterm><primary>Kraken.Result3</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result3_1ae638c1a207c5cdab404fac6960df3810"/>string <emphasis role="strong">Last</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>ID to be used as since when polling for new trade data</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result3_1a00b11481e989edcaefc0d790b6e7d7bb"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_apis_1_1_order_book" xml:lang="en-US">
+<title>CryptoTA.Apis.OrderBook Class Reference</title>
+<indexterm><primary>CryptoTA.Apis.OrderBook</primary></indexterm>
+<para>
+
+<para>Class containing asks and bids lists. </para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_book_1ae2043c634cb88e9aa30df2b6dacdb826"/><link linkend="_class_crypto_t_a_1_1_apis_1_1_order_book_entry">OrderBookEntry</link>?[] <emphasis role="strong">Asks</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_book_1a6151670394d0d8cb8bf9b64be6d0ae95"/><link linkend="_class_crypto_t_a_1_1_apis_1_1_order_book_entry">OrderBookEntry</link>?[] <emphasis role="strong">Bids</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Class containing asks and bids lists. </para>
+
+
+
+<para><link linkend="_class_crypto_t_a_1_1_apis_1_1_order_book_entry">OrderBookEntry</link> </para>
+<para>
+The documentation for this class was generated from the following file:</para>
+Apis/IMarketApi.cs</section>
+</section>

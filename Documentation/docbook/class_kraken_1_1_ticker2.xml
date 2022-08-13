@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_ticker2" xml:lang="en-US">
+<title>Kraken.Ticker2 Class Reference</title>
+<indexterm><primary>Kraken.Ticker2</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker2_1ae735a4ffe4ccf42b7e5dfaf4a94f14b8"/>System.Collections.Generic.IDictionary&lt; string, <link linkend="_class_kraken_1_1_ticker">Ticker</link> &gt; <emphasis role="strong">Result</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker2_1a8e635ae82fc98695f7b2c67c63e125e0"/><link linkend="_class_kraken_1_1_error">Error</link> <emphasis role="strong">Error</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker2_1a6da41bd21dd7bb9e499038cbe4d1859d"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

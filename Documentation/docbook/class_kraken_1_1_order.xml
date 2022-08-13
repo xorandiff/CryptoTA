@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_order" xml:lang="en-US">
+<title>Kraken.Order Class Reference</title>
+<indexterm><primary>Kraken.Order</primary></indexterm>
+<para>
+
+<para>Open <link linkend="_class_kraken_1_1_order">Order</link></para>
+ 
+</para>
+Inheritance diagram for Kraken.Order:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_kraken_1_1_order__inherit__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a27d5fc48e4e5f8a15247a31ff4298261"/>string <emphasis role="strong">Refid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Referral order transaction ID that created this order</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a97b08819468fe04463c662c2be69adde"/>string <emphasis role="strong">Userref</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>User reference id</para>
+</listitem>
+            <listitem><para>OrderStatus <link linkend="_class_kraken_1_1_order_1a08f3a88853c3b4f21a559f1df10cde8e">Status</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Status of order </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a7d1fd20aa22679ba6e36919966240f19"/>double <emphasis role="strong">Opentm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp of when order was placed</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a441feb481e97cc9afab2f8b0d7b451ad"/>double <emphasis role="strong">Starttm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp of order start time (or 0 if not set)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a6c1fda64b9fae9820afe679a83d5f068"/>double <emphasis role="strong">Expiretm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp of order end time (or 0 if not set)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1afc77ad7d2f09b23742c3a472c4468dda"/><link linkend="_class_kraken_1_1_descr">Descr</link> <emphasis role="strong">Descr</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_order">Order</link> description info</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a9077c1394b77e7c74674c13072862e35"/>string <emphasis role="strong">Vol</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_volume">Volume</link> of order (base currency)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a8c5b45c35c48a7bb6bb95f5fdaac3c0b"/>string <emphasis role="strong">Vol_exec</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_volume">Volume</link> executed (base currency)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a72428f21f54a3efe07440ab5c53696dd"/>string <emphasis role="strong">Cost</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Total cost (quote currency unless)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a7025b5450fd0f26202f3b4c995757bf6"/>string <emphasis role="strong">Fee</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Total fee (quote currency)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a30eb1390b0569f1d49c12144d9182b30"/>string <emphasis role="strong">Price</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Average price (quote currency)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a60d39c910ef06cb9cd4de8600494a0f1"/>string <emphasis role="strong">Stopprice</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Stop price (quote currency)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a564baac93677683a5ad161234953b5b8"/>string <emphasis role="strong">Limitprice</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Triggered limit price (quote currency, when limit based order type triggered)</para>
+</listitem>
+            <listitem><para>OrderTrigger <link linkend="_class_kraken_1_1_order_1a442413ca4356ac200f516655233ca4f2">Trigger</link> = Kraken.OrderTrigger.Last<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Price signal used to trigger &quot;stop-loss&quot; &quot;take-profit&quot; &quot;stop-loss-limit&quot; &quot;take-profit-limit&quot; orders. </para>
+</listitem>
+            <listitem><para>string <link linkend="_class_kraken_1_1_order_1a39ebf2bc172b52cd07962888f55e2edd">Misc</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Comma delimited list of miscellaneous info </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a651fa67b1c1722db7e04149c2cdd280c"/>string <emphasis role="strong">Oflags</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1aa0a099e0416bdeabc72f0f539d5d4525"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">Trades</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>List of trade IDs related to order (if trades info requested and data available)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_1a046451a7093de0f5adb05ce4f8db5660"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Open <link linkend="_class_kraken_1_1_order">Order</link></para>
+</section>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_kraken_1_1_order_1a39ebf2bc172b52cd07962888f55e2edd"/><section>
+    <title>Misc</title>
+<indexterm><primary>Misc</primary><secondary>Kraken.Order</secondary></indexterm>
+<indexterm><primary>Kraken.Order</primary><secondary>Misc</secondary></indexterm>
+<para><computeroutput>string Kraken.Order.Misc<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Comma delimited list of miscellaneous info </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>stopped</computeroutput> triggered by stop price</para>
+</listitem><listitem>
+<para><computeroutput>touched</computeroutput> triggered by touch price</para>
+</listitem><listitem>
+<para><computeroutput>liquidated</computeroutput> liquidation</para>
+</listitem><listitem>
+<para><computeroutput>partial</computeroutput> partial fill </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_class_kraken_1_1_order_1a08f3a88853c3b4f21a559f1df10cde8e"/><section>
+    <title>Status</title>
+<indexterm><primary>Status</primary><secondary>Kraken.Order</secondary></indexterm>
+<indexterm><primary>Kraken.Order</primary><secondary>Status</secondary></indexterm>
+<para><computeroutput>OrderStatus Kraken.Order.Status<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Status of order </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para>pending = order pending book entry</para>
+</listitem><listitem>
+<para>open = open order</para>
+</listitem><listitem>
+<para>closed = closed order</para>
+</listitem><listitem>
+<para>canceled = order canceled</para>
+</listitem><listitem>
+<para>expired = order expired </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_class_kraken_1_1_order_1a442413ca4356ac200f516655233ca4f2"/><section>
+    <title>Trigger</title>
+<indexterm><primary>Trigger</primary><secondary>Kraken.Order</secondary></indexterm>
+<indexterm><primary>Kraken.Order</primary><secondary>Trigger</secondary></indexterm>
+<para><computeroutput>OrderTrigger Kraken.Order.Trigger = Kraken.OrderTrigger.Last<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Price signal used to trigger &quot;stop-loss&quot; &quot;take-profit&quot; &quot;stop-loss-limit&quot; &quot;take-profit-limit&quot; orders. </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>last</computeroutput> is the implied trigger if this field is not set. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

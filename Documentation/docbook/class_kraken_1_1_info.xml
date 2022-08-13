@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_info" xml:lang="en-US">
+<title>Kraken.Info Class Reference</title>
+<indexterm><primary>Kraken.Info</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_info_1adab8b2d32389b5ead3d6214d99adcc0e"/>string <emphasis role="strong">Aclass</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> Class</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_info_1aeaab0919eea242754289c47f2c795749"/>string <emphasis role="strong">Altname</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Alternate name</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_info_1ad035daaa9e310850881d044e3e5a964e"/>int <emphasis role="strong">Decimals</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Scaling decimal places for record keeping</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_info_1a146222130e82f99e37bedab8c5621297"/>int <emphasis role="strong">Display_decimals</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Scaling decimal places for output display</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_info_1af66de2433eae24a28aff996b183b8271"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

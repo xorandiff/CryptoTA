@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_query" xml:lang="en-US">
+<title>Kraken.Query Class Reference</title>
+<indexterm><primary>Kraken.Query</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_query_1a4cd44a50544b9b8fcccced55aa2a24ac"/>int <emphasis role="strong">Nonce</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_query_1af078aaf3495eebea8f1bff6c035aaa55"/>bool <emphasis role="strong">Trades</emphasis> = false<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether or not to include trades related to position in output</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_query_1ad10aeebc637dbdfaa3b72a7b5a42ab22"/>int <emphasis role="strong">Userref</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Restrict results to given user reference id</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_query_1a23b55b3c0cdc301445e8d330fee73986"/>string <emphasis role="strong">Txid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Comma delimited list of transaction IDs to query info about (50 maximum)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_query_1ac5291e17677932472ba64663571b7a31"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

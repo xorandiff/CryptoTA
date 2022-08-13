@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['setpropertyvalue_0',['SetPropertyValue',['../class_xaml_generated_namespace_1_1_generated_internal_type_helper.html#ade0f04c0f7b18dd5b170e071d5534d38',1,'XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture)'],['../class_xaml_generated_namespace_1_1_generated_internal_type_helper.html#ade0f04c0f7b18dd5b170e071d5534d38',1,'XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture)']]],
+  ['stakeasync_1',['StakeAsync',['../class_kraken_1_1_kraken_client.html#a6ea8831c3e93155da4e1a23cc2e12d99',1,'Kraken.KrakenClient.StakeAsync(System.IO.Stream body)'],['../class_kraken_1_1_kraken_client.html#a989bc4210dfb59f524cf4d23f86ffa4c',1,'Kraken.KrakenClient.StakeAsync(System.IO.Stream body, System.Threading.CancellationToken cancellationToken)']]]
+];

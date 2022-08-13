@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result17" xml:lang="en-US">
+<title>Kraken.Result17 Class Reference</title>
+<indexterm><primary>Kraken.Result17</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result17_1a15453d18063a35dd0040785ea9424391"/>string <emphasis role="strong">Token</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Websockets token</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result17_1ace63c9e815f6bc4c31498f3c3ae9e4f8"/>int <emphasis role="strong">Expires</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_time">Time</link> (in seconds) after which the token expires</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result17_1ac857874ef22e0e224f4ae7a86ef2200e"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

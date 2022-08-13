@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair" xml:lang="en-US">
+<title>CryptoTA.Apis.TradingPair Class Reference</title>
+<indexterm><primary>CryptoTA.Apis.TradingPair</primary></indexterm>
+<para>
+
+<para>Class which contains basic trading pair data with minimal order amount. </para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para>string? <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a4a8b00b84d1bb4262a721d9bb4f249f3">Name</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>string? <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a6a4a80028592fcc67fb1a42f1ef6f6a6">AlternativeName</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>string? <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1aff31aeeb64f727c86b567ca2220618e8">WebsocketName</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>string? <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1abdc3bdc332366092c8d9530d8ca3ace9">BaseName</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>string? <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a0981a255dfe2ca9b30c745ccc4d2b099">CounterName</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>string? <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a618818edfc1cf772378f93865a29b453">BaseSymbol</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>string? <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a733127522e54287252b7532dfb1cf1e5">CounterSymbol</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>uint <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a5d129c081140526ab0f747012b426874">BaseDecimals</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>uint <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1aa62f2cb78cf5b433a95b002625366e7b">CounterDecimals</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1aa3f50bac985065e2a9472135dfc91028"/>double <emphasis role="strong">MinimalOrderAmount</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Minimal amount required by market for order operations. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Class which contains basic trading pair data with minimal order amount. </para>
+</section>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a6a4a80028592fcc67fb1a42f1ef6f6a6"/><section>
+    <title>AlternativeName</title>
+<indexterm><primary>AlternativeName</primary><secondary>CryptoTA.Apis.TradingPair</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.TradingPair</primary><secondary>AlternativeName</secondary></indexterm>
+<para><computeroutput>string? CryptoTA.Apis.TradingPair.AlternativeName<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Optional alternative name delivered by API. Used in case <emphasis>Name</emphasis>  fails. </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a5d129c081140526ab0f747012b426874"/><section>
+    <title>BaseDecimals</title>
+<indexterm><primary>BaseDecimals</primary><secondary>CryptoTA.Apis.TradingPair</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.TradingPair</primary><secondary>BaseDecimals</secondary></indexterm>
+<para><computeroutput>uint CryptoTA.Apis.TradingPair.BaseDecimals<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Amount of decimal places of base currency. Shouldn&apos;t be more than 18 (database precision limit). </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1abdc3bdc332366092c8d9530d8ca3ace9"/><section>
+    <title>BaseName</title>
+<indexterm><primary>BaseName</primary><secondary>CryptoTA.Apis.TradingPair</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.TradingPair</primary><secondary>BaseName</secondary></indexterm>
+<para><computeroutput>string? CryptoTA.Apis.TradingPair.BaseName<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Base currency full name. </para>
+
+<para>For trading pair ETH/USD, base currency name would be Etherum.</para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a618818edfc1cf772378f93865a29b453"/><section>
+    <title>BaseSymbol</title>
+<indexterm><primary>BaseSymbol</primary><secondary>CryptoTA.Apis.TradingPair</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.TradingPair</primary><secondary>BaseSymbol</secondary></indexterm>
+<para><computeroutput>string? CryptoTA.Apis.TradingPair.BaseSymbol<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Base currency symbol. </para>
+
+<para>For trading pair ETH/USD, base currency symbol would be ETH.</para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1aa62f2cb78cf5b433a95b002625366e7b"/><section>
+    <title>CounterDecimals</title>
+<indexterm><primary>CounterDecimals</primary><secondary>CryptoTA.Apis.TradingPair</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.TradingPair</primary><secondary>CounterDecimals</secondary></indexterm>
+<para><computeroutput>uint CryptoTA.Apis.TradingPair.CounterDecimals<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Amount of decimal places of counter currency. Shouldn&apos;t be more than 18 (database precision limit). </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a0981a255dfe2ca9b30c745ccc4d2b099"/><section>
+    <title>CounterName</title>
+<indexterm><primary>CounterName</primary><secondary>CryptoTA.Apis.TradingPair</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.TradingPair</primary><secondary>CounterName</secondary></indexterm>
+<para><computeroutput>string? CryptoTA.Apis.TradingPair.CounterName<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Counter currency full name. </para>
+
+<para>For trading pair ETH/USD, counter currency name would be US Dollar.</para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a733127522e54287252b7532dfb1cf1e5"/><section>
+    <title>CounterSymbol</title>
+<indexterm><primary>CounterSymbol</primary><secondary>CryptoTA.Apis.TradingPair</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.TradingPair</primary><secondary>CounterSymbol</secondary></indexterm>
+<para><computeroutput>string? CryptoTA.Apis.TradingPair.CounterSymbol<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Counter currency symbol. </para>
+
+<para>For trading pair ETH/USD, counter currency symbol would be USD.</para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1a4a8b00b84d1bb4262a721d9bb4f249f3"/><section>
+    <title>Name</title>
+<indexterm><primary>Name</primary><secondary>CryptoTA.Apis.TradingPair</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.TradingPair</primary><secondary>Name</secondary></indexterm>
+<para><computeroutput>string? CryptoTA.Apis.TradingPair.Name<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Name of trading pair used for identification in API. </para>
+
+<para>XETHXXBT</para>
+
+<para>ETH/XBT</para>
+
+<para>ethxbt</para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_trading_pair_1aff31aeeb64f727c86b567ca2220618e8"/><section>
+    <title>WebsocketName</title>
+<indexterm><primary>WebsocketName</primary><secondary>CryptoTA.Apis.TradingPair</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.TradingPair</primary><secondary>WebsocketName</secondary></indexterm>
+<para><computeroutput>string? CryptoTA.Apis.TradingPair.WebsocketName<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Optional websockets name delivered by API. If not present, then <emphasis>Name</emphasis>  will be used. </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+Apis/IMarketApi.cs</section>
+</section>

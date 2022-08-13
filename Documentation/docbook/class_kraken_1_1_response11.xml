@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_response11" xml:lang="en-US">
+<title>Kraken.Response11 Class Reference</title>
+<indexterm><primary>Kraken.Response11</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response11_1a7a20054cfa50aefc0697a273725cb225"/><link linkend="_class_kraken_1_1_result22">Result22</link> <emphasis role="strong">Result</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response11_1a62b9fbac60a99430b9c125b7677c8c6b"/><link linkend="_class_kraken_1_1_error">Error</link> <emphasis role="strong">Error</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response11_1a9ada6a65d1a2669cfde8962c8fee649f"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

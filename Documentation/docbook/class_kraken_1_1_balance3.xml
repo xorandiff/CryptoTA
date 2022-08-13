@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_balance3" xml:lang="en-US">
+<title>Kraken.Balance3 Class Reference</title>
+<indexterm><primary>Kraken.Balance3</primary></indexterm>
+<para>
+
+<para>Account <link linkend="_class_kraken_1_1_balance">Balance</link></para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_balance3_1acf05197deb335faffe7d1d1db34d065a"/>string <emphasis role="strong">Eb</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Equivalent balance (combined balance of all currencies)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_balance3_1a5c7233ab440fd971eee1e85c4753041f"/>string <emphasis role="strong">Tb</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> balance (combined balance of all equity currencies)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_balance3_1a28422541502c434724071878dc03cfd5"/>string <emphasis role="strong">M</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Margin amount of open positions</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_balance3_1a7c4ea69f8b863b6d9b455c4f7a739c6f"/>string <emphasis role="strong">N</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unrealized net profit/loss of open positions</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_balance3_1a78398020cd39bf420b06717ff8569687"/>string <emphasis role="strong">C</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Cost basis of open positions</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_balance3_1a578322cebd0a459c47815a8819e211f1"/>string <emphasis role="strong">V</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Current floating valuation of open positions</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_balance3_1a3f285422618695cc9e720782c0d9ed41"/>string <emphasis role="strong">E</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Equity: <computeroutput>trade balance + unrealized net profit/loss</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_balance3_1a5045660229d6d4681902e8748c21132e"/>string <emphasis role="strong">Mf</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Free margin: <computeroutput>Equity - initial margin (maximum margin available to open new positions)</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_balance3_1a26244e9063babaa693d4aa0acdc96338"/>string <emphasis role="strong">Ml</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Margin level: <computeroutput>(equity / initial margin) * 100</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_balance3_1a8aa5278486f681f7a96f4f1cdf9ea4b5"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Account <link linkend="_class_kraken_1_1_balance">Balance</link></para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

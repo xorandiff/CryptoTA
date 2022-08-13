@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_response4" xml:lang="en-US">
+<title>Kraken.Response4 Class Reference</title>
+<indexterm><primary>Kraken.Response4</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response4_1a7bec00672bc4c9108090a7263da94091"/>System.Collections.Generic.IDictionary&lt; string, <link linkend="_class_kraken_1_1_trade2">Trade2</link> &gt; <emphasis role="strong">Result</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> info</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response4_1a78a19d320242048d7e55fde87496a7ad"/>System.Collections.Generic.ICollection&lt; <link linkend="_class_kraken_1_1_error">Error</link> &gt; <emphasis role="strong">Error</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response4_1a2725b5a04d8aa3be3817186c19a1086f"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_order_book_entry" xml:lang="en-US">
+<title>Kraken.OrderBookEntry Class Reference</title>
+<indexterm><primary>Kraken.OrderBookEntry</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> Pair <link linkend="_class_kraken_1_1_order">Order</link> Book Entries</para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_book_entry_1adb4791cb835b54e9766287699d533dcf"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">Asks</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Ask side array of entries <computeroutput>[&lt;price&gt;, &lt;volume&gt;, &lt;timestamp&gt;]</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_book_entry_1a05cc236f3f766f8e923d80bc7347fa37"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">Bid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Bid side array of entries <computeroutput>[&lt;price&gt;, &lt;volume&gt;, &lt;timestamp&gt;]</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_order_book_entry_1a16b49a9b3a7a121652847cdb7ac1c7dd"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> Pair <link linkend="_class_kraken_1_1_order">Order</link> Book Entries</para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

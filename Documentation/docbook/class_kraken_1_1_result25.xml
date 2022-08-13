@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result25" xml:lang="en-US">
+<title>Kraken.Result25 Class Reference</title>
+<indexterm><primary>Kraken.Result25</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result25_1a2a3e53dd91cd239ba821d5adf8ce39d6"/>string <emphasis role="strong">Refid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Reference ID</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result25_1a04db14c33986942debde6b5568689b77"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

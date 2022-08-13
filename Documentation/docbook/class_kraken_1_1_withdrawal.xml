@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_withdrawal" xml:lang="en-US">
+<title>Kraken.Withdrawal Class Reference</title>
+<indexterm><primary>Kraken.Withdrawal</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal_1aa5760fe321f2fb9409c1d9c6a71a7e7e"/>int <emphasis role="strong">Nonce</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal_1a6c42fe99c71e604ea9950c9ebe627ab3"/>string <emphasis role="strong">Asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> being withdrawn</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal_1a64e0bc89ded7be35f16b94b2e9e054c1"/>string <emphasis role="strong">Key</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_withdrawal">Withdrawal</link> key name, as set up on your account</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal_1a9c3cd20fa595850d33aff0d5045bdfd6"/>string <emphasis role="strong">Amount</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Amount to be withdrawn</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal_1a2c4e086eee5b0facd0c4ba9a83e747fe"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result12" xml:lang="en-US">
+<title>Kraken.Result12 Class Reference</title>
+<indexterm><primary>Kraken.Result12</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result12_1a0a5abe544411dbec5e7e1f97ebc63147"/>int <emphasis role="strong">Count</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Number of orders cancelled.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result12_1a366b34987e8ed2297a5c0eb949500277"/>bool <emphasis role="strong">Pending</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>if set, order(s) is/are pending cancellation</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result12_1af509e47aafa782868b049f257060602a"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

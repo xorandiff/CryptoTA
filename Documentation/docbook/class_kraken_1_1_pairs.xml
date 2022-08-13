@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_pairs" xml:lang="en-US">
+<title>Kraken.Pairs Class Reference</title>
+<indexterm><primary>Kraken.Pairs</primary></indexterm>
+<para>
+
+<para>Trading <link linkend="_class_kraken_1_1_asset">Asset</link> Pair</para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a94ff5e18ddbc28f2791d8304a1aa6bc5"/>string <emphasis role="strong">Altname</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Alternate pair name</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a2934e979afc519e924de9cd1c65b4adc"/>string <emphasis role="strong">Wsname</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>WebSocket pair name (if available)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a9e7e5701f2b3044d579237b93d5f7d75"/>string <emphasis role="strong">Aclass_base</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> class of base component</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a0283700ae487ede000871ad2197f2d73"/>string <emphasis role="strong">Base</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> ID of base component</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a381d5002da09ae5773378dbbebe36a42"/>string <emphasis role="strong">Aclass_quote</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> class of quote component</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1ab255781accd66a1dd72b88f7b1576add"/>string <emphasis role="strong">Quote</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> ID of quote component</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a261b39dde643be002f0c0ac59920016f"/>string <emphasis role="strong">Lot</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_volume">Volume</link> lot size</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a2424687b88c00110c84470f07878e4f2"/>int <emphasis role="strong">Pair_decimals</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Scaling decimal places for pair</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a5951397a8976d0866e35c56c83a51ff8"/>int <emphasis role="strong">Lot_decimals</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Scaling decimal places for volume</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a8c730218037a9a6ad880217ca7744b87"/>int <emphasis role="strong">Lot_multiplier</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Amount to multiply lot volume by to get currency volume</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1aa0ab5b8b74d6fc5e5de9fcf9d96ab6e8"/>System.Collections.Generic.ICollection&lt; int &gt; <emphasis role="strong">Leverage_buy</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Array of leverage amounts available when buying</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a0c868ab118a2117f268237c8c50f2cc5"/>System.Collections.Generic.ICollection&lt; int &gt; <emphasis role="strong">Leverage_sell</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Array of leverage amounts available when selling</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a2947ef1aaac03abe0bb33d90dab3837f"/>System.Collections.Generic.ICollection&lt; System.Collections.Generic.ICollection&lt; double &gt; &gt; <emphasis role="strong">Fees</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Fee schedule array in <computeroutput>[&lt;volume&gt;, &lt;percent fee&gt;]</computeroutput> tuples</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1acce13a47e553b30597f9b09eb03f7e5a"/>System.Collections.Generic.ICollection&lt; System.Collections.Generic.ICollection&lt; double &gt; &gt; <emphasis role="strong">Fees_maker</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Maker fee schedule array in <computeroutput>[&lt;volume&gt;, &lt;percent fee&gt;]</computeroutput> tuples (if on maker/taker)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a6acc6382f8faecd582a8f44bdd64c641"/>string <emphasis role="strong">Fee_volume_currency</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_volume">Volume</link> discount currency</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a42569481f07f46833abba0ee796716cc"/>int <emphasis role="strong">Margin_call</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Margin call level</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a4690dff2830e8f07169ecb0c38040569"/>int <emphasis role="strong">Margin_stop</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Stop-out/liquidation margin level</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a1102f0c7adefb1adb96274b4c61a431d"/>string <emphasis role="strong">Ordermin</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Minimum order size (in terms of base currency)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_pairs_1a77fe7bde272f03da2c13383ae7b38cab"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Trading <link linkend="_class_kraken_1_1_asset">Asset</link> Pair</para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

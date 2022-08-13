@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_address" xml:lang="en-US">
+<title>Kraken.Address Class Reference</title>
+<indexterm><primary>Kraken.Address</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link> <link linkend="_class_kraken_1_1_address">Address</link></para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_address_1aefe4767eb7dcd8752e009036ad0bcac7"/>string <emphasis role="strong">Address1</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link> <link linkend="_class_kraken_1_1_address">Address</link></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_address_1a8c1abc9378f100e4d5b5391ac007b58f"/>string <emphasis role="strong">Expiretm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Expiration time in unix timestamp, or 0 if not expiring</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_address_1a3cc6d011f7a18c4bdf19099689dfef6f"/>bool <emphasis role="strong">New</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether or not address has ever been used</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_address_1a83efb435d56b892d419e955dbfa94f35"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link> <link linkend="_class_kraken_1_1_address">Address</link></para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

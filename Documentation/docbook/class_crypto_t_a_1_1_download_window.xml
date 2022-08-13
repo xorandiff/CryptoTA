@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_download_window" xml:lang="en-US">
+<title>CryptoTA.DownloadWindow Class Reference</title>
+<indexterm><primary>CryptoTA.DownloadWindow</primary></indexterm>
+<para>
+
+<para>Logika interakcji dla klasy DownloadWindow.xaml </para>
+ 
+</para>
+Inheritance diagram for CryptoTA.DownloadWindow:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_crypto_t_a_1_1_download_window__inherit__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+Collaboration diagram for CryptoTA.DownloadWindow:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_crypto_t_a_1_1_download_window__coll__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_download_window_1ae22407886b7c3be43859ba10b9fe3d41"/>void <emphasis role="strong">InitializeComponent</emphasis> ()</para>
+
+<para>InitializeComponent </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_download_window_1ae22407886b7c3be43859ba10b9fe3d41"/>void <emphasis role="strong">InitializeComponent</emphasis> ()</para>
+
+<para>InitializeComponent </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Logika interakcji dla klasy DownloadWindow.xaml </para>
+
+
+
+<para><link linkend="_class_crypto_t_a_1_1_download_window">DownloadWindow</link> </para>
+<para>
+The documentation for this class was generated from the following files:</para>
+DownloadWindow.xaml.csobj/Debug/net6.0-windows/DownloadWindow.g.csobj/Debug/net6.0-windows/DownloadWindow.g.i.cs</section>
+</section>

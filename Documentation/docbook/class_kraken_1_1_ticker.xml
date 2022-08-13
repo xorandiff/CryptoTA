@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_ticker" xml:lang="en-US">
+<title>Kraken.Ticker Class Reference</title>
+<indexterm><primary>Kraken.Ticker</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> <link linkend="_class_kraken_1_1_ticker">Ticker</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker_1aebabadb63c22680a3c58a203625b4a7a"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">A</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Ask <computeroutput>[&lt;price&gt;, &lt;whole lot volume&gt;, &lt;lot volume&gt;]</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker_1a1966966667e3d95994d7c1048a39b2bd"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">B</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Bid <computeroutput>[&lt;price&gt;, &lt;whole lot volume&gt;, &lt;lot volume&gt;]</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker_1aebfac58cd16b562b9340376c9596eca9"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">C</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Last trade closed <computeroutput>[&lt;price&gt;, &lt;lot volume&gt;]</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker_1a0fee8687f95186f93fefc4322a98b9a1"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">V</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_volume">Volume</link> <computeroutput>[&lt;today&gt;, &lt;last 24 hours&gt;]</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker_1a61d2cba570bd1ea4493dfa2f8efa2538"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">P</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_volume">Volume</link> weighted average price <computeroutput>[&lt;today&gt;, &lt;last 24 hours&gt;]</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker_1aa61a3beb6f4ed1d41c9b5bc8b5bfffcf"/>System.Collections.Generic.ICollection&lt; int &gt; <emphasis role="strong">T</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Number of trades <computeroutput>[&lt;today&gt;, &lt;last 24 hours&gt;]</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker_1abd0a26ba707eafec66dd552f6023409e"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">L</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Low <computeroutput>[&lt;today&gt;, &lt;last 24 hours&gt;]</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker_1ab6e7016ddc5d33db53ced4507ed18e0c"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">H</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>High <computeroutput>[&lt;today&gt;, &lt;last 24 hours&gt;]</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker_1a09f136143ddc2343204f1b9ac31cd0bc"/>string <emphasis role="strong">O</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Today&apos;s opening price</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ticker_1acb08db199c43a830451ef569ae34f404"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> <link linkend="_class_kraken_1_1_ticker">Ticker</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

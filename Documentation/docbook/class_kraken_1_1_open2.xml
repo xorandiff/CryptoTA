@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_open2" xml:lang="en-US">
+<title>Kraken.Open2 Class Reference</title>
+<indexterm><primary>Kraken.Open2</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_open2_1a02f3ca8a35e0c8f0a0cb4038ec7049f1"/><link linkend="_class_kraken_1_1_result5">Result5</link> <emphasis role="strong">Result</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Open <link linkend="_class_kraken_1_1_orders">Orders</link></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_open2_1a5fd566c5478e1898e8c323911e4b0415"/><link linkend="_class_kraken_1_1_error">Error</link> <emphasis role="strong">Error</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_open2_1a998b36bffe9d33e70ca35102dc1d5b40"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

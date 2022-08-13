@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result14" xml:lang="en-US">
+<title>Kraken.Result14 Class Reference</title>
+<indexterm><primary>Kraken.Result14</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result14_1afbdadca1c3b9c52aff9e9035f1e69d28"/>string <emphasis role="strong">Method</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Name of the withdrawal method that will be used</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result14_1af7f77017a680f526c40f5f9fd3eecb2e"/>string <emphasis role="strong">Limit</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Maximum net amount that can be withdrawn right now</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result14_1a2a1f541063962e47d0adb9efe917d567"/>string <emphasis role="strong">Amount</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Net amount that will be sent, after fees</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result14_1a76d939ad9254994dfcd78432660160d5"/>string <emphasis role="strong">Fee</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Amount of fees that will be paid</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result14_1ab4b205b6d05a609c4e2a1dec4ba0a5d3"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

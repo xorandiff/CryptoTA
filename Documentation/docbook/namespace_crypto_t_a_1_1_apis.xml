@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_namespace_crypto_t_a_1_1_apis" xml:lang="en-US">
+<title>CryptoTA.Apis Namespace Reference</title>
+<indexterm><primary>CryptoTA.Apis</primary></indexterm>
+<simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_apis_1_1_balance">Balance</link></para>
+
+<para>Class containing currency name and total balance amount. </para>
+</listitem>
+            <listitem><para>class <emphasis role="strong">BinanceApi</emphasis></para>
+</listitem>
+            <listitem><para>class <emphasis role="strong">BitstampApi</emphasis></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_apis_1_1_fees">Fees</link></para>
+
+<para>Class which contains maker and taker fees. Data for both type of fees is included, though in application, only taker fee will be used. </para>
+</listitem>
+            <listitem><para>interface <emphasis role="strong">IMarketApi</emphasis></para>
+
+<para><computeroutput>IMarketApi</computeroutput> is a cryptocurrency market API interface used by application for all operations. Every implemented method must be asynchronous, hence returns <computeroutput>Task&lt;T&gt;</computeroutput>. </para>
+</listitem>
+            <listitem><para>class <emphasis role="strong">KrakenApi</emphasis></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_apis_1_1_order">Order</link></para>
+
+<para>Class containing basic order data. </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_book">OrderBook</link></para>
+
+<para>Class containing asks and bids lists. </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_book_entry">OrderBookEntry</link></para>
+
+<para>Class containing ask/bid order data. </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_apis_1_1_tick_data">TickData</link></para>
+
+<para>Class containing high, low, open and close prices (for last 24h) and currency current volume. </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_balance">TradingBalance</link></para>
+
+<para>Class containing <computeroutput><link linkend="_class_crypto_t_a_1_1_apis_1_1_balance">Balance</link></computeroutput> data with available and reserved balance amounts. </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair">TradingPair</link></para>
+
+<para>Class which contains basic trading pair data with minimal order amount. </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_crypto_t_a_1_1_apis_1_1_websockets_token">WebsocketsToken</link></para>
+
+<para>Class <computeroutput><link linkend="_class_crypto_t_a_1_1_apis_1_1_websockets_token">WebsocketsToken</link></computeroutput> containing websockets token and expiration date. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_namespace_crypto_t_a_1_1_apis_1aa4de37f77531f656ca295a26470f3ec9"/>enum <link linkend="_namespace_crypto_t_a_1_1_apis_1aa4de37f77531f656ca295a26470f3ec9">OrderType</link> { <emphasis role="strong">Market</emphasis>
+, <emphasis role="strong">Limit</emphasis>
+, <emphasis role="strong">Instant</emphasis>
+ }</para>
+
+<para>Enum containing available order types. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

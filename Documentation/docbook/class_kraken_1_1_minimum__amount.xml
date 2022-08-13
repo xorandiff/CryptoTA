@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_minimum__amount" xml:lang="en-US">
+<title>Kraken.Minimum_amount Class Reference</title>
+<indexterm><primary>Kraken.Minimum_amount</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_minimum__amount_1a3b4095df63c131d4b5006284320305d5"/>string <emphasis role="strong">Unstaking</emphasis> = &quot;0&quot;<computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_minimum__amount_1ad729a3492d57c6eb8b0f86dfb1edd1a4"/>string <emphasis role="strong">Staking</emphasis> = &quot;0&quot;<computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_minimum__amount_1a4916f915fa7cd7f8018545c63ddbdcca"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

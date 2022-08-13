@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result7" xml:lang="en-US">
+<title>Kraken.Result7 Class Reference</title>
+<indexterm><primary>Kraken.Result7</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result7_1a39c720c767441a45854412240cf13ade"/>System.Collections.Generic.IDictionary&lt; string, <link linkend="_class_kraken_1_1_ledger">Ledger</link> &gt; <emphasis role="strong">Ledger</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result7_1a14f117d685a7c1b97f8edc1829348013"/>int <emphasis role="strong">Count</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Amount of available ledger info matching criteria</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result7_1a1042bbbc492db3b24958a69b30829c3a"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

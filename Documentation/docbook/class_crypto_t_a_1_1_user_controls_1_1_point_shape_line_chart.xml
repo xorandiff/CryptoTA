@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart" xml:lang="en-US">
+<title>CryptoTA.UserControls.PointShapeLineChart Class Reference</title>
+<indexterm><primary>CryptoTA.UserControls.PointShapeLineChart</primary></indexterm>
+<para>
+
+<para><link linkend="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart">PointShapeLineChart</link> </para>
+ 
+</para>
+Inheritance diagram for CryptoTA.UserControls.PointShapeLineChart:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart__inherit__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+Collaboration diagram for CryptoTA.UserControls.PointShapeLineChart:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart__coll__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_1a6e87a99a7adbe5bd605d98bffee57111"/>void <emphasis role="strong">InitializeComponent</emphasis> ()</para>
+
+<para>InitializeComponent </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart">PointShapeLineChart</link> </para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/Debug/net6.0-windows/UserControls/PointShapeLineChart.g.i.cs</section>
+</section>

@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_withdrawal3" xml:lang="en-US">
+<title>Kraken.Withdrawal3 Class Reference</title>
+<indexterm><primary>Kraken.Withdrawal3</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_withdrawal">Withdrawal</link></para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1a4ec41ac670e6c0d05b4e228eaa116f59"/>string <emphasis role="strong">Method</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Name of withdrawal method</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1a819513c43e2c98a418f0e5db3cc0de82"/>string <emphasis role="strong">Aclass</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> class</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1aa6a9d5ee2af797abf5268f1638978e96"/>string <emphasis role="strong">Asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1a320114b5ee3c216d9ef4cf79fa8d65fe"/>string <emphasis role="strong">Refid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Reference ID</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1a3b59186c66209d7c3241170b13c9ab5c"/>string <emphasis role="strong">Txid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_method">Method</link> transaction ID</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1a9837bc88f8d395d3d89a0bfe70d08985"/>string <emphasis role="strong">Info</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_method">Method</link> transaction information</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1a8d4ce6595fc449983fcd7e3932261755"/>string <emphasis role="strong">Amount</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Amount withdrawn</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1a3911607ae31704347ce6ff772a7f2e59"/>object <emphasis role="strong">Fee</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_fees">Fees</link> paid</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1abddb3ff68416409b2e4047926088389f"/>int <emphasis role="strong">Time</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp when request was made</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1a0a743fbc22067b6dc806547033ceb376"/>Withdrawal3Status <emphasis role="strong">Status</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Status of withdraw&lt;br&gt; &lt;sup&gt;&lt;sub&gt;For information about the status, please refer to the <link xlink:href="https://github.com/globalcitizen/ifex-protocol/blob/master/draft-ifex-00.txt#L837">IFEX financial transaction states</link>.&lt;/sup&gt;&lt;/sub&gt; </para>
+</listitem>
+            <listitem><para>Withdrawal3StatusProp <link linkend="_class_kraken_1_1_withdrawal3_1aa0f108ad7280fd964a3f14f2f0d49d08">StatusProp</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Addition status properties &lt;sup&gt;&lt;sub&gt;(if available)&lt;/sup&gt;&lt;/sub&gt;&lt;br&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_withdrawal3_1a163fc823afc8fae42a2fab23f17517d1"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_withdrawal">Withdrawal</link></para>
+</section>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_kraken_1_1_withdrawal3_1aa0f108ad7280fd964a3f14f2f0d49d08"/><section>
+    <title>StatusProp</title>
+<indexterm><primary>StatusProp</primary><secondary>Kraken.Withdrawal3</secondary></indexterm>
+<indexterm><primary>Kraken.Withdrawal3</primary><secondary>StatusProp</secondary></indexterm>
+<para><computeroutput>Withdrawal3StatusProp Kraken.Withdrawal3.StatusProp<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Addition status properties &lt;sup&gt;&lt;sub&gt;(if available)&lt;/sup&gt;&lt;/sub&gt;&lt;br&gt; </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>cancel-pending</computeroutput> cancelation requested</para>
+</listitem><listitem>
+<para><computeroutput>canceled</computeroutput> canceled</para>
+</listitem><listitem>
+<para><computeroutput>cancel-denied</computeroutput> cancelation requested but was denied</para>
+</listitem><listitem>
+<para><computeroutput>return</computeroutput> a return transaction initiated by <link linkend="_namespace_kraken">Kraken</link>; it cannot be canceled</para>
+</listitem><listitem>
+<para><computeroutput>onhold</computeroutput> withdrawal is on hold pending review </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

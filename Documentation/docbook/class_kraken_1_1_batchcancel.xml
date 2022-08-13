@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_batchcancel" xml:lang="en-US">
+<title>Kraken.Batchcancel Class Reference</title>
+<indexterm><primary>Kraken.Batchcancel</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchcancel_1aa7a548c3d7503f68fae14f26a2047af5"/>int <emphasis role="strong">Nonce</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchcancel_1a8e4f22e45a2109684e26b372e8120bc0"/>System.Collections.Generic.ICollection&lt; <link linkend="_class_kraken_1_1_orders2">Orders2</link> &gt; <emphasis role="strong">Orders</emphasis> = new System.Collections.ObjectModel.Collection&lt;<link linkend="_class_kraken_1_1_orders2">Orders2</link>&gt;()<computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchcancel_1a7cd2b8fd8cb355f5d512d9d834aa8e02"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

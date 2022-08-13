@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="CryptoTA.Apis.OrderBookEntry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_crypto_t_a_1_1_apis_1_1_order_book_entry.html",tooltip="Class containing ask/bid order data."];
+}

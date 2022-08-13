@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['c_0',['C',['../class_kraken_1_1_ticker.html#aebfac58cd16b562b9340376c9596eca9',1,'Kraken.Ticker.C()'],['../class_kraken_1_1_balance3.html#a78398020cd39bf420b06717ff8569687',1,'Kraken.Balance3.C()']]],
+  ['can_5fstake_1',['Can_stake',['../class_kraken_1_1_asset.html#a6f8a85955518aa7b929fe90d5feb7546',1,'Kraken::Asset']]],
+  ['can_5funstake_2',['Can_unstake',['../class_kraken_1_1_asset.html#aa3567bef1337f4885c5129316bf99c69',1,'Kraken::Asset']]],
+  ['cancel_3',['Cancel',['../class_kraken_1_1_result20.html#a0bbbd7d112d17e4e32b85fd90dbbb1fb',1,'Kraken::Result20']]],
+  ['cancel_5fresponse_4',['Cancel_response',['../class_kraken_1_1_edit.html#a468480e726b3f6ae87e2745fa6d91103',1,'Kraken::Edit']]],
+  ['ccost_5',['Ccost',['../class_kraken_1_1_trade2.html#a91c6996f5d7a8af27acd104bb959abfb',1,'Kraken::Trade2']]],
+  ['cfee_6',['Cfee',['../class_kraken_1_1_trade2.html#a0203236a80faad91574aba356e5b5a3c',1,'Kraken::Trade2']]],
+  ['clientid_7',['ClientId',['../class_crypto_t_a_1_1_apis_1_1_order.html#acaad230de123a554c7dd1fa11d8890c0',1,'CryptoTA::Apis::Order']]],
+  ['close_8',['Close',['../class_kraken_1_1_descr.html#ab3f9bbfbc993bcf5908f6c3166b661aa',1,'Kraken.Descr.Close()'],['../class_kraken_1_1_descr2.html#ac863c49f88b5666a3ad15909e115eab5',1,'Kraken.Descr2.Close()']]],
+  ['closeordertype_9',['Closeordertype',['../class_kraken_1_1_add.html#aedee850c2e666d0f851e76a7f33610bb',1,'Kraken::Add']]],
+  ['closeprice_10',['Closeprice',['../class_kraken_1_1_add.html#a4e5352769dd2bb347cc24ccacc0b4412',1,'Kraken::Add']]],
+  ['closeprice2_11',['Closeprice2',['../class_kraken_1_1_add.html#a5b4ceb7317394faba710ede46ba2d21c',1,'Kraken::Add']]],
+  ['closetm_12',['Closetm',['../class_kraken_1_1_closed.html#adb0894c20f21cd271ec5224e2eff7682',1,'Kraken::Closed']]],
+  ['cmargin_13',['Cmargin',['../class_kraken_1_1_trade2.html#a02183a9ea21740f867e082f9aaeb46fa',1,'Kraken::Trade2']]],
+  ['completedtm_14',['Completedtm',['../class_kraken_1_1_result19.html#ac350f31332baf822b2afb0700d8bffa5',1,'Kraken::Result19']]],
+  ['cost_15',['Cost',['../class_kraken_1_1_order.html#a72428f21f54a3efe07440ab5c53696dd',1,'Kraken.Order.Cost()'],['../class_kraken_1_1_trade2.html#a7dbe0b2b21ed0e43b36dc5dfd5a25a0d',1,'Kraken.Trade2.Cost()'],['../class_kraken_1_1_anonymous.html#a9f88a2621821ac2f9d70ec5092b19e85',1,'Kraken.Anonymous.Cost()']]],
+  ['count_16',['Count',['../class_kraken_1_1_history.html#a8d48d62fc36c5c732b70e2726f0faf73',1,'Kraken.History.Count()'],['../class_kraken_1_1_result6.html#ae0aed29823f2ccce0bca23fdb1359e34',1,'Kraken.Result6.Count()'],['../class_kraken_1_1_result7.html#a14f117d685a7c1b97f8edc1829348013',1,'Kraken.Result7.Count()'],['../class_kraken_1_1_result12.html#a0a5abe544411dbec5e7e1f97ebc63147',1,'Kraken.Result12.Count()'],['../class_kraken_1_1_result13.html#a913a09acd4acd3688838fdca69bba47b',1,'Kraken.Result13.Count()'],['../class_kraken_1_1_result21.html#afb1ed30849217a988f71e3ccb2fb7709',1,'Kraken.Result21.Count()']]],
+  ['counterdecimals_17',['CounterDecimals',['../class_crypto_t_a_1_1_apis_1_1_trading_pair.html#aa62f2cb78cf5b433a95b002625366e7b',1,'CryptoTA::Apis::TradingPair']]],
+  ['countername_18',['CounterName',['../class_crypto_t_a_1_1_apis_1_1_trading_pair.html#a0981a255dfe2ca9b30c745ccc4d2b099',1,'CryptoTA::Apis::TradingPair']]],
+  ['countersymbol_19',['CounterSymbol',['../class_crypto_t_a_1_1_apis_1_1_trading_pair.html#a733127522e54287252b7532dfb1cf1e5',1,'CryptoTA::Apis::TradingPair']]],
+  ['cprice_20',['Cprice',['../class_kraken_1_1_trade2.html#af2153c660ccd3a2955ee1a4ffa550ced',1,'Kraken::Trade2']]],
+  ['createdtm_21',['Createdtm',['../class_kraken_1_1_result19.html#a1dc87e6f66d6e6749ec548175c23679e',1,'Kraken::Result19']]],
+  ['currency_22',['Currency',['../class_kraken_1_1_result8.html#a77f8e7905be3264af75a89f72b0be7a8',1,'Kraken::Result8']]],
+  ['currenttime_23',['CurrentTime',['../class_kraken_1_1_result22.html#aeec16f45ec5f08329aef183c2b145790',1,'Kraken::Result22']]],
+  ['cvol_24',['Cvol',['../class_kraken_1_1_trade2.html#a2662774666fc107517e544596980aa6d',1,'Kraken::Trade2']]]
+];

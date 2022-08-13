@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_struct_kraken_1_1_kraken_client_1_1_object_response_result" xml:lang="en-US">
+<title>Kraken.KrakenClient.ObjectResponseResult&lt; T &gt; Struct Template Reference</title>
+<indexterm><primary>Kraken.KrakenClient.ObjectResponseResult&lt; T &gt;</primary></indexterm>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_struct_kraken_1_1_kraken_client_1_1_object_response_result_1a577289568dd6cf25f931abffd91f66bc"/><emphasis role="strong">ObjectResponseResult</emphasis> (T responseObject, string responseText)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_struct_kraken_1_1_kraken_client_1_1_object_response_result_1ac84ee84551704b0397a7931b83d5ec72"/>T <emphasis role="strong">Object</emphasis><computeroutput> [get]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_struct_kraken_1_1_kraken_client_1_1_object_response_result_1ae677e21af89e101feb8cd39dbb046413"/>string <emphasis role="strong">Text</emphasis><computeroutput> [get]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this struct was generated from the following file:</para>
+obj/openapiClient.cs</section>

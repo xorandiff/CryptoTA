@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result16" xml:lang="en-US">
+<title>Kraken.Result16 Class Reference</title>
+<indexterm><primary>Kraken.Result16</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para>Result16Status <link linkend="_class_kraken_1_1_result16_1a379e599a2df204268ed6d4e448fdb7e1">Status</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Current system status </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result16_1a1bc61ad1a34eeb53750a52342e8da359"/>string <emphasis role="strong">Timestamp</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Current timestamp (RFC3339)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result16_1aa830eac1b0d7194a0fedd2441c2b40c8"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_kraken_1_1_result16_1a379e599a2df204268ed6d4e448fdb7e1"/><section>
+    <title>Status</title>
+<indexterm><primary>Status</primary><secondary>Kraken.Result16</secondary></indexterm>
+<indexterm><primary>Kraken.Result16</primary><secondary>Status</secondary></indexterm>
+<para><computeroutput>Result16Status Kraken.Result16.Status<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Current system status </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>online</computeroutput> <link linkend="_namespace_kraken">Kraken</link> is operating normally. All order types may be submitted and trades can occur.</para>
+</listitem><listitem>
+<para><computeroutput>maintenance</computeroutput> The exchange is offline. No new orders or cancellations may be submitted.</para>
+</listitem><listitem>
+<para><computeroutput>cancel_only</computeroutput> Resting (open) orders can be cancelled but no new orders may be submitted. No trades will occur.</para>
+</listitem><listitem>
+<para><computeroutput>post_only</computeroutput> Only post-only limit orders can be submitted. Existing orders may still be cancelled. No trades will occur. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

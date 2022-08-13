@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_recent3" xml:lang="en-US">
+<title>Kraken.Recent3 Class Reference</title>
+<indexterm><primary>Kraken.Recent3</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_recent3_1af2d735d9924c0af4f057a8ed5a3c1ee0"/>int <emphasis role="strong">Nonce</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_recent3_1adc9f4f3667701b9a247645dd27c58569"/>string <emphasis role="strong">Asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> being withdrawn</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_recent3_1a10028742f8d245e0e420d6924c688f32"/>string <emphasis role="strong">Method</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Name of the withdrawal method</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_recent3_1a50237b718b1e2a0aa37e36084290b9a3"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

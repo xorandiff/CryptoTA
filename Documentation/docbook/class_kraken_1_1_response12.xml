@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_response12" xml:lang="en-US">
+<title>Kraken.Response12 Class Reference</title>
+<indexterm><primary>Kraken.Response12</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response12_1a897b9c723ad68a36fcb6ea1ef66167fb"/>bool <emphasis role="strong">Result</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether cancellation was successful or not.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response12_1a6a7682dddb5c5ee1298fde65b9b2e169"/><link linkend="_class_kraken_1_1_error">Error</link> <emphasis role="strong">Error</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response12_1abe26e86bd1baeaf87e089b779056cb84"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

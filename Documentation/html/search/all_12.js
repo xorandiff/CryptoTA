@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['t_0',['T',['../class_kraken_1_1_ticker.html#aa61a3beb6f4ed1d41c9b5bc8b5bfffcf',1,'Kraken::Ticker']]],
+  ['takerfee_1',['TakerFee',['../class_crypto_t_a_1_1_apis_1_1_fees.html#af7c0be5a29424f70eb3f4fa495dd800c',1,'CryptoTA::Apis::Fees']]],
+  ['tb_2',['Tb',['../class_kraken_1_1_balance3.html#a5c7233ab440fd971eee1e85c4753041f',1,'Kraken::Balance3']]],
+  ['terms_3',['Terms',['../class_kraken_1_1_anonymous.html#a5df2a931eae63c0046ba18dad66a988c',1,'Kraken::Anonymous']]],
+  ['tickdata_4',['TickData',['../class_crypto_t_a_1_1_apis_1_1_tick_data.html',1,'CryptoTA.Apis.TickData'],['../class_kraken_1_1_tick_data.html',1,'Kraken.TickData']]],
+  ['ticker_5',['Ticker',['../class_kraken_1_1_ticker.html',1,'Kraken']]],
+  ['ticker2_6',['Ticker2',['../class_kraken_1_1_ticker2.html',1,'Kraken']]],
+  ['tier_5fvolume_7',['Tier_volume',['../class_kraken_1_1_fees.html#add365c5bb3a3e410de2a3437c936825e',1,'Kraken::Fees']]],
+  ['time_8',['Time',['../class_kraken_1_1_time.html',1,'Kraken.Time'],['../class_kraken_1_1_transaction.html#a53c6b48947798b34f9202095c49f6a6c',1,'Kraken.Transaction.Time()'],['../class_kraken_1_1_anonymous.html#a826a3470b4cbeaef35f3fff0d759c5b4',1,'Kraken.Anonymous.Time()'],['../class_kraken_1_1_trade2.html#ade2294cdfa9edb3a63694c672580bc26',1,'Kraken.Trade2.Time()'],['../class_kraken_1_1_ledger.html#ac02b1e72c1423b4d314e4e326f1e9336',1,'Kraken.Ledger.Time()'],['../class_kraken_1_1_deposit.html#a7a7bcc4dbe52d677dc21712baa461f11',1,'Kraken.Deposit.Time()'],['../class_kraken_1_1_withdrawal3.html#abddb3ff68416409b2e4047926088389f',1,'Kraken.Withdrawal3.Time()']]],
+  ['timeinforce_9',['Timeinforce',['../class_kraken_1_1_add.html#a3de3ff0094816aa89909d7296c7d5fb6',1,'Kraken.Add.Timeinforce()'],['../class_kraken_1_1_orders.html#af5f9ea4192e0eb7d48055e3f4b3784d1',1,'Kraken.Orders.Timeinforce()']]],
+  ['timestamp_10',['Timestamp',['../class_kraken_1_1_result16.html#a1bc61ad1a34eeb53750a52342e8da359',1,'Kraken::Result16']]],
+  ['token_11',['Token',['../class_kraken_1_1_result17.html#a15453d18063a35dd0040785ea9424391',1,'Kraken::Result17']]],
+  ['totalamount_12',['TotalAmount',['../class_crypto_t_a_1_1_apis_1_1_balance.html#a7b42b1d7191bec367482d4c0b53bf719',1,'CryptoTA::Apis::Balance']]],
+  ['trade_13',['Trade',['../class_kraken_1_1_trade.html',1,'Kraken']]],
+  ['trade2_14',['Trade2',['../class_kraken_1_1_trade2.html',1,'Kraken']]],
+  ['trades_15',['Trades',['../class_kraken_1_1_trades.html',1,'Kraken.Trades'],['../class_kraken_1_1_order.html#aa0a099e0416bdeabc72f0f539d5d4525',1,'Kraken.Order.Trades()'],['../class_kraken_1_1_query.html#af078aaf3495eebea8f1bff6c035aaa55',1,'Kraken.Query.Trades()'],['../class_kraken_1_1_trade2.html#a474e1aaa5c430747eb408076d769c587',1,'Kraken.Trade2.Trades()'],['../class_kraken_1_1_history.html#a5c8d776b8826bf4d89cbbf4c7ad929bc',1,'Kraken.History.Trades()']]],
+  ['tradingbalance_16',['TradingBalance',['../class_crypto_t_a_1_1_apis_1_1_trading_balance.html',1,'CryptoTA::Apis']]],
+  ['tradingpair_17',['TradingPair',['../class_crypto_t_a_1_1_apis_1_1_trading_pair.html',1,'CryptoTA.Apis.TradingPair'],['../class_crypto_t_a_1_1_apis_1_1_order.html#a14e14d31b05eb5639cc0365f1be0a297',1,'CryptoTA.Apis.Order.TradingPair()']]],
+  ['transaction_18',['Transaction',['../class_kraken_1_1_transaction.html',1,'Kraken']]],
+  ['trigger_19',['Trigger',['../class_kraken_1_1_order.html#a442413ca4356ac200f516655233ca4f2',1,'Kraken.Order.Trigger()'],['../class_kraken_1_1_add.html#a103c67e042c2a2c0b8ec5ec92f49c881',1,'Kraken.Add.Trigger()'],['../class_kraken_1_1_orders.html#a829d1a2b1bf20e6fb16dca52fd7540b9',1,'Kraken.Orders.Trigger()']]],
+  ['triggertime_20',['TriggerTime',['../class_kraken_1_1_result22.html#a1a2d86ae878aa8ad15dcd38b69e1f631',1,'Kraken::Result22']]],
+  ['txid_21',['Txid',['../class_kraken_1_1_query.html#a23b55b3c0cdc301445e8d330fee73986',1,'Kraken.Query.Txid()'],['../class_kraken_1_1_edit.html#a6ecde7206ff9ff7c3272d9f67881a2ff',1,'Kraken.Edit.Txid()'],['../class_kraken_1_1_cancel.html#a0b8f09c69937dfe08e0da136d1c837a7',1,'Kraken.Cancel.Txid()'],['../class_kraken_1_1_deposit.html#a09c4f300f8414234bd281934334e5b80',1,'Kraken.Deposit.Txid()'],['../class_kraken_1_1_withdrawal3.html#a3b59186c66209d7c3241170b13c9ab5c',1,'Kraken.Withdrawal3.Txid()'],['../class_kraken_1_1_result9.html#a2d043c998a85da71b83ec6d135f9f7d8',1,'Kraken.Result9.Txid()'],['../class_kraken_1_1_result11.html#a0f1bacad14ead2101d4c8fadae3a05f5',1,'Kraken.Result11.Txid()'],['../class_kraken_1_1_orders2.html#adbf65027b0c6568b499c19632384fd7d',1,'Kraken.Orders2.Txid()'],['../class_kraken_1_1_orders3.html#a136d986ae93d730287596824ec146166',1,'Kraken.Orders3.Txid()']]],
+  ['type_22',['Type',['../class_kraken_1_1_trade2.html#a6d029515d0f8a41b62528077ec7f720d',1,'Kraken.Trade2.Type()'],['../class_kraken_1_1_ledger.html#a6733186f57387d993d645a7fd4f5dcd2',1,'Kraken.Ledger.Type()'],['../class_kraken_1_1_add.html#a650f965d232d1de9c53a04fe6044efc0',1,'Kraken.Add.Type()'],['../class_kraken_1_1_transaction.html#ac7aefbf9c7f9d78189bb8bb137e14e84',1,'Kraken.Transaction.Type()'],['../class_kraken_1_1_descr.html#a9698a56458763773bfb4a2c740f5926b',1,'Kraken.Descr.Type()'],['../class_kraken_1_1_rewards.html#aa0c63a3a4c5ec2911682a369dce4b4a4',1,'Kraken.Rewards.Type()'],['../class_kraken_1_1_anonymous.html#a2ea65a47cf20104e212b834992703f5a',1,'Kraken.Anonymous.Type()']]]
+];

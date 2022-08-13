@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_apis_1_1_order_book_entry" xml:lang="en-US">
+<title>CryptoTA.Apis.OrderBookEntry Class Reference</title>
+<indexterm><primary>CryptoTA.Apis.OrderBookEntry</primary></indexterm>
+<para>
+
+<para>Class containing ask/bid order data. </para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para>double <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_book_entry_1a710df4f168f55d6a245ee69a8f1cce55">Price</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>double <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_book_entry_1ab37a952f427e67052dae4cb2b4b1a3af">Volume</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>DateTime <link linkend="_class_crypto_t_a_1_1_apis_1_1_order_book_entry_1a08f1c70fa095517ed5374a398500296b">Date</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Class containing ask/bid order data. </para>
+</section>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_book_entry_1a08f1c70fa095517ed5374a398500296b"/><section>
+    <title>Date</title>
+<indexterm><primary>Date</primary><secondary>CryptoTA.Apis.OrderBookEntry</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.OrderBookEntry</primary><secondary>Date</secondary></indexterm>
+<para><computeroutput>DateTime CryptoTA.Apis.OrderBookEntry.Date<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para><link linkend="_class_crypto_t_a_1_1_apis_1_1_order">Order</link>&apos;s creation date. </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_book_entry_1a710df4f168f55d6a245ee69a8f1cce55"/><section>
+    <title>Price</title>
+<indexterm><primary>Price</primary><secondary>CryptoTA.Apis.OrderBookEntry</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.OrderBookEntry</primary><secondary>Price</secondary></indexterm>
+<para><computeroutput>double CryptoTA.Apis.OrderBookEntry.Price<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para><link linkend="_class_crypto_t_a_1_1_apis_1_1_order">Order</link>&apos;s price in base currency. </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_order_book_entry_1ab37a952f427e67052dae4cb2b4b1a3af"/><section>
+    <title>Volume</title>
+<indexterm><primary>Volume</primary><secondary>CryptoTA.Apis.OrderBookEntry</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.OrderBookEntry</primary><secondary>Volume</secondary></indexterm>
+<para><computeroutput>double CryptoTA.Apis.OrderBookEntry.Volume<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para><link linkend="_class_crypto_t_a_1_1_apis_1_1_order">Order</link>&apos;s volume (amount) in base currency. </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+Apis/IMarketApi.cs</section>
+</section>

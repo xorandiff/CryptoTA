@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result2" xml:lang="en-US">
+<title>Kraken.Result2 Class Reference</title>
+<indexterm><primary>Kraken.Result2</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result2_1a1beeb8e19b29e01bfafc3d63e4856dc7"/>int <emphasis role="strong">Last</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>ID to be used as since when polling for new, committed OHLC data</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result2_1ad1e4f0d578cb8807efe783ab717ed1d2"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

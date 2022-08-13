@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_ledger" xml:lang="en-US">
+<title>Kraken.Ledger Class Reference</title>
+<indexterm><primary>Kraken.Ledger</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_ledger">Ledger</link> Entry</para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ledger_1ab07ecf0bd1bf6402902c5146fc758e98"/>string <emphasis role="strong">Refid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Reference Id</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ledger_1ac02b1e72c1423b4d314e4e326f1e9336"/>double <emphasis role="strong">Time</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp of ledger</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ledger_1a6733186f57387d993d645a7fd4f5dcd2"/>LedgerType <emphasis role="strong">Type</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Type of ledger entry</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ledger_1a30a27332e0c15a28d77e81b3601a13aa"/>string <emphasis role="strong">Subtype</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Additional info relating to the ledger entry type, where applicable</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ledger_1a0307169dbcf01f98761c4f8d03127945"/>string <emphasis role="strong">Aclass</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> class</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ledger_1a80dcd4da67356b69cbdb06824b0d4b95"/>string <emphasis role="strong">Asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ledger_1ac23737edc1dad02e37cb9ce0a127bab4"/>string <emphasis role="strong">Amount</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_transaction">Transaction</link> amount</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ledger_1aca005a187bfcebd98ba40b47c3bc8314"/>string <emphasis role="strong">Fee</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_transaction">Transaction</link> fee</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ledger_1a2d3e7119660c066badf220f824e2823e"/>string <emphasis role="strong">Balance</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Resulting balance</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_ledger_1a8d85275daca691bb4f6142595527dc88"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_ledger">Ledger</link> Entry</para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

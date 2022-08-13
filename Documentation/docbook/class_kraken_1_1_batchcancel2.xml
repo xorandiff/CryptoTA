@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_batchcancel2" xml:lang="en-US">
+<title>Kraken.Batchcancel2 Class Reference</title>
+<indexterm><primary>Kraken.Batchcancel2</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchcancel2_1a0e6b08cce8f177aca765f294c909745f"/><link linkend="_class_kraken_1_1_result13">Result13</link> <emphasis role="strong">Result</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchcancel2_1a484602ef41a584890fd7b76f28062a20"/>System.Collections.Generic.ICollection&lt; <link linkend="_class_kraken_1_1_error">Error</link> &gt; <emphasis role="strong">Error</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchcancel2_1a982de1061e8d9c9a3f084ea5bf72feb0"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

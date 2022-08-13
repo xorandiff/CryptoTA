@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_r_egh_zy_1_1_themes_1_1_controls" xml:lang="en-US">
+<title>REghZy.Themes.Controls Class Reference</title>
+<indexterm><primary>REghZy.Themes.Controls</primary></indexterm>
+<para>
+
+<para><link linkend="_class_r_egh_zy_1_1_themes_1_1_controls">Controls</link> </para>
+ 
+</para>
+Inheritance diagram for REghZy.Themes.Controls:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_r_egh_zy_1_1_themes_1_1_controls__inherit__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+Collaboration diagram for REghZy.Themes.Controls:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_r_egh_zy_1_1_themes_1_1_controls__coll__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_r_egh_zy_1_1_themes_1_1_controls_1a3b967d11dcc8ed5ca1b536c465b45d55"/>void <emphasis role="strong">InitializeComponent</emphasis> ()</para>
+
+<para>InitializeComponent </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_r_egh_zy_1_1_themes_1_1_controls_1a3b967d11dcc8ed5ca1b536c465b45d55"/>void <emphasis role="strong">InitializeComponent</emphasis> ()</para>
+
+<para>InitializeComponent </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_r_egh_zy_1_1_themes_1_1_controls_1a45a3ea71c5b94f41446f73abf649c206"/>void <emphasis role="strong">CloseWind</emphasis> (Window window)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_r_egh_zy_1_1_themes_1_1_controls_1a4f48694048aad369a4f1fb1c5831431c"/>void <emphasis role="strong">MaximizeRestore</emphasis> (Window window)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_r_egh_zy_1_1_themes_1_1_controls_1ae025fb31cad295bc21659bd78aa0a19b"/>void <emphasis role="strong">MinimizeWind</emphasis> (Window window)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_r_egh_zy_1_1_themes_1_1_controls">Controls</link> </para>
+<para>
+The documentation for this class was generated from the following files:</para>
+obj/Debug/net6.0-windows/Themes/Controls.g.csobj/Debug/net6.0-windows/Themes/Controls.g.i.csThemes/Controls.cs</section>
+</section>

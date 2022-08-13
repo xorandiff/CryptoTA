@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_rewards" xml:lang="en-US">
+<title>Kraken.Rewards Class Reference</title>
+<indexterm><primary>Kraken.Rewards</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_rewards_1a78bd1964a015a1f73e75fee9ef9c07c3"/>string <emphasis role="strong">Reward</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Reward earned while staking</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_rewards_1aa0c63a3a4c5ec2911682a369dce4b4a4"/>RewardsType <emphasis role="strong">Type</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Reward type</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_rewards_1ae172cbd423c688f4dd49079e0534d2a5"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

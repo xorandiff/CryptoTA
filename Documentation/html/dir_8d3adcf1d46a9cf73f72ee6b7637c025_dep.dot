@@ -1,0 +1,11 @@
+digraph "obj/Debug/net6.0-windows/UserControls"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  compound=true
+  subgraph clusterdir_034079e16470629fedd4f235052192e9 {
+    graph [ bgcolor="#dadada", pencolor="grey50", style="filled,dashed,", label="net6.0-windows", fontname="Helvetica", fontsize="10", URL="dir_034079e16470629fedd4f235052192e9.html"]
+  dir_8d3adcf1d46a9cf73f72ee6b7637c025 [shape=box, label="UserControls", style="filled,bold,", fillcolor="#dadada", color="grey25", URL="dir_8d3adcf1d46a9cf73f72ee6b7637c025.html"];
+  }
+}

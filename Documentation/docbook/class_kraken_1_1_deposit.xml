@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_deposit" xml:lang="en-US">
+<title>Kraken.Deposit Class Reference</title>
+<indexterm><primary>Kraken.Deposit</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link></para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1ab230427770bbe76322f67e371fe7f4d2"/>string <emphasis role="strong">Method</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Name of deposit method</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1a89f21ec5764a9794450906593e583f8c"/>string <emphasis role="strong">Aclass</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> class</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1a1d9f32338f309aa54d22dcb2c5b4684f"/>string <emphasis role="strong">Asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1a7a052d5ce68d9c4ef4e07e207e5770cd"/>string <emphasis role="strong">Refid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Reference ID</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1a09c4f300f8414234bd281934334e5b80"/>string <emphasis role="strong">Txid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_method">Method</link> transaction ID</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1a115b7283d235ef6b46ed2ce19bca2e45"/>string <emphasis role="strong">Info</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_method">Method</link> transaction information</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1a59ee6e266ad3f97f92fd62b29b4d50cf"/>string <emphasis role="strong">Amount</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Amount deposited</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1ad91afcccc664cb3154ce9fc4451eab98"/>object <emphasis role="strong">Fee</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_fees">Fees</link> paid</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1a7a7bcc4dbe52d677dc21712baa461f11"/>int <emphasis role="strong">Time</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp when request was made</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1a705073c049046cafb916193c8c70f1d4"/>object <emphasis role="strong">Status</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Status of deposit&lt;br&gt; &lt;sup&gt;&lt;sub&gt;For information about the status, please refer to the <link xlink:href="https://github.com/globalcitizen/ifex-protocol/blob/master/draft-ifex-00.txt#L837">IFEX financial transaction states</link>.&lt;/sup&gt;&lt;/sub&gt; </para>
+</listitem>
+            <listitem><para>DepositStatusProp <link linkend="_class_kraken_1_1_deposit_1aa59546900f0d701d5f2c7c168ecc8cb4">StatusProp</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Addition status properties &lt;sup&gt;&lt;sub&gt;(if available)&lt;/sup&gt;&lt;/sub&gt;&lt;br&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_deposit_1a7c184f21a5b8e63f44f1d7e840e72c3a"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link></para>
+</section>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_kraken_1_1_deposit_1aa59546900f0d701d5f2c7c168ecc8cb4"/><section>
+    <title>StatusProp</title>
+<indexterm><primary>StatusProp</primary><secondary>Kraken.Deposit</secondary></indexterm>
+<indexterm><primary>Kraken.Deposit</primary><secondary>StatusProp</secondary></indexterm>
+<para><computeroutput>DepositStatusProp Kraken.Deposit.StatusProp<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Addition status properties &lt;sup&gt;&lt;sub&gt;(if available)&lt;/sup&gt;&lt;/sub&gt;&lt;br&gt; </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>return</computeroutput> A return transaction initiated by <link linkend="_namespace_kraken">Kraken</link></para>
+</listitem><listitem>
+<para><computeroutput>onhold</computeroutput> <link linkend="_class_kraken_1_1_deposit">Deposit</link> is on hold pending review </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

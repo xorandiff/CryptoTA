@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_api_exception" xml:lang="en-US">
+<title>Kraken.ApiException&lt; TResult &gt; Class Template Reference</title>
+<indexterm><primary>Kraken.ApiException&lt; TResult &gt;</primary></indexterm>
+Inheritance diagram for Kraken.ApiException&lt; TResult &gt;:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_kraken_1_1_api_exception__inherit__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+Collaboration diagram for Kraken.ApiException&lt; TResult &gt;:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_kraken_1_1_api_exception__coll__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_api_exception_1a752e282f63df3cf12548546a483d22a5"/><emphasis role="strong">ApiException</emphasis> (string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary&lt; string, System.Collections.Generic.IEnumerable&lt; string &gt; &gt; headers, System.Exception innerException)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_api_exception_1a4e0b195c0db9fbe12bbebbf51bbdc849"/>override string <emphasis role="strong">ToString</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_api_exception_1ac136289c2ac8e43200ac36d9f242f1ac"/><emphasis role="strong">ApiException</emphasis> (string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary&lt; string, System.Collections.Generic.IEnumerable&lt; string &gt; &gt; headers, TResult result, System.Exception innerException)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_api_exception_1aab72e37b19ab20841dda4125a222bbae"/>int <emphasis role="strong">StatusCode</emphasis><computeroutput> [get]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_api_exception_1a8088950f3dc201b6f357908d116f483a"/>string <emphasis role="strong">Response</emphasis><computeroutput> [get]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_api_exception_1a5224086e281580ebf33ca262b20a11bf"/>System.Collections.Generic.IReadOnlyDictionary&lt; string, System.Collections.Generic.IEnumerable&lt; string &gt; &gt; <emphasis role="strong">Headers</emphasis><computeroutput> [get]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_api_exception_1ac30074a428af15ea56d4ab1dbe512505"/>TResult <emphasis role="strong">Result</emphasis><computeroutput> [get]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

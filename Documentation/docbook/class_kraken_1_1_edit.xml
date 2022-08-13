@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_edit" xml:lang="en-US">
+<title>Kraken.Edit Class Reference</title>
+<indexterm><primary>Kraken.Edit</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_edit_1a18ae19911751247b694e8b409546cb7e"/>int <emphasis role="strong">Nonce</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>int <link linkend="_class_kraken_1_1_edit_1a8162e2cfe9cd400cedefa08acf6fd172">Userref</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>User reference id </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_edit_1a6ecde7206ff9ff7c3272d9f67881a2ff"/>string <emphasis role="strong">Txid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Original <link linkend="_class_kraken_1_1_order">Order</link> ID or User Reference Id (userref) which is user-specified integer id used with the original order. If userref is not unique and was used with multiple order, edit request is denied with an error.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_edit_1a286cd7dd0bf39a45fc623e2d6204f4f2"/>string <emphasis role="strong">Volume</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_order">Order</link> quantity in terms of the base asset. </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_edit_1ace6550b05a1ceaa4e649985fd18d775d"/>string <emphasis role="strong">Pair</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> pair <computeroutput>id</computeroutput> or <computeroutput>altname</computeroutput></para>
+</listitem>
+            <listitem><para>string <link linkend="_class_kraken_1_1_edit_1a3d085922efd15413d71c56509b16bf43">Price</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Price </para>
+</listitem>
+            <listitem><para>string <link linkend="_class_kraken_1_1_edit_1a7178852e35fe405c4eb1b790c5daf964">Price2</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Secondary Price </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_edit_1a174dd5ad77010dc569c0249ec5632376"/>object <emphasis role="strong">Oflags</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Comma delimited list of order flags. Only these flags can be changed: - post post-only order (available when ordertype = limit). All the flags from the parent order are retained except post-only. post-only needs to be explicitly mentioned on edit request. </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_edit_1a8e13b1c31fd98ca4442ca9b5cf4609b6"/>string <emphasis role="strong">Deadline</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>RFC3339 timestamp (e.g. 2021-04-01T00:18:45Z) after which the matching engine should reject the new order request, in presence of latency or order queueing. min now() + 2 seconds, max now() + 60 seconds. 
+<literallayout>&#160;&#xa;</literallayout>
+ </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_edit_1a468480e726b3f6ae87e2745fa6d91103"/>bool <emphasis role="strong">Cancel_response</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Used to interpret if client wants to receive pending replace, before the order is completely replaced </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_edit_1ab821e77bcf1d7c1b3bacaac5bd8d95d8"/>bool <emphasis role="strong">Validate</emphasis> = false<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Validate inputs only. Do not submit order.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_edit_1af954ad24635e05ee3d6b851a30a49019"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_kraken_1_1_edit_1a3d085922efd15413d71c56509b16bf43"/><section>
+    <title>Price</title>
+<indexterm><primary>Price</primary><secondary>Kraken.Edit</secondary></indexterm>
+<indexterm><primary>Kraken.Edit</primary><secondary>Price</secondary></indexterm>
+<para><computeroutput>string Kraken.Edit.Price<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Price </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Limit price for <computeroutput>limit</computeroutput> orders</para>
+</listitem><listitem>
+<para>Trigger price for <computeroutput>stop-loss</computeroutput>, <computeroutput>stop-loss-limit</computeroutput>, <computeroutput>take-profit</computeroutput> and <computeroutput>take-profit-limit</computeroutput> orders </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_class_kraken_1_1_edit_1a7178852e35fe405c4eb1b790c5daf964"/><section>
+    <title>Price2</title>
+<indexterm><primary>Price2</primary><secondary>Kraken.Edit</secondary></indexterm>
+<indexterm><primary>Kraken.Edit</primary><secondary>Price2</secondary></indexterm>
+<para><computeroutput>string Kraken.Edit.Price2<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Secondary Price </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Limit price for <computeroutput>stop-loss-limit</computeroutput> and <computeroutput>take-profit-limit</computeroutput> orders</para>
+</listitem></itemizedlist>
+</para>
+
+<para>&gt; Note: Either <computeroutput>price</computeroutput> or <computeroutput>price2</computeroutput> can be preceded by <computeroutput>+</computeroutput>, <computeroutput>-</computeroutput>, or <computeroutput>#</computeroutput> to specify the order price as an offset relative to the last traded price. <computeroutput>+</computeroutput> adds the amount to, and <computeroutput>-</computeroutput> subtracts the amount from the last traded price. <computeroutput>#</computeroutput> will either add or subtract the amount to the last traded price, depending on the direction and order type used. Relative prices can be suffixed with a <computeroutput>%</computeroutput> to signify the relative amount as a percentage. </para>
+</section>
+<anchor xml:id="_class_kraken_1_1_edit_1a8162e2cfe9cd400cedefa08acf6fd172"/><section>
+    <title>Userref</title>
+<indexterm><primary>Userref</primary><secondary>Kraken.Edit</secondary></indexterm>
+<indexterm><primary>Kraken.Edit</primary><secondary>Userref</secondary></indexterm>
+<para><computeroutput>int Kraken.Edit.Userref<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>User reference id </para>
+</para>
+
+<para><computeroutput>userref</computeroutput> is an optional user-specified integer id associated with edit request. &gt; Note: userref from parent order will not be retained on the new order after edit. </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

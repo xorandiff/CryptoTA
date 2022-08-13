@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_namespace_kraken" xml:lang="en-US">
+<title>Kraken Namespace Reference</title>
+<indexterm><primary>Kraken</primary></indexterm>
+<simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>class <link linkend="_class_kraken_1_1_add">Add</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_add2">Add2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_address">Address</link></para>
+
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link> <link linkend="_class_kraken_1_1_address">Address</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_addresses">Addresses</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_addresses2">Addresses2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_anonymous">Anonymous</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_api_exception">ApiException</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_asset">Asset</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_balance">Balance</link></para>
+
+<para>Account <link linkend="_class_kraken_1_1_balance">Balance</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_balance2">Balance2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_balance3">Balance3</link></para>
+
+<para>Account <link linkend="_class_kraken_1_1_balance">Balance</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_balance4">Balance4</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_batchadd">Batchadd</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_batchadd2">Batchadd2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_batchcancel">Batchcancel</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_batchcancel2">Batchcancel2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_cancel">Cancel</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_cancel2">Cancel2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_cancel3">Cancel3</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_closed">Closed</link></para>
+
+<para><link linkend="_class_kraken_1_1_closed">Closed</link> <link linkend="_class_kraken_1_1_order">Order</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_closed2">Closed2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_deposit">Deposit</link></para>
+
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_depth">Depth</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_descr">Descr</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_descr2">Descr2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_descr3">Descr3</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_edit">Edit</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_edit2">Edit2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_error">Error</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_fees">Fees</link></para>
+
+<para>Fee Tier <link linkend="_class_kraken_1_1_info">Info</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_history">History</link></para>
+
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> <link linkend="_class_kraken_1_1_history">History</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_history2">History2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_info">Info</link></para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_info2">Info2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_info3">Info3</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_info4">Info4</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_info5">Info5</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_kraken_client">KrakenClient</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_ledger">Ledger</link></para>
+
+<para><link linkend="_class_kraken_1_1_ledger">Ledger</link> Entry</para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_lock">Lock</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_lock2">Lock2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_method">Method</link></para>
+
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link> <link linkend="_class_kraken_1_1_method">Method</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_methods">Methods</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_methods2">Methods2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_minimum__amount">Minimum_amount</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_ohlc">Ohlc</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_open2">Open2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_order">Order</link></para>
+
+<para>Open <link linkend="_class_kraken_1_1_order">Order</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_order_book_entry">OrderBookEntry</link></para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> Pair <link linkend="_class_kraken_1_1_order">Order</link> Book Entries</para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_orders">Orders</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_orders2">Orders2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_orders3">Orders3</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_pairs">Pairs</link></para>
+
+<para>Trading <link linkend="_class_kraken_1_1_asset">Asset</link> Pair</para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_query">Query</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_query2">Query2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_query3">Query3</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_recent">Recent</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_recent2">Recent2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_recent3">Recent3</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_recent4">Recent4</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response">Response</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response10">Response10</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response11">Response11</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response12">Response12</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response13">Response13</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response14">Response14</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response15">Response15</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response16">Response16</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response17">Response17</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response18">Response18</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response2">Response2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response3">Response3</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response4">Response4</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response5">Response5</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response6">Response6</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response7">Response7</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response8">Response8</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_response9">Response9</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result">Result</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result10">Result10</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result11">Result11</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result12">Result12</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result13">Result13</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result14">Result14</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result15">Result15</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result16">Result16</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result17">Result17</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result18">Result18</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result19">Result19</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result2">Result2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result20">Result20</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result21">Result21</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result22">Result22</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result23">Result23</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result24">Result24</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result25">Result25</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result3">Result3</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result4">Result4</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result5">Result5</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result6">Result6</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result7">Result7</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result8">Result8</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_result9">Result9</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_rewards">Rewards</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_spread">Spread</link></para>
+
+<para>Array of spread entries <computeroutput>[int &lt;time&gt;, string &lt;bid&gt;, string &lt;ask&gt;]</computeroutput> </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_spread2">Spread2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_tick_data">TickData</link></para>
+
+<para>Array of tick data arrays <computeroutput>[int &lt;time&gt;, string &lt;open&gt;, string &lt;high&gt;, string &lt;low&gt;, string &lt;close&gt;, string &lt;vwap&gt;, string &lt;volume&gt;, int &lt;count&gt;]</computeroutput> </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_ticker">Ticker</link></para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> <link linkend="_class_kraken_1_1_ticker">Ticker</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_ticker2">Ticker2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_time">Time</link></para>
+
+<para>Success response</para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_trade">Trade</link></para>
+
+<para>Array of trade entries <computeroutput>[&lt;price&gt;, &lt;volume&gt;, &lt;time&gt;, &lt;buy/sell&gt;, &lt;market/limit&gt;, &lt;miscellaneous&gt;]</computeroutput> </para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_trade2">Trade2</link></para>
+
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_trades">Trades</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_transaction">Transaction</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_volume">Volume</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_withdrawal">Withdrawal</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_withdrawal2">Withdrawal2</link></para>
+</listitem>
+            <listitem><para>class <link linkend="_class_kraken_1_1_withdrawal3">Withdrawal3</link></para>
+
+<para><link linkend="_class_kraken_1_1_withdrawal">Withdrawal</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_namespace_kraken_1af2ffaa65a13d64295c286bf8fbf81bd5"/>enum <link linkend="_namespace_kraken_1af2ffaa65a13d64295c286bf8fbf81bd5">Ordertype</link> { 
+<emphasis role="strong">Market</emphasis> = 0
+, <emphasis role="strong">Limit</emphasis> = 1
+, <emphasis role="strong">StopLoss</emphasis> = 2
+, <emphasis role="strong">TakeProfit</emphasis> = 3
+, 
+<emphasis role="strong">StopLossLimit</emphasis> = 4
+, <emphasis role="strong">TakeProfitLimit</emphasis> = 5
+, <emphasis role="strong">SettlePosition</emphasis> = 6
+ }</para>
+
+<para>Order type </para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1ac314b10fc8daf21adcc4f11aaa8ff3a6"/>enum <emphasis role="strong">Info6</emphasis> { <emphasis role="strong">Info</emphasis> = 0
+, <emphasis role="strong">Leverage</emphasis> = 1
+, <emphasis role="strong">Fees</emphasis> = 2
+, <emphasis role="strong">Margin</emphasis> = 3
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1ae62f0b08110fa9cb55b655c30ef57744"/>enum <emphasis role="strong">Interval</emphasis> { 
+<emphasis role="strong">_1</emphasis> = 1
+, <emphasis role="strong">_5</emphasis> = 5
+, <emphasis role="strong">_15</emphasis> = 15
+, <emphasis role="strong">_30</emphasis> = 30
+, 
+<emphasis role="strong">_60</emphasis> = 60
+, <emphasis role="strong">_240</emphasis> = 240
+, <emphasis role="strong">_1440</emphasis> = 1440
+, <emphasis role="strong">_10080</emphasis> = 10080
+, 
+<emphasis role="strong">_21600</emphasis> = 21600
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a6c6e76173f22d9bd0dfb7e32018b04e3"/>enum <emphasis role="strong">OrderStatus</emphasis> { 
+<emphasis role="strong">Pending</emphasis> = 0
+, <emphasis role="strong">Open</emphasis> = 1
+, <emphasis role="strong">Closed</emphasis> = 2
+, <emphasis role="strong">Canceled</emphasis> = 3
+, 
+<emphasis role="strong">Expired</emphasis> = 4
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1afa78d0045dda80f126863b1fd8125802"/>enum <emphasis role="strong">OrderTrigger</emphasis> { <emphasis role="strong">Last</emphasis> = 0
+, <emphasis role="strong">Index</emphasis> = 1
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a307a6ffe4d373ef3979691192b8ebdf2"/>enum <emphasis role="strong">LedgerType</emphasis> { 
+<emphasis role="strong">Trade</emphasis> = 0
+, <emphasis role="strong">Deposit</emphasis> = 1
+, <emphasis role="strong">Withdrawal</emphasis> = 2
+, <emphasis role="strong">Transfer</emphasis> = 3
+, 
+<emphasis role="strong">Margin</emphasis> = 4
+, <emphasis role="strong">Rollover</emphasis> = 5
+, <emphasis role="strong">Spend</emphasis> = 6
+, <emphasis role="strong">Receive</emphasis> = 7
+, 
+<emphasis role="strong">Settled</emphasis> = 8
+, <emphasis role="strong">Adjustment</emphasis> = 9
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a2b3f5421a79ea89c796cf4bce9a88302"/>enum <emphasis role="strong">AddType</emphasis> { <emphasis role="strong">Buy</emphasis> = 0
+, <emphasis role="strong">Sell</emphasis> = 1
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1ad02bfb63ee8488ef52a8ea302f7d68dd"/>enum <emphasis role="strong">AddTrigger</emphasis> { <emphasis role="strong">Index</emphasis> = 0
+, <emphasis role="strong">Last</emphasis> = 1
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1aa97794e3f82022a05548c1ea7e293e53"/>enum <emphasis role="strong">AddStp_type</emphasis> { <emphasis role="strong">CancelNewest</emphasis> = 0
+, <emphasis role="strong">CancelOldest</emphasis> = 1
+, <emphasis role="strong">CancelBoth</emphasis> = 2
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a0b0f5716c4678ad6d77904299f30cbdc"/>enum <emphasis role="strong">AddTimeinforce</emphasis> { <emphasis role="strong">GTC</emphasis> = 0
+, <emphasis role="strong">IOC</emphasis> = 1
+, <emphasis role="strong">GTD</emphasis> = 2
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a13b363b753fac9c53430659edf3adffa"/>enum <emphasis role="strong">AddCloseordertype</emphasis> { 
+<emphasis role="strong">Limit</emphasis> = 0
+, <emphasis role="strong">StopLoss</emphasis> = 1
+, <emphasis role="strong">TakeProfit</emphasis> = 2
+, <emphasis role="strong">StopLossLimit</emphasis> = 3
+, 
+<emphasis role="strong">TakeProfitLimit</emphasis> = 4
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a8b037256bfb83941e0ace74ac10b5b79"/>enum <emphasis role="strong">DepositStatusProp</emphasis> { <emphasis role="strong">Return</emphasis> = 0
+, <emphasis role="strong">Onhold</emphasis> = 1
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a372bd5ac4568af42a9a3b2dc5634960e"/>enum <emphasis role="strong">Withdrawal3Status</emphasis> { 
+<emphasis role="strong">Initial</emphasis> = 0
+, <emphasis role="strong">Pending</emphasis> = 1
+, <emphasis role="strong">Settled</emphasis> = 2
+, <emphasis role="strong">Success</emphasis> = 3
+, 
+<emphasis role="strong">Failure</emphasis> = 4
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1ac3e759cbe2b6efbfb1bb860aec5706fc"/>enum <emphasis role="strong">Withdrawal3StatusProp</emphasis> { 
+<emphasis role="strong">CancelPending</emphasis> = 0
+, <emphasis role="strong">Canceled</emphasis> = 1
+, <emphasis role="strong">CancelDenied</emphasis> = 2
+, <emphasis role="strong">Return</emphasis> = 3
+, 
+<emphasis role="strong">Onhold</emphasis> = 4
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1aaf2f4da7194629122ff7fb7f6db09720"/>enum <emphasis role="strong">TransactionType</emphasis> { <emphasis role="strong">Bonding</emphasis> = 0
+, <emphasis role="strong">Reward</emphasis> = 1
+, <emphasis role="strong">Unbonding</emphasis> = 2
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a0e5effd904f0dabec3d01b062de33505"/>enum <emphasis role="strong">TransactionStatus</emphasis> { 
+<emphasis role="strong">Initial</emphasis> = 0
+, <emphasis role="strong">Pending</emphasis> = 1
+, <emphasis role="strong">Settled</emphasis> = 2
+, <emphasis role="strong">Success</emphasis> = 3
+, 
+<emphasis role="strong">Failure</emphasis> = 4
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a097db2c275bbd745913278ae55d4b2b9"/>enum <emphasis role="strong">DescrType</emphasis> { <emphasis role="strong">Buy</emphasis> = 0
+, <emphasis role="strong">Sell</emphasis> = 1
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1ad07caa308054589aaaa63b064a3fc4c1"/>enum <emphasis role="strong">OrdersTrigger</emphasis> { <emphasis role="strong">Index</emphasis> = 0
+, <emphasis role="strong">Last</emphasis> = 1
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a2ff8671e956ab5479952710db08e32af"/>enum <emphasis role="strong">OrdersStptype</emphasis> { <emphasis role="strong">Cancel_newest</emphasis> = 0
+, <emphasis role="strong">Cancel_oldest</emphasis> = 1
+, <emphasis role="strong">Cancel_both</emphasis> = 2
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a669c8eb7b771717c05d0d1bb6399c0b6"/>enum <emphasis role="strong">OrdersTimeinforce</emphasis> { <emphasis role="strong">GTC</emphasis> = 0
+, <emphasis role="strong">IOC</emphasis> = 1
+, <emphasis role="strong">GTD</emphasis> = 2
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a39ced8e9a7fd1917d3bb591d4f60b0cf"/>enum <emphasis role="strong">RewardsType</emphasis> { <emphasis role="strong">Percentage</emphasis> = 0
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a58784604bc897992aeacde612c855c7b"/>enum <emphasis role="strong">Result16Status</emphasis> { <emphasis role="strong">Online</emphasis> = 0
+, <emphasis role="strong">Maintenance</emphasis> = 1
+, <emphasis role="strong">Cancel_only</emphasis> = 2
+, <emphasis role="strong">Post_only</emphasis> = 3
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1a6b6d9451eb204f4ec829a17fe5655a9e"/>enum <emphasis role="strong">Posstatus</emphasis> { <emphasis role="strong">Open</emphasis> = 0
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_namespace_kraken_1ad557e400d00ac620a4cd0a5635d54d95"/>enum <emphasis role="strong">Result19Status</emphasis> { <emphasis role="strong">Queued</emphasis> = 0
+, <emphasis role="strong">Processing</emphasis> = 1
+, <emphasis role="strong">Processed</emphasis> = 2
+ }</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

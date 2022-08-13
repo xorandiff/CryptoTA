@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_trade2" xml:lang="en-US">
+<title>Kraken.Trade2 Class Reference</title>
+<indexterm><primary>Kraken.Trade2</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1ac9212af2f9ad7eaf5cad29aeb923ef50"/>string <emphasis role="strong">Ordertxid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_order">Order</link> responsible for execution of trade</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1abfc160b5e26f1561b7b19af7589af397"/>string <emphasis role="strong">Pair</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> pair</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1ade2294cdfa9edb3a63694c672580bc26"/>double <emphasis role="strong">Time</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp of trade</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a6d029515d0f8a41b62528077ec7f720d"/>string <emphasis role="strong">Type</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Type of order (buy/sell)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a5c567410967153fe5d939e99792ad671"/>string <emphasis role="strong">Ordertype</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_order">Order</link> type</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1aa0cff8857e27dc794ece8d63b8383fd1"/>string <emphasis role="strong">Price</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Average price order was executed at (quote currency)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a7dbe0b2b21ed0e43b36dc5dfd5a25a0d"/>string <emphasis role="strong">Cost</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Total cost of order (quote currency)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a6f0de3e951fe8819f9c3ef143ed369d7"/>string <emphasis role="strong">Fee</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Total fee (quote currency)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1adb32cfeef019122f1a8819fd1d898c7b"/>string <emphasis role="strong">Vol</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_volume">Volume</link> (base currency)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1aeb88145f71ca5010f2860554e06fe838"/>string <emphasis role="strong">Margin</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Initial margin (quote currency)</para>
+</listitem>
+            <listitem><para>string <link linkend="_class_kraken_1_1_trade2_1a9277df3ffd4f0a1da6cdd6f60b5fc99f">Misc</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Comma delimited list of miscellaneous info: </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a05d3a243c3e166707d9ae4e9fb328a65"/>string <emphasis role="strong">Posstatus</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Position status (open/closed) &lt;br&gt;&lt;sub&gt;&lt;sup&gt;Only present if trade opened a position&lt;/sub&gt;&lt;/sup&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1af2153c660ccd3a2955ee1a4ffa550ced"/>object <emphasis role="strong">Cprice</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Average price of closed portion of position (quote currency) &lt;br&gt;&lt;sub&gt;&lt;sup&gt;Only present if trade opened a position&lt;/sub&gt;&lt;/sup&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a91c6996f5d7a8af27acd104bb959abfb"/>object <emphasis role="strong">Ccost</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Total cost of closed portion of position (quote currency) &lt;br&gt;&lt;sub&gt;&lt;sup&gt;Only present if trade opened a position&lt;/sub&gt;&lt;/sup&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a0203236a80faad91574aba356e5b5a3c"/>object <emphasis role="strong">Cfee</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Total fee of closed portion of position (quote currency) &lt;br&gt;&lt;sub&gt;&lt;sup&gt;Only present if trade opened a position&lt;/sub&gt;&lt;/sup&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a2662774666fc107517e544596980aa6d"/>object <emphasis role="strong">Cvol</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Total fee of closed portion of position (quote currency) &lt;br&gt;&lt;sub&gt;&lt;sup&gt;Only present if trade opened a position&lt;/sub&gt;&lt;/sup&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a02183a9ea21740f867e082f9aaeb46fa"/>object <emphasis role="strong">Cmargin</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Total margin freed in closed portion of position (quote currency) &lt;br&gt;&lt;sub&gt;&lt;sup&gt;Only present if trade opened a position&lt;/sub&gt;&lt;/sup&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a59ed70ad8c8b9bf6848912ba75fb90ec"/>object <emphasis role="strong">Net</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Net profit/loss of closed portion of position (quote currency, quote currency scale) &lt;br&gt;&lt;sub&gt;&lt;sup&gt;Only present if trade opened a position&lt;/sub&gt;&lt;/sup&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a474e1aaa5c430747eb408076d769c587"/>System.Collections.Generic.ICollection&lt; string &gt; <emphasis role="strong">Trades</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>List of closing trades for position (if available) &lt;br&gt;&lt;sub&gt;&lt;sup&gt;Only present if trade opened a position&lt;/sub&gt;&lt;/sup&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_trade2_1a4381a655f1a2629e8efec8af8c063da7"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+</section>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_kraken_1_1_trade2_1a9277df3ffd4f0a1da6cdd6f60b5fc99f"/><section>
+    <title>Misc</title>
+<indexterm><primary>Misc</primary><secondary>Kraken.Trade2</secondary></indexterm>
+<indexterm><primary>Kraken.Trade2</primary><secondary>Misc</secondary></indexterm>
+<para><computeroutput>string Kraken.Trade2.Misc<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Comma delimited list of miscellaneous info: </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>closing</computeroutput> &amp;mdash; <link linkend="_class_kraken_1_1_trade">Trade</link> closes all or part of a position </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_add" xml:lang="en-US">
+<title>Kraken.Add Class Reference</title>
+<indexterm><primary>Kraken.Add</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a34622311fd40b92738ce0355e2846686"/>int <emphasis role="strong">Nonce</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>int <link linkend="_class_kraken_1_1_add_1afdce41ad40f55aa1ec65a5542cb9928a">Userref</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>User reference id </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a26eb7eef8de50020865dacbe2eb12fe3"/><link linkend="_namespace_kraken_1af2ffaa65a13d64295c286bf8fbf81bd5">Ordertype</link> <emphasis role="strong">Ordertype</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a650f965d232d1de9c53a04fe6044efc0"/>AddType <emphasis role="strong">Type</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_order">Order</link> direction (buy/sell)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a45d3aca08a483d6afefbf00515c82f25"/>string <emphasis role="strong">Volume</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_order">Order</link> quantity in terms of the base asset &gt; Note: <link linkend="_class_kraken_1_1_volume">Volume</link> can be specified as <computeroutput>0</computeroutput> for closing margin orders to automatically fill the requisite quantity. </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1aac761960fef0f7d12df7ffc7be0b78af"/>string <emphasis role="strong">Pair</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> pair <computeroutput>id</computeroutput> or <computeroutput>altname</computeroutput></para>
+</listitem>
+            <listitem><para>string <link linkend="_class_kraken_1_1_add_1ab81475bbd4f244ebe2ed5d7dff7662b6">Price</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Price </para>
+</listitem>
+            <listitem><para>string <link linkend="_class_kraken_1_1_add_1ac766caf9cb4a81ae771a78c601ee6750">Price2</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Secondary Price </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a103c67e042c2a2c0b8ec5ec92f49c881"/>AddTrigger <emphasis role="strong">Trigger</emphasis> = Kraken.AddTrigger.Last<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Price signal used to trigger <computeroutput>stop-loss</computeroutput>, <computeroutput>stop-loss-limit</computeroutput>, <computeroutput>take-profit</computeroutput> and <computeroutput>take-profit-limit</computeroutput> orders. &gt; Note: This <computeroutput>trigger</computeroutput> type will as well be used for associated conditional close orders. </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1aaaa57ce487f936ac78d45ee79f598c53"/>string <emphasis role="strong">Leverage</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Amount of leverage desired (default = none) </para>
+</listitem>
+            <listitem><para>AddStp_type <link linkend="_class_kraken_1_1_add_1adff6b7094205536c71f5bdd941317373">Stp_type</link> = Kraken.AddStp_type.CancelNewest<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Self trade prevention behavior definition </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a49abadaf67cc2df9077f97c3c7012629"/>string <emphasis role="strong">Oflags</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a3de3ff0094816aa89909d7296c7d5fb6"/>AddTimeinforce <emphasis role="strong">Timeinforce</emphasis> = Kraken.AddTimeinforce.GTC<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Time-in-force of the order to specify how long it should remain in the order book before being cancelled. GTC (Good-&apos;til-cancelled) is default if the parameter is omitted. IOC (immediate-or-cancel) will immediately execute the amount possible and cancel any remaining balance rather than resting in the book. GTD (good-&apos;til-date), if specified, must coincide with a desired <computeroutput>expiretm</computeroutput>. </para>
+</listitem>
+            <listitem><para>string <link linkend="_class_kraken_1_1_add_1acb14221f578a4fff0cc919a0a487e1f7">Starttm</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Scheduled start time. Can be specified as an absolute timestamp or as a number of seconds in the future. </para>
+</listitem>
+            <listitem><para>string <link linkend="_class_kraken_1_1_add_1a6eb5a580de0fb5ae494a45df04a1da6f">Expiretm</link><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Expiration time </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1aedee850c2e666d0f851e76a7f33610bb"/>AddCloseordertype <emphasis role="strong">Closeordertype</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Conditional close order type. &gt; Note: <link xlink:href="https://support.kraken.com/hc/en-us/articles/360038640052-Conditional-Close">Conditional close orders</link> are triggered by execution of the primary order in the same quantity and opposite direction, but once triggered are <emphasis role="bold">independent orders</emphasis> that may reduce or increase net position. 
+<literallayout>&#160;&#xa;</literallayout>
+ </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a4e5352769dd2bb347cc24ccacc0b4412"/>string <emphasis role="strong">Closeprice</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Conditional close order <computeroutput>price</computeroutput> </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a5b4ceb7317394faba710ede46ba2d21c"/>string <emphasis role="strong">Closeprice2</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Conditional close order <computeroutput>price2</computeroutput> </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a63dad6d5a5f0e61bf54aa8a637c57aa9"/>string <emphasis role="strong">Deadline</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>RFC3339 timestamp (e.g. 2021-04-01T00:18:45Z) after which the matching engine should reject the new order request, in presence of latency or order queueing. min now() + 2 seconds, max now() + 60 seconds. </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1ae6cc442b0dd6504a0495d54bcfa28eed"/>bool <emphasis role="strong">Validate</emphasis> = false<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Validate inputs only. Do not submit order.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_add_1a8973dbbc84571952d41598222ae553a4"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_kraken_1_1_add_1a6eb5a580de0fb5ae494a45df04a1da6f"/><section>
+    <title>Expiretm</title>
+<indexterm><primary>Expiretm</primary><secondary>Kraken.Add</secondary></indexterm>
+<indexterm><primary>Kraken.Add</primary><secondary>Expiretm</secondary></indexterm>
+<para><computeroutput>string Kraken.Add.Expiretm<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Expiration time </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>0</computeroutput> no expiration (default)</para>
+</listitem><listitem>
+<para><computeroutput>+&lt;n&gt;</computeroutput> = expire &lt;n&gt; seconds from now, minimum 5 seconds</para>
+</listitem><listitem>
+<para><computeroutput>&lt;n&gt;</computeroutput> = unix timestamp of expiration time </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_class_kraken_1_1_add_1ab81475bbd4f244ebe2ed5d7dff7662b6"/><section>
+    <title>Price</title>
+<indexterm><primary>Price</primary><secondary>Kraken.Add</secondary></indexterm>
+<indexterm><primary>Kraken.Add</primary><secondary>Price</secondary></indexterm>
+<para><computeroutput>string Kraken.Add.Price<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Price </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Limit price for <computeroutput>limit</computeroutput> orders</para>
+</listitem><listitem>
+<para>Trigger price for <computeroutput>stop-loss</computeroutput>, <computeroutput>stop-loss-limit</computeroutput>, <computeroutput>take-profit</computeroutput> and <computeroutput>take-profit-limit</computeroutput> orders </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_class_kraken_1_1_add_1ac766caf9cb4a81ae771a78c601ee6750"/><section>
+    <title>Price2</title>
+<indexterm><primary>Price2</primary><secondary>Kraken.Add</secondary></indexterm>
+<indexterm><primary>Kraken.Add</primary><secondary>Price2</secondary></indexterm>
+<para><computeroutput>string Kraken.Add.Price2<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Secondary Price </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Limit price for <computeroutput>stop-loss-limit</computeroutput> and <computeroutput>take-profit-limit</computeroutput> orders</para>
+</listitem></itemizedlist>
+</para>
+
+<para>&gt; Note: Either <computeroutput>price</computeroutput> or <computeroutput>price2</computeroutput> can be preceded by <computeroutput>+</computeroutput>, <computeroutput>-</computeroutput>, or <computeroutput>#</computeroutput> to specify the order price as an offset relative to the last traded price. <computeroutput>+</computeroutput> adds the amount to, and <computeroutput>-</computeroutput> subtracts the amount from the last traded price. <computeroutput>#</computeroutput> will either add or subtract the amount to the last traded price, depending on the direction and order type used. Relative prices can be suffixed with a <computeroutput>%</computeroutput> to signify the relative amount as a percentage. </para>
+</section>
+<anchor xml:id="_class_kraken_1_1_add_1acb14221f578a4fff0cc919a0a487e1f7"/><section>
+    <title>Starttm</title>
+<indexterm><primary>Starttm</primary><secondary>Kraken.Add</secondary></indexterm>
+<indexterm><primary>Kraken.Add</primary><secondary>Starttm</secondary></indexterm>
+<para><computeroutput>string Kraken.Add.Starttm<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Scheduled start time. Can be specified as an absolute timestamp or as a number of seconds in the future. </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>0</computeroutput> now (default)</para>
+</listitem><listitem>
+<para><computeroutput>+&lt;n&gt;</computeroutput> schedule start time &lt;n&gt; seconds from now</para>
+</listitem><listitem>
+<para><computeroutput>&lt;n&gt;</computeroutput> = unix timestamp of start time </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_class_kraken_1_1_add_1adff6b7094205536c71f5bdd941317373"/><section>
+    <title>Stp_type</title>
+<indexterm><primary>Stp_type</primary><secondary>Kraken.Add</secondary></indexterm>
+<indexterm><primary>Kraken.Add</primary><secondary>Stp_type</secondary></indexterm>
+<para><computeroutput>AddStp_type Kraken.Add.Stp_type = Kraken.AddStp_type.CancelNewest<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>Self trade prevention behavior definition </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para>cancel-newest - if self trade is triggered, arriving order will be canceled.</para>
+</listitem><listitem>
+<para>cancel-oldest - if self trade is triggered, resting order will be canceled.</para>
+</listitem><listitem>
+<para>cancel-both - if self trade is triggered, both arriving and resting orders will be canceled. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_class_kraken_1_1_add_1afdce41ad40f55aa1ec65a5542cb9928a"/><section>
+    <title>Userref</title>
+<indexterm><primary>Userref</primary><secondary>Kraken.Add</secondary></indexterm>
+<indexterm><primary>Kraken.Add</primary><secondary>Userref</secondary></indexterm>
+<para><computeroutput>int Kraken.Add.Userref<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para><para>
+
+<para>User reference id </para>
+</para>
+
+<para><computeroutput>userref</computeroutput> is an optional user-specified integer id that can be associated with any number of orders. Many clients choose a <computeroutput>userref</computeroutput> corresponding to a unique integer id generated by their systems (e.g. a timestamp). However, because we don&apos;t enforce uniqueness on our side, it can also be used to easily group orders by pair, side, strategy, etc. This allows clients to more readily cancel or query information about orders in a particular group, with fewer API calls by using <computeroutput>userref</computeroutput> instead of our <computeroutput>txid</computeroutput>, where supported. </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

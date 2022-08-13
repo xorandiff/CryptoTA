@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_annotated" xml:lang="en-US">
+<title>Class List</title>
+Here are the classes, structs, unions and interfaces with brief descriptions:<link linkend="_class_crypto_t_a_1_1_accounts_window">CryptoTA.AccountsWindow</link>
+<para>Logika interakcji dla klasy AccountsWindow.xaml </para>
+<link linkend="_class_kraken_1_1_add">Kraken.Add</link><link linkend="_class_kraken_1_1_add2">Kraken.Add2</link><link linkend="_class_kraken_1_1_address">Kraken.Address</link>
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link> <link linkend="_class_kraken_1_1_address">Address</link></para>
+<link linkend="_class_kraken_1_1_addresses">Kraken.Addresses</link><link linkend="_class_kraken_1_1_addresses2">Kraken.Addresses2</link><link linkend="_class_kraken_1_1_anonymous">Kraken.Anonymous</link><link linkend="_class_kraken_1_1_api_exception">Kraken.ApiException&lt; TResult &gt;</link><link linkend="_class_crypto_t_a_1_1_app">CryptoTA.App</link>
+<para>Interaction logic for App.xaml </para>
+<link linkend="_class_kraken_1_1_asset">Kraken.Asset</link><link linkend="_class_crypto_t_a_1_1_apis_1_1_balance">CryptoTA.Apis.Balance</link>
+<para>Class containing currency name and total balance amount. </para>
+<link linkend="_class_kraken_1_1_balance">Kraken.Balance</link>
+<para>Account <link linkend="_class_kraken_1_1_balance">Balance</link></para>
+<link linkend="_class_kraken_1_1_balance2">Kraken.Balance2</link><link linkend="_class_kraken_1_1_balance3">Kraken.Balance3</link>
+<para>Account <link linkend="_class_kraken_1_1_balance">Balance</link></para>
+<link linkend="_class_kraken_1_1_balance4">Kraken.Balance4</link><link linkend="_class_kraken_1_1_batchadd">Kraken.Batchadd</link><link linkend="_class_kraken_1_1_batchadd2">Kraken.Batchadd2</link><link linkend="_class_kraken_1_1_batchcancel">Kraken.Batchcancel</link><link linkend="_class_kraken_1_1_batchcancel2">Kraken.Batchcancel2</link><link linkend="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc">CryptoTA.MainWindow.BitstampOhlc</link><link linkend="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_data">CryptoTA.MainWindow.BitstampOhlcData</link><link linkend="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item">CryptoTA.MainWindow.BitstampOhlcItem</link><link linkend="_class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick">CryptoTA.MainWindow.BitstampTick</link><link linkend="_class_kraken_1_1_cancel">Kraken.Cancel</link><link linkend="_class_kraken_1_1_cancel2">Kraken.Cancel2</link><link linkend="_class_kraken_1_1_cancel3">Kraken.Cancel3</link><link linkend="_class_kraken_1_1_closed">Kraken.Closed</link>
+<para><link linkend="_class_kraken_1_1_closed">Closed</link> <link linkend="_class_kraken_1_1_order">Order</link></para>
+<link linkend="_class_kraken_1_1_closed2">Kraken.Closed2</link><link linkend="_class_r_egh_zy_1_1_themes_1_1_controls">REghZy.Themes.Controls</link>
+<para><link linkend="_class_r_egh_zy_1_1_themes_1_1_controls">Controls</link> </para>
+<link linkend="_class_crypto_t_a_1_1_data_download">CryptoTA.DataDownload</link>
+<para><link linkend="_class_crypto_t_a_1_1_data_download">DataDownload</link> </para>
+<link linkend="_class_kraken_1_1_deposit">Kraken.Deposit</link>
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link></para>
+<link linkend="_class_kraken_1_1_depth">Kraken.Depth</link><link linkend="_class_kraken_1_1_descr">Kraken.Descr</link><link linkend="_class_kraken_1_1_descr2">Kraken.Descr2</link><link linkend="_class_kraken_1_1_descr3">Kraken.Descr3</link><link linkend="_class_crypto_t_a_1_1_download_window">CryptoTA.DownloadWindow</link>
+<para>Logika interakcji dla klasy DownloadWindow.xaml </para>
+<link linkend="_class_kraken_1_1_edit">Kraken.Edit</link><link linkend="_class_kraken_1_1_edit2">Kraken.Edit2</link><link linkend="_class_kraken_1_1_error">Kraken.Error</link><link linkend="_class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response">CryptoTA.MainWindow.ExchangeRateConvertResponse</link><link linkend="_class_crypto_t_a_1_1_apis_1_1_fees">CryptoTA.Apis.Fees</link>
+<para>Class which contains maker and taker fees. Data for both type of fees is included, though in application, only taker fee will be used. </para>
+<link linkend="_class_kraken_1_1_fees">Kraken.Fees</link>
+<para>Fee Tier <link linkend="_class_kraken_1_1_info">Info</link></para>
+<link linkend="_class_xaml_generated_namespace_1_1_generated_internal_type_helper">XamlGeneratedNamespace.GeneratedInternalTypeHelper</link>
+<para><link linkend="_class_xaml_generated_namespace_1_1_generated_internal_type_helper">GeneratedInternalTypeHelper</link> </para>
+<link linkend="_class_kraken_1_1_history">Kraken.History</link>
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> <link linkend="_class_kraken_1_1_history">History</link></para>
+<link linkend="_class_kraken_1_1_history2">Kraken.History2</link><link linkend="_class_kraken_1_1_info">Kraken.Info</link>
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+<link linkend="_class_kraken_1_1_info2">Kraken.Info2</link><link linkend="_class_kraken_1_1_info3">Kraken.Info3</link><link linkend="_class_kraken_1_1_info4">Kraken.Info4</link><link linkend="_class_kraken_1_1_info5">Kraken.Info5</link><link linkend="_class_kraken_1_1_kraken_client">Kraken.KrakenClient</link><link linkend="_class_kraken_1_1_ledger">Kraken.Ledger</link>
+<para><link linkend="_class_kraken_1_1_ledger">Ledger</link> Entry</para>
+<link linkend="_class_kraken_1_1_lock">Kraken.Lock</link><link linkend="_class_kraken_1_1_lock2">Kraken.Lock2</link><link linkend="_class_crypto_t_a_1_1_main_window">CryptoTA.MainWindow</link>
+<para><link linkend="_class_crypto_t_a_1_1_main_window">MainWindow</link> </para>
+<link linkend="_class_kraken_1_1_method">Kraken.Method</link>
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link> <link linkend="_class_kraken_1_1_method">Method</link></para>
+<link linkend="_class_kraken_1_1_methods">Kraken.Methods</link><link linkend="_class_kraken_1_1_methods2">Kraken.Methods2</link><link linkend="_class_kraken_1_1_minimum__amount">Kraken.Minimum_amount</link><link linkend="_struct_kraken_1_1_kraken_client_1_1_object_response_result">Kraken.KrakenClient.ObjectResponseResult&lt; T &gt;</link><link linkend="_class_kraken_1_1_ohlc">Kraken.Ohlc</link><link linkend="_class_kraken_1_1_open2">Kraken.Open2</link><link linkend="_class_crypto_t_a_1_1_apis_1_1_order">CryptoTA.Apis.Order</link>
+<para>Class containing basic order data. </para>
+<link linkend="_class_kraken_1_1_order">Kraken.Order</link>
+<para>Open <link linkend="_class_kraken_1_1_order">Order</link></para>
+<link linkend="_class_crypto_t_a_1_1_apis_1_1_order_book">CryptoTA.Apis.OrderBook</link>
+<para>Class containing asks and bids lists. </para>
+<link linkend="_class_crypto_t_a_1_1_apis_1_1_order_book_entry">CryptoTA.Apis.OrderBookEntry</link>
+<para>Class containing ask/bid order data. </para>
+<link linkend="_class_kraken_1_1_order_book_entry">Kraken.OrderBookEntry</link>
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> Pair <link linkend="_class_kraken_1_1_order">Order</link> Book Entries</para>
+<link linkend="_class_kraken_1_1_orders">Kraken.Orders</link><link linkend="_class_kraken_1_1_orders2">Kraken.Orders2</link><link linkend="_class_kraken_1_1_orders3">Kraken.Orders3</link><link linkend="_class_kraken_1_1_pairs">Kraken.Pairs</link>
+<para>Trading <link linkend="_class_kraken_1_1_asset">Asset</link> Pair</para>
+<link linkend="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart">CryptoTA.UserControls.PointShapeLineChart</link>
+<para><link linkend="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart">PointShapeLineChart</link> </para>
+<link linkend="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control">CryptoTA.UserControls.PointShapeLineChartControl</link>
+<para><link linkend="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control">PointShapeLineChartControl</link> </para>
+<link linkend="_class_kraken_1_1_query">Kraken.Query</link><link linkend="_class_kraken_1_1_query2">Kraken.Query2</link><link linkend="_class_kraken_1_1_query3">Kraken.Query3</link><link linkend="_class_kraken_1_1_recent">Kraken.Recent</link><link linkend="_class_kraken_1_1_recent2">Kraken.Recent2</link><link linkend="_class_kraken_1_1_recent3">Kraken.Recent3</link><link linkend="_class_kraken_1_1_recent4">Kraken.Recent4</link><link linkend="_class_kraken_1_1_response">Kraken.Response</link><link linkend="_class_kraken_1_1_response10">Kraken.Response10</link><link linkend="_class_kraken_1_1_response11">Kraken.Response11</link><link linkend="_class_kraken_1_1_response12">Kraken.Response12</link><link linkend="_class_kraken_1_1_response13">Kraken.Response13</link><link linkend="_class_kraken_1_1_response14">Kraken.Response14</link><link linkend="_class_kraken_1_1_response15">Kraken.Response15</link><link linkend="_class_kraken_1_1_response16">Kraken.Response16</link><link linkend="_class_kraken_1_1_response17">Kraken.Response17</link><link linkend="_class_kraken_1_1_response18">Kraken.Response18</link><link linkend="_class_kraken_1_1_response2">Kraken.Response2</link><link linkend="_class_kraken_1_1_response3">Kraken.Response3</link><link linkend="_class_kraken_1_1_response4">Kraken.Response4</link><link linkend="_class_kraken_1_1_response5">Kraken.Response5</link><link linkend="_class_kraken_1_1_response6">Kraken.Response6</link><link linkend="_class_kraken_1_1_response7">Kraken.Response7</link><link linkend="_class_kraken_1_1_response8">Kraken.Response8</link><link linkend="_class_kraken_1_1_response9">Kraken.Response9</link><link linkend="_class_kraken_1_1_result">Kraken.Result</link><link linkend="_class_kraken_1_1_result10">Kraken.Result10</link><link linkend="_class_kraken_1_1_result11">Kraken.Result11</link><link linkend="_class_kraken_1_1_result12">Kraken.Result12</link><link linkend="_class_kraken_1_1_result13">Kraken.Result13</link><link linkend="_class_kraken_1_1_result14">Kraken.Result14</link><link linkend="_class_kraken_1_1_result15">Kraken.Result15</link><link linkend="_class_kraken_1_1_result16">Kraken.Result16</link><link linkend="_class_kraken_1_1_result17">Kraken.Result17</link><link linkend="_class_kraken_1_1_result18">Kraken.Result18</link><link linkend="_class_kraken_1_1_result19">Kraken.Result19</link><link linkend="_class_kraken_1_1_result2">Kraken.Result2</link><link linkend="_class_kraken_1_1_result20">Kraken.Result20</link><link linkend="_class_kraken_1_1_result21">Kraken.Result21</link><link linkend="_class_kraken_1_1_result22">Kraken.Result22</link><link linkend="_class_kraken_1_1_result23">Kraken.Result23</link><link linkend="_class_kraken_1_1_result24">Kraken.Result24</link><link linkend="_class_kraken_1_1_result25">Kraken.Result25</link><link linkend="_class_kraken_1_1_result3">Kraken.Result3</link><link linkend="_class_kraken_1_1_result4">Kraken.Result4</link><link linkend="_class_kraken_1_1_result5">Kraken.Result5</link><link linkend="_class_kraken_1_1_result6">Kraken.Result6</link><link linkend="_class_kraken_1_1_result7">Kraken.Result7</link><link linkend="_class_kraken_1_1_result8">Kraken.Result8</link><link linkend="_class_kraken_1_1_result9">Kraken.Result9</link><link linkend="_class_kraken_1_1_rewards">Kraken.Rewards</link><link linkend="_class_kraken_1_1_spread">Kraken.Spread</link>
+<para>Array of spread entries <computeroutput>[int &lt;time&gt;, string &lt;bid&gt;, string &lt;ask&gt;]</computeroutput> </para>
+<link linkend="_class_kraken_1_1_spread2">Kraken.Spread2</link><link linkend="_class_crypto_t_a_1_1_apis_1_1_tick_data">CryptoTA.Apis.TickData</link>
+<para>Class containing high, low, open and close prices (for last 24h) and currency current volume. </para>
+<link linkend="_class_kraken_1_1_tick_data">Kraken.TickData</link>
+<para>Array of tick data arrays <computeroutput>[int &lt;time&gt;, string &lt;open&gt;, string &lt;high&gt;, string &lt;low&gt;, string &lt;close&gt;, string &lt;vwap&gt;, string &lt;volume&gt;, int &lt;count&gt;]</computeroutput> </para>
+<link linkend="_class_kraken_1_1_ticker">Kraken.Ticker</link>
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> <link linkend="_class_kraken_1_1_ticker">Ticker</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+<link linkend="_class_kraken_1_1_ticker2">Kraken.Ticker2</link><link linkend="_class_kraken_1_1_time">Kraken.Time</link>
+<para>Success response</para>
+<link linkend="_class_kraken_1_1_trade">Kraken.Trade</link>
+<para>Array of trade entries <computeroutput>[&lt;price&gt;, &lt;volume&gt;, &lt;time&gt;, &lt;buy/sell&gt;, &lt;market/limit&gt;, &lt;miscellaneous&gt;]</computeroutput> </para>
+<link linkend="_class_kraken_1_1_trade2">Kraken.Trade2</link>
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> <link linkend="_class_kraken_1_1_info">Info</link></para>
+<link linkend="_class_kraken_1_1_trades">Kraken.Trades</link><link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_balance">CryptoTA.Apis.TradingBalance</link>
+<para>Class containing <computeroutput><link linkend="_class_crypto_t_a_1_1_apis_1_1_balance">Balance</link></computeroutput> data with available and reserved balance amounts. </para>
+<link linkend="_class_crypto_t_a_1_1_apis_1_1_trading_pair">CryptoTA.Apis.TradingPair</link>
+<para>Class which contains basic trading pair data with minimal order amount. </para>
+<link linkend="_class_kraken_1_1_transaction">Kraken.Transaction</link><link linkend="_class_crypto_t_a_1_1_user_control1">CryptoTA.UserControl1</link>
+<para><link linkend="_class_crypto_t_a_1_1_user_control1">UserControl1</link> </para>
+<link linkend="_class_kraken_1_1_volume">Kraken.Volume</link><link linkend="_class_crypto_t_a_1_1_apis_1_1_websockets_token">CryptoTA.Apis.WebsocketsToken</link>
+<para>Class <computeroutput><link linkend="_class_crypto_t_a_1_1_apis_1_1_websockets_token">WebsocketsToken</link></computeroutput> containing websockets token and expiration date. </para>
+<link linkend="_class_kraken_1_1_withdrawal">Kraken.Withdrawal</link><link linkend="_class_kraken_1_1_withdrawal2">Kraken.Withdrawal2</link><link linkend="_class_kraken_1_1_withdrawal3">Kraken.Withdrawal3</link>
+<para><link linkend="_class_kraken_1_1_withdrawal">Withdrawal</link></para>
+</section>

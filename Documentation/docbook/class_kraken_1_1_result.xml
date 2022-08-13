@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result" xml:lang="en-US">
+<title>Kraken.Result Class Reference</title>
+<indexterm><primary>Kraken.Result</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result_1a6d3db449d02bdd5f66ed1bdad12a44d2"/>int <emphasis role="strong">Unixtime</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result_1a4e2e07042a7053ca58bc45e195253a4d"/>string <emphasis role="strong">Rfc1123</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>RFC 1123 time format</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result_1a999c7dab41542fef97a6ab378da8af0a"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

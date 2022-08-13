@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_history" xml:lang="en-US">
+<title>Kraken.History Class Reference</title>
+<indexterm><primary>Kraken.History</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> <link linkend="_class_kraken_1_1_history">History</link></para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_history_1a5c8d776b8826bf4d89cbbf4c7ad929bc"/>System.Collections.Generic.IDictionary&lt; string, <link linkend="_class_kraken_1_1_trade2">Trade2</link> &gt; <emphasis role="strong">Trades</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> info</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_history_1a8d48d62fc36c5c732b70e2726f0faf73"/>int <emphasis role="strong">Count</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Amount of available trades matching criteria</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_history_1ae1198e33fcebb8f4cff1a77b4cbbabe6"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_trade">Trade</link> <link linkend="_class_kraken_1_1_history">History</link></para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

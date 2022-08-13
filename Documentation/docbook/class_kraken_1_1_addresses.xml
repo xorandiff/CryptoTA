@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_addresses" xml:lang="en-US">
+<title>Kraken.Addresses Class Reference</title>
+<indexterm><primary>Kraken.Addresses</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_addresses_1acc639572e7b7b9da7ded8f6d0feb97b8"/>int <emphasis role="strong">Nonce</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_addresses_1ac4fb0b2eb708f9e4071c2f063344ef35"/>string <emphasis role="strong">Asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> being deposited</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_addresses_1a3ce4e136b360a486aff1d23532c0f1ae"/>string <emphasis role="strong">Method</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Name of the deposit method</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_addresses_1a0d8454a3f713da875e9f75b4d7932ad4"/>bool <emphasis role="strong">New</emphasis> = false<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether or not to generate a new address</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_addresses_1a41c27a6211e5759fb94c7410d966dd8f"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

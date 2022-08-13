@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result22" xml:lang="en-US">
+<title>Kraken.Result22 Class Reference</title>
+<indexterm><primary>Kraken.Result22</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result22_1aeec16f45ec5f08329aef183c2b145790"/>string <emphasis role="strong">CurrentTime</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Timestamp (RFC3339 format) at which the request was received</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result22_1a1a2d86ae878aa8ad15dcd38b69e1f631"/>string <emphasis role="strong">TriggerTime</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Timestamp (RFC3339 format) after which all orders will be cancelled, unless the timer is extended or disabled</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result22_1a8705ac40a5a7e6ba892d02e8c31d0ba3"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

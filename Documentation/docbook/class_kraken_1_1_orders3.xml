@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_orders3" xml:lang="en-US">
+<title>Kraken.Orders3 Class Reference</title>
+<indexterm><primary>Kraken.Orders3</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_orders3_1a85553da61a0b3dace6b4cf59e6b96e24"/>string <emphasis role="strong">Descr</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_order">Order</link> description info</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_orders3_1a4202801028939e1e0a962ae6b224ccd5"/>string <emphasis role="strong">Error</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_error">Error</link> description from individual order processing</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_orders3_1a136d986ae93d730287596824ec146166"/>string <emphasis role="strong">Txid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_transaction">Transaction</link> ID for order &lt;br&gt;&lt;sup&gt;&lt;sub&gt;(if order was added successfully)&lt;/sup&gt;&lt;/sub&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_orders3_1aaa6fb13745d1cd1858d9f400ae18ab19"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

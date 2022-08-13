@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_namespace_r_egh_zy_1_1_themes" xml:lang="en-US">
+<title>REghZy.Themes Namespace Reference</title>
+<indexterm><primary>REghZy.Themes</primary></indexterm>
+<simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>class <link linkend="_class_r_egh_zy_1_1_themes_1_1_controls">Controls</link></para>
+
+<para><link linkend="_class_r_egh_zy_1_1_themes_1_1_controls">Controls</link> </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

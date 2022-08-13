@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result8" xml:lang="en-US">
+<title>Kraken.Result8 Class Reference</title>
+<indexterm><primary>Kraken.Result8</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result8_1a77f8e7905be3264af75a89f72b0be7a8"/>string <emphasis role="strong">Currency</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_volume">Volume</link> currency</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result8_1ac1251471c8322a098c743087beb08f13"/>string <emphasis role="strong">Volume</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Current discount volume</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result8_1af0c4eeec22169b20eca7748f6ac2d719"/>System.Collections.Generic.IDictionary&lt; string, <link linkend="_class_kraken_1_1_fees">Fees</link> &gt; <emphasis role="strong">Fees</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result8_1a30f3e53ede14d9f018734362a088a736"/>System.Collections.Generic.IDictionary&lt; string, <link linkend="_class_kraken_1_1_fees">Fees</link> &gt; <emphasis role="strong">Fees_maker</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result8_1a35f305d1c15a192a68ebd7ed550e6cd5"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result19" xml:lang="en-US">
+<title>Kraken.Result19 Class Reference</title>
+<indexterm><primary>Kraken.Result19</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1a7e56c9d95dbab9b20d8ae832cd01687d"/>string <emphasis role="strong">Id</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Report ID</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1ab6c398cb3c82859711ff40df77c1ade4"/>string <emphasis role="strong">Descr</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1aab31580eaaca5555956cb89f18140a10"/>string <emphasis role="strong">Format</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1a12bce5236bbfbc8a252277bbc9efee82"/>string <emphasis role="strong">Report</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1ad116d5eebb912de13ec1a076849f8c64"/>string <emphasis role="strong">Subtype</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1a360a2d8aef53850da67d93d6e803dbe6"/>Result19Status <emphasis role="strong">Status</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Status of the report</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1ac1b51757547a996726522b27bc009009"/>string <emphasis role="strong">Flags</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1aac1006a1a7744a9501960b5936a64f81"/>string <emphasis role="strong">Fields</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1a1dc87e6f66d6e6749ec548175c23679e"/>string <emphasis role="strong">Createdtm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>UNIX timestamp of report request</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1a3d7f66b88de5c682d8813633ba1b1f59"/>string <emphasis role="strong">Expiretm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1adce2e08b5538c6a782b1340a650ef12b"/>string <emphasis role="strong">Starttm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>UNIX timestamp report processing began</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1ac350f31332baf822b2afb0700d8bffa5"/>string <emphasis role="strong">Completedtm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>UNIX timestamp report processing finished</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1a8f5e2c38887fe2c5ab0f6f756276ebbb"/>string <emphasis role="strong">Datastarttm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>UNIX timestamp of the report data start time</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1ac729eaa37d2ebec0e563ef149c85d236"/>string <emphasis role="strong">Dataendtm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>UNIX timestamp of the report data end time</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1aa72f71494b67cf8abedee548796d5130"/>string <emphasis role="strong">Aclass</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1a1ed2aa2dd6ba88f3f5e40a9b04b7a7da"/>string <emphasis role="strong">Asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result19_1ad3175cbc7ad051593758d5e47b456aa9"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

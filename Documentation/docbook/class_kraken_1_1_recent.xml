@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_recent" xml:lang="en-US">
+<title>Kraken.Recent Class Reference</title>
+<indexterm><primary>Kraken.Recent</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_recent_1ac3a5f174dd4c920ee62f0e8a545fe5e4"/>int <emphasis role="strong">Nonce</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_recent_1a923ccc1eb0fb74f49586e46e90dfc3de"/>string <emphasis role="strong">Asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> being deposited</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_recent_1ac2174b768d3babb1b06dbb6068e6b62b"/>string <emphasis role="strong">Method</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Name of the deposit method</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_recent_1abb7bb747cdcc84dc77f02b1a3dfec62b"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control" xml:lang="en-US">
+<title>CryptoTA.UserControls.PointShapeLineChartControl Class Reference</title>
+<indexterm><primary>CryptoTA.UserControls.PointShapeLineChartControl</primary></indexterm>
+<para>
+
+<para><link linkend="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control">PointShapeLineChartControl</link> </para>
+ 
+</para>
+Inheritance diagram for CryptoTA.UserControls.PointShapeLineChartControl:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control__inherit__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+Collaboration diagram for CryptoTA.UserControls.PointShapeLineChartControl:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control__coll__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control_1ae7488863886db4788f66e019cb3d98c6"/>void <emphasis role="strong">InitializeComponent</emphasis> ()</para>
+
+<para>InitializeComponent </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control_1ae7488863886db4788f66e019cb3d98c6"/>void <emphasis role="strong">InitializeComponent</emphasis> ()</para>
+
+<para>InitializeComponent </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control_1a067515f821a6d3ef5c7e6be4f7563a5b"/>void <emphasis role="strong">changeByRate</emphasis> (double rate, string currencySymbol, string currencyCulture)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control_1adf04126cd39c85fb655a7f20d156f2b3"/>SeriesCollection <emphasis role="strong">SeriesCollection</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control_1aaaf9ab816160abec4f51e97b555692eb"/>List&lt; string &gt; <emphasis role="strong">Labels</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control_1af7f89f75795267ca98c3900e10594392"/>Func&lt; double, string &gt; <emphasis role="strong">YFormatter</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control_1a744a58c6726a526c58f01191944a588e"/>string <emphasis role="strong">ChartTitle</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control">PointShapeLineChartControl</link> </para>
+
+
+
+<para>Logika interakcji dla klasy PointShapeLineChart.xaml </para>
+<para>
+The documentation for this class was generated from the following files:</para>
+obj/Debug/net6.0-windows/UserControls/PointShapeLineChartControl.g.csobj/Debug/net6.0-windows/UserControls/PointShapeLineChartControl.g.i.csUserControls/PointShapeLineChartControl.xaml.cs</section>
+</section>

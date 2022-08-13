@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_transaction" xml:lang="en-US">
+<title>Kraken.Transaction Class Reference</title>
+<indexterm><primary>Kraken.Transaction</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_transaction_1a83eea32eff61a4d06449de8ae8bc1c14"/>string <emphasis role="strong">Refid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>The reference ID of the transaction.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_transaction_1ac7aefbf9c7f9d78189bb8bb137e14e84"/>TransactionType <emphasis role="strong">Type</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>The type of transaction.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_transaction_1ac0f0c59fc00a20929fe6301bb5ae92b5"/>string <emphasis role="strong">Asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> code/name</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_transaction_1a3ae7107e760630ad89afb4d12a5d1b0b"/>string <emphasis role="strong">Amount</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>The transaction amount</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_transaction_1a53c6b48947798b34f9202095c49f6a6c"/>int <emphasis role="strong">Time</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp when the transaction was initiated.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_transaction_1a5087f3159b2e616a5252f2ca644be984"/>int <emphasis role="strong">Bond_start</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp from the start of bond period (applicable only to <computeroutput>bonding</computeroutput> transactions).</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_transaction_1a9e5461c055e287b01c522bb91a0f7542"/>int <emphasis role="strong">Bond_end</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp of the end of bond period (applicable only to <computeroutput>bonding</computeroutput> transactions).</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_transaction_1ae5599101ae83bcde05837d9772f576a8"/>TransactionStatus <emphasis role="strong">Status</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_transaction">Transaction</link> status</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_transaction_1a8ec4cec6e4ebc3ae1e57c3bdeb72f351"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

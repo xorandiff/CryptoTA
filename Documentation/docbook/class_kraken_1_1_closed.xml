@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_closed" xml:lang="en-US">
+<title>Kraken.Closed Class Reference</title>
+<indexterm><primary>Kraken.Closed</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_closed">Closed</link> <link linkend="_class_kraken_1_1_order">Order</link></para>
+ 
+</para>
+Inheritance diagram for Kraken.Closed:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_kraken_1_1_closed__inherit__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+Collaboration diagram for Kraken.Closed:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_kraken_1_1_closed__coll__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_closed_1adb0894c20f21cd271ec5224e2eff7682"/>double <emphasis role="strong">Closetm</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Unix timestamp of when order was closed</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_closed_1a10c291aa016d7e020f5912bd37b9ae59"/>string <emphasis role="strong">Reason</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Additional info on status (if any)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_closed_1aaf4e5f61c76c767a081e7b3a6e9d74c7"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_closed">Closed</link> <link linkend="_class_kraken_1_1_order">Order</link></para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

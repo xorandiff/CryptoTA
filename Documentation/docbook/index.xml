@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_index" xml:lang="en-US">
+    <info>
+    <title>CryptoTA</title>
+    </info>
+<chapter>
+    <title>Namespace Documentation</title>
+<xi:include href="namespace_crypto_t_a.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespace_crypto_t_a_1_1_apis.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespace_crypto_t_a_1_1_user_controls.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespace_kraken.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespace_r_egh_zy.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespace_r_egh_zy_1_1_themes.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespace_xaml_generated_namespace.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<chapter>
+    <title>Class Documentation</title>
+    <xi:include href="class_crypto_t_a_1_1_accounts_window.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_add.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_add2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_address.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_addresses.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_addresses2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_anonymous.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_api_exception.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_app.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_asset.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_apis_1_1_balance.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_balance.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_balance2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_balance3.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_balance4.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_batchadd.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_batchadd2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_batchcancel.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_batchcancel2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_data.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window_1_1_bitstamp_ohlc_item.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window_1_1_bitstamp_tick.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_cancel.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_cancel2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_cancel3.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_closed.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_closed2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_r_egh_zy_1_1_themes_1_1_controls.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_data_download.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_deposit.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_depth.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_descr.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_descr2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_descr3.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_download_window.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_edit.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_edit2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_error.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window_1_1_exchange_rate_convert_response.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_apis_1_1_fees.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_fees.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_xaml_generated_namespace_1_1_generated_internal_type_helper.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_history.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_history2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_info2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_info3.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_info4.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_info5.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_kraken_client.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_ledger.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_lock.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_lock2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_main_window.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_method.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_methods.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_methods2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_minimum__amount.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="struct_kraken_1_1_kraken_client_1_1_object_response_result.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_ohlc.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_open2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_apis_1_1_order.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_order.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_apis_1_1_order_book.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_apis_1_1_order_book_entry.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_order_book_entry.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_orders.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_orders2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_orders3.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_pairs.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_user_controls_1_1_point_shape_line_chart_control.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_query.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_query2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_query3.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_recent.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_recent2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_recent3.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_recent4.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response10.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response11.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response12.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response13.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response14.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response15.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response16.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response17.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response18.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response3.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response4.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response5.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response6.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response7.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response8.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_response9.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result10.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result11.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result12.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result13.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result14.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result15.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result16.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result17.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result18.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result19.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result20.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result21.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result22.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result23.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result24.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result25.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result3.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result4.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result5.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result6.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result7.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result8.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_result9.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_rewards.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_spread.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_spread2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_apis_1_1_tick_data.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_tick_data.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_ticker.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_ticker2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_time.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_trade.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_trade2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_trades.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_apis_1_1_trading_balance.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_apis_1_1_trading_pair.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_transaction.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_user_control1.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_volume.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_crypto_t_a_1_1_apis_1_1_websockets_token.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_withdrawal.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_withdrawal2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="class_kraken_1_1_withdrawal3.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<index/>
+</book>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_apis_1_1_fees" xml:lang="en-US">
+<title>CryptoTA.Apis.Fees Class Reference</title>
+<indexterm><primary>CryptoTA.Apis.Fees</primary></indexterm>
+<para>
+
+<para>Class which contains maker and taker fees. Data for both type of fees is included, though in application, only taker fee will be used. </para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para>double <link linkend="_class_crypto_t_a_1_1_apis_1_1_fees_1a4d9587b584ffdfbbc943642f46134c87">MakerFee</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para>double <link linkend="_class_crypto_t_a_1_1_apis_1_1_fees_1af7c0be5a29424f70eb3f4fa495dd800c">TakerFee</link><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Class which contains maker and taker fees. Data for both type of fees is included, though in application, only taker fee will be used. </para>
+</section>
+<section>
+<title>Property Documentation</title>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_fees_1a4d9587b584ffdfbbc943642f46134c87"/><section>
+    <title>MakerFee</title>
+<indexterm><primary>MakerFee</primary><secondary>CryptoTA.Apis.Fees</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.Fees</primary><secondary>MakerFee</secondary></indexterm>
+<para><computeroutput>double CryptoTA.Apis.Fees.MakerFee<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Not used in application for the moment. </para>
+</section>
+<anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_fees_1af7c0be5a29424f70eb3f4fa495dd800c"/><section>
+    <title>TakerFee</title>
+<indexterm><primary>TakerFee</primary><secondary>CryptoTA.Apis.Fees</secondary></indexterm>
+<indexterm><primary>CryptoTA.Apis.Fees</primary><secondary>TakerFee</secondary></indexterm>
+<para><computeroutput>double CryptoTA.Apis.Fees.TakerFee<computeroutput>[get]</computeroutput>, <computeroutput>[set]</computeroutput></computeroutput></para>
+<para>Used as only fee in application. </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+Apis/IMarketApi.cs</section>
+</section>

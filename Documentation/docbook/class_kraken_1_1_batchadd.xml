@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_batchadd" xml:lang="en-US">
+<title>Kraken.Batchadd Class Reference</title>
+<indexterm><primary>Kraken.Batchadd</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchadd_1aa91ff86e130e978e7cab3a65ea3590d5"/>int <emphasis role="strong">Nonce</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchadd_1a47b593c9715c463162b27f7cd0e8f9b7"/>System.Collections.Generic.ICollection&lt; <link linkend="_class_kraken_1_1_orders">Orders</link> &gt; <emphasis role="strong">Orders</emphasis> = new System.Collections.ObjectModel.Collection&lt;<link linkend="_class_kraken_1_1_orders">Orders</link>&gt;()<computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchadd_1ae065a8bb65af174d1a1818a29f9d49f1"/>string <emphasis role="strong">Pair</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> pair <computeroutput>id</computeroutput> or <computeroutput>altname</computeroutput></para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchadd_1a60b2d07910aef4befa4a44b5d648d819"/>string <emphasis role="strong">Deadline</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>RFC3339 timestamp (e.g. 2021-04-01T00:18:45Z) after which the matching engine should reject the new order request, in presence of latency or order queueing. min now() + 2 seconds, max now() + 60 seconds. </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchadd_1a57e1a7695afbd0a1c17bd0d543c03454"/>bool <emphasis role="strong">Validate</emphasis> = false<computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Validate inputs only. Do not submit order.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchadd_1a0d590c212d928ccfa3f66270baf6396c"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

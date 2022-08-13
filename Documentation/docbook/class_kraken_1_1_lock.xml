@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_lock" xml:lang="en-US">
+<title>Kraken.Lock Class Reference</title>
+<indexterm><primary>Kraken.Lock</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_lock_1ad82b4f6054a57ccbd127e035a3804ae6"/>double <emphasis role="strong">Days</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Days the funds are locked.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_lock_1ad2905b8f05cf1857c017724c7c17755c"/>double <emphasis role="strong">Percentage</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Percentage of the funds that are locked (0 - 100)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_lock_1a13b418715f9afefe2f79691762b8ff57"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

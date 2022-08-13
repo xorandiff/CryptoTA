@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result11" xml:lang="en-US">
+<title>Kraken.Result11 Class Reference</title>
+<indexterm><primary>Kraken.Result11</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a80582c41d9c3f518b1af03ce7c54f2b1"/><link linkend="_class_kraken_1_1_descr3">Descr3</link> <emphasis role="strong">Descr</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_order">Order</link> description info</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a0f1bacad14ead2101d4c8fadae3a05f5"/>string <emphasis role="strong">Txid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>New <link linkend="_class_kraken_1_1_transaction">Transaction</link> ID &lt;br&gt;&lt;sup&gt;&lt;sub&gt;(if order was added successfully)&lt;/sup&gt;&lt;/sub&gt; </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a161f5fac37b0b001bf0d388b2d9a1909"/>string <emphasis role="strong">Newuserref</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Original userref if passed with the request </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a5319963d0316fbfb619c38aa0b58784b"/>string <emphasis role="strong">Olduserref</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Original userref if passed with the request </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a65d3d8204bf0a7cb264c8faf1c952316"/>int <emphasis role="strong">Orders_cancelled</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Number of orders cancelled (either 0 or 1) </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1accd91521ef46dfa8357459a4a7ff42a7"/>string <emphasis role="strong">Originaltxid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Original transaction ID </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a4dc298c8ee876379ef24acd34b9a1f3c"/>string <emphasis role="strong">Status</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Status of the order: Ok or Err </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a71dae7a521523b793cce7e0307bd7025"/>string <emphasis role="strong">Volume</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Updated volume </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a90077faed64c4f66abb6f725adaac231"/>string <emphasis role="strong">Price</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Updated price </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a9299e6760facf3e223f824fe116c5097"/>string <emphasis role="strong">Price2</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Updated price2 </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a86a50c1126104b263cb8cfe533b13db1"/>string <emphasis role="strong">Error_message</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_error">Error</link> message if unsuccessful </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result11_1a7c430e37822dcae9f7c2b9d33db347f2"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

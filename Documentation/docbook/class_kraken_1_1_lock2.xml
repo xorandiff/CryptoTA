@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_lock2" xml:lang="en-US">
+<title>Kraken.Lock2 Class Reference</title>
+<indexterm><primary>Kraken.Lock2</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_lock2_1aede3e9ccd63d321d8ca7bff722fea7e4"/>System.Collections.Generic.ICollection&lt; <link linkend="_class_kraken_1_1_lock">Lock</link> &gt; <emphasis role="strong">Unstaking</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_lock2_1a4b8270ac4197f4b8c6920556b213bc7a"/>System.Collections.Generic.ICollection&lt; <link linkend="_class_kraken_1_1_lock">Lock</link> &gt; <emphasis role="strong">Staking</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_lock2_1a0934b51d61e19027f47acea1e4003362"/>System.Collections.Generic.ICollection&lt; <link linkend="_class_kraken_1_1_lock">Lock</link> &gt; <emphasis role="strong">Lockup</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_lock2_1ac8358581b818a730dd380c79bf43c72b"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

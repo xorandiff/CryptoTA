@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_response8" xml:lang="en-US">
+<title>Kraken.Response8 Class Reference</title>
+<indexterm><primary>Kraken.Response8</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response8_1a58bad6742264f77cc20e54884d4d9e40"/>string <emphasis role="strong">Report</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Binary zip archive containing the report</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_response8_1a2d0a86c024dbbb848f78de7e09704ca7"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

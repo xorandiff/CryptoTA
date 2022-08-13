@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_namespace_xaml_generated_namespace" xml:lang="en-US">
+<title>XamlGeneratedNamespace Namespace Reference</title>
+<indexterm><primary>XamlGeneratedNamespace</primary></indexterm>
+<simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>class <link linkend="_class_xaml_generated_namespace_1_1_generated_internal_type_helper">GeneratedInternalTypeHelper</link></para>
+
+<para><link linkend="_class_xaml_generated_namespace_1_1_generated_internal_type_helper">GeneratedInternalTypeHelper</link> </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

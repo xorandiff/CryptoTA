@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper" xml:lang="en-US">
+<title>XamlGeneratedNamespace.GeneratedInternalTypeHelper Class Reference</title>
+<indexterm><primary>XamlGeneratedNamespace.GeneratedInternalTypeHelper</primary></indexterm>
+<para>
+
+<para><link linkend="_class_xaml_generated_namespace_1_1_generated_internal_type_helper">GeneratedInternalTypeHelper</link> </para>
+ 
+</para>
+Inheritance diagram for XamlGeneratedNamespace.GeneratedInternalTypeHelper:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_xaml_generated_namespace_1_1_generated_internal_type_helper__inherit__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+Collaboration diagram for XamlGeneratedNamespace.GeneratedInternalTypeHelper:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_xaml_generated_namespace_1_1_generated_internal_type_helper__coll__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Protected Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper_1aefb7a98fceb9c287cef4756942f441d1"/>override object <emphasis role="strong">CreateInstance</emphasis> (System.Type type, System.Globalization.CultureInfo culture)</para>
+
+<para>CreateInstance </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper_1afdc9fe15b56607d02082908d934480c6"/>override object <emphasis role="strong">GetPropertyValue</emphasis> (System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture)</para>
+
+<para>GetPropertyValue </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper_1ade0f04c0f7b18dd5b170e071d5534d38"/>override void <emphasis role="strong">SetPropertyValue</emphasis> (System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture)</para>
+
+<para>SetPropertyValue </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper_1a8ec4c37e82d9f4e867e9655f4eac3a78"/>override System.Delegate <emphasis role="strong">CreateDelegate</emphasis> (System.Type delegateType, object target, string handler)</para>
+
+<para>CreateDelegate </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper_1a73471f4a6d1ca4c4fceec9ad8610f0c8"/>override void <emphasis role="strong">AddEventHandler</emphasis> (System.Reflection.EventInfo eventInfo, object target, System.Delegate handler)</para>
+
+<para>AddEventHandler </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper_1aefb7a98fceb9c287cef4756942f441d1"/>override object <emphasis role="strong">CreateInstance</emphasis> (System.Type type, System.Globalization.CultureInfo culture)</para>
+
+<para>CreateInstance </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper_1afdc9fe15b56607d02082908d934480c6"/>override object <emphasis role="strong">GetPropertyValue</emphasis> (System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture)</para>
+
+<para>GetPropertyValue </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper_1ade0f04c0f7b18dd5b170e071d5534d38"/>override void <emphasis role="strong">SetPropertyValue</emphasis> (System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture)</para>
+
+<para>SetPropertyValue </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper_1a8ec4c37e82d9f4e867e9655f4eac3a78"/>override System.Delegate <emphasis role="strong">CreateDelegate</emphasis> (System.Type delegateType, object target, string handler)</para>
+
+<para>CreateDelegate </para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_xaml_generated_namespace_1_1_generated_internal_type_helper_1a73471f4a6d1ca4c4fceec9ad8610f0c8"/>override void <emphasis role="strong">AddEventHandler</emphasis> (System.Reflection.EventInfo eventInfo, object target, System.Delegate handler)</para>
+
+<para>AddEventHandler </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_xaml_generated_namespace_1_1_generated_internal_type_helper">GeneratedInternalTypeHelper</link> </para>
+<para>
+The documentation for this class was generated from the following files:</para>
+obj/Debug/net6.0-windows/GeneratedInternalTypeHelper.g.csobj/Debug/net6.0-windows/GeneratedInternalTypeHelper.g.i.cs</section>
+</section>

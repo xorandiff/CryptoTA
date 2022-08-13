@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result20" xml:lang="en-US">
+<title>Kraken.Result20 Class Reference</title>
+<indexterm><primary>Kraken.Result20</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result20_1a1e3b4c7c37b88dd423786ecabc325f86"/>bool <emphasis role="strong">Delete</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether deletion was successful</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result20_1a0bbbd7d112d17e4e32b85fd90dbbb1fb"/>bool <emphasis role="strong">Cancel</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether cancellation was successful</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result20_1ae8f7e8869268631d99f0d04a189bb744"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

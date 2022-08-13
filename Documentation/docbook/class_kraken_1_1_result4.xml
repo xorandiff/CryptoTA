@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result4" xml:lang="en-US">
+<title>Kraken.Result4 Class Reference</title>
+<indexterm><primary>Kraken.Result4</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result4_1a9147029a9fcab24d503cdf52bfad678e"/>int <emphasis role="strong">Last</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>ID to be used as since when polling for new spread data</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result4_1a4968708d8976cac5276f2b97a73876f0"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_spread" xml:lang="en-US">
+<title>Kraken.Spread Class Reference</title>
+<indexterm><primary>Kraken.Spread</primary></indexterm>
+<para>
+
+<para>Array of spread entries <computeroutput>[int &lt;time&gt;, string &lt;bid&gt;, string &lt;ask&gt;]</computeroutput> </para>
+ 
+</para>
+Inheritance diagram for Kraken.Spread:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_kraken_1_1_spread__inherit__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+Collaboration diagram for Kraken.Spread:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_kraken_1_1_spread__coll__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<section>
+<title>Detailed Description</title>
+
+<para>Array of spread entries <computeroutput>[int &lt;time&gt;, string &lt;bid&gt;, string &lt;ask&gt;]</computeroutput> </para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

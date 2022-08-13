@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_crypto_t_a_1_1_apis_1_1_tick_data" xml:lang="en-US">
+<title>CryptoTA.Apis.TickData Class Reference</title>
+<indexterm><primary>CryptoTA.Apis.TickData</primary></indexterm>
+<para>
+
+<para>Class containing high, low, open and close prices (for last 24h) and currency current volume. </para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_tick_data_1aa4d7bbba935875b045d4abeafb3b94b0"/>double <emphasis role="strong">High</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_tick_data_1a1ab756077f624ce150d4d3141d1f19be"/>double <emphasis role="strong">Low</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_tick_data_1a557e370438b70a32e604c6d490dc627e"/>double <emphasis role="strong">Open</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_tick_data_1ade3ba3694c354681e63cb810f6919317"/>double <emphasis role="strong">Close</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_crypto_t_a_1_1_apis_1_1_tick_data_1a898c292de87cb66321d1a85aea7e6234"/>double <emphasis role="strong">Volume</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Class containing high, low, open and close prices (for last 24h) and currency current volume. </para>
+<para>
+The documentation for this class was generated from the following file:</para>
+Apis/IMarketApi.cs</section>
+</section>

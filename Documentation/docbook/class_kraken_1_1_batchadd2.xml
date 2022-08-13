@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_batchadd2" xml:lang="en-US">
+<title>Kraken.Batchadd2 Class Reference</title>
+<indexterm><primary>Kraken.Batchadd2</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchadd2_1a0913e457b6c5e67c92e2e3a555e6f8c6"/><link linkend="_class_kraken_1_1_result10">Result10</link> <emphasis role="strong">Result</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchadd2_1a234aefa520736e047a553c3dc5ce6e98"/>System.Collections.Generic.ICollection&lt; <link linkend="_class_kraken_1_1_error">Error</link> &gt; <emphasis role="strong">Error</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_batchadd2_1acefac9f38661fae37e1c1a504ddf5672"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_cancel3" xml:lang="en-US">
+<title>Kraken.Cancel3 Class Reference</title>
+<indexterm><primary>Kraken.Cancel3</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_cancel3_1a01bdc18a57bfa2955b84eb9f83c9d729"/>int <emphasis role="strong">Nonce</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_cancel3_1ab9ab9139d51c59a7084c35033c901d79"/>string <emphasis role="strong">Asset</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_asset">Asset</link> being withdrawn</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_cancel3_1acde83244f2a57225bb8e79c30b77ff6e"/>string <emphasis role="strong">Refid</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para><link linkend="_class_kraken_1_1_withdrawal">Withdrawal</link> reference ID</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_cancel3_1a580fe110df112815a6b0212aa7f4b594"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

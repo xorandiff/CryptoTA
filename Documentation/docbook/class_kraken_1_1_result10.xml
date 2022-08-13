@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_result10" xml:lang="en-US">
+<title>Kraken.Result10 Class Reference</title>
+<indexterm><primary>Kraken.Result10</primary></indexterm>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result10_1a18194fa1a790ba87b19e5d3c9d2db9e7"/>System.Collections.Generic.ICollection&lt; <link linkend="_class_kraken_1_1_orders3">Orders3</link> &gt; <emphasis role="strong">Orders</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_result10_1a7d89f26b74f8104dc87dc09829456fb1"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>

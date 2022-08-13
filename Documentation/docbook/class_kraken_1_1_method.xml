@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_kraken_1_1_method" xml:lang="en-US">
+<title>Kraken.Method Class Reference</title>
+<indexterm><primary>Kraken.Method</primary></indexterm>
+<para>
+
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link> <link linkend="_class_kraken_1_1_method">Method</link></para>
+ 
+</para>
+<simplesect>
+    <title>Properties    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_method_1a5f179d3e09e3caa2afa54bee47222ece"/>string <emphasis role="strong">Method1</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Name of deposit method</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_method_1af6efe399ae65731e86c3d74d4a6d891c"/>object <emphasis role="strong">Limit</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Maximum net amount that can be deposited right now, or false if no limit</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_method_1ae9409820aaff380c497f6e689aad713e"/>string <emphasis role="strong">Fee</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Amount of fees that will be paid</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_method_1a279d9c0d7c938718c3589ad2dae802ac"/>string <emphasis role="strong">AddressSetupFee</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether or not method has an address setup fee</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_method_1a070f67a956f9964c61721f496f283cdb"/>bool <emphasis role="strong">GenAddress</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+
+<para>Whether new addresses can be generated for this method.</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_kraken_1_1_method_1ab7236fd90be285edaed08fabaa64d2c6"/>System.Collections.Generic.IDictionary&lt; string, object &gt; <emphasis role="strong">AdditionalProperties</emphasis><computeroutput> [get, set]</computeroutput>
+</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para><link linkend="_class_kraken_1_1_deposit">Deposit</link> <link linkend="_class_kraken_1_1_method">Method</link></para>
+<para>
+The documentation for this class was generated from the following file:</para>
+obj/openapiClient.cs</section>
+</section>

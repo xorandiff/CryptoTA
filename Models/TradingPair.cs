@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoTA.Models
@@ -87,7 +88,7 @@ namespace CryptoTA.Models
         public double MinimalOrderAmount { get; set; }
 
         /// <value>
-        /// Foreign key for market
+        /// Foreign key for Market model.
         /// </value>
         [ForeignKey("Market")]
         public int MarketId { get; set; }
@@ -96,6 +97,12 @@ namespace CryptoTA.Models
         /// Corresponding Market model.
         /// </value>
         public virtual Market? Market { get; set; }
+
+
+        /// <value>
+        /// List of corresponding Ticks.
+        /// </value>
+        public virtual List<Tick> Ticks { get; set; }
 
         [NotMapped]
         public string DisplayName

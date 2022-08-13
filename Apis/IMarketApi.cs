@@ -48,14 +48,14 @@ namespace CryptoTA.Apis
         /// <param name="startDate"></param>
         /// <param name="timeInterval"></param>
         /// <returns></returns>
-        public Task<List<TickData>> GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval);
+        public Task<List<Tick>> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval);
 
         /// <summary>
         /// Gets current tick data for given trading pair.
         /// </summary>
         /// <param name="tradingPair">One of available trading pairs.</param>
         /// <returns></returns>
-        public Task<TickData> GetTick(TradingPair tradingPair);
+        public Task<Tick> GetTick(TradingPair tradingPair);
 
         /// <summary>
         /// Gets market trading fees for given trading pair.

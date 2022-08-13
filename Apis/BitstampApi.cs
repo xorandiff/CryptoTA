@@ -124,28 +124,28 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public async Task<List<TickData>> GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval)
+        public async Task<List<Tick>> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
         {
             string uriString = "https://www.bitstamp.net/api/v2/ohlc/";
             uriString       += tradingPair.Name;
             uriString       += "/?limit=1000&step=" + timeInterval;
 
-            Uri baseUrl = new Uri(uriString);
+            var baseUrl = new Uri(uriString);
             var client = new RestClient(baseUrl);
             var request = new RestRequest(baseUrl, Method.Get);
 
             var response = await client.ExecuteAsync<BitstampOhlc>(request);
 
-            var ohlcData = new List<TickData>();
+            var ohlcData = new List<Tick>();
 
             if (response.IsSuccessful && response.Data != null && response.Data.Data != null && response.Data.Data.Ohlc != null)
             {
                 foreach (BitstampOhlcItem ohlcItem in response.Data.Data.Ohlc)
                 {
-                    DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                    var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     dateTime = dateTime.AddSeconds(ohlcItem.Timestamp).ToLocalTime();
 
-                    var tickData = new TickData
+                    var Tick = new Tick
                     {
                         Open = ohlcItem.Open,
                         Close = ohlcItem.Close,
@@ -154,7 +154,7 @@ namespace CryptoTA.Apis
                         Volume = ohlcItem.Volume,
                         Date = dateTime,
                     };
-                    ohlcData.Add(tickData);
+                    ohlcData.Add(Tick);
                 }
             }
             
@@ -171,7 +171,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public async Task<TickData> GetTick(TradingPair tradingPair)
+        public async Task<Tick> GetTick(TradingPair tradingPair)
         {
             var baseUrl = new Uri($"https://www.bitstamp.net/api/v2/ticker/{tradingPair.Name}/");
             var client = new RestClient(baseUrl);
@@ -181,7 +181,7 @@ namespace CryptoTA.Apis
 
             if (response.IsSuccessful && response.Data != null)
             {
-                return new TickData
+                return new Tick
                 {
                     High = response.Data.High,
                     Low = response.Data.Low,

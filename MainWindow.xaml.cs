@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using CryptoTA.Apis;
 using CryptoTA.Models;
+using Newtonsoft.Json.Linq;
 
 namespace CryptoTA
 {
@@ -26,6 +27,8 @@ namespace CryptoTA
         private MarketApis marketApis = new();
         private Market selectedMarket = new();
         private TradingPair selectedTradingPair = new();
+        private int selectedTradingPairId = 0;
+
         public List<TradingPair> TradingPairs
         {
             get
@@ -62,7 +65,7 @@ namespace CryptoTA
             return "en-us";
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             using (var db = new DatabaseContext())
             {
@@ -74,6 +77,7 @@ namespace CryptoTA
 
                 selectedMarket = db.Markets.First();
                 selectedTradingPair = selectedMarket.TradingPairs.First();
+                selectedTradingPairId = selectedTradingPair.TradingPairId;
                 var list = selectedMarket.TradingPairs.ToList();
 
                 marketComboBox.ItemsSource = marketApis;
@@ -91,8 +95,8 @@ namespace CryptoTA
 
             currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
 
+            await LoadChartData();
             FetchTickData();
-            LoadChartData();
         }
 
         public async Task FetchTickData()
@@ -158,7 +162,7 @@ namespace CryptoTA
             string uriString = "https://api.exchangerate.host/convert?from=" + sourceCurrency + "&to=" + targetCurrency;
             Uri baseUrl = new Uri(uriString);
             var client = new RestClient(baseUrl);
-            var request = new RestRequest(baseUrl, Method.Get);
+            var request = new RestRequest(baseUrl, RestSharp.Method.Get);
 
             var response = await client.ExecuteAsync<ExchangeRateConvertResponse>(request);
             if (response.IsSuccessful && response.Data != null && response.Data.Success)
@@ -169,94 +173,79 @@ namespace CryptoTA
             return 0d;
         }
 
-        private async Task LoadChartData()
+        private async Task LoadChartData(DateTime? startDate = null)
         {
             using (var db = new DatabaseContext())
             {
-                if (selectedTradingPair.Ticks.Count == 0)
+                var tradingPair = db.TradingPairs.Find(selectedTradingPairId);
+                if (tradingPair != null)
                 {
-                    statusText.Text = "Downloading new data...";
-                    var Ticks = await marketApis.ActiveMarketApi.GetOhlcData(selectedTradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-                    selectedTradingPair.Ticks.AddRange(Ticks);
-                    await db.SaveChangesAsync();
+                    if (tradingPair.Ticks.Count == 0)
+                    {
+                        statusText.Text = "Downloading initial data...";
+                        var Ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
+                        tradingPair.Ticks.AddRange(Ticks);
+                        await db.SaveChangesAsync();
+                    }
+
+                    if (startDate != null)
+                    {
+                        var ticksBeforeStartDate = tradingPair.Ticks.FindAll(tick => tick.Date < startDate).Count;
+                        if (ticksBeforeStartDate == 0)
+                        {
+                            statusText.Text = "Downloading missing data...";
+                            var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
+                            var oldestStoredDate = tradingPair.Ticks.Select(tick => tick.Date).Min();
+
+                            while (oldestStoredDate > startDate)
+                            {
+                                oldestStoredDate = oldestStoredDate.AddSeconds(-1 * maxTimeInterval);
+                                var Ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, oldestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
+                                tradingPair.Ticks.AddRange(Ticks);
+                                await db.SaveChangesAsync();
+                            }
+                        }
+                    }
+
+                    statusText.Text = "Loading data from database...";
+
+                    if (startDate == null)
+                    {
+                        startDate = DateTime.Now.AddSeconds(-1 * marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval);
+                    }
+
+                    var timeFormat = "dd.MM.yyyy";
+                    if (DateTime.Now.AddDays(-4) < startDate)
+                    {
+                        timeFormat = "HH:mm";
+                    }
+                    else if (DateTime.Now.AddDays(-15) < startDate)
+                    {
+                        timeFormat = "dd.MM.yyyy HH:mm";
+                    }
+
+                    var values = tradingPair.Ticks.Where(tick => tick.Date >= startDate).Select(tick => (object)tick.Close).ToList();
+                    var labels = tradingPair.Ticks.Where(tick => tick.Date >= startDate).Select(tick => tick.Date.ToString(timeFormat));
+                    
+                    if (values.Count > 500)
+                    {
+                        int nthSkipValue = values.Count / 500;
+                        values = values.Where((x, i) => i % nthSkipValue == 0).ToList();
+                        labels = labels.Where((x, i) => i % nthSkipValue == 0).ToList();
+                    }
+
+                    chartControl.SeriesCollection[0].Values.Clear();
+                    chartControl.Labels.Clear();
+
+                    chartControl.SeriesCollection[0].Values.AddRange(values);
+                    chartControl.Labels.AddRange(labels);
+
+                    selectedTradingPair = tradingPair;
+                    selectedTradingPairId = tradingPair.TradingPairId;
+
+                    statusText.Text = "Data synchronized";
                 }
-
-                statusText.Text = "Loading data from database...";
-
-                var values = selectedTradingPair.Ticks.Select(tick => (object)tick.Close).ToList();
-                var labels = selectedTradingPair.Ticks.Select(tick => tick.Date.ToString("HH:mm"));
-
-                chartControl.SeriesCollection[0].Values.Clear();
-                chartControl.Labels.Clear();
-
-                chartControl.SeriesCollection[0].Values.AddRange(values);
-                chartControl.Labels.AddRange(labels);
-
-                statusText.Text = "Data synchronized";
             }
-        }
-
-        private void timeSpan0Btn_Click(object sender, RoutedEventArgs e)
-        {
-            //_limit = 1000;
-            //_timeInterval = 259200;
-            //FetchChartData();
-        }
-
-        private void timeSpan1Btn_Click(object sender, RoutedEventArgs e)
-        {
-            //_limit = 730;
-            //_timeInterval = 43200;
-            //FetchChartData();
-        }
-
-        private void timeSpan2Btn_Click(object sender, RoutedEventArgs e)
-        {
-            //_limit = 730;
-            //_timeInterval = 21600;
-            //FetchChartData();
-        }
-
-        private void timeSpan3Btn_Click(object sender, RoutedEventArgs e)
-        {
-            //_limit = 730;
-            //_timeInterval = 14400;
-            //FetchChartData();
-        }
-
-        private void timeSpan4Btn_Click(object sender, RoutedEventArgs e)
-        {
-            //_limit = 744;
-            //_timeInterval = 3600;
-            //FetchChartData();
-        }
-
-        private void timeSpan5Btn_Click(object sender, RoutedEventArgs e)
-        {
-            //_limit = 1000;
-            //_timeInterval = 259200;
-            //FetchChartData();
-        }
-
-        private void timeSpan6Btn_Click(object sender, RoutedEventArgs e)
-        {
-            //_limit = 744;
-            //_timeInterval = 900;
-            //FetchChartData();
-        }
-
-        private void timeSpan7Btn_Click(object sender, RoutedEventArgs e)
-        {
-            //_limit = 864;
-            //_timeInterval = 300;
-            //FetchChartData();
-        }
-
-        private void timeSpan8Btn_Click(object sender, RoutedEventArgs e)
-        {
-            //_limit = 480;
-            //_timeInterval = 180;
-            //FetchChartData();
         }
 
         private void AccountsMenuItem_Click(object sender, RoutedEventArgs e)
@@ -277,7 +266,7 @@ namespace CryptoTA
             {
                 var selectedItem = (TradingPair) TradingPairComboBox.SelectedItem;
                 
-                if (selectedItem != null && selectedItem.TradingPairId != SelectedTradingPair.TradingPairId)
+                if (selectedItem != null && selectedItem.TradingPairId != selectedTradingPairId)
                 {
                     using (var db = new DatabaseContext())
                     {
@@ -285,14 +274,25 @@ namespace CryptoTA
                         if (newTradingPair != null)
                         {
                             SelectedTradingPair = newTradingPair;
+                            selectedTradingPairId = newTradingPair.TradingPairId;
+
+                            currentCurrencyText.Text = "/" + newTradingPair.BaseSymbol;
+                            TradingPairComboBox.InvalidateVisual();
+
+                            await LoadChartData();
                         }
                     }
-
-                    currentCurrencyText.Text = "/" + SelectedTradingPair.BaseSymbol;
-                    TradingPairComboBox.InvalidateVisual();
-
-                    await LoadChartData();
                 }
+            }
+        }
+
+        private async void TimeSpanComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TimeSpanComboBox.SelectedValue != null)
+            {
+                var dateTime = DateTime.Now;
+                var selectedTimeSpan = (uint)TimeSpanComboBox.SelectedValue;
+                await LoadChartData(dateTime.AddSeconds(-1 * selectedTimeSpan));
             }
         }
     }

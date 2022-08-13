@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoTA"
+        xmlns:ch="clr-namespace:CryptoTA.Chart"
         xmlns:uc="clr-namespace:CryptoTA.UserControls"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
@@ -14,6 +15,9 @@
         Style="{DynamicResource CustomWindowStyle}" 
         WindowStartupLocation="CenterScreen"
         >
+    <Window.Resources>
+        <ch:ChartTimeSpans x:Key="TimeSpansCollection" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -58,18 +62,14 @@
                                 />
                             </GroupBox>
 
-                            <GroupBox Header="Chart time span" Margin="10" Padding="10">
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="timeSpan0Btn" Margin="0,0,5,0" Click="timeSpan0Btn_Click">All time</Button>
-                                    <Button x:Name="timeSpan1Btn" Margin="0,0,5,0" Click="timeSpan1Btn_Click">1 year</Button>
-                                    <Button x:Name="timeSpan2Btn" Margin="0,0,5,0" Click="timeSpan2Btn_Click">6 months</Button>
-                                    <Button x:Name="timeSpan3Btn" Margin="0,0,5,0" Click="timeSpan3Btn_Click">3 months</Button>
-                                    <Button x:Name="timeSpan4Btn" Margin="0,0,5,0" Click="timeSpan4Btn_Click">1 month</Button>
-                                    <Button x:Name="timeSpan5Btn" Margin="0,0,5,0" Click="timeSpan5Btn_Click">2 weeks</Button>
-                                    <Button x:Name="timeSpan6Btn" Margin="0,0,5,0" Click="timeSpan6Btn_Click">1 week</Button>
-                                    <Button x:Name="timeSpan7Btn" Margin="0,0,5,0" Click="timeSpan7Btn_Click">3 days</Button>
-                                    <Button x:Name="timeSpan8Btn" Click="timeSpan8Btn_Click">1 day</Button>
-                                </StackPanel>
+                            <GroupBox Header="Time span" Margin="10" Padding="10">
+                                <ComboBox 
+                                    x:Name="TimeSpanComboBox"
+                                    ItemsSource="{Binding Source={StaticResource TimeSpansCollection}}"
+                                    DisplayMemberPath="Name"
+                                    SelectedIndex="0"
+                                    SelectedValuePath="Value" SelectionChanged="TimeSpanComboBox_SelectionChanged"
+                                />
                             </GroupBox>
                         </StackPanel>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Orientation="Horizontal">

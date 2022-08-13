@@ -129,6 +129,11 @@ namespace CryptoTA.Apis
             string uriString = "https://www.bitstamp.net/api/v2/ohlc/";
             uriString       += tradingPair.Name;
             uriString       += "/?limit=1000&step=" + timeInterval;
+            if (startDate != null)
+            {
+                var startTimestamp = new DateTimeOffset((DateTime)startDate).ToUnixTimeSeconds();
+                uriString += "&start=" + startTimestamp;
+            }
 
             var baseUrl = new Uri(uriString);
             var client = new RestClient(baseUrl);

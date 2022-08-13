@@ -8,6 +8,7 @@
     <ApplicationIcon>Images\icon_64.ico</ApplicationIcon>
     <StartupObject>CryptoTA.App</StartupObject>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

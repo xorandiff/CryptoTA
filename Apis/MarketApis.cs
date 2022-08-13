@@ -13,21 +13,5 @@ namespace CryptoTA.Apis
         {
             Add(new BitstampApi());
         }
-
-        public bool IsAnyEnabled
-        {
-            get
-            {
-                foreach (var api in this)
-            {
-                if (api.Enabled)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-            }
-        }
     }
 }

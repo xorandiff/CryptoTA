@@ -51,7 +51,7 @@ namespace CryptoTA
                     if (marketApi.Enabled)
                     {
                         var tradingPairs = await marketApi.GetTradingPairs();
-                        totalTradingPairsCount += tradingPairs.Length;
+                        totalTradingPairsCount += tradingPairs.Count();
                     }
                 }
 

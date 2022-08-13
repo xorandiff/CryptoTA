@@ -1,13 +1,11 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CryptoTA.Apis
 {
-    internal class BitstampApi : IMarketApi
+    public class BitstampApi : IMarketApi
     {
         private readonly string name = "Bitstamp";
         private bool enabled = false;

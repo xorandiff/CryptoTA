@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using CryptoTA.Apis;
 using CryptoTA.Models;
 
@@ -23,48 +22,6 @@ namespace CryptoTA
             public DateTime Date { get; set; }
 
         }
-
-        public class BitstampTick
-        {
-            public double Last { get; set; }
-            public double High { get; set; }
-            public double Low { get; set; }
-            public double Vwap { get; set; }
-            public double Volume { get; set; }
-            public double Bid { get; set; }
-            public double Ask { get; set; }
-            public double Timestamp { get; set; }
-            public double Open { get; set; }
-            public double Open_24 { get; set; }
-            public float Percent_change_24 { get; set; }
-
-        }
-
-        public class BitstampOhlcItem
-        {
-            public double High { get; set; }
-            public long Timestamp { get; set; }
-            public double Volume { get; set; }
-            public double Low { get; set; }
-            public double Close { get; set; }
-            public double Open { get; set; }
-        }
-
-        public class BitstampOhlcData
-        {
-            public string? Pair { get; set; }
-            public BitstampOhlcItem[]? Ohlc { get; set; }
-        }
-
-        public class BitstampOhlc
-        {
-            public BitstampOhlcData? Data { get; set; }
-        }
-
-        private string _cryptoCurrency = "ETH";
-        private string _realCurrency = "USD";
-        private uint _limit = 480;
-        private uint _timeInterval = 180;
 
         private MarketApis marketApis = new();
         private Market selectedMarket = new();
@@ -132,7 +89,6 @@ namespace CryptoTA
                 marketApis.setActiveApiByName(selectedMarket.Name);
             }
 
-            statusText.Text = "Downloading data...";
             currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
 
             FetchTickData();
@@ -217,149 +173,89 @@ namespace CryptoTA
         {
             using (var db = new DatabaseContext())
             {
+                if (selectedTradingPair.Ticks.Count == 0)
+                {
+                    statusText.Text = "Downloading new data...";
+                    var Ticks = await marketApis.ActiveMarketApi.GetOhlcData(selectedTradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
+                    selectedTradingPair.Ticks.AddRange(Ticks);
+                    await db.SaveChangesAsync();
+                }
 
+                statusText.Text = "Loading data from database...";
+
+                var values = selectedTradingPair.Ticks.Select(tick => (object)tick.Close).ToList();
+                var labels = selectedTradingPair.Ticks.Select(tick => tick.Date.ToString("HH:mm"));
+
+                chartControl.SeriesCollection[0].Values.Clear();
+                chartControl.Labels.Clear();
+
+                chartControl.SeriesCollection[0].Values.AddRange(values);
+                chartControl.Labels.AddRange(labels);
+
+                statusText.Text = "Data synchronized";
             }
         }
 
-        //private async Task<bool> FetchChartData(uint? limit = null, uint? timeInterval = null, string? cryptoCurrency = null, string? realCurrency = null)
-        //{
-        //    if (limit == null)
-        //    {
-        //        limit = _limit;
-        //    }
-
-        //    if (timeInterval == null)
-        //    {
-        //        timeInterval = _timeInterval;
-        //    }
-
-        //    if (cryptoCurrency == null)
-        //    {
-        //        cryptoCurrency = _cryptoCurrency;
-        //    }
-
-        //    if (realCurrency == null)
-        //    {
-        //        realCurrency = _realCurrency;
-        //    }
-
-        //    string uriString = "https://www.bitstamp.net/api/v2/ohlc/";
-        //    uriString += cryptoCurrency.ToLower() + "usd";
-        //    uriString += "/?limit=" + limit + "&step=" + timeInterval;
-
-        //    Uri baseUrl = new Uri(uriString);
-        //    var client = new RestClient(baseUrl);
-        //    var request = new RestRequest(baseUrl, RestSharp.Method.Get);
-
-        //    var response = await client.ExecuteAsync<BitstampOhlc>(request);
-
-        //    if (response.IsSuccessful && response.Data != null && response.Data.Data != null && response.Data.Data.Ohlc != null)
-        //    {
-        //        List<object> values = new List<object>();
-        //        List<string> labels = new List<string>();
-
-        //        foreach (BitstampOhlcItem ohlcItem in response.Data.Data.Ohlc)
-        //        {
-        //            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        //            dateTime = dateTime.AddSeconds(ohlcItem.Timestamp).ToLocalTime();
-        //            values.Add(ohlcItem.Close);
-
-        //            string timeFormat;
-        //            if (timeInterval < 300)
-        //            {
-        //                timeFormat = "HH:mm";
-        //            }
-        //            else if (timeInterval < 86400)
-        //            {
-        //                timeFormat = "MM/dd/yyyy HH:mm";
-        //            }
-        //            else
-        //            {
-        //                timeFormat = "MM/dd/yyyy";
-        //            }
-        //            labels.Add(dateTime.ToString(timeFormat));
-        //        }
-
-        //        chartControl.SeriesCollection[0].Values.Clear();
-        //        chartControl.Labels.Clear();
-
-        //        chartControl.SeriesCollection[0].Values.AddRange(values);
-        //        chartControl.Labels.AddRange(labels);
-
-        //        double currencyRate = await getCurrencyRate("USD", _realCurrency);
-        //        chartControl.changeByRate(currencyRate, _realCurrency, currencyToCulture(_realCurrency));
-
-        //        statusText.Text = "Data synchronized";
-
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        statusText.Text = "Server closed connection";
-        //        return false;
-        //    }
-        //}
-
         private void timeSpan0Btn_Click(object sender, RoutedEventArgs e)
         {
-            _limit = 1000;
-            _timeInterval = 259200;
+            //_limit = 1000;
+            //_timeInterval = 259200;
             //FetchChartData();
         }
 
         private void timeSpan1Btn_Click(object sender, RoutedEventArgs e)
         {
-            _limit = 730;
-            _timeInterval = 43200;
+            //_limit = 730;
+            //_timeInterval = 43200;
             //FetchChartData();
         }
 
         private void timeSpan2Btn_Click(object sender, RoutedEventArgs e)
         {
-            _limit = 730;
-            _timeInterval = 21600;
+            //_limit = 730;
+            //_timeInterval = 21600;
             //FetchChartData();
         }
 
         private void timeSpan3Btn_Click(object sender, RoutedEventArgs e)
         {
-            _limit = 730;
-            _timeInterval = 14400;
+            //_limit = 730;
+            //_timeInterval = 14400;
             //FetchChartData();
         }
 
         private void timeSpan4Btn_Click(object sender, RoutedEventArgs e)
         {
-            _limit = 744;
-            _timeInterval = 3600;
+            //_limit = 744;
+            //_timeInterval = 3600;
             //FetchChartData();
         }
 
         private void timeSpan5Btn_Click(object sender, RoutedEventArgs e)
         {
-            _limit = 1000;
-            _timeInterval = 259200;
+            //_limit = 1000;
+            //_timeInterval = 259200;
             //FetchChartData();
         }
 
         private void timeSpan6Btn_Click(object sender, RoutedEventArgs e)
         {
-            _limit = 744;
-            _timeInterval = 900;
+            //_limit = 744;
+            //_timeInterval = 900;
             //FetchChartData();
         }
 
         private void timeSpan7Btn_Click(object sender, RoutedEventArgs e)
         {
-            _limit = 864;
-            _timeInterval = 300;
+            //_limit = 864;
+            //_timeInterval = 300;
             //FetchChartData();
         }
 
         private void timeSpan8Btn_Click(object sender, RoutedEventArgs e)
         {
-            _limit = 480;
-            _timeInterval = 180;
+            //_limit = 480;
+            //_timeInterval = 180;
             //FetchChartData();
         }
 
@@ -375,16 +271,28 @@ namespace CryptoTA
 
         }
 
-        private void TradingPairComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void TradingPairComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (TradingPairComboBox.SelectedItem != null && currentCurrencyText != null)
+            if (TradingPairComboBox.SelectedItem != null && SelectedTradingPair != null)
             {
                 var selectedItem = (TradingPair) TradingPairComboBox.SelectedItem;
-                selectedTradingPair = selectedItem;
-                currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
-                TradingPairComboBox.InvalidateVisual();
+                
+                if (selectedItem != null && selectedItem.TradingPairId != SelectedTradingPair.TradingPairId)
+                {
+                    using (var db = new DatabaseContext())
+                    {
+                        var newTradingPair = db.TradingPairs.Find(selectedItem.TradingPairId);
+                        if (newTradingPair != null)
+                        {
+                            SelectedTradingPair = newTradingPair;
+                        }
+                    }
 
-                //fetchChartData();
+                    currentCurrencyText.Text = "/" + SelectedTradingPair.BaseSymbol;
+                    TradingPairComboBox.InvalidateVisual();
+
+                    await LoadChartData();
+                }
             }
         }
     }

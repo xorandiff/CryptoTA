@@ -22,9 +22,13 @@ namespace CryptoTA
     /// </summary>
     public partial class DownloadWindow : NavigationWindow
     {
-        public DownloadWindow()
+        public DownloadWindow(bool isDownloadCompleted = false)
         {
             InitializeComponent();
+            if (isDownloadCompleted)
+            {
+                Close();
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using RestSharp;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
@@ -7,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Microsoft.Data.SqlClient;
 
 namespace CryptoTA
 {
@@ -89,37 +89,18 @@ namespace CryptoTA
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            using (var db = new DatabaseContext())
             {
-                string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mateusz\source\repos\CryptoTA\Database.mdf;Integrated Security=True";
-                var builder = new SqlConnectionStringBuilder(connectionString)
+                var marketCount = db.Markets.Count();
+                if (marketCount > 0)
                 {
-                    InitialCatalog = @"C:\USERS\MATEUSZ\SOURCE\REPOS\CRYPTOTA\DATABASE.MDF"
-                };
 
-                using (var connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = "SELECT COUNT([Code]) FROM [dbo].[Cryptocurrencies]";
-
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            reader.Read();
-                            int recordCount = reader.GetInt32(0);
-                            if (recordCount == 0)
-                            {
-                                var downloadWindow = new DownloadWindow();
-                                downloadWindow.ShowDialog();
-                            }
-                        }
-                    }
                 }
-            }
-            catch (SqlException exception)
-            {
-                MessageBox.Show(exception.Message);
+                else
+                {
+                    var downloadWindow = new DownloadWindow();
+                    downloadWindow.ShowDialog();
+                }
             }
 
             statusText.Text = "Downloading data...";
@@ -136,7 +117,7 @@ namespace CryptoTA
             {
                 Uri baseUrl = new Uri("https://www.bitstamp.net/api/v2/ticker/" + _cryptoCurrency.ToLower() + "usd/");
                 var client = new RestClient(baseUrl);
-                var request = new RestRequest("get", RestSharp.Method.Get);
+                var request = new RestRequest("get", Method.Get);
 
                 var response = client.Execute<BitstampTick>(request);
 

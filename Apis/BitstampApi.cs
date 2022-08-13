@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using CryptoTA.Models;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

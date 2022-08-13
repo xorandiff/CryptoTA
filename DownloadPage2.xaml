@@ -1,0 +1,55 @@
+﻿<Page x:Class="CryptoTA.DownloadPage2"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CryptoTA"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" 
+      d:DesignWidth="350"
+      Title="DownloadPage2"
+      Loaded="Page_Loaded"
+>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel 
+            Grid.ColumnSpan="2"
+            Margin="20"
+        >
+            <Label>Downloading available trading pairs data...</Label>
+            <Label x:Name="DoneLabel"></Label>
+        </StackPanel>
+
+        <StackPanel 
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal" 
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Center"
+            Margin="20"
+        >
+            <Button x:Name="CancelButton" 
+                    Padding="10" 
+                    Margin="0,0,10,0" 
+                    Click="CancelButton_Click"
+                    >
+                Cancel
+            </Button>
+            <Button x:Name="SaveButton" 
+                    Padding="10" 
+                    IsEnabled="False"
+                    Click="SaveButton_Click"
+                    >
+                Save
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

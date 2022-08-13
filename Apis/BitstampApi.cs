@@ -9,6 +9,30 @@ namespace CryptoTA.Apis
 {
     internal class BitstampApi : IMarketApi
     {
+        private readonly string name = "Bitstamp";
+        private bool enabled = false;
+
+        public bool Enabled
+        { 
+            get 
+            { 
+                return enabled; 
+            } 
+
+            set
+            { 
+                enabled = value; 
+            }
+        }
+
+        public string Name
+        { 
+            get
+            {
+                return name;
+            }
+        }
+
         public class BitstampTick
         {
             public double Last { get; set; }
@@ -73,17 +97,17 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<Balance[]> GetAccountBalance()
+        public Task<IEnumerable<Balance>> GetAccountBalance()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Order[]> GetClosedOrders()
+        public Task<IEnumerable<Order>> GetClosedOrders()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<TickData[]> GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval)
+        public async Task<IEnumerable<TickData>> GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval)
         {
             string uriString = "https://www.bitstamp.net/api/v2/ohlc/";
             uriString       += tradingPair.Name;
@@ -95,7 +119,7 @@ namespace CryptoTA.Apis
 
             var response = await client.ExecuteAsync<BitstampOhlc>(request);
 
-            TickData[] ohlcData = { };
+            var ohlcData = new List<TickData>();
 
             if (response.IsSuccessful && response.Data != null && response.Data.Data != null && response.Data.Data.Ohlc != null)
             {
@@ -113,19 +137,19 @@ namespace CryptoTA.Apis
                         Volume = ohlcItem.Volume,
                         Date = dateTime,
                     };
-                    _ = ohlcData.Append(tickData);
+                    ohlcData.Add(tickData);
                 }
             }
             
             return ohlcData;
         }
 
-        public Task<uint[]> GetOhlcTimeIntervals(TradingPair tradingPair)
+        public Task<IEnumerable<uint>> GetOhlcTimeIntervals(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Order[]> GetOpenOrders()
+        public Task<IEnumerable<Order>> GetOpenOrders()
         {
             throw new NotImplementedException();
         }
@@ -161,42 +185,57 @@ namespace CryptoTA.Apis
             }
         }
 
-        public Task<Balance[]> GetTradingBalance()
+        public Task<IEnumerable<Balance>> GetTradingBalance()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Fees[]> GetTradingFees(TradingPair tradingPair)
+        public Task<IEnumerable<Fees>> GetTradingFees(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<TradingPair[]> GetTradingPairs()
+        public async Task<IEnumerable<TradingPair>> GetTradingPairs()
         {
             var baseUrl = new Uri("https://www.bitstamp.net/api/v2/trading-pairs-info/");
             var client = new RestClient(baseUrl);
             var request = new RestRequest(baseUrl, Method.Get);
 
-            var response = await client.ExecuteAsync<BitstampTradingPair>(request);
+            var response = await client.ExecuteAsync<BitstampTradingPair[]>(request);
 
-            TradingPair[] tradingPairs = { };
+            var tradingPairs = new List<TradingPair>();
 
-            if (response.IsSuccessful && response.Data != null && response.Data.Name != null && response.Data.Description != null)
+            if (response.IsSuccessful && response.Data != null)
             {
-                var pairSymbols = response.Data.Name.Split("/");
-                var pairNames = response.Data.Description.Split(" / ");
-                var tradingPair = new TradingPair
+                if (response.Data.Length == 0)
                 {
-                    Name = response.Data.Url_symbol,
-                    BaseSymbol = pairSymbols[0],
-                    CounterSymbol = pairSymbols[1],
-                    BaseName = pairNames[0],
-                    CounterName = pairNames[1]
-                };
-                _ = tradingPairs.Append(tradingPair);
-            }
+                    throw new Exception("API call successful, but no trading pairs serialized.");
+                }
 
-            return tradingPairs;
+                foreach (var bitstampTradingPair in response.Data)
+                {
+                    if (bitstampTradingPair.Name != null && bitstampTradingPair.Description != null)
+                    {
+                        var pairSymbols = bitstampTradingPair.Name.Split("/");
+                        var pairNames = bitstampTradingPair.Description.Split(" / ");
+                        var tradingPair = new TradingPair
+                        {
+                            Name = bitstampTradingPair.Url_symbol,
+                            BaseSymbol = pairSymbols[0],
+                            CounterSymbol = pairSymbols[1],
+                            BaseName = pairNames[0],
+                            CounterName = pairNames[1]
+                        };
+                        tradingPairs.Add(tradingPair);
+                    }
+                }
+
+                return tradingPairs;
+            }
+            else
+            {
+                throw new Exception(response.ErrorMessage);
+            }
         }
 
         public Task<WebsocketsToken> GetWebsocketsToken()
@@ -204,7 +243,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<Fees[]> GetWithdrawalFees(TradingPair tradingPair)
+        public Task<IEnumerable<Fees>> GetWithdrawalFees(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }

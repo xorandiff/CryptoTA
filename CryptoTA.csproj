@@ -7,6 +7,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Images\icon_64.ico</ApplicationIcon>
     <StartupObject>CryptoTA.App</StartupObject>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,6 +44,19 @@
 
   <ItemGroup>
     <Resource Include="icon_64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DownloadPage2.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="DownloadPage2.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

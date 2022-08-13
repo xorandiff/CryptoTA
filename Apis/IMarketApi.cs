@@ -10,7 +10,7 @@ namespace CryptoTA.Apis
     /// Class which contains basic trading pair data 
     /// with minimal order amount.
     /// </summary>
-    class TradingPair
+    public class TradingPair
     {
         /// <value>
         /// Name of trading pair used for identification in API.
@@ -80,7 +80,7 @@ namespace CryptoTA.Apis
     /// Class which contains maker and taker fees. Data for both 
     /// type of fees is included, though in application, only taker fee will be used.
     /// </summary>
-    class Fees
+    public class Fees
     {
         /// <value>
         /// Not used in application for the moment.
@@ -97,7 +97,7 @@ namespace CryptoTA.Apis
     /// Class containing high, low, open and close prices (for last 
     /// 24h) and currency current volume.
     /// </summary>
-    class TickData
+    public class TickData
     {
         public double High { get; set; }
         public double Low { get; set; }
@@ -110,7 +110,7 @@ namespace CryptoTA.Apis
     /// <summary>
     /// Class containing currency name and total balance amount.
     /// </summary>
-    class Balance
+    public class Balance
     {
         /// <value>
         /// Currency symbol.
@@ -128,7 +128,7 @@ namespace CryptoTA.Apis
     /// Class containing <c>Balance</c> data with available and 
     /// reserved balance amounts.
     /// </summary>
-    class TradingBalance : Balance
+    public class TradingBalance : Balance
     {
         /// <value>
         /// Available balance for creating orders.
@@ -144,7 +144,7 @@ namespace CryptoTA.Apis
     /// <summary>
     /// Class containing ask/bid order data.
     /// </summary>
-    class OrderBookEntry
+    public class OrderBookEntry
     {
         /// <value>
         /// Order's price in base currency.
@@ -166,16 +166,16 @@ namespace CryptoTA.Apis
     /// Class containing asks and bids lists.
     /// </summary>
     /// <see cref="OrderBookEntry"/>
-    class OrderBook
+    public class OrderBook
     {
-        public OrderBookEntry[]? Asks { get; set; }
-        public OrderBookEntry[]? Bids { get; set; }
+        public IEnumerable<OrderBookEntry>? Asks { get; set; }
+        public IEnumerable<OrderBookEntry[]>? Bids { get; set; }
     }
 
     /// <summary>
     /// Enum containing available order types.
     /// </summary>
-    enum OrderType
+    public enum OrderType
     {
         Market,
         Limit,
@@ -186,7 +186,7 @@ namespace CryptoTA.Apis
     /// Class containing basic order data.
     /// </summary>
     /// <see cref="TradingPair"/>
-    class Order
+    public class Order
     {
         /// <value>
         /// Order ID used by market.
@@ -224,7 +224,7 @@ namespace CryptoTA.Apis
     /// Class <c>WebsocketsToken</c> containing websockets token and expiration 
     /// date.
     /// </summary>
-    class WebsocketsToken
+    public class WebsocketsToken
     {
         public string? Token { get; set; }
         public DateTime ExpirationDate { get; set; }
@@ -235,20 +235,31 @@ namespace CryptoTA.Apis
     /// for all operations. Every implemented method must be asynchronous, hence returns
     /// <c>Task<T></c>.
     /// </summary>
-    internal interface IMarketApi
+    public interface IMarketApi
     {
-        /// <summary>
-        /// Gets all available trading pairs
-        /// </summary>
-        /// <returns></returns>
-        public Task<TradingPair[]> GetTradingPairs();
+        /// <value>
+        /// Boolean property for enabling/disabling current API 
+        /// in the application.
+        /// </value>
+        public bool Enabled { get; set; }
+
+        /// <value>
+        /// Displayed market name.
+        /// </value>
+        public string Name { get; }
 
         /// <summary>
-        /// Gets available time intervals for querying OHLC data
+        /// Gets all available trading pairs.
+        /// </summary>
+        /// <returns></returns>
+        public Task<IEnumerable<TradingPair>> GetTradingPairs();
+
+        /// <summary>
+        /// Gets available time intervals for querying OHLC data.
         /// </summary>
         /// <param name="tradingPair"></param>
         /// <returns>Array of time intervals in seconds.</returns>
-        public Task<uint[]> GetOhlcTimeIntervals(TradingPair tradingPair);
+        public Task<IEnumerable<uint>> GetOhlcTimeIntervals(TradingPair tradingPair);
 
         /// <summary>
         /// Gets OHLC data for given trading pair, start date and time interval. 
@@ -258,42 +269,42 @@ namespace CryptoTA.Apis
         /// <param name="startDate"></param>
         /// <param name="timeInterval"></param>
         /// <returns></returns>
-        public Task<TickData[]> GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval);
+        public Task<IEnumerable<TickData>> GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval);
 
         /// <summary>
         /// Gets current tick data for given trading pair.
         /// </summary>
-        /// <param name="tradingPair">One of available trading pairs</param>
+        /// <param name="tradingPair">One of available trading pairs.</param>
         /// <returns></returns>
         public Task<TickData> GetTick(TradingPair tradingPair);
 
         /// <summary>
         /// Gets market trading fees for given trading pair.
         /// </summary>
-        /// <param name="tradingPair">One of available trading pairs</param>
+        /// <param name="tradingPair">One of available trading pairs.</param>
         /// <returns></returns>
-        public Task<Fees[]> GetTradingFees(TradingPair tradingPair);
+        public Task<IEnumerable<Fees>> GetTradingFees(TradingPair tradingPair);
 
         /// <summary>
         /// Gets withdrawal fees for given trading pair.
         /// </summary>
         /// <param name="tradingPair"></param>
         /// <returns></returns>
-        public Task<Fees[]> GetWithdrawalFees(TradingPair tradingPair);
+        public Task<IEnumerable<Fees>> GetWithdrawalFees(TradingPair tradingPair);
 
         /// <summary>
         /// Gets account balance as an array of currency-amount <c>Balance</c> 
         /// objects.
         /// </summary>
         /// <returns></returns>
-        public Task<Balance[]> GetAccountBalance();
+        public Task<IEnumerable<Balance>> GetAccountBalance();
 
         /// <summary>
-        /// Gets market trading balance as an array of currency-amount <c>Balance</c> 
+        /// Gets market trading balance as a enumerable of currency-amount <c>Balance</c> 
         /// objects.
         /// </summary>
         /// <returns></returns>
-        public Task<Balance[]> GetTradingBalance();
+        public Task<IEnumerable<Balance>> GetTradingBalance();
 
         /// <summary>
         /// Gets order book of asks/bids.
@@ -336,13 +347,13 @@ namespace CryptoTA.Apis
         /// Gets list of open user orders.
         /// </summary>
         /// <returns></returns>
-        public Task<Order[]> GetOpenOrders();
+        public Task<IEnumerable<Order>> GetOpenOrders();
 
         /// <summary>
         /// Gets list of closed user orders.
         /// </summary>
         /// <returns></returns>
-        public Task<Order[]> GetClosedOrders();
+        public Task<IEnumerable<Order>> GetClosedOrders();
 
         /// <summary>
         /// Gets websockets token and expiration date for real-time websockets 

@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Data.SqlClient;
+using CryptoTA.Apis;
 
 namespace CryptoTA
 {
@@ -92,10 +93,12 @@ namespace CryptoTA
             try
             {
                 string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mateusz\source\repos\CryptoTA\Database.mdf;Integrated Security=True";
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString);
-                builder.InitialCatalog = @"C:\USERS\MATEUSZ\SOURCE\REPOS\CRYPTOTA\DATABASE.MDF";
+                var builder = new SqlConnectionStringBuilder(connectionString)
+                {
+                    InitialCatalog = @"C:\USERS\MATEUSZ\SOURCE\REPOS\CRYPTOTA\DATABASE.MDF"
+                };
 
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                using (var connection = new SqlConnection(builder.ConnectionString))
                 {
                     String sql = "SELECT COUNT([Code]) FROM [dbo].[Cryptocurrencies]";
 

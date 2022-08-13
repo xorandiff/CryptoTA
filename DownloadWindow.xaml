@@ -1,4 +1,4 @@
-﻿<Window x:Class="CryptoTA.DownloadWindow"
+﻿<NavigationWindow x:Class="CryptoTA.DownloadWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,13 +6,9 @@
         xmlns:local="clr-namespace:CryptoTA"
         mc:Ignorable="d"
         Title="Data Download"
-        Height="450"
-        Width="800"
+        Height="330"
+        Width="400"
         WindowStartupLocation="CenterScreen" 
         Loaded="Window_Loaded"
         Style="{DynamicResource CustomWindowStyle}"
-        >
-    <Grid>
-        
-    </Grid>
-</Window>
+        />

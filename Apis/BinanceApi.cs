@@ -8,82 +8,105 @@ namespace CryptoTA.Apis
 {
     internal class BinanceApi : IMarketApi
     {
-        public Task<int> BuyOrder(OrderType orderType, double amount, double price = 0)
+        private readonly string name = "Binance";
+        private bool enabled = false;
+
+        public bool Enabled
+        {
+            get
+            {
+                return enabled;
+            }
+
+            set
+            {
+                enabled = value;
+            }
+        }
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+
+        Task<int> IMarketApi.BuyOrder(OrderType orderType, double amount, double price)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> CancelAllOrders()
+        Task<bool> IMarketApi.CancelAllOrders()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> CancelOrder(int orderId)
+        Task<bool> IMarketApi.CancelOrder(int orderId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Balance[]> GetAccountBalance()
+        Task<IEnumerable<Balance>> IMarketApi.GetAccountBalance()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Order[]> GetClosedOrders()
+        Task<IEnumerable<Order>> IMarketApi.GetClosedOrders()
         {
             throw new NotImplementedException();
         }
 
-        public Task<TickData[]> GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval)
+        Task<IEnumerable<TickData>> IMarketApi.GetOhlcData(TradingPair tradingPair, DateTime startDate, uint timeInterval)
         {
             throw new NotImplementedException();
         }
 
-        public Task<uint[]> GetOhlcTimeIntervals(TradingPair tradingPair)
+        Task<IEnumerable<uint>> IMarketApi.GetOhlcTimeIntervals(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Order[]> GetOpenOrders()
+        Task<IEnumerable<Order>> IMarketApi.GetOpenOrders()
         {
             throw new NotImplementedException();
         }
 
-        public Task<OrderBook> GetOrderBook()
+        Task<OrderBook> IMarketApi.GetOrderBook()
         {
             throw new NotImplementedException();
         }
 
-        public Task<TickData> GetTick(TradingPair tradingPair)
+        Task<TickData> IMarketApi.GetTick(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Balance[]> GetTradingBalance()
+        Task<IEnumerable<Balance>> IMarketApi.GetTradingBalance()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Fees[]> GetTradingFees(TradingPair tradingPair)
+        Task<IEnumerable<Fees>> IMarketApi.GetTradingFees(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TradingPair[]> GetTradingPairs()
+        Task<IEnumerable<TradingPair>> IMarketApi.GetTradingPairs()
         {
             throw new NotImplementedException();
         }
 
-        public Task<WebsocketsToken> GetWebsocketsToken()
+        Task<WebsocketsToken> IMarketApi.GetWebsocketsToken()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Fees[]> GetWithdrawalFees(TradingPair tradingPair)
+        Task<IEnumerable<Fees>> IMarketApi.GetWithdrawalFees(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> SellOrder(OrderType orderType, double amount, double price = 0)
+        Task<int> IMarketApi.SellOrder(OrderType orderType, double amount, double price)
         {
             throw new NotImplementedException();
         }

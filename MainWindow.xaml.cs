@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using CryptoTA.Apis;
+using CryptoTA.Models;
 
 namespace CryptoTA
 {
@@ -64,6 +66,22 @@ namespace CryptoTA
         private uint _limit = 480;
         private uint _timeInterval = 180;
 
+        private MarketApis marketApis = new();
+        private Market selectedMarket = new();
+        private TradingPair selectedTradingPair = new();
+        public List<TradingPair> TradingPairs
+        {
+            get
+            {
+                return selectedMarket.TradingPairs ?? new List<TradingPair>();
+            }
+        }
+        public TradingPair SelectedTradingPair
+        {
+            get { return selectedTradingPair; } 
+            set { selectedTradingPair = value; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -91,122 +109,93 @@ namespace CryptoTA
         {
             using (var db = new DatabaseContext())
             {
-                var marketCount = db.Markets.Count();
-                if (marketCount > 0)
-                {
-
-                }
-                else
+                if (db.Markets.Count() == 0)
                 {
                     var downloadWindow = new DownloadWindow();
                     downloadWindow.ShowDialog();
                 }
+
+                selectedMarket = db.Markets.First();
+                selectedTradingPair = selectedMarket.TradingPairs.First();
+                var list = selectedMarket.TradingPairs.ToList();
+
+                marketComboBox.ItemsSource = marketApis;
+                marketComboBox.DisplayMemberPath = "Name";
+                marketComboBox.SelectedItem = marketApis.ActiveMarketApi;
+                marketComboBox.InvalidateVisual();
+
+                TradingPairComboBox.ItemsSource = list;
+                TradingPairComboBox.DisplayMemberPath = "BaseSymbol";
+                TradingPairComboBox.SelectedItem = list[0];
+                TradingPairComboBox.InvalidateVisual();
+
+                marketApis.setActiveApiByName(selectedMarket.Name);
             }
 
             statusText.Text = "Downloading data...";
-            currentCurrencyText.Text = "/" + _cryptoCurrency;
+            currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
 
-            fetchBitstampData();
-            fetchChartData();
+            FetchTickData();
+            //FetchChartData();
         }
 
-        public async Task fetchBitstampData()
+        public async Task FetchTickData()
         {
             var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(2));
             while (await periodicTimer.WaitForNextTickAsync())
             {
-                Uri baseUrl = new Uri("https://www.bitstamp.net/api/v2/ticker/" + _cryptoCurrency.ToLower() + "usd/");
-                var client = new RestClient(baseUrl);
-                var request = new RestRequest("get", Method.Get);
+                var tickData = await marketApis.ActiveMarketApi.GetTick(selectedTradingPair);
 
-                var response = client.Execute<BitstampTick>(request);
+                double currentValue = tickData.Close * await getCurrencyRate(selectedTradingPair.BaseSymbol, selectedTradingPair.CounterSymbol);
+                currentPriceText.Text = currentValue.ToString("C", CultureInfo.CreateSpecificCulture(currencyToCulture(selectedTradingPair.CounterSymbol)));
 
-                if (response.IsSuccessful && response.Data != null)
-                {
-                    double currentValue = response.Data.Last * await getCurrencyRate("USD", _realCurrency);
-                    currentPriceText.Text = currentValue.ToString("C", CultureInfo.CreateSpecificCulture(currencyToCulture(_realCurrency)));
+                //float percents = response.Data.Percent_change_24;
+                //string percentString = response.Data.Percent_change_24.ToString() + "%";
 
-                    float percents = response.Data.Percent_change_24;
-                    string percentString = response.Data.Percent_change_24.ToString() + "%";
+                //Color percentColor = Color.FromRgb(240, 240, 240);
+                //if (percents > 0)
+                //{
+                //    if (percents >= 15)
+                //    {
+                //        percentColor = Color.FromRgb(0, 255, 0);
+                //    }
+                //    else if (percents >= 10)
+                //    {
+                //        percentColor = Color.FromRgb(41, 179, 41);
+                //    }
+                //    else if (percents >= 5)
+                //    {
+                //        percentColor = Color.FromRgb(103, 165, 103);
+                //    }
+                //    else if (percents >= 1)
+                //    {
+                //        percentColor = Color.FromRgb(181, 255, 181);
+                //    }
+                //} else if (percents < 0)
+                //{
+                //    if (percents <= -15)
+                //    {
+                //        percentColor = Color.FromRgb(255, 0, 0);
+                //    }
+                //    else if (percents <= -10)
+                //    {
+                //        percentColor = Color.FromRgb(179, 41, 41);
+                //    }
+                //    else if (percents <= -5)
+                //    {
+                //        percentColor = Color.FromRgb(165, 103, 103);
+                //    }
+                //    else if (percents <= -1)
+                //    {
+                //        percentColor = Color.FromRgb(255, 181, 181);
+                //    }
+                //}
+                //currentChangeText.Foreground = new SolidColorBrush(percentColor);
 
-                    Color percentColor = Color.FromRgb(240, 240, 240);
-                    if (percents > 0)
-                    {
-                        if (percents >= 15)
-                        {
-                            percentColor = Color.FromRgb(0, 255, 0);
-                        }
-                        else if (percents >= 10)
-                        {
-                            percentColor = Color.FromRgb(41, 179, 41);
-                        }
-                        else if (percents >= 5)
-                        {
-                            percentColor = Color.FromRgb(103, 165, 103);
-                        }
-                        else if (percents >= 1)
-                        {
-                            percentColor = Color.FromRgb(181, 255, 181);
-                        }
-                    } else if (percents < 0)
-                    {
-                        if (percents <= -15)
-                        {
-                            percentColor = Color.FromRgb(255, 0, 0);
-                        }
-                        else if (percents <= -10)
-                        {
-                            percentColor = Color.FromRgb(179, 41, 41);
-                        }
-                        else if (percents <= -5)
-                        {
-                            percentColor = Color.FromRgb(165, 103, 103);
-                        }
-                        else if (percents <= -1)
-                        {
-                            percentColor = Color.FromRgb(255, 181, 181);
-                        }
-                    }
-                    currentChangeText.Foreground = new SolidColorBrush(percentColor);
-
-                    if (percents > 0) {
-                        percentString = "+" + percentString;
-                    }
-                    currentChangeText.Text = percentString;
-                }
-                else
-                {
-                    statusText.Text = "Server closed connection";
-                }
-            }
-        }
-
-        private void cryptoCurrencyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cryptoCurrencyComboBox.SelectedItem != null && currentCurrencyText != null)
-            {
-                ComboBoxItem selectedItem = (ComboBoxItem)cryptoCurrencyComboBox.SelectedItem;
-                _cryptoCurrency = (string)selectedItem.Content;
-                currentCurrencyText.Text = "/" + _cryptoCurrency;
-
-                fetchChartData();
-            }
-        }
-
-        private async void realCurrencyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (realCurrencyComboBox.SelectedItem != null)
-            {
-                ComboBoxItem selectedItem = (ComboBoxItem)realCurrencyComboBox.SelectedItem;
-                string targetCurrency = (string)selectedItem.Content;
-
-                if (targetCurrency != null)
-                {
-                    _realCurrency = targetCurrency;
-
-                    double currencyRate = await getCurrencyRate("USD", _realCurrency);
-                    chartControl.changeByRate(currencyRate, _realCurrency, currencyToCulture(_realCurrency));
-                }
+                //if (percents > 0) {
+                //    percentString = "+" + percentString;
+                //}
+                //currentChangeText.Text = percentString;
             }
         }
 
@@ -215,7 +204,7 @@ namespace CryptoTA
             string uriString = "https://api.exchangerate.host/convert?from=" + sourceCurrency + "&to=" + targetCurrency;
             Uri baseUrl = new Uri(uriString);
             var client = new RestClient(baseUrl);
-            var request = new RestRequest(baseUrl, RestSharp.Method.Get);
+            var request = new RestRequest(baseUrl, Method.Get);
 
             var response = await client.ExecuteAsync<ExchangeRateConvertResponse>(request);
             if (response.IsSuccessful && response.Data != null && response.Data.Success)
@@ -226,146 +215,146 @@ namespace CryptoTA
             return 0d;
         }
 
-        private async Task<bool> fetchChartData(uint? limit = null, uint? timeInterval = null, string? cryptoCurrency = null, string? realCurrency = null)
-        {
-            if (limit == null)
-            {
-                limit = _limit;
-            }
+        //private async Task<bool> FetchChartData(uint? limit = null, uint? timeInterval = null, string? cryptoCurrency = null, string? realCurrency = null)
+        //{
+        //    if (limit == null)
+        //    {
+        //        limit = _limit;
+        //    }
 
-            if (timeInterval == null)
-            {
-                timeInterval = _timeInterval;
-            }
+        //    if (timeInterval == null)
+        //    {
+        //        timeInterval = _timeInterval;
+        //    }
 
-            if (cryptoCurrency == null)
-            {
-                cryptoCurrency = _cryptoCurrency;
-            }
+        //    if (cryptoCurrency == null)
+        //    {
+        //        cryptoCurrency = _cryptoCurrency;
+        //    }
 
-            if (realCurrency == null)
-            {
-                realCurrency = _realCurrency;
-            }
+        //    if (realCurrency == null)
+        //    {
+        //        realCurrency = _realCurrency;
+        //    }
 
-            string uriString = "https://www.bitstamp.net/api/v2/ohlc/";
-            uriString += cryptoCurrency.ToLower() + "usd";
-            uriString += "/?limit=" + limit + "&step=" + timeInterval;
+        //    string uriString = "https://www.bitstamp.net/api/v2/ohlc/";
+        //    uriString += cryptoCurrency.ToLower() + "usd";
+        //    uriString += "/?limit=" + limit + "&step=" + timeInterval;
 
-            Uri baseUrl = new Uri(uriString);
-            var client = new RestClient(baseUrl);
-            var request = new RestRequest(baseUrl, RestSharp.Method.Get);
+        //    Uri baseUrl = new Uri(uriString);
+        //    var client = new RestClient(baseUrl);
+        //    var request = new RestRequest(baseUrl, RestSharp.Method.Get);
 
-            var response = await client.ExecuteAsync<BitstampOhlc>(request);
+        //    var response = await client.ExecuteAsync<BitstampOhlc>(request);
 
-            if (response.IsSuccessful && response.Data != null && response.Data.Data != null && response.Data.Data.Ohlc != null)
-            {
-                List<object> values = new List<object>();
-                List<string> labels = new List<string>();
+        //    if (response.IsSuccessful && response.Data != null && response.Data.Data != null && response.Data.Data.Ohlc != null)
+        //    {
+        //        List<object> values = new List<object>();
+        //        List<string> labels = new List<string>();
 
-                foreach (BitstampOhlcItem ohlcItem in response.Data.Data.Ohlc)
-                {
-                    DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                    dateTime = dateTime.AddSeconds(ohlcItem.Timestamp).ToLocalTime();
-                    values.Add(ohlcItem.Close);
+        //        foreach (BitstampOhlcItem ohlcItem in response.Data.Data.Ohlc)
+        //        {
+        //            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        //            dateTime = dateTime.AddSeconds(ohlcItem.Timestamp).ToLocalTime();
+        //            values.Add(ohlcItem.Close);
 
-                    string timeFormat;
-                    if (timeInterval < 300)
-                    {
-                        timeFormat = "HH:mm";
-                    }
-                    else if (timeInterval < 86400)
-                    {
-                        timeFormat = "MM/dd/yyyy HH:mm";
-                    }
-                    else
-                    {
-                        timeFormat = "MM/dd/yyyy";
-                    }
-                    labels.Add(dateTime.ToString(timeFormat));
-                }
+        //            string timeFormat;
+        //            if (timeInterval < 300)
+        //            {
+        //                timeFormat = "HH:mm";
+        //            }
+        //            else if (timeInterval < 86400)
+        //            {
+        //                timeFormat = "MM/dd/yyyy HH:mm";
+        //            }
+        //            else
+        //            {
+        //                timeFormat = "MM/dd/yyyy";
+        //            }
+        //            labels.Add(dateTime.ToString(timeFormat));
+        //        }
 
-                chartControl.SeriesCollection[0].Values.Clear();
-                chartControl.Labels.Clear();
+        //        chartControl.SeriesCollection[0].Values.Clear();
+        //        chartControl.Labels.Clear();
 
-                chartControl.SeriesCollection[0].Values.AddRange(values);
-                chartControl.Labels.AddRange(labels);
+        //        chartControl.SeriesCollection[0].Values.AddRange(values);
+        //        chartControl.Labels.AddRange(labels);
 
-                double currencyRate = await getCurrencyRate("USD", _realCurrency);
-                chartControl.changeByRate(currencyRate, _realCurrency, currencyToCulture(_realCurrency));
+        //        double currencyRate = await getCurrencyRate("USD", _realCurrency);
+        //        chartControl.changeByRate(currencyRate, _realCurrency, currencyToCulture(_realCurrency));
 
-                statusText.Text = "Data synchronized";
+        //        statusText.Text = "Data synchronized";
 
-                return true;
-            }
-            else
-            {
-                statusText.Text = "Server closed connection";
-                return false;
-            }
-        }
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        statusText.Text = "Server closed connection";
+        //        return false;
+        //    }
+        //}
 
         private void timeSpan0Btn_Click(object sender, RoutedEventArgs e)
         {
             _limit = 1000;
             _timeInterval = 259200;
-            fetchChartData();
+            //FetchChartData();
         }
 
         private void timeSpan1Btn_Click(object sender, RoutedEventArgs e)
         {
             _limit = 730;
             _timeInterval = 43200;
-            fetchChartData();
+            //FetchChartData();
         }
 
         private void timeSpan2Btn_Click(object sender, RoutedEventArgs e)
         {
             _limit = 730;
             _timeInterval = 21600;
-            fetchChartData();
+            //FetchChartData();
         }
 
         private void timeSpan3Btn_Click(object sender, RoutedEventArgs e)
         {
             _limit = 730;
             _timeInterval = 14400;
-            fetchChartData();
+            //FetchChartData();
         }
 
         private void timeSpan4Btn_Click(object sender, RoutedEventArgs e)
         {
             _limit = 744;
             _timeInterval = 3600;
-            fetchChartData();
+            //FetchChartData();
         }
 
         private void timeSpan5Btn_Click(object sender, RoutedEventArgs e)
         {
             _limit = 1000;
             _timeInterval = 259200;
-            fetchChartData();
+            //FetchChartData();
         }
 
         private void timeSpan6Btn_Click(object sender, RoutedEventArgs e)
         {
             _limit = 744;
             _timeInterval = 900;
-            fetchChartData();
+            //FetchChartData();
         }
 
         private void timeSpan7Btn_Click(object sender, RoutedEventArgs e)
         {
             _limit = 864;
             _timeInterval = 300;
-            fetchChartData();
+            //FetchChartData();
         }
 
         private void timeSpan8Btn_Click(object sender, RoutedEventArgs e)
         {
             _limit = 480;
             _timeInterval = 180;
-            fetchChartData();
+            //FetchChartData();
         }
 
         private void AccountsMenuItem_Click(object sender, RoutedEventArgs e)
@@ -373,6 +362,24 @@ namespace CryptoTA
             var accountsWindow = new AccountsWindow();
             accountsWindow.Owner = this;
             accountsWindow.ShowDialog();
+        }
+
+        private void marketComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void TradingPairComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TradingPairComboBox.SelectedItem != null && currentCurrencyText != null)
+            {
+                var selectedItem = (TradingPair) TradingPairComboBox.SelectedItem;
+                selectedTradingPair = selectedItem;
+                currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
+                TradingPairComboBox.InvalidateVisual();
+
+                //fetchChartData();
+            }
         }
     }
 }

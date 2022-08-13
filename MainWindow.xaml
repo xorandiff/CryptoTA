@@ -48,31 +48,14 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
-                            <GroupBox Header="Cryptocurrency" Margin="10" Padding="10">
-                                <ComboBox x:Name="cryptoCurrencyComboBox" SelectionChanged="cryptoCurrencyComboBox_SelectionChanged">
-                                    <ComboBoxItem IsSelected="True">ETH</ComboBoxItem>
-                                    <ComboBoxItem>BTC</ComboBoxItem>
-                                    <ComboBoxItem>ADA</ComboBoxItem>
-                                    <ComboBoxItem>XRP</ComboBoxItem>
-                                    <ComboBoxItem>AVAX</ComboBoxItem>
-                                    <ComboBoxItem>SHIB</ComboBoxItem>
-                                    <ComboBoxItem>WBTC</ComboBoxItem>
-                                    <ComboBoxItem>UNI</ComboBoxItem>
-                                    <ComboBoxItem>LTC</ComboBoxItem>
-                                    <ComboBoxItem>APE</ComboBoxItem>
-                                    <ComboBoxItem>USDC</ComboBoxItem>
-                                    <ComboBoxItem>ETH2</ComboBoxItem>
-                                    <ComboBoxItem>ALGO</ComboBoxItem>
-                                </ComboBox>
+                            <GroupBox Header="Market" Margin="10" Padding="10">
+                                <ComboBox x:Name="marketComboBox" SelectionChanged="marketComboBox_SelectionChanged" />
                             </GroupBox>
-
-                            <GroupBox Header="Real currency" Margin="10" Padding="10">
-                                <ComboBox x:Name="realCurrencyComboBox" SelectionChanged="realCurrencyComboBox_SelectionChanged">
-                                    <ComboBoxItem IsSelected="True">USD</ComboBoxItem>
-                                    <ComboBoxItem>PLN</ComboBoxItem>
-                                    <ComboBoxItem>GBP</ComboBoxItem>
-                                    <ComboBoxItem>EUR</ComboBoxItem>
-                                </ComboBox>
+                            
+                            <GroupBox Header="Trading Pair" Margin="10" Padding="10">
+                                <ComboBox 
+                                    x:Name="TradingPairComboBox" SelectionChanged="TradingPairComboBox_SelectionChanged"
+                                />
                             </GroupBox>
 
                             <GroupBox Header="Chart time span" Margin="10" Padding="10">

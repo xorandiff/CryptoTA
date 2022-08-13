@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CryptoTA.Models;
 
@@ -38,6 +39,8 @@ namespace CryptoTA.Apis
                 return ohlcTimeIntervals;
             }
         }
+
+        public uint OhlcMaxDensityTimeInterval => throw new NotImplementedException();
 
         public Task<int> BuyOrder(OrderType orderType, double amount, double price)
         {

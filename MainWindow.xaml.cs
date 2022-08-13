@@ -145,9 +145,7 @@ namespace CryptoTA
             while (await periodicTimer.WaitForNextTickAsync())
             {
                 var tickData = await marketApis.ActiveMarketApi.GetTick(selectedTradingPair);
-
-                double currentValue = tickData.Close * await getCurrencyRate(selectedTradingPair.BaseSymbol, selectedTradingPair.CounterSymbol);
-                currentPriceText.Text = currentValue.ToString("C", CultureInfo.CreateSpecificCulture(currencyToCulture(selectedTradingPair.CounterSymbol)));
+                currentPriceText.Text = tickData.Close.ToString("C", CultureInfo.CreateSpecificCulture(currencyToCulture(selectedTradingPair.CounterSymbol)));
 
                 //float percents = response.Data.Percent_change_24;
                 //string percentString = response.Data.Percent_change_24.ToString() + "%";
@@ -217,7 +215,10 @@ namespace CryptoTA
 
         private async Task LoadChartData()
         {
+            using (var db = new DatabaseContext())
+            {
 
+            }
         }
 
         //private async Task<bool> FetchChartData(uint? limit = null, uint? timeInterval = null, string? cryptoCurrency = null, string? realCurrency = null)

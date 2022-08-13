@@ -1,6 +1,7 @@
 ﻿using CryptoTA.Models;
 using RestSharp;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace CryptoTA.Apis
     public class BitstampApi : IMarketApi
     {
         private readonly string name = "Bitstamp";
-        private readonly uint[] ohlcTimeIntervals = { };
+        private readonly uint[] ohlcTimeIntervals = { 60, 180, 300, 900, 1800, 3600, 7200, 14400, 21600, 43200, 86400, 259200 };
         private bool enabled = false;
 
         public bool Enabled
@@ -38,6 +39,14 @@ namespace CryptoTA.Apis
             get
             {
                 return ohlcTimeIntervals;
+            }
+        }
+
+        public uint OhlcMaxDensityTimeInterval
+        {
+            get
+            {
+                return ohlcTimeIntervals.Min() * 1000;
             }
         }
 

@@ -28,6 +28,12 @@ namespace CryptoTA.Apis
         /// </value>
         public uint[] OhlcTimeIntervals { get; }
 
+        /// <value>
+        /// Maxmial amount of secods of densiest possible time interval for single 
+        /// OHLC query.
+        /// </value>
+        public uint OhlcMaxDensityTimeInterval { get; }
+
         /// <summary>
         /// Gets all available trading pairs.
         /// </summary>

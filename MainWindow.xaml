@@ -1,24 +1,21 @@
-﻿<Window x:Class="CryptoTA.MainWindow"
+﻿<Window 
+        x:Class="CryptoTA.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CryptoTA"
-        xmlns:ch="clr-namespace:CryptoTA.Chart"
-        xmlns:uc="clr-namespace:CryptoTA.UserControls"
+        xmlns:t="http://schemas.telerik.com/2008/xaml/presentation"    
+        xmlns:vm="clr-namespace:CryptoTA.ViewModels"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
         Height="850"
         Width="1400"
         Icon="icon_64.png"
-        Style="{DynamicResource CustomWindowStyle}" 
         WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource CustomWindowStyle}"
         >
-    <Window.Resources>
-        <ch:ChartTimeSpans x:Key="TimeSpansCollection" />
-    </Window.Resources>
-    <Grid>
+    <Grid DataContext="{Binding}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -52,34 +49,64 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <vm:ChartViewModel x:Key="ChartViewModel" />
+                            </StackPanel.Resources>
                             <GroupBox Header="Market" Margin="10" Padding="10">
-                                <ComboBox x:Name="marketComboBox" SelectionChanged="marketComboBox_SelectionChanged" />
+                                <t:RadComboBox 
+                                    x:Name="marketComboBox" 
+                                    ItemsSource="{Binding Source={StaticResource ChartViewModel}, Path=Markets}"
+                                    SelectionChanged="marketComboBox_SelectionChanged" 
+                                />
                             </GroupBox>
                             
                             <GroupBox Header="Trading Pair" Margin="10" Padding="10">
-                                <ComboBox 
-                                    x:Name="TradingPairComboBox" SelectionChanged="TradingPairComboBox_SelectionChanged"
+                                <t:RadComboBox 
+                                    x:Name="TradingPairComboBox" 
+                                    ItemsSource="{Binding Source={StaticResource ChartViewModel}, Path=TradingPairs}"
+                                    SelectionChanged="TradingPairComboBox_SelectionChanged"
                                 />
                             </GroupBox>
 
                             <GroupBox Header="Time span" Margin="10" Padding="10">
-                                <ComboBox 
+                                <t:RadComboBox 
                                     x:Name="TimeSpanComboBox"
-                                    ItemsSource="{Binding Source={StaticResource TimeSpansCollection}}"
+                                    ItemsSource="{Binding Source={StaticResource ChartViewModel}, Path=TimeSpans}"
                                     DisplayMemberPath="Name"
                                     SelectedIndex="0"
-                                    SelectedValuePath="Value" SelectionChanged="TimeSpanComboBox_SelectionChanged"
+                                    SelectedValuePath="Value"
+                                    SelectionChanged="TimeSpanComboBox_SelectionChanged"
                                 />
                             </GroupBox>
                         </StackPanel>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Orientation="Horizontal">
                             <TextBlock x:Name="currentChangeText" Text="5%" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Bottom" />
                             <TextBlock x:Name="currentPriceText" Text="$1121,21" FontSize="36" />
-                            <TextBlock x:Name="currentCurrencyText" Text="/ETH" FontSize="36" Foreground="#FF797979" />
+                            <TextBlock x:Name="currentCurrencyText" Text="/ETH" FontSize="36" />
                         </StackPanel>
                     </Grid>
-                    
-                    <uc:PointShapeLineChartControl Grid.Row="1" x:Name="chartControl" />
+
+                    <t:RadCartesianChart 
+                        Grid.Row="1" 
+                        x:Name="OhlcCartesianChart"
+                    >
+                        <t:RadCartesianChart.HorizontalAxis>
+                            <t:CategoricalAxis />
+                        </t:RadCartesianChart.HorizontalAxis>
+                        <t:RadCartesianChart.VerticalAxis>
+                            <t:LinearAxis/>
+                        </t:RadCartesianChart.VerticalAxis>
+                        
+                        <t:OhlcSeries 
+                            ItemsSource="{Binding OhlcSeriesItems}"
+                            CategoryBinding="Category"
+                            OpenBinding="Open" 
+                            CloseBinding="Close" 
+                            LowBinding="Low" 
+                            HighBinding="High"
+                        />
+                        
+                    </t:RadCartesianChart>
 
                     <Grid Margin="0,5,0,5" Grid.Row="2">
                         <Grid.ColumnDefinitions>
@@ -166,8 +193,7 @@
 
         <StatusBar Grid.Row="2">
             <StatusBarItem>
-                <TextBlock Text="{Binding}" 
-                       x:Name="statusText" />
+                <TextBlock x:Name="statusText" Text="{Binding StatusText, UpdateSourceTrigger=PropertyChanged}" />
             </StatusBarItem>
         </StatusBar>
     </Grid>

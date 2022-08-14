@@ -1,5 +1,5 @@
 ﻿using System;
-using CryptoTA.Models;
+using CryptoTA.Database.Models;
 
 namespace CryptoTA.Apis
 {

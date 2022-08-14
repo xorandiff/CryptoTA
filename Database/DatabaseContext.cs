@@ -1,7 +1,8 @@
-﻿using CryptoTA.Models;
+﻿using CryptoTA.Database.Models;
+using System;
 using System.Data.Entity;
 
-namespace CryptoTA
+namespace CryptoTA.Database
 {
     public class DatabaseContext : DbContext
     {

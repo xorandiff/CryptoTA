@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CryptoTA.Models
+namespace CryptoTA.Database.Models
 {
     /// <summary>
     /// Tick model containing high, low, open and close prices (for last 

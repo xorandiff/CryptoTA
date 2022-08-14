@@ -10,5 +10,4 @@
         Width="400"
         WindowStartupLocation="CenterScreen" 
         Loaded="Window_Loaded"
-        Style="{DynamicResource CustomWindowStyle}"
         />

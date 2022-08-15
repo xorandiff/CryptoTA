@@ -37,7 +37,6 @@ namespace CryptoTA
             VisualStudio2019Palette.Palette.DisabledOpacity = 0.3;
             VisualStudio2019Palette.Palette.ReadOnlyOpacity = 0.6;
 
-            StyleManager.ApplicationTheme = new VisualStudio2019Theme();
             InitializeComponent();
         }
     }

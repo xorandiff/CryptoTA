@@ -11,16 +11,21 @@ namespace CryptoTA.ViewModels
         public ChartViewModel()
         {
             markets = CreateMarkets();
+            market = markets.First();
+
             tradingPairs = CreateTradingPairs();
+            tradingPair = tradingPairs.First();
+
             timeIntervals = CreateTimeIntervals();
+            timeInterval = timeIntervals.First();
         }
 
-        private ObservableCollection<Market> CreateMarkets()
+        private static ObservableCollection<Market> CreateMarkets()
         {
             ObservableCollection<Market> markets = new();
 
             using var db = new DatabaseContext();
-            var marketList = db.Markets.ToList();
+            var marketList = db.Markets.Include("TradingPairs").ToList();
 
             foreach (var market in marketList)
             {
@@ -32,16 +37,18 @@ namespace CryptoTA.ViewModels
 
         private ObservableCollection<TradingPair> CreateTradingPairs()
         {
-            ObservableCollection<TradingPair> tradingPairs = new()
+            ObservableCollection<TradingPair> tradingPairs = new();
+            if (market != null)
             {
-                new TradingPair {},
-                new TradingPair {},
-                new TradingPair {}
-            };
+                foreach (TradingPair tradingPair in market.TradingPairs.ToList())
+                {
+                    tradingPairs.Add(tradingPair);
+                }
+            }
             return tradingPairs;
         }
 
-        private ObservableCollection<ChartTimeSpan> CreateTimeIntervals()
+        private static ObservableCollection<ChartTimeSpan> CreateTimeIntervals()
         {
             ObservableCollection<ChartTimeSpan> timeIntervals = new()
             {
@@ -57,6 +64,10 @@ namespace CryptoTA.ViewModels
             };
             return timeIntervals;
         }
+
+        public Market Market { get => market; set => market = value; }
+        public TradingPair TradingPair { get => tradingPair; set => tradingPair = value; }
+        public ChartTimeSpan TimeInterval { get => timeInterval; set => timeInterval = value; }
 
         public ObservableCollection<TradingPair> TradingPairs
         {
@@ -78,6 +89,7 @@ namespace CryptoTA.ViewModels
                 {
                     markets = CreateMarkets();
                 }
+
                 return markets;
             }
         }
@@ -93,6 +105,11 @@ namespace CryptoTA.ViewModels
                 return timeIntervals;
             }
         }
+
+        private Market market;
+        private TradingPair tradingPair;
+        private ChartTimeSpan timeInterval;
+
         private ObservableCollection<Market> markets;
         private ObservableCollection<TradingPair> tradingPairs;
         private ObservableCollection<ChartTimeSpan> timeIntervals;

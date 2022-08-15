@@ -41,6 +41,8 @@ namespace CryptoTA
 
         public MainWindow()
         {
+            StyleManager.ApplicationTheme = new VisualStudio2019Theme();
+
             InitializeComponent();
             DataContext = this;
 

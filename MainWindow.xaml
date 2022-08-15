@@ -1,12 +1,12 @@
 ﻿<Window
         x:Class="CryptoTA.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:CryptoTA"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:t="http://schemas.telerik.com/2008/xaml/presentation"    
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:CryptoTA.ViewModels" 
-        xmlns:local="clr-namespace:CryptoTA"
         d:DataContext="{d:DesignInstance Type=local:MainWindow}"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
@@ -16,6 +16,9 @@
         Icon="icon_64.png"
         WindowStartupLocation="CenterScreen"
         >
+    <Window.Resources>
+        <vm:ChartViewModel x:Key="ChartViewModel" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -23,17 +26,17 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Menu Margin="0,0,0,5">
-            <MenuItem Header="File" />
-            <MenuItem Header="Edit">
-                <MenuItem x:Name="AccountsMenuItem" Header="Accounts" Click="AccountsMenuItem_Click" />
-            </MenuItem>
-            <MenuItem Header="View" />
-            <MenuItem Header="About" />
-        </Menu>
+        <t:RadMenu Margin="0,0,0,5">
+            <t:RadMenuItem Header="File" />
+            <t:RadMenuItem Header="Edit">
+                <t:RadMenuItem x:Name="AccountsMenuItem" Header="Accounts" Click="AccountsMenuItem_Click" />
+            </t:RadMenuItem>
+            <t:RadMenuItem Header="View" />
+            <t:RadMenuItem Header="About" />
+        </t:RadMenu>
 
-        <TabControl Grid.Row="1" TabStripPlacement="Left">
-            <TabItem Header="Chart" IsSelected="True">
+        <t:RadTabControl Grid.Row="1" TabStripPlacement="Left">
+            <t:RadTabItem Header="Chart" IsSelected="True">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -49,14 +52,15 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal">
-                            <StackPanel.Resources>
-                                <vm:ChartViewModel x:Key="ChartViewModel" />
-                            </StackPanel.Resources>
+                        <StackPanel 
+                            Orientation="Horizontal"
+                            DataContext="{StaticResource ChartViewModel}"
+                        >
                             <GroupBox Header="Market" Margin="10" Padding="10">
                                 <t:RadComboBox 
                                     x:Name="marketComboBox" 
-                                    ItemsSource="{Binding Source={StaticResource ChartViewModel}, Path=Markets}"
+                                    ItemsSource="{Binding Markets}"
+                                    SelectedItem="{Binding Market}"
                                     DisplayMemberPath="Name"
                                     SelectionChanged="MarketComboBox_SelectionChanged" 
                                 />
@@ -65,8 +69,9 @@
                             <GroupBox Header="Trading Pair" Margin="10" Padding="10">
                                 <t:RadComboBox 
                                     x:Name="TradingPairComboBox" 
-                                    ItemsSource="{Binding Source={StaticResource ChartViewModel}, Path=TradingPairs}"
-                                    DisplayMemberPath="Name"
+                                    ItemsSource="{Binding TradingPairs}"
+                                    SelectedItem="{Binding TradingPair}"
+                                    DisplayMemberPath="DisplayName"
                                     SelectionChanged="TradingPairComboBox_SelectionChanged"
                                 />
                             </GroupBox>
@@ -74,7 +79,9 @@
                             <GroupBox Header="Time span" Margin="10" Padding="10">
                                 <t:RadComboBox 
                                     x:Name="TimeSpanComboBox"
-                                    ItemsSource="{Binding Source={StaticResource ChartViewModel}, Path=TimeSpans}"
+                                    ItemsSource="{Binding TimeIntervals}"
+                                    SelectedItem="{Binding TimeInterval}"
+                                    SelectedValuePath="Value"
                                     DisplayMemberPath="Name"
                                     SelectionChanged="TimeSpanComboBox_SelectionChanged"
                                 />
@@ -132,8 +139,8 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-            </TabItem>
-            <TabItem Header="Indicators">
+            </t:RadTabItem>
+            <t:RadTabItem Header="Indicators">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -155,8 +162,8 @@
 
                     </GroupBox>
                 </Grid>
-            </TabItem>
-            <TabItem Header="Statistics">
+            </t:RadTabItem>
+            <t:RadTabItem Header="Statistics">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -186,11 +193,11 @@
                         </TabItem>
                     </TabControl>
                 </Grid>
-            </TabItem>
-            <TabItem Header="Strategy settings">
+            </t:RadTabItem>
+            <t:RadTabItem Header="Strategy settings">
 
-            </TabItem>
-        </TabControl>
+            </t:RadTabItem>
+        </t:RadTabControl>
 
         <StatusBar Grid.Row="2">
             <StatusBarItem>

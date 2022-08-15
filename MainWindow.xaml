@@ -191,7 +191,7 @@
             </TabItem>
         </TabControl>
 
-        <StatusBar Grid.Row="2">
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="3">
             <StatusBarItem>
                 <TextBlock x:Name="statusText" Text="{Binding StatusText, UpdateSourceTrigger=PropertyChanged}" />
             </StatusBarItem>

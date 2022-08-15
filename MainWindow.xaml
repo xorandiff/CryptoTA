@@ -1,21 +1,22 @@
-﻿<Window 
+﻿<Window
         x:Class="CryptoTA.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:t="http://schemas.telerik.com/2008/xaml/presentation"    
-        xmlns:vm="clr-namespace:CryptoTA.ViewModels"
+        xmlns:vm="clr-namespace:CryptoTA.ViewModels" 
+        xmlns:local="clr-namespace:CryptoTA"
+        d:DataContext="{d:DesignInstance Type=local:MainWindow}"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
-        Height="850"
-        Width="1400"
+        Height="600"
+        Width="800"
         Icon="icon_64.png"
         WindowStartupLocation="CenterScreen"
-        Style="{DynamicResource CustomWindowStyle}"
         >
-    <Grid DataContext="{Binding}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -56,14 +57,16 @@
                                 <t:RadComboBox 
                                     x:Name="marketComboBox" 
                                     ItemsSource="{Binding Source={StaticResource ChartViewModel}, Path=Markets}"
-                                    SelectionChanged="marketComboBox_SelectionChanged" 
+                                    DisplayMemberPath="Name"
+                                    SelectionChanged="MarketComboBox_SelectionChanged" 
                                 />
                             </GroupBox>
-                            
+
                             <GroupBox Header="Trading Pair" Margin="10" Padding="10">
                                 <t:RadComboBox 
                                     x:Name="TradingPairComboBox" 
                                     ItemsSource="{Binding Source={StaticResource ChartViewModel}, Path=TradingPairs}"
+                                    DisplayMemberPath="Name"
                                     SelectionChanged="TradingPairComboBox_SelectionChanged"
                                 />
                             </GroupBox>
@@ -73,8 +76,6 @@
                                     x:Name="TimeSpanComboBox"
                                     ItemsSource="{Binding Source={StaticResource ChartViewModel}, Path=TimeSpans}"
                                     DisplayMemberPath="Name"
-                                    SelectedIndex="0"
-                                    SelectedValuePath="Value"
                                     SelectionChanged="TimeSpanComboBox_SelectionChanged"
                                 />
                             </GroupBox>
@@ -82,7 +83,7 @@
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Orientation="Horizontal">
                             <TextBlock x:Name="currentChangeText" Text="5%" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Bottom" />
                             <TextBlock x:Name="currentPriceText" Text="$1121,21" FontSize="36" />
-                            <TextBlock x:Name="currentCurrencyText" Text="/ETH" FontSize="36" />
+                            <TextBlock Text="/ETH" FontSize="36" />
                         </StackPanel>
                     </Grid>
 
@@ -96,7 +97,7 @@
                         <t:RadCartesianChart.VerticalAxis>
                             <t:LinearAxis/>
                         </t:RadCartesianChart.VerticalAxis>
-                        
+
                         <t:OhlcSeries 
                             ItemsSource="{Binding OhlcSeriesItems}"
                             CategoryBinding="Category"
@@ -105,14 +106,14 @@
                             LowBinding="Low" 
                             HighBinding="High"
                         />
-                        
+
                     </t:RadCartesianChart>
 
                     <Grid Margin="0,5,0,5" Grid.Row="2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -136,7 +137,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -148,10 +149,10 @@
                         </ComboBox>
                     </GroupBox>
                     <GroupBox Grid.Row="1" Header="Oscillators" Margin="20">
-                        
+
                     </GroupBox>
                     <GroupBox Grid.Row="1" Grid.Column="1" Header="Moving averages" Margin="20">
-                        
+
                     </GroupBox>
                 </Grid>
             </TabItem>
@@ -170,7 +171,7 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <GroupBox Header="Current Balance" Margin="20">
-                                    
+
                                 </GroupBox>
                                 <GroupBox Grid.Row="1" Header="Transactions" Margin="20">
 
@@ -191,9 +192,9 @@
             </TabItem>
         </TabControl>
 
-        <StatusBar Grid.Row="2" Grid.ColumnSpan="3">
+        <StatusBar Grid.Row="2">
             <StatusBarItem>
-                <TextBlock x:Name="statusText" Text="{Binding StatusText, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="{Binding StatusText}" />
             </StatusBarItem>
         </StatusBar>
     </Grid>

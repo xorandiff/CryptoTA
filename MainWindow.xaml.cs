@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using CryptoTA.Apis;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
@@ -40,12 +41,6 @@ namespace CryptoTA
 
         public MainWindow()
         {
-            VisualStudio2013Palette.LoadPreset(VisualStudio2013Palette.ColorVariation.Dark);
-            VisualStudio2013Palette.Palette.AccentDarkColor = new System.Windows.Media.Color { R = 255, G = 0, B = 0, A = 255};
-            VisualStudio2013Palette.Palette.AccentColor = new System.Windows.Media.Color { R = 255, G = 0, B = 0, A = 255 };
-            VisualStudio2013Palette.Palette.AccentMainColor = new System.Windows.Media.Color { R = 255, G = 0, B = 0, A = 255 };
-            StyleManager.ApplicationTheme = new VisualStudio2013Theme();
-
             InitializeComponent();
             DataContext = this;
 
@@ -73,8 +68,6 @@ namespace CryptoTA
             }
 
             marketApis.setActiveApiByName(selectedMarket.Name);
-
-            currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
 
             _ = FetchTickData();
             _ = LoadChartData();
@@ -172,7 +165,7 @@ namespace CryptoTA
             accountsWindow.ShowDialog();
         }
 
-        private void marketComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MarketComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
@@ -193,7 +186,6 @@ namespace CryptoTA
                             SelectedTradingPair = newTradingPair;
                             selectedTradingPairId = newTradingPair.TradingPairId;
 
-                            currentCurrencyText.Text = "/" + newTradingPair.BaseSymbol;
                             TradingPairComboBox.InvalidateVisual();
 
                             _ = LoadChartData();

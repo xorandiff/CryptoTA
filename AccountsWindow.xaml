@@ -8,7 +8,9 @@
         Title="Accounts"
         Height="330"
         Width="400"
-        Style="{DynamicResource CustomWindowStyle}" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="ToolWindow"
         >
     <Grid>
         <TabControl>

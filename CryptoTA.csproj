@@ -24,7 +24,6 @@
     </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicAero2" Version="1.2.1" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="6.0.8">
       <PrivateAssets>all</PrivateAssets>
@@ -38,8 +37,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="RestSharp" Version="108.0.1" />
-    <PackageReference Include="telerik.ui.for.wpf.netcore.xaml" Version="2022.1.117" />
-    <PackageReference Include="WPF-UI" Version="2.0.2" />
+    <PackageReference Include="telerik.ui.for.wpf.netcore.xaml" Version="2022.1.117">
+      <IncludeAssets></IncludeAssets>
+      <GeneratePathProperty></GeneratePathProperty>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +52,19 @@
     </Reference>
     <Reference Include="Arction.Wpf.SemibindableCharting.LightningChartUltimate">
       <HintPath>..\..\..\..\..\Program Files (x86)\Arction\LightningChart .NET SDK v.8\LibNET4\Arction.Wpf.SemibindableCharting.LightningChartUltimate.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.VisualStudio2019">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.VisualStudio2019.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
 

@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoTA"
         xmlns:ch="clr-namespace:CryptoTA.Chart"
-        xmlns:uc="clr-namespace:CryptoTA.UserControls"
+        xmlns:uc="clr-namespace:CryptoTA.UserControls" 
+        d:DataContext="{d:DesignInstance Type=local:MainWindow}"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
-        Height="850"
+        Height="650"
         Width="1400"
         Icon="icon_64.png"
         Style="{DynamicResource CustomWindowStyle}" 
@@ -21,7 +22,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -39,21 +40,21 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
                             <GroupBox Header="Market" Margin="10" Padding="10">
-                                <ComboBox x:Name="marketComboBox" SelectionChanged="marketComboBox_SelectionChanged" />
+                                <ComboBox x:Name="marketComboBox" SelectionChanged="MarketComboBox_SelectionChanged" />
                             </GroupBox>
                             
                             <GroupBox Header="Trading Pair" Margin="10" Padding="10">
@@ -68,7 +69,8 @@
                                     ItemsSource="{Binding Source={StaticResource TimeSpansCollection}}"
                                     DisplayMemberPath="Name"
                                     SelectedIndex="0"
-                                    SelectedValuePath="Value" SelectionChanged="TimeSpanComboBox_SelectionChanged"
+                                    SelectedValuePath="Value" 
+                                    SelectionChanged="TimeSpanComboBox_SelectionChanged"
                                 />
                             </GroupBox>
                         </StackPanel>
@@ -83,9 +85,9 @@
 
                     <Grid Margin="0,5,0,5" Grid.Row="2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -109,7 +111,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -166,8 +168,7 @@
 
         <StatusBar Grid.Row="2">
             <StatusBarItem>
-                <TextBlock Text="{Binding}" 
-                       x:Name="statusText" />
+                <TextBlock Text="{Binding StatusText}" />
             </StatusBarItem>
         </StatusBar>
     </Grid>

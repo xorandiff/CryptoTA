@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using CryptoTA.Apis;
 using CryptoTA.Models;
-using Newtonsoft.Json.Linq;
 
 namespace CryptoTA
 {
@@ -28,6 +27,7 @@ namespace CryptoTA
         private Market selectedMarket = new();
         private TradingPair selectedTradingPair = new();
         private int selectedTradingPairId = 0;
+        private string statusText = "";
 
         public List<TradingPair> TradingPairs
         {
@@ -42,34 +42,19 @@ namespace CryptoTA
             set { selectedTradingPair = value; }
         }
 
+        public string StatusText { get => statusText; set => statusText = value; }
+
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
         }
 
-        private string currencyToCulture(string currency)
-        {
-            if (currency == "USD")
-            {
-                return "en-us";
-            }
-            else if (currency == "PLN")
-            {
-                return "pl";
-            }
-            else if (currency == "GBP")
-            {
-                return "en-gb";
-            }
-            return "en-us";
-        }
-
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             using (var db = new DatabaseContext())
             {
-                if (db.Markets.Count() == 0)
+                if (!db.Markets.Any())
                 {
                     var downloadWindow = new DownloadWindow();
                     downloadWindow.ShowDialog();
@@ -96,7 +81,7 @@ namespace CryptoTA
             currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
 
             await LoadChartData();
-            FetchTickData();
+            _ = FetchTickData();
         }
 
         public async Task FetchTickData()
@@ -105,7 +90,9 @@ namespace CryptoTA
             while (await periodicTimer.WaitForNextTickAsync())
             {
                 var tickData = await marketApis.ActiveMarketApi.GetTick(selectedTradingPair);
-                currentPriceText.Text = tickData.Close.ToString("C", CultureInfo.CreateSpecificCulture(currencyToCulture(selectedTradingPair.CounterSymbol)));
+
+                var regionInfo = new RegionInfo(selectedTradingPair.CounterSymbol);
+                currentPriceText.Text = regionInfo.CurrencySymbol + " " + tickData.Close;
 
                 //float percents = response.Data.Percent_change_24;
                 //string percentString = response.Data.Percent_change_24.ToString() + "%";
@@ -157,12 +144,12 @@ namespace CryptoTA
             }
         }
 
-        private async Task<double> getCurrencyRate(string sourceCurrency, string targetCurrency)
+        private async Task<double> GetCurrencyRate(string sourceCurrency, string targetCurrency)
         {
             string uriString = "https://api.exchangerate.host/convert?from=" + sourceCurrency + "&to=" + targetCurrency;
-            Uri baseUrl = new Uri(uriString);
-            var client = new RestClient(baseUrl);
-            var request = new RestRequest(baseUrl, RestSharp.Method.Get);
+            Uri baseUrl = new (uriString);
+            RestClient client = new (baseUrl);
+            RestRequest request = new (baseUrl, Method.Get);
 
             var response = await client.ExecuteAsync<ExchangeRateConvertResponse>(request);
             if (response.IsSuccessful && response.Data != null && response.Data.Success)
@@ -175,87 +162,92 @@ namespace CryptoTA
 
         private async Task LoadChartData(DateTime? startDate = null)
         {
-            using (var db = new DatabaseContext())
+            using DatabaseContext db = new();
+            var tradingPair = db.TradingPairs.Find(selectedTradingPairId);
+            if (tradingPair != null)
             {
-                var tradingPair = db.TradingPairs.Find(selectedTradingPairId);
-                if (tradingPair != null)
+                if (!tradingPair.Ticks.Any())
                 {
-                    if (tradingPair.Ticks.Count == 0)
-                    {
-                        statusText.Text = "Downloading initial data...";
-                        var Ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-                        tradingPair.Ticks.AddRange(Ticks);
-                        await db.SaveChangesAsync();
-                    }
+                    StatusText = "Downloading initial data...";
 
-                    if (startDate != null)
+                    var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
+                    tradingPair.Ticks.AddRange(ticks);
+
+                    await db.SaveChangesAsync();
+                }
+
+                if (startDate != null)
+                {
+                    var ticksBeforeStartDate = tradingPair.Ticks.FindAll(tick => tick.Date < startDate).Any();
+                    if (!ticksBeforeStartDate)
                     {
-                        var ticksBeforeStartDate = tradingPair.Ticks.FindAll(tick => tick.Date < startDate).Count;
-                        if (ticksBeforeStartDate == 0)
+                        StatusText = "Downloading missing data...";
+                        var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
+                        var oldestStoredDate = tradingPair.Ticks.Select(tick => tick.Date).Min();
+
+                        while (oldestStoredDate > startDate)
                         {
-                            statusText.Text = "Downloading missing data...";
-                            var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
-                            var oldestStoredDate = tradingPair.Ticks.Select(tick => tick.Date).Min();
+                            oldestStoredDate = oldestStoredDate.AddSeconds(-1 * maxTimeInterval);
+                            var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, oldestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
+                            tradingPair.Ticks.AddRange(ticks);
 
-                            while (oldestStoredDate > startDate)
-                            {
-                                oldestStoredDate = oldestStoredDate.AddSeconds(-1 * maxTimeInterval);
-                                var Ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, oldestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-                                tradingPair.Ticks.AddRange(Ticks);
-                                await db.SaveChangesAsync();
-                            }
+                            await db.SaveChangesAsync();
                         }
                     }
-
-                    statusText.Text = "Loading data from database...";
-
-                    if (startDate == null)
-                    {
-                        startDate = DateTime.Now.AddSeconds(-1 * marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval);
-                    }
-
-                    var timeFormat = "dd.MM.yyyy";
-                    if (DateTime.Now.AddDays(-4) < startDate)
-                    {
-                        timeFormat = "HH:mm";
-                    }
-                    else if (DateTime.Now.AddDays(-15) < startDate)
-                    {
-                        timeFormat = "dd.MM.yyyy HH:mm";
-                    }
-
-                    var values = tradingPair.Ticks.Where(tick => tick.Date >= startDate).Select(tick => (object)tick.Close).ToList();
-                    var labels = tradingPair.Ticks.Where(tick => tick.Date >= startDate).Select(tick => tick.Date.ToString(timeFormat));
-                    
-                    if (values.Count > 500)
-                    {
-                        int nthSkipValue = values.Count / 500;
-                        values = values.Where((x, i) => i % nthSkipValue == 0).ToList();
-                        labels = labels.Where((x, i) => i % nthSkipValue == 0).ToList();
-                    }
-
-                    chartControl.SeriesCollection[0].Values.Clear();
-                    chartControl.Labels.Clear();
-
-                    chartControl.SeriesCollection[0].Values.AddRange(values);
-                    chartControl.Labels.AddRange(labels);
-
-                    selectedTradingPair = tradingPair;
-                    selectedTradingPairId = tradingPair.TradingPairId;
-
-                    statusText.Text = "Data synchronized";
                 }
+
+                StatusText = "Loading data from database...";
+
+                if (startDate == null)
+                {
+                    startDate = DateTime.Now.AddSeconds(-1 * marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval);
+                }
+
+                var timeFormat = "dd.MM.yyyy";
+                if (DateTime.Now.AddDays(-4) < startDate)
+                {
+                    timeFormat = "HH:mm";
+                }
+                else if (DateTime.Now.AddDays(-15) < startDate)
+                {
+                    timeFormat = "dd.MM.yyyy HH:mm";
+                }
+
+                var filteredTicks = tradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
+
+                var values = filteredTicks.Select(tick => (object)tick.Close).ToList();
+                var labels = filteredTicks.Select(tick => tick.Date.ToString(timeFormat));
+
+                if (values.Count > 500)
+                {
+                    int nthSkipValue = values.Count / 500;
+                    values = values.Where((x, i) => i % nthSkipValue == 0).ToList();
+                    labels = labels.Where((x, i) => i % nthSkipValue == 0).ToList();
+                }
+
+                chartControl.SeriesCollection[0].Values.Clear();
+                chartControl.Labels.Clear();
+
+                chartControl.SeriesCollection[0].Values.AddRange(values);
+                chartControl.Labels.AddRange(labels);
+
+                selectedTradingPair = tradingPair;
+                selectedTradingPairId = tradingPair.TradingPairId;
+
+                StatusText = "Data synchronized";
             }
         }
 
         private void AccountsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var accountsWindow = new AccountsWindow();
-            accountsWindow.Owner = this;
+            var accountsWindow = new AccountsWindow
+            {
+                Owner = this
+            };
             accountsWindow.ShowDialog();
         }
 
-        private void marketComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MarketComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

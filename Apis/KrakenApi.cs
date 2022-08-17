@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CryptoTA.Models;
+using CryptoTA.Database.Models;
 
 namespace CryptoTA.Apis
 {

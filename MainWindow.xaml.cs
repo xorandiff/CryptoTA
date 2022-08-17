@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using CryptoTA.Apis;
-using CryptoTA.Models;
+using CryptoTA.Database;
 
 namespace CryptoTA
 {
@@ -24,23 +24,7 @@ namespace CryptoTA
         }
 
         private MarketApis marketApis = new();
-        private Market selectedMarket = new();
-        private TradingPair selectedTradingPair = new();
-        private int selectedTradingPairId = 0;
         private string statusText = "";
-
-        public List<TradingPair> TradingPairs
-        {
-            get
-            {
-                return selectedMarket.TradingPairs ?? new List<TradingPair>();
-            }
-        }
-        public TradingPair SelectedTradingPair
-        {
-            get { return selectedTradingPair; } 
-            set { selectedTradingPair = value; }
-        }
 
         public string StatusText { get => statusText; set => statusText = value; }
 
@@ -59,26 +43,9 @@ namespace CryptoTA
                     var downloadWindow = new DownloadWindow();
                     downloadWindow.ShowDialog();
                 }
-
-                selectedMarket = db.Markets.First();
-                selectedTradingPair = selectedMarket.TradingPairs.First();
-                selectedTradingPairId = selectedTradingPair.TradingPairId;
-                var list = selectedMarket.TradingPairs.ToList();
-
-                marketComboBox.ItemsSource = marketApis;
-                marketComboBox.DisplayMemberPath = "Name";
-                marketComboBox.SelectedItem = marketApis.ActiveMarketApi;
-                marketComboBox.InvalidateVisual();
-
-                TradingPairComboBox.ItemsSource = list;
-                TradingPairComboBox.DisplayMemberPath = "DisplayName";
-                TradingPairComboBox.SelectedItem = list[0];
-                TradingPairComboBox.InvalidateVisual();
-
-                marketApis.setActiveApiByName(selectedMarket.Name);
             }
 
-            currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
+            //currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
 
             await LoadChartData();
             _ = FetchTickData();
@@ -89,10 +56,10 @@ namespace CryptoTA
             var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(2));
             while (await periodicTimer.WaitForNextTickAsync())
             {
-                var tickData = await marketApis.ActiveMarketApi.GetTick(selectedTradingPair);
+                //var tickData = await marketApis.ActiveMarketApi.GetTick(selectedTradingPair);
 
-                var regionInfo = new RegionInfo(selectedTradingPair.CounterSymbol);
-                currentPriceText.Text = regionInfo.CurrencySymbol + " " + tickData.Close;
+                //var regionInfo = new RegionInfo(selectedTradingPair.CounterSymbol);
+                //currentPriceText.Text = regionInfo.CurrencySymbol + " " + tickData.Close;
 
                 //float percents = response.Data.Percent_change_24;
                 //string percentString = response.Data.Percent_change_24.ToString() + "%";
@@ -162,80 +129,80 @@ namespace CryptoTA
 
         private async Task LoadChartData(DateTime? startDate = null)
         {
-            using DatabaseContext db = new();
-            var tradingPair = db.TradingPairs.Find(selectedTradingPairId);
-            if (tradingPair != null)
-            {
-                if (!tradingPair.Ticks.Any())
-                {
-                    StatusText = "Downloading initial data...";
+            //using DatabaseContext db = new();
+            //var tradingPair = db.TradingPairs.Find(selectedTradingPairId);
+            //if (tradingPair != null)
+            //{
+            //    if (!tradingPair.Ticks.Any())
+            //    {
+            //        StatusText = "Downloading initial data...";
 
-                    var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-                    tradingPair.Ticks.AddRange(ticks);
+            //        var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
+            //        tradingPair.Ticks.AddRange(ticks);
 
-                    await db.SaveChangesAsync();
-                }
+            //        await db.SaveChangesAsync();
+            //    }
 
-                if (startDate != null)
-                {
-                    var ticksBeforeStartDate = tradingPair.Ticks.FindAll(tick => tick.Date < startDate).Any();
-                    if (!ticksBeforeStartDate)
-                    {
-                        StatusText = "Downloading missing data...";
-                        var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
-                        var oldestStoredDate = tradingPair.Ticks.Select(tick => tick.Date).Min();
+            //    if (startDate != null)
+            //    {
+            //        var ticksBeforeStartDate = tradingPair.Ticks.FindAll(tick => tick.Date < startDate).Any();
+            //        if (!ticksBeforeStartDate)
+            //        {
+            //            StatusText = "Downloading missing data...";
+            //            var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
+            //            var oldestStoredDate = tradingPair.Ticks.Select(tick => tick.Date).Min();
 
-                        while (oldestStoredDate > startDate)
-                        {
-                            oldestStoredDate = oldestStoredDate.AddSeconds(-1 * maxTimeInterval);
-                            var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, oldestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-                            tradingPair.Ticks.AddRange(ticks);
+            //            while (oldestStoredDate > startDate)
+            //            {
+            //                oldestStoredDate = oldestStoredDate.AddSeconds(-1 * maxTimeInterval);
+            //                var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, oldestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
+            //                tradingPair.Ticks.AddRange(ticks);
 
-                            await db.SaveChangesAsync();
-                        }
-                    }
-                }
+            //                await db.SaveChangesAsync();
+            //            }
+            //        }
+            //    }
 
-                StatusText = "Loading data from database...";
+            //    StatusText = "Loading data from database...";
 
-                if (startDate == null)
-                {
-                    startDate = DateTime.Now.AddSeconds(-1 * marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval);
-                }
+            //    if (startDate == null)
+            //    {
+            //        startDate = DateTime.Now.AddSeconds(-1 * marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval);
+            //    }
 
-                var timeFormat = "dd.MM.yyyy";
-                if (DateTime.Now.AddDays(-4) < startDate)
-                {
-                    timeFormat = "HH:mm";
-                }
-                else if (DateTime.Now.AddDays(-15) < startDate)
-                {
-                    timeFormat = "dd.MM.yyyy HH:mm";
-                }
+            //    var timeFormat = "dd.MM.yyyy";
+            //    if (DateTime.Now.AddDays(-4) < startDate)
+            //    {
+            //        timeFormat = "HH:mm";
+            //    }
+            //    else if (DateTime.Now.AddDays(-15) < startDate)
+            //    {
+            //        timeFormat = "dd.MM.yyyy HH:mm";
+            //    }
 
-                var filteredTicks = tradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
+            //    var filteredTicks = tradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
 
-                var values = filteredTicks.Select(tick => (object)tick.Close).ToList();
-                var labels = filteredTicks.Select(tick => tick.Date.ToString(timeFormat));
+            //    var values = filteredTicks.Select(tick => (object)tick.Close).ToList();
+            //    var labels = filteredTicks.Select(tick => tick.Date.ToString(timeFormat));
 
-                if (values.Count > 500)
-                {
-                    int nthSkipValue = values.Count / 500;
-                    values = values.Where((x, i) => i % nthSkipValue == 0).ToList();
-                    labels = labels.Where((x, i) => i % nthSkipValue == 0).ToList();
-                }
+            //    if (values.Count > 500)
+            //    {
+            //        int nthSkipValue = values.Count / 500;
+            //        values = values.Where((x, i) => i % nthSkipValue == 0).ToList();
+            //        labels = labels.Where((x, i) => i % nthSkipValue == 0).ToList();
+            //    }
 
-                chartControl.SeriesCollection[0].Values.Clear();
-                chartControl.Labels.Clear();
+            //    chartControl.SeriesCollection[0].Values.Clear();
+            //    chartControl.Labels.Clear();
 
-                chartControl.SeriesCollection[0].Values.AddRange(values);
-                chartControl.Labels.AddRange(labels);
+            //    chartControl.SeriesCollection[0].Values.AddRange(values);
+            //    chartControl.Labels.AddRange(labels);
 
-                selectedTradingPair = tradingPair;
-                selectedTradingPairId = tradingPair.TradingPairId;
+            //    selectedTradingPair = tradingPair;
+            //    selectedTradingPairId = tradingPair.TradingPairId;
 
-                StatusText = "Data synchronized";
-            }
+            //    StatusText = "Data synchronized";
+            //}
         }
 
         private void AccountsMenuItem_Click(object sender, RoutedEventArgs e)
@@ -254,28 +221,28 @@ namespace CryptoTA
 
         private async void TradingPairComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (TradingPairComboBox.SelectedItem != null && SelectedTradingPair != null)
-            {
-                var selectedItem = (TradingPair) TradingPairComboBox.SelectedItem;
+            //if (TradingPairComboBox.SelectedItem != null && SelectedTradingPair != null)
+            //{
+            //    var selectedItem = (TradingPair) TradingPairComboBox.SelectedItem;
                 
-                if (selectedItem != null && selectedItem.TradingPairId != selectedTradingPairId)
-                {
-                    using (var db = new DatabaseContext())
-                    {
-                        var newTradingPair = db.TradingPairs.Find(selectedItem.TradingPairId);
-                        if (newTradingPair != null)
-                        {
-                            SelectedTradingPair = newTradingPair;
-                            selectedTradingPairId = newTradingPair.TradingPairId;
+            //    if (selectedItem != null && selectedItem.TradingPairId != selectedTradingPairId)
+            //    {
+            //        using (var db = new DatabaseContext())
+            //        {
+            //            var newTradingPair = db.TradingPairs.Find(selectedItem.TradingPairId);
+            //            if (newTradingPair != null)
+            //            {
+            //                SelectedTradingPair = newTradingPair;
+            //                selectedTradingPairId = newTradingPair.TradingPairId;
 
-                            currentCurrencyText.Text = "/" + newTradingPair.BaseSymbol;
-                            TradingPairComboBox.InvalidateVisual();
+            //                currentCurrencyText.Text = "/" + newTradingPair.BaseSymbol;
+            //                TradingPairComboBox.InvalidateVisual();
 
-                            await LoadChartData();
-                        }
-                    }
-                }
-            }
+            //                await LoadChartData();
+            //            }
+            //        }
+            //    }
+            //}
         }
 
         private async void TimeSpanComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

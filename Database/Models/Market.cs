@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptoTA.Models
+namespace CryptoTA.Database.Models
 {
     /// <summary>
     /// Market model class.

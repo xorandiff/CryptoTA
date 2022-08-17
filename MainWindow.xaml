@@ -4,9 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoTA"
-        xmlns:ch="clr-namespace:CryptoTA.Chart"
         xmlns:uc="clr-namespace:CryptoTA.UserControls" 
-        d:DataContext="{d:DesignInstance Type=local:MainWindow}"
+        xmlns:vm="clr-namespace:CryptoTA.ViewModels" 
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
@@ -16,9 +15,6 @@
         Style="{DynamicResource CustomWindowStyle}" 
         WindowStartupLocation="CenterScreen"
         >
-    <Window.Resources>
-        <ch:ChartTimeSpans x:Key="TimeSpansCollection" />
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -46,27 +42,41 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-
+                    <Grid.Resources>
+                        <vm:ChartViewModel x:Key="ChartViewModel" />
+                    </Grid.Resources>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel 
+                            Orientation="Horizontal"
+                            DataContext="{StaticResource ChartViewModel}"
+                        >
                             <GroupBox Header="Market" Margin="10" Padding="10">
-                                <ComboBox x:Name="marketComboBox" SelectionChanged="MarketComboBox_SelectionChanged" />
+                                <ComboBox
+                                    ItemsSource="{Binding Markets}"
+                                    SelectedItem="{Binding Market}"
+                                    DisplayMemberPath="Name"
+                                    SelectionChanged="MarketComboBox_SelectionChanged" 
+                                />
                             </GroupBox>
                             
                             <GroupBox Header="Trading Pair" Margin="10" Padding="10">
                                 <ComboBox 
-                                    x:Name="TradingPairComboBox" SelectionChanged="TradingPairComboBox_SelectionChanged"
+                                    ItemsSource="{Binding TradingPairs}"
+                                    SelectedItem="{Binding TradingPair}"
+                                    DisplayMemberPath="DisplayName"
+                                    SelectionChanged="TradingPairComboBox_SelectionChanged"
                                 />
                             </GroupBox>
 
                             <GroupBox Header="Time span" Margin="10" Padding="10">
                                 <ComboBox 
                                     x:Name="TimeSpanComboBox"
-                                    ItemsSource="{Binding Source={StaticResource TimeSpansCollection}}"
+                                    ItemsSource="{Binding TimeIntervals}"
+                                    SelectedItem="{Binding TimeInterval}"
                                     DisplayMemberPath="Name"
                                     SelectedIndex="0"
                                     SelectedValuePath="Value" 
@@ -168,7 +178,7 @@
 
         <StatusBar Grid.Row="2">
             <StatusBarItem>
-                <TextBlock Text="{Binding StatusText}" />
+                <TextBlock Text="{Binding Source=MainWindow, Path=StatusText}" />
             </StatusBarItem>
         </StatusBar>
     </Grid>

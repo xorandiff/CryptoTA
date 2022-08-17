@@ -1,4 +1,4 @@
-﻿using CryptoTA.Models;
+﻿using CryptoTA.Database.Models;
 using RestSharp;
 using System;
 using System.Linq;

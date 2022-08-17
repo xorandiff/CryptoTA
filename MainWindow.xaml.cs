@@ -1,7 +1,6 @@
 ﻿using RestSharp;
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using CryptoTA.Apis;
 using CryptoTA.Database;
+using CryptoTA.Database.Models;
 
 namespace CryptoTA
 {
@@ -56,10 +56,13 @@ namespace CryptoTA
             var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(2));
             while (await periodicTimer.WaitForNextTickAsync())
             {
-                //var tickData = await marketApis.ActiveMarketApi.GetTick(selectedTradingPair);
+                if (TradingPairComboBox.SelectedItem is TradingPair tradingPair)
+                {
+                    var tickData = await marketApis.ActiveMarketApi.GetTick(tradingPair);
+                    var regionInfo = new RegionInfo(tradingPair.CounterSymbol);
+                    CurrentPriceText.Text = regionInfo.CurrencySymbol + " " + tickData.Close;
+                }
 
-                //var regionInfo = new RegionInfo(selectedTradingPair.CounterSymbol);
-                //currentPriceText.Text = regionInfo.CurrencySymbol + " " + tickData.Close;
 
                 //float percents = response.Data.Percent_change_24;
                 //string percentString = response.Data.Percent_change_24.ToString() + "%";
@@ -129,80 +132,84 @@ namespace CryptoTA
 
         private async Task LoadChartData(DateTime? startDate = null)
         {
-            //using DatabaseContext db = new();
-            //var tradingPair = db.TradingPairs.Find(selectedTradingPairId);
-            //if (tradingPair != null)
-            //{
-            //    if (!tradingPair.Ticks.Any())
-            //    {
-            //        StatusText = "Downloading initial data...";
+            if (TradingPairComboBox.SelectedItem is not TradingPair selectedTradingPair)
+            {
+                throw new Exception("No trading pair selected.");
+            }
 
-            //        var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-            //        tradingPair.Ticks.AddRange(ticks);
+            using DatabaseContext db = new();
+            if (db.TradingPairs.Find(selectedTradingPair.TradingPairId) is TradingPair tradingPair)
+            {
+                if (!tradingPair.Ticks.Any())
+                {
+                    StatusText = "Downloading initial data...";
 
-            //        await db.SaveChangesAsync();
-            //    }
+                    var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
+                    tradingPair.Ticks.AddRange(ticks);
 
-            //    if (startDate != null)
-            //    {
-            //        var ticksBeforeStartDate = tradingPair.Ticks.FindAll(tick => tick.Date < startDate).Any();
-            //        if (!ticksBeforeStartDate)
-            //        {
-            //            StatusText = "Downloading missing data...";
-            //            var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
-            //            var oldestStoredDate = tradingPair.Ticks.Select(tick => tick.Date).Min();
+                    await db.SaveChangesAsync();
+                }
 
-            //            while (oldestStoredDate > startDate)
-            //            {
-            //                oldestStoredDate = oldestStoredDate.AddSeconds(-1 * maxTimeInterval);
-            //                var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, oldestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-            //                tradingPair.Ticks.AddRange(ticks);
+                if (startDate != null)
+                {
+                    var ticksBeforeStartDate = tradingPair.Ticks.FindAll(tick => tick.Date < startDate).Any();
+                    if (!ticksBeforeStartDate)
+                    {
+                        StatusText = "Downloading missing data...";
+                        var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
+                        var oldestStoredDate = tradingPair.Ticks.Select(tick => tick.Date).Min();
 
-            //                await db.SaveChangesAsync();
-            //            }
-            //        }
-            //    }
+                        while (oldestStoredDate > startDate)
+                        {
+                            oldestStoredDate = oldestStoredDate.AddSeconds(-1 * maxTimeInterval);
+                            var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, oldestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
+                            tradingPair.Ticks.AddRange(ticks);
 
-            //    StatusText = "Loading data from database...";
+                            await db.SaveChangesAsync();
+                        }
+                    }
+                }
 
-            //    if (startDate == null)
-            //    {
-            //        startDate = DateTime.Now.AddSeconds(-1 * marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval);
-            //    }
+                StatusText = "Loading data from database...";
 
-            //    var timeFormat = "dd.MM.yyyy";
-            //    if (DateTime.Now.AddDays(-4) < startDate)
-            //    {
-            //        timeFormat = "HH:mm";
-            //    }
-            //    else if (DateTime.Now.AddDays(-15) < startDate)
-            //    {
-            //        timeFormat = "dd.MM.yyyy HH:mm";
-            //    }
+                if (startDate == null)
+                {
+                    startDate = DateTime.Now.AddSeconds(-1 * marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval);
+                }
 
-            //    var filteredTicks = tradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
+                var timeFormat = "dd.MM.yyyy";
+                if (DateTime.Now.AddDays(-4) < startDate)
+                {
+                    timeFormat = "HH:mm";
+                }
+                else if (DateTime.Now.AddDays(-15) < startDate)
+                {
+                    timeFormat = "dd.MM.yyyy HH:mm";
+                }
 
-            //    var values = filteredTicks.Select(tick => (object)tick.Close).ToList();
-            //    var labels = filteredTicks.Select(tick => tick.Date.ToString(timeFormat));
+                var filteredTicks = tradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
 
-            //    if (values.Count > 500)
-            //    {
-            //        int nthSkipValue = values.Count / 500;
-            //        values = values.Where((x, i) => i % nthSkipValue == 0).ToList();
-            //        labels = labels.Where((x, i) => i % nthSkipValue == 0).ToList();
-            //    }
+                var values = filteredTicks.Select(tick => (object)tick.Close).ToList();
+                var labels = filteredTicks.Select(tick => tick.Date.ToString(timeFormat));
 
-            //    chartControl.SeriesCollection[0].Values.Clear();
-            //    chartControl.Labels.Clear();
+                if (values.Count > 500)
+                {
+                    int nthSkipValue = values.Count / 500;
+                    values = values.Where((x, i) => i % nthSkipValue == 0).ToList();
+                    labels = labels.Where((x, i) => i % nthSkipValue == 0).ToList();
+                }
 
-            //    chartControl.SeriesCollection[0].Values.AddRange(values);
-            //    chartControl.Labels.AddRange(labels);
+                if (ChartControl != null)
+                {
+                    ChartControl.Series[0].Values.Clear();
+                    //ChartControl.Labels.Clear();
 
-            //    selectedTradingPair = tradingPair;
-            //    selectedTradingPairId = tradingPair.TradingPairId;
+                    ChartControl.Series[0].Values.AddRange(values);
+                    //ChartControl.Labels.AddRange(labels);
+                }
 
-            //    StatusText = "Data synchronized";
-            //}
+                StatusText = "Data synchronized";
+            }
         }
 
         private void AccountsMenuItem_Click(object sender, RoutedEventArgs e)
@@ -221,37 +228,14 @@ namespace CryptoTA
 
         private async void TradingPairComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if (TradingPairComboBox.SelectedItem != null && SelectedTradingPair != null)
-            //{
-            //    var selectedItem = (TradingPair) TradingPairComboBox.SelectedItem;
-                
-            //    if (selectedItem != null && selectedItem.TradingPairId != selectedTradingPairId)
-            //    {
-            //        using (var db = new DatabaseContext())
-            //        {
-            //            var newTradingPair = db.TradingPairs.Find(selectedItem.TradingPairId);
-            //            if (newTradingPair != null)
-            //            {
-            //                SelectedTradingPair = newTradingPair;
-            //                selectedTradingPairId = newTradingPair.TradingPairId;
-
-            //                currentCurrencyText.Text = "/" + newTradingPair.BaseSymbol;
-            //                TradingPairComboBox.InvalidateVisual();
-
-            //                await LoadChartData();
-            //            }
-            //        }
-            //    }
-            //}
+            await LoadChartData();
         }
 
         private async void TimeSpanComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (TimeSpanComboBox.SelectedValue != null)
+            if (TimeSpanComboBox.SelectedValue is uint selectedTimeSpan)
             {
-                var dateTime = DateTime.Now;
-                var selectedTimeSpan = (uint)TimeSpanComboBox.SelectedValue;
-                await LoadChartData(dateTime.AddSeconds(-1 * selectedTimeSpan));
+                await LoadChartData(DateTime.Now.AddSeconds(-1 * selectedTimeSpan));
             }
         }
     }

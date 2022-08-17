@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoTA"
         xmlns:uc="clr-namespace:CryptoTA.UserControls" 
-        xmlns:vm="clr-namespace:CryptoTA.ViewModels" 
+        xmlns:vm="clr-namespace:CryptoTA.ViewModels" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
@@ -33,7 +33,10 @@
 
         <TabControl Grid.Row="1" TabStripPlacement="Left">
             <TabItem Header="Chart" IsSelected="True">
-                <Grid>
+                <TabItem.Resources>
+                    <vm:ChartViewModel x:Key="ChartViewModel" />
+                </TabItem.Resources>
+                <Grid DataContext="{StaticResource ChartViewModel}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
@@ -42,9 +45,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Grid.Resources>
-                        <vm:ChartViewModel x:Key="ChartViewModel" />
-                    </Grid.Resources>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -52,10 +52,10 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel 
                             Orientation="Horizontal"
-                            DataContext="{StaticResource ChartViewModel}"
                         >
                             <GroupBox Header="Market" Margin="10" Padding="10">
                                 <ComboBox
+                                    x:Name="MarketComboBox"
                                     ItemsSource="{Binding Markets}"
                                     SelectedItem="{Binding Market}"
                                     DisplayMemberPath="Name"
@@ -65,6 +65,7 @@
                             
                             <GroupBox Header="Trading Pair" Margin="10" Padding="10">
                                 <ComboBox 
+                                    x:Name="TradingPairComboBox"
                                     ItemsSource="{Binding TradingPairs}"
                                     SelectedItem="{Binding TradingPair}"
                                     DisplayMemberPath="DisplayName"
@@ -86,12 +87,22 @@
                         </StackPanel>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Orientation="Horizontal">
                             <TextBlock x:Name="currentChangeText" Text="5%" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Bottom" />
-                            <TextBlock x:Name="currentPriceText" Text="$1121,21" FontSize="36" />
-                            <TextBlock x:Name="currentCurrencyText" Text="/ETH" FontSize="36" Foreground="#FF797979" />
+                            <TextBlock x:Name="CurrentPriceText" Text="$1121,21" FontSize="36" />
+                            <TextBlock Text="{Binding TradingPair.BaseSymbol, StringFormat=/{0}}" FontSize="36" Foreground="#FF797979" />
                         </StackPanel>
                     </Grid>
-                    
-                    <uc:PointShapeLineChartControl Grid.Row="1" x:Name="chartControl" />
+
+                    <lvc:CartesianChart Grid.Row="1" Series="{Binding ChartSeriesCollection}" x:Name="ChartControl">
+                        <lvc:CartesianChart.DataTooltip>
+                            <lvc:DefaultTooltip Background="#FF1D1D1D"/>
+                        </lvc:CartesianChart.DataTooltip>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="{Binding ChartTitle}" LabelFormatter="{Binding ChartYFormatter}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Time" Labels="{Binding ChartLabels}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
 
                     <Grid Margin="0,5,0,5" Grid.Row="2">
                         <Grid.ColumnDefinitions>
@@ -102,7 +113,7 @@
 
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="Strong buy" HorizontalAlignment="Center" FontSize="16" />
-                            <Label Content="Oscillators" FontSize="11" HorizontalContentAlignment="Center"  />
+                            <Label Content="Oscillators" FontSize="11" HorizontalContentAlignment="Center" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1">

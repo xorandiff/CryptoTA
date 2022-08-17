@@ -3,6 +3,10 @@ using System.Collections.ObjectModel;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
 using CryptoTA.Chart;
+using LiveCharts.Wpf;
+using LiveCharts;
+using System;
+using System.Globalization;
 
 namespace CryptoTA.ViewModels
 {
@@ -18,7 +22,14 @@ namespace CryptoTA.ViewModels
 
             timeIntervals = CreateTimeIntervals();
             timeInterval = timeIntervals.First();
+
+            chartTitle = CreateChartTitle();
+            chartLabels = CreateChartLabels();
+            chartYFormatter = CreateChartYFormatter();
+            chartSeriesCollection = CreateChartSeriesCollection();
         }
+
+
 
         private static ObservableCollection<Market> CreateMarkets()
         {
@@ -65,9 +76,90 @@ namespace CryptoTA.ViewModels
             return timeIntervals;
         }
 
+        private static ObservableCollection<string> CreateChartLabels()
+        {
+            ObservableCollection<string> chartLabels = new();
+            
+            return chartLabels;
+        }
+        private string CreateChartTitle()
+        {
+            chartTitle = tradingPair.CounterSymbol + " price for 1 " + tradingPair.BaseSymbol;
+
+            return chartTitle;
+        }
+
+        private Func<double, string> CreateChartYFormatter()
+        {
+            RegionInfo regionInfo;
+
+            try
+            {
+                regionInfo = new RegionInfo(tradingPair.CounterSymbol);
+            }
+            catch (Exception e)
+            {
+                regionInfo = new RegionInfo("en-us");
+            }
+
+            chartYFormatter = value => regionInfo.CurrencySymbol + " " + value;
+
+            return chartYFormatter;
+        }
+        private SeriesCollection CreateChartSeriesCollection()
+        {
+            chartSeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = tradingPair.BaseSymbol + "/" + tradingPair.CounterSymbol,
+                    Values = new ChartValues<double> { },
+                    PointGeometry = null
+                }
+            };
+
+            return chartSeriesCollection;
+        }
+
+
         public Market Market { get => market; set => market = value; }
         public TradingPair TradingPair { get => tradingPair; set => tradingPair = value; }
         public ChartTimeSpan TimeInterval { get => timeInterval; set => timeInterval = value; }
+        public SeriesCollection ChartSeriesCollection
+        {
+            get
+            {
+                if (chartSeriesCollection == null)
+                {
+                    chartSeriesCollection = CreateChartSeriesCollection();
+                }
+
+                return chartSeriesCollection;
+            }
+        }
+        public string ChartTitle
+        {
+            get
+            {
+                if (chartTitle == null)
+                {
+                    chartTitle = CreateChartTitle();
+                }
+
+                return chartTitle;
+            }
+        }
+        public Func<double, string> ChartYFormatter
+        {
+            get
+            {
+                if (chartYFormatter == null)
+                {
+                    chartYFormatter = CreateChartYFormatter();
+                }
+                return chartYFormatter;
+            }
+        }
 
         public ObservableCollection<TradingPair> TradingPairs
         {
@@ -106,12 +198,29 @@ namespace CryptoTA.ViewModels
             }
         }
 
+        public ObservableCollection<string> ChartLabels
+        {
+            get
+            {
+                if (chartLabels == null)
+                {
+                    chartLabels = CreateChartLabels();
+                }
+                return chartLabels;
+            }
+        }
+
         private Market market;
         private TradingPair tradingPair;
         private ChartTimeSpan timeInterval;
+        private string chartTitle;
+        private Func<double, string> chartYFormatter;
 
         private ObservableCollection<Market> markets;
         private ObservableCollection<TradingPair> tradingPairs;
         private ObservableCollection<ChartTimeSpan> timeIntervals;
+        private ObservableCollection<string> chartLabels;
+        private SeriesCollection chartSeriesCollection;
+
     }
 }

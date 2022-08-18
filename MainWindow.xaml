@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoTA"
-        xmlns:uc="clr-namespace:CryptoTA.UserControls" 
-        xmlns:vm="clr-namespace:CryptoTA.ViewModels" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:vm="clr-namespace:CryptoTA.ViewModels"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
@@ -32,11 +32,11 @@
         </Menu>
 
         <TabControl Grid.Row="1" TabStripPlacement="Left">
-            <TabItem Header="Chart" IsSelected="True">
-                <TabItem.Resources>
-                    <vm:ChartViewModel x:Key="ChartViewModel" />
-                </TabItem.Resources>
-                <Grid DataContext="{StaticResource ChartViewModel}">
+            <TabControl.Resources>
+                <vm:ChartViewModel x:Key="ChartViewModel" />
+            </TabControl.Resources>
+            <TabItem Header="Chart" IsSelected="True" DataContext="{StaticResource ChartViewModel}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
@@ -59,7 +59,7 @@
                                     ItemsSource="{Binding Markets}"
                                     SelectedItem="{Binding Market}"
                                     DisplayMemberPath="Name"
-                                    SelectionChanged="MarketComboBox_SelectionChanged" 
+                                    SelectionChanged="MarketComboBox_SelectionChanged"
                                 />
                             </GroupBox>
                             
@@ -75,13 +75,13 @@
 
                             <GroupBox Header="Time span" Margin="10" Padding="10">
                                 <ComboBox 
-                                    x:Name="TimeSpanComboBox"
+                                    x:Name="TimeIntervalComboBox"
                                     ItemsSource="{Binding TimeIntervals}"
                                     SelectedItem="{Binding TimeInterval}"
                                     DisplayMemberPath="Name"
                                     SelectedIndex="0"
                                     SelectedValuePath="Value" 
-                                    SelectionChanged="TimeSpanComboBox_SelectionChanged"
+                                    SelectionChanged="TimeIntervalComboBox_SelectionChanged"
                                 />
                             </GroupBox>
                         </StackPanel>
@@ -129,6 +129,14 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Indicators">
+                <TabItem.Resources>
+                    <DataTemplate x:Key="MovingAverageTemplate">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding Name}"/>
+                            <TextBlock Text="{Binding Value}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TabItem.Resources>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -138,16 +146,28 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Cryptocurrency" Margin="20">
-                        <ComboBox>
-                            <ComboBoxItem IsSelected="True">ETH</ComboBoxItem>
-                        </ComboBox>
+                    <GroupBox Header="Trading pair" Margin="20">
+                        <ComboBox 
+                            x:Name="IndicatorTradingPairComboBox"
+                            DataContext="{StaticResource ChartViewModel}" 
+                            ItemsSource="{Binding TradingPairs}"
+                            SelectedItem="{Binding TradingPair}"
+                            DisplayMemberPath="DisplayName" 
+                        />
                     </GroupBox>
                     <GroupBox Grid.Row="1" Header="Oscillators" Margin="20">
                         
                     </GroupBox>
-                    <GroupBox Grid.Row="1" Grid.Column="1" Header="Moving averages" Margin="20">
-                        
+                    <GroupBox 
+                        Grid.Row="1" 
+                        Grid.Column="1" 
+                        Header="Moving averages" 
+                        Margin="20"
+                    >
+                        <ItemsControl 
+                            x:Name="MovingAveragesItemsControl"
+                            ItemTemplate="{StaticResource MovingAverageTemplate}" 
+                        />
                     </GroupBox>
                 </Grid>
             </TabItem>

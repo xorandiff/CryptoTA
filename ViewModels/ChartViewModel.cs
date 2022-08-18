@@ -7,6 +7,9 @@ using LiveCharts.Wpf;
 using LiveCharts;
 using System;
 using System.Globalization;
+using CryptoTA.Apis;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace CryptoTA.ViewModels
 {
@@ -16,6 +19,8 @@ namespace CryptoTA.ViewModels
         {
             markets = CreateMarkets();
             market = markets.First();
+
+            marketApis.setActiveApiByName(market.Name);
 
             tradingPairs = CreateTradingPairs();
             tradingPair = tradingPairs.First();
@@ -28,8 +33,6 @@ namespace CryptoTA.ViewModels
             chartYFormatter = CreateChartYFormatter();
             chartSeriesCollection = CreateChartSeriesCollection();
         }
-
-
 
         private static ObservableCollection<Market> CreateMarkets()
         {
@@ -210,6 +213,7 @@ namespace CryptoTA.ViewModels
             }
         }
 
+        private MarketApis marketApis = new();
         private Market market;
         private TradingPair tradingPair;
         private ChartTimeSpan timeInterval;

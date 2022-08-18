@@ -9,6 +9,9 @@ using System.Windows.Controls;
 using CryptoTA.Apis;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
+using CryptoTA.Chart;
+using System.Collections.Generic;
+using CryptoTA.Indicators;
 
 namespace CryptoTA
 {
@@ -20,10 +23,10 @@ namespace CryptoTA
             public bool Historical { get; set; }
             public double Result { get; set; }
             public DateTime Date { get; set; }
-
         }
 
         private MarketApis marketApis = new();
+        private MovingAverages movingAverages = new();
         private string statusText = "";
 
         public string StatusText { get => statusText; set => statusText = value; }
@@ -34,7 +37,7 @@ namespace CryptoTA
             DataContext = this;
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             using (var db = new DatabaseContext())
             {
@@ -45,9 +48,6 @@ namespace CryptoTA
                 }
             }
 
-            //currentCurrencyText.Text = "/" + selectedTradingPair.BaseSymbol;
-
-            await LoadChartData();
             _ = FetchTickData();
         }
 
@@ -130,20 +130,51 @@ namespace CryptoTA
             return 0d;
         }
 
+        private void AccountsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var accountsWindow = new AccountsWindow
+            {
+                Owner = this
+            };
+            accountsWindow.ShowDialog();
+        }
+
+        public void MarketComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MarketComboBox.SelectedItem is Market market)
+            {
+                marketApis.setActiveApiByName(market.Name);
+            }
+        }
+
+        public async void TradingPairComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TradingPairComboBox.SelectedItem is TradingPair tradingPair)
+            {
+                await LoadChartData();
+            }
+        }
+
+        public async void TimeIntervalComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TimeIntervalComboBox.SelectedItem is ChartTimeSpan timeInterval)
+            {
+                await LoadChartData(DateTime.Now.AddSeconds(-1 * timeInterval.Value));
+            }
+        }
+
         private async Task LoadChartData(DateTime? startDate = null)
         {
-            if (TradingPairComboBox.SelectedItem is not TradingPair selectedTradingPair)
+            if (TradingPairComboBox.SelectedItem is not TradingPair tradingPair)
             {
                 throw new Exception("No trading pair selected.");
             }
 
             using DatabaseContext db = new();
-            if (db.TradingPairs.Find(selectedTradingPair.TradingPairId) is TradingPair tradingPair)
+            if (db.TradingPairs.Find(tradingPair.TradingPairId) is TradingPair dbTradingPair)
             {
-                if (!tradingPair.Ticks.Any())
+                if (!dbTradingPair.Ticks.Any())
                 {
-                    StatusText = "Downloading initial data...";
-
                     var ticks = await marketApis.ActiveMarketApi.GetOhlcData(tradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
                     tradingPair.Ticks.AddRange(ticks);
 
@@ -152,10 +183,11 @@ namespace CryptoTA
 
                 if (startDate != null)
                 {
-                    var ticksBeforeStartDate = tradingPair.Ticks.FindAll(tick => tick.Date < startDate).Any();
+                    tradingPair = db.TradingPairs.Find(tradingPair.TradingPairId);
+                    var ticksBeforeStartDate = tradingPair.Ticks.Any(tick => tick.Date < startDate);
                     if (!ticksBeforeStartDate)
                     {
-                        StatusText = "Downloading missing data...";
+
                         var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
                         var oldestStoredDate = tradingPair.Ticks.Select(tick => tick.Date).Min();
 
@@ -169,8 +201,6 @@ namespace CryptoTA
                         }
                     }
                 }
-
-                StatusText = "Loading data from database...";
 
                 if (startDate == null)
                 {
@@ -187,7 +217,10 @@ namespace CryptoTA
                     timeFormat = "dd.MM.yyyy HH:mm";
                 }
 
+                tradingPair = db.TradingPairs.Find(tradingPair.TradingPairId);
                 var filteredTicks = tradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
+
+                MovingAveragesItemsControl.ItemsSource = movingAverages.Run(filteredTicks);
 
                 var values = filteredTicks.Select(tick => (object)tick.Close).ToList();
                 var labels = filteredTicks.Select(tick => tick.Date.ToString(timeFormat));
@@ -202,40 +235,14 @@ namespace CryptoTA
                 if (ChartControl != null)
                 {
                     ChartControl.Series[0].Values.Clear();
-                    //ChartControl.Labels.Clear();
+                    //chartLabels.Clear();
 
                     ChartControl.Series[0].Values.AddRange(values);
-                    //ChartControl.Labels.AddRange(labels);
+                    foreach (var label in labels)
+                    {
+                        //chartLabels.Add(label);
+                    }
                 }
-
-                StatusText = "Data synchronized";
-            }
-        }
-
-        private void AccountsMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            var accountsWindow = new AccountsWindow
-            {
-                Owner = this
-            };
-            accountsWindow.ShowDialog();
-        }
-
-        private void MarketComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private async void TradingPairComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            await LoadChartData();
-        }
-
-        private async void TimeSpanComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (TimeSpanComboBox.SelectedValue is uint selectedTimeSpan)
-            {
-                await LoadChartData(DateTime.Now.AddSeconds(-1 * selectedTimeSpan));
             }
         }
     }

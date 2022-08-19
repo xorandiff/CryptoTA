@@ -37,16 +37,56 @@ namespace CryptoTA
             {
                 foreach ((var marketName, var tradingPairs) in downloadedData)
                 {
-                    var market = new Market 
-                    { 
-                        Name = marketName, 
+                    var market = new Market
+                    {
+                        Name = marketName,
                         CredentialsRequired = false,
                         TradingPairs = tradingPairs
                     };
                     db.Markets.Add(market);
                 }
 
-                db.SaveChanges();
+                if (!db.TimeIntervals.Any())
+                {
+                    List<TimeInterval> timeIntervals = new()
+                    {
+                        new TimeInterval { Name = "1 day", Seconds = 86400 },
+                        new TimeInterval { Name = "3 days", Seconds = 86400 * 3 },
+                        new TimeInterval { Name = "1 week", Seconds = 86400 * 7 },
+                        new TimeInterval { Name = "2 weeks", Seconds = 86400 * 14 },
+                        new TimeInterval { Name = "1 month", Seconds = 86400 * 31 },
+                        new TimeInterval { Name = "3 months", Seconds = 86400 * 31 * 3 },
+                        new TimeInterval { Name = "6 months", Seconds = 86400 * 31 * 6 },
+                        new TimeInterval { Name = "1 year", Seconds = 86400 * 31 * 12 },
+                        new TimeInterval { Name = "5 years", Seconds = 86400 * 31 * 12 * 5 }
+                    };
+                    db.TimeIntervals.AddRange(timeIntervals);
+                }
+
+                var entriesWritten = db.SaveChanges();
+                if (entriesWritten == 0)
+                {
+                    throw new Exception("Cannot store initial dataset in database.");
+                }
+            }
+
+            using (var db = new DatabaseContext())
+            {
+                if (!db.Configuration.Any())
+                {
+                    var settings = new Settings
+                    {
+                        TradingPair = db.TradingPairs.First(),
+                        TimeInterval = db.TimeIntervals.First()
+                    };
+                    db.Configuration.Add(settings);
+                }
+
+                var entriesWritten = db.SaveChanges();
+                if (entriesWritten == 0)
+                {
+                    throw new Exception("Cannot store initial configuration in the database.");
+                }
             }
 
             NavigationService.Navigate(new DownloadWindow(true));

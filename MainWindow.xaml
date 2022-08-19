@@ -83,6 +83,7 @@
                                     ItemsSource="{Binding TradingPairs}"
                                     SelectedItem="{Binding TradingPair}"
                                     DisplayMemberPath="DisplayName"
+                                    IsEnabled="{Binding Market}"
                                     SelectionChanged="TradingPairComboBox_SelectionChanged"
                                 />
                             </GroupBox>
@@ -94,7 +95,8 @@
                                     SelectedItem="{Binding TimeInterval}"
                                     DisplayMemberPath="Name"
                                     SelectedIndex="0"
-                                    SelectedValuePath="Value" 
+                                    SelectedValuePath="Value"
+                                    IsEnabled="{Binding TradingPair}"
                                     SelectionChanged="TimeIntervalComboBox_SelectionChanged"
                                 />
                             </GroupBox>
@@ -240,7 +242,7 @@
                             DataContext="{StaticResource ChartViewModel}" 
                             ItemsSource="{Binding TradingPairs}"
                             SelectedItem="{Binding TradingPair}"
-                            DisplayMemberPath="DisplayName" 
+                            DisplayMemberPath="DisplayName"
                         />
                     </GroupBox>
                     <GroupBox 

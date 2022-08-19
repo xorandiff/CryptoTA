@@ -25,17 +25,31 @@
         <Menu Margin="0,0,0,5">
             <MenuItem Header="File" />
             <MenuItem Header="Edit">
-                <MenuItem x:Name="AccountsMenuItem" Header="Accounts" Click="AccountsMenuItem_Click" />
+                <MenuItem 
+                    x:Name="AccountsMenuItem" 
+                    Header="Accounts"
+                    Click="AccountsMenuItem_Click" 
+                />
             </MenuItem>
             <MenuItem Header="View" />
             <MenuItem Header="About" />
         </Menu>
 
-        <TabControl Grid.Row="1" TabStripPlacement="Left">
+        <TabControl 
+            x:Name="MenuTabControl" 
+            Grid.Row="1" 
+            TabStripPlacement="Left" 
+            SelectionChanged="MenuTabControl_SelectionChanged"
+        >
             <TabControl.Resources>
                 <vm:ChartViewModel x:Key="ChartViewModel" />
             </TabControl.Resources>
-            <TabItem Header="Chart" IsSelected="True" DataContext="{StaticResource ChartViewModel}">
+            <TabItem 
+                x:Name="ChartTabItem" 
+                Header="Chart" 
+                IsSelected="True" 
+                DataContext="{StaticResource ChartViewModel}"
+             >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -85,55 +99,126 @@
                                 />
                             </GroupBox>
                         </StackPanel>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Orientation="Horizontal">
-                            <TextBlock x:Name="currentChangeText" Text="5%" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Bottom" />
-                            <TextBlock x:Name="CurrentPriceText" Text="$1121,21" FontSize="36" />
-                            <TextBlock Text="{Binding TradingPair.BaseSymbol, StringFormat=/{0}}" FontSize="36" Foreground="#FF797979" />
+                        <StackPanel 
+                            Grid.Column="1" 
+                            VerticalAlignment="Center" 
+                            Margin="0,0,10,0" 
+                            Orientation="Horizontal"
+                        >
+                            <TextBlock 
+                                x:Name="currentChangeText" 
+                                Text="5%"
+                                FontSize="24" 
+                                Margin="0,0,10,0" 
+                                VerticalAlignment="Bottom" 
+                            />
+                            <TextBlock 
+                                x:Name="CurrentPriceText" 
+                                Text="$1121,21" 
+                                FontSize="36" 
+                            />
+                            <TextBlock 
+                                Text="{Binding TradingPair.BaseSymbol, StringFormat=/{0}}" 
+                                FontSize="36" 
+                                Foreground="#FF797979"
+                            />
                         </StackPanel>
                     </Grid>
 
-                    <lvc:CartesianChart Grid.Row="1" Series="{Binding ChartSeriesCollection}" x:Name="ChartControl">
+                    <lvc:CartesianChart 
+                        x:Name="ChartControl"
+                        Grid.Row="1" 
+                        Series="{Binding ChartSeriesCollection}" 
+                    >
                         <lvc:CartesianChart.DataTooltip>
                             <lvc:DefaultTooltip Background="#FF1D1D1D"/>
                         </lvc:CartesianChart.DataTooltip>
                         <lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="{Binding ChartTitle}" LabelFormatter="{Binding ChartYFormatter}"></lvc:Axis>
+                            <lvc:Axis 
+                                Title="{Binding ChartTitle}" 
+                                LabelFormatter="{Binding ChartYFormatter}"
+                            />
                         </lvc:CartesianChart.AxisY>
                         <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Time" Labels="{Binding ChartLabels}"></lvc:Axis>
+                            <lvc:Axis 
+                                Title="Time" 
+                                Labels="{Binding ChartLabels}"
+                            />
                         </lvc:CartesianChart.AxisX>
                     </lvc:CartesianChart>
 
-                    <Grid Margin="0,5,0,5" Grid.Row="2">
+                    <Grid 
+                        Margin="0,5,0,5" 
+                        Grid.Row="2"
+                    >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="Strong buy" HorizontalAlignment="Center" FontSize="16" />
-                            <Label Content="Oscillators" FontSize="11" HorizontalContentAlignment="Center" />
+                        <StackPanel 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"
+                        >
+                            <TextBlock 
+                                Text="Strong buy" 
+                                HorizontalAlignment="Center" 
+                                FontSize="16" 
+                            />
+                            <Label 
+                                Content="Oscillators" 
+                                FontSize="11"
+                                HorizontalContentAlignment="Center"
+                            />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1">
-                            <TextBlock Text="Strong buy" HorizontalAlignment="Center" FontSize="21" VerticalAlignment="Center" />
-                            <Label Content="Summary" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" />
+                            <TextBlock
+                                Text="Strong buy" 
+                                HorizontalAlignment="Center" 
+                                FontSize="21" 
+                                VerticalAlignment="Center" 
+                            />
+                            <Label 
+                                Content="Summary" 
+                                FontSize="14" 
+                                HorizontalContentAlignment="Center" 
+                                VerticalContentAlignment="Top" 
+                            />
                         </StackPanel>
 
-                        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="Strong buy" HorizontalAlignment="Center" FontSize="16" />
-                            <Label Content="Moving Averages" FontSize="11" HorizontalContentAlignment="Center"  />
+                        <StackPanel 
+                            Grid.Column="2" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"
+                        >
+                            <TextBlock 
+                                Text="Strong buy" 
+                                HorizontalAlignment="Center" 
+                                FontSize="16" 
+                            />
+                            <Label 
+                                Content="Moving Averages" 
+                                FontSize="11"
+                                HorizontalContentAlignment="Center"
+                            />
                         </StackPanel>
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Indicators">
+            <TabItem 
+                x:Name="IndicatorsTabItem" 
+                Header="Indicators"
+            >
                 <TabItem.Resources>
                     <DataTemplate x:Key="MovingAverageTemplate">
                         <StackPanel Orientation="Horizontal">
                             <Label Content="{Binding Name}"/>
-                            <TextBlock Text="{Binding Value}" />
+                            <Label 
+                                Content="{Binding Value}" 
+                                Margin="10,0,0,0" 
+                            />
                         </StackPanel>
                     </DataTemplate>
                 </TabItem.Resources>
@@ -146,7 +231,10 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Trading pair" Margin="20">
+                    <GroupBox 
+                        Header="Trading pair" 
+                        Margin="20"
+                    >
                         <ComboBox 
                             x:Name="IndicatorTradingPairComboBox"
                             DataContext="{StaticResource ChartViewModel}" 
@@ -155,7 +243,11 @@
                             DisplayMemberPath="DisplayName" 
                         />
                     </GroupBox>
-                    <GroupBox Grid.Row="1" Header="Oscillators" Margin="20">
+                    <GroupBox 
+                        Grid.Row="1" 
+                        Header="Oscillators" 
+                        Margin="20"
+                    >
                         
                     </GroupBox>
                     <GroupBox 
@@ -178,20 +270,34 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <TabControl>
-                        <TabItem Header="Kraken" IsSelected="True">
+                        <TabItem 
+                            Header="Kraken" 
+                            IsSelected="True"
+                        >
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <GroupBox Header="Current Balance" Margin="20">
+                                <GroupBox 
+                                    Header="Current Balance" 
+                                    Margin="20"
+                                >
                                     
                                 </GroupBox>
-                                <GroupBox Grid.Row="1" Header="Transactions" Margin="20">
+                                <GroupBox 
+                                    Grid.Row="1" 
+                                    Header="Transactions" 
+                                    Margin="20"
+                                >
 
                                 </GroupBox>
-                                <GroupBox Grid.Row="2" Header="Income Results" Margin="20">
+                                <GroupBox 
+                                    Grid.Row="2" 
+                                    Header="Income Results" 
+                                    Margin="20"
+                                >
 
                                 </GroupBox>
                             </Grid>
@@ -209,7 +315,7 @@
 
         <StatusBar Grid.Row="2">
             <StatusBarItem>
-                <TextBlock Text="{Binding Source=MainWindow, Path=StatusText}" />
+                <TextBlock Text="{Binding StatusText}" />
             </StatusBarItem>
         </StatusBar>
     </Grid>

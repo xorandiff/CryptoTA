@@ -1,9 +1,5 @@
 ﻿using CryptoTA.Database.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CryptoTA.Indicators
 {
@@ -22,7 +18,7 @@ namespace CryptoTA.Indicators
                 result += tick.Close;
             }
 
-            return result / ticks.Count;
+            return ticks.Count > 0 ? result / ticks.Count : 0;
         }
     }
 }

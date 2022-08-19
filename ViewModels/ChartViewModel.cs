@@ -10,6 +10,7 @@ using System.Globalization;
 using CryptoTA.Apis;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using CryptoTA.Utils;
 
 namespace CryptoTA.ViewModels
 {
@@ -94,18 +95,7 @@ namespace CryptoTA.ViewModels
 
         private Func<double, string> CreateChartYFormatter()
         {
-            RegionInfo regionInfo;
-
-            try
-            {
-                regionInfo = new RegionInfo(tradingPair.CounterSymbol);
-            }
-            catch (Exception e)
-            {
-                regionInfo = new RegionInfo("en-us");
-            }
-
-            chartYFormatter = value => regionInfo.CurrencySymbol + " " + value;
+            chartYFormatter = value => CurrencyCodeMapper.GetSymbol(tradingPair.CounterSymbol) + " " + value;
 
             return chartYFormatter;
         }

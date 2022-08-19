@@ -14,7 +14,8 @@ namespace CryptoTA.Indicators
         {
             movingAverages = new()
             {
-                new SimpleMovingAverage()
+                new SimpleMovingAverage(),
+                new ExponentialMovingAverage()
             };
         }
 
@@ -24,10 +25,11 @@ namespace CryptoTA.Indicators
 
             foreach (var movingAverage in movingAverages)
             {
+                var indicatorValue = movingAverage.Run(ticks);
                 var indicatorResult = new IndicatorResult()
                 {
                     Name = movingAverage.Name,
-                    Value = movingAverage.Run(ticks)
+                    Value = indicatorValue
                 };
 
                 result.Add(indicatorResult);

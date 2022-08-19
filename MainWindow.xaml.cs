@@ -12,6 +12,7 @@ using CryptoTA.Database.Models;
 using CryptoTA.Chart;
 using System.Collections.Generic;
 using CryptoTA.Indicators;
+using CryptoTA.Utils;
 
 namespace CryptoTA
 {
@@ -27,9 +28,10 @@ namespace CryptoTA
 
         private MarketApis marketApis = new();
         private MovingAverages movingAverages = new();
+        private List<Tick> chartTicks = new();
         private string statusText = "";
 
-        public string StatusText { get => statusText; set => statusText = value; }
+        public string StatusText { get => statusText; }
 
         public MainWindow()
         {
@@ -37,7 +39,7 @@ namespace CryptoTA
             DataContext = this;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             using (var db = new DatabaseContext())
             {
@@ -48,7 +50,7 @@ namespace CryptoTA
                 }
             }
 
-            _ = FetchTickData();
+            await FetchTickData();
         }
 
         public async Task FetchTickData()
@@ -59,8 +61,7 @@ namespace CryptoTA
                 if (TradingPairComboBox.SelectedItem is TradingPair tradingPair)
                 {
                     var tickData = await marketApis.ActiveMarketApi.GetTick(tradingPair);
-                    var regionInfo = new RegionInfo(tradingPair.CounterSymbol);
-                    CurrentPriceText.Text = regionInfo.CurrencySymbol + " " + tickData.Close;
+                    CurrentPriceText.Text = CurrencyCodeMapper.GetSymbol(tradingPair.CounterSymbol) + " " + tickData.Close;
                 }
 
 
@@ -187,7 +188,6 @@ namespace CryptoTA
                     var ticksBeforeStartDate = tradingPair.Ticks.Any(tick => tick.Date < startDate);
                     if (!ticksBeforeStartDate)
                     {
-
                         var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
                         var oldestStoredDate = tradingPair.Ticks.Select(tick => tick.Date).Min();
 
@@ -218,22 +218,20 @@ namespace CryptoTA
                 }
 
                 tradingPair = db.TradingPairs.Find(tradingPair.TradingPairId);
-                var filteredTicks = tradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
-
-                MovingAveragesItemsControl.ItemsSource = movingAverages.Run(filteredTicks);
-
-                var values = filteredTicks.Select(tick => (object)tick.Close).ToList();
-                var labels = filteredTicks.Select(tick => tick.Date.ToString(timeFormat));
-
-                if (values.Count > 500)
-                {
-                    int nthSkipValue = values.Count / 500;
-                    values = values.Where((x, i) => i % nthSkipValue == 0).ToList();
-                    labels = labels.Where((x, i) => i % nthSkipValue == 0).ToList();
-                }
+                chartTicks = tradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
 
                 if (ChartControl != null)
                 {
+                    var values = chartTicks.Select(tick => (object)tick.Close).ToList();
+                    var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat));
+
+                    if (values.Count > 500)
+                    {
+                        int nthSkipValue = values.Count / 500;
+                        values = values.Where((x, i) => i % nthSkipValue == 0).ToList();
+                        labels = labels.Where((x, i) => i % nthSkipValue == 0).ToList();
+                    }
+
                     ChartControl.Series[0].Values.Clear();
                     //chartLabels.Clear();
 
@@ -242,6 +240,19 @@ namespace CryptoTA
                     {
                         //chartLabels.Add(label);
                     }
+                }
+            }
+        }
+
+        private void MenuTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MenuTabControl.SelectedItem == IndicatorsTabItem)
+            {
+                if (MovingAveragesItemsControl != null)
+                {
+                    statusText = "Computing indicators...";
+                    MovingAveragesItemsControl.ItemsSource = movingAverages.Run(chartTicks);
+                    statusText = "";
                 }
             }
         }

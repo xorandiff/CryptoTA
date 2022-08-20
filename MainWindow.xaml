@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CryptoTA"
-        xmlns:vm="clr-namespace:CryptoTA.ViewModels"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:local="clr-namespace:CryptoTA" 
+        xmlns:uc="clr-namespace:CryptoTA.UserControls"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
@@ -41,113 +40,21 @@
             TabStripPlacement="Left" 
             SelectionChanged="MenuTabControl_SelectionChanged"
         >
-            <TabControl.Resources>
-                <vm:ChartViewModel x:Key="ChartViewModel" />
-            </TabControl.Resources>
             <TabItem 
                 x:Name="ChartTabItem" 
                 Header="Chart" 
                 IsSelected="True" 
-                DataContext="{StaticResource ChartViewModel}"
              >
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel 
-                            Orientation="Horizontal"
-                        >
-                            <GroupBox Header="Market" Margin="10" Padding="10">
-                                <ComboBox
-                                    x:Name="MarketComboBox"
-                                    ItemsSource="{Binding Markets}"
-                                    SelectedItem="{Binding Market}"
-                                    DisplayMemberPath="Name"
-                                    SelectionChanged="MarketComboBox_SelectionChanged"
-                                />
-                            </GroupBox>
-                            
-                            <GroupBox Header="Trading Pair" Margin="10" Padding="10">
-                                <ComboBox 
-                                    x:Name="TradingPairComboBox"
-                                    ItemsSource="{Binding TradingPairs}"
-                                    SelectedItem="{Binding TradingPair}"
-                                    DisplayMemberPath="DisplayName"
-                                    IsEnabled="{Binding Market}"
-                                    SelectionChanged="TradingPairComboBox_SelectionChanged"
-                                />
-                            </GroupBox>
 
-                            <GroupBox Header="Time span" Margin="10" Padding="10">
-                                <ComboBox 
-                                    x:Name="TimeIntervalComboBox"
-                                    ItemsSource="{Binding TimeIntervals}"
-                                    SelectedItem="{Binding TimeInterval}"
-                                    DisplayMemberPath="Name"
-                                    SelectedIndex="0"
-                                    SelectedValuePath="Value"
-                                    IsEnabled="{Binding TradingPair}"
-                                    SelectionChanged="TimeIntervalComboBox_SelectionChanged"
-                                />
-                            </GroupBox>
-                        </StackPanel>
-                        <StackPanel 
-                            Grid.Column="1" 
-                            VerticalAlignment="Center" 
-                            Margin="0,0,10,0" 
-                            Orientation="Horizontal"
-                        >
-                            <TextBlock 
-                                x:Name="currentChangeText" 
-                                Text="5%"
-                                FontSize="24" 
-                                Margin="0,0,10,0" 
-                                VerticalAlignment="Bottom" 
-                            />
-                            <TextBlock 
-                                x:Name="CurrentPriceText" 
-                                Text="$1121,21" 
-                                FontSize="36" 
-                            />
-                            <TextBlock 
-                                Text="{Binding TradingPair.BaseSymbol, StringFormat=/{0}}" 
-                                FontSize="36" 
-                                Foreground="#FF797979"
-                            />
-                        </StackPanel>
-                    </Grid>
-
-                    <lvc:CartesianChart 
-                        x:Name="ChartControl"
-                        Grid.Row="1" 
-                        Series="{Binding ChartSeriesCollection}" 
-                    >
-                        <lvc:CartesianChart.DataTooltip>
-                            <lvc:DefaultTooltip Background="#FF1D1D1D"/>
-                        </lvc:CartesianChart.DataTooltip>
-                        <lvc:CartesianChart.AxisY>
-                            <lvc:Axis 
-                                Title="{Binding ChartTitle}" 
-                                LabelFormatter="{Binding ChartYFormatter}"
-                            />
-                        </lvc:CartesianChart.AxisY>
-                        <lvc:CartesianChart.AxisX>
-                            <lvc:Axis 
-                                Title="Time" 
-                                Labels="{Binding ChartLabels}"
-                            />
-                        </lvc:CartesianChart.AxisX>
-                    </lvc:CartesianChart>
+                    <uc:CurrencyChart x:Name="CurrencyChart" />
 
                     <Grid 
                         Margin="0,5,0,5" 
@@ -239,7 +146,6 @@
                     >
                         <ComboBox 
                             x:Name="IndicatorTradingPairComboBox"
-                            DataContext="{StaticResource ChartViewModel}" 
                             ItemsSource="{Binding TradingPairs}"
                             SelectedItem="{Binding TradingPair}"
                             DisplayMemberPath="DisplayName"

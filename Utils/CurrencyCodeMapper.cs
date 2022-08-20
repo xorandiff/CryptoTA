@@ -11,7 +11,16 @@ namespace CryptoTA.Utils
     {
         private static readonly Dictionary<string, string> SymbolsByCode;
 
-        public static string GetSymbol(string code) { return SymbolsByCode[code]; }
+        public static string GetSymbol(string code) 
+        {
+            if (!SymbolsByCode.ContainsKey(code))
+            {
+                //throw new Exception("Couldn't find currency symbol for currency code " + code);
+                return "$";
+            }
+
+            return SymbolsByCode[code];
+        }
 
         static CurrencyCodeMapper()
         {

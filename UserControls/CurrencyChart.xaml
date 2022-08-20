@@ -37,7 +37,6 @@
                         ItemsSource="{Binding TradingPairs}"
                         SelectedItem="{Binding TradingPair}"
                         DisplayMemberPath="DisplayName"
-                        IsEnabled="{Binding Market}" 
                         SelectionChanged="TradingPairComboBox_SelectionChanged"
                      />
                 </GroupBox>
@@ -48,9 +47,6 @@
                         ItemsSource="{Binding TimeIntervals}"
                         SelectedItem="{Binding TimeInterval}"
                         DisplayMemberPath="Name"
-                        SelectedIndex="0"
-                        SelectedValuePath="Value"
-                        IsEnabled="{Binding TradingPair}" 
                         SelectionChanged="TimeIntervalComboBox_SelectionChanged"
                     />
                 </GroupBox>

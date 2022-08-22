@@ -141,7 +141,7 @@ namespace CryptoTA
                 if (MovingAveragesItemsControl != null)
                 {
                     statusText = "Computing indicators...";
-                    MovingAveragesItemsControl.ItemsSource = movingAverages.Run(chartTicks);
+                    MovingAveragesItemsControl.ItemsSource = movingAverages.Run(CurrencyChart.ChartTicks);
                     statusText = "";
                 }
             }

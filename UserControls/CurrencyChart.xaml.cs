@@ -73,16 +73,12 @@ namespace CryptoTA.UserControls
         public TimeInterval TimeInterval { get; set; } = GetTimeIntervalFromSettings();
         public string ChartTitle { get => chartTitle; }
         public SeriesCollection ChartSeriesCollection { get => chartSeriesCollection; }
-
         public Func<double, string> ChartYFormatter { get => chartYFormatter; }
-
         public ObservableCollection<TradingPair> TradingPairs { get => tradingPairs; }
-
         public ObservableCollection<Market> Markets { get => markets; }
-
         public ObservableCollection<TimeInterval> TimeIntervals { get => timeIntervals; }
-
         public ObservableCollection<string> ChartLabels { get => chartLabels; }
+        public List<Tick> ChartTicks { get => chartTicks; }
 
         private static Market GetMarketFromSettings()
         {
@@ -288,10 +284,8 @@ namespace CryptoTA.UserControls
             {
                 DisableFilterComboBoxes();
                 using DatabaseContext db = new();
-                if (await db.TradingPairs.FindAsync(TradingPair.TradingPairId) is TradingPair dbTradingPair)
+                if (await db.TradingPairs.Where(tp => tp.TradingPairId == TradingPair.TradingPairId).Include(tp => tp.Ticks).FirstOrDefaultAsync() is TradingPair dbTradingPair)
                 {
-                    await db.Entry(dbTradingPair).Collection(t => t.Ticks).LoadAsync();
-
                     if (!dbTradingPair.Ticks.Any())
                     {
                         var ticks = await marketApis.ActiveMarketApi.GetOhlcData(dbTradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
@@ -306,9 +300,6 @@ namespace CryptoTA.UserControls
                         startDate = DateTime.Now.AddSeconds(-marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval);
                     }
 
-                    dbTradingPair = await db.TradingPairs.FindAsync(dbTradingPair.TradingPairId);
-                    await db.Entry(dbTradingPair).Collection(t => t.Ticks).LoadAsync();
-
                     if (!dbTradingPair.Ticks.Any(tick => tick.Date < startDate))
                     {
                         var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
@@ -320,7 +311,6 @@ namespace CryptoTA.UserControls
 
                             var ticks = await marketApis.ActiveMarketApi.GetOhlcData(dbTradingPair, oldestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
                             dbTradingPair.Ticks.AddRange(ticks);
-
                         }
 
                         await db.SaveChangesAsync();
@@ -337,20 +327,19 @@ namespace CryptoTA.UserControls
                         timeFormat = "dd.MM.yyyy HH:mm";
                     }
 
-                    dbTradingPair = await db.TradingPairs.FindAsync(dbTradingPair.TradingPairId);
-                    await db.Entry(dbTradingPair).Collection(t => t.Ticks).LoadAsync();
-
                     chartTicks = dbTradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
 
                     var values = chartTicks.Select(tick => tick.Close).ToArray();
                     var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
 
+                    // Select subset of at most 500 ticks with equal time distance, used for faster chart rendering
                     if (values.Length > 500)
                     {
                         int nthSkipValue = values.Length / 500;
                         values = values.Where((x, i) => i % nthSkipValue == 0).ToArray();
                         labels = labels.Where((x, i) => i % nthSkipValue == 0).ToArray();
                     }
+
                     chartSeriesCollection[0].Values = new ChartValues<double>(values);
 
                     chartLabels.Clear();

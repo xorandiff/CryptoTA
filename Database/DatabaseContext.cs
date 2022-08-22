@@ -1,4 +1,4 @@
-﻿using CryptoTA.Database.Models;
+using CryptoTA.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CryptoTA.Database

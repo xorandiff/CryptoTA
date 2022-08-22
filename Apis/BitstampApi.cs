@@ -1,9 +1,10 @@
-﻿using CryptoTA.Database.Models;
+using CryptoTA.Database.Models;
 using RestSharp;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CryptoTA.Database.Models;
 
 namespace CryptoTA.Apis
 {

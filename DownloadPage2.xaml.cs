@@ -1,6 +1,5 @@
-﻿using CryptoTA.Apis;
+using CryptoTA.Apis;
 using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;

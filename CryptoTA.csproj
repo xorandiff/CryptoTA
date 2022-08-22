@@ -23,10 +23,6 @@
 	    <Content Include="Images\icon_64.png" />
     </ItemGroup>
 
-    <ItemGroup>
-      <OpenApiReference Include="..\..\..\Downloads\openapi.json" CodeGenerator="NSwagCSharp" Namespace="Kraken" ClassName="KrakenClient" Link="OpenAPIs\openapi.json" />
-    </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
@@ -48,15 +44,274 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NSwag.ApiDescription.Client" Version="13.0.5">
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1">
+      <TreatAsUsed>true</TreatAsUsed>
+    </PackageReference>
+    <PackageReference Include="NSwag.ApiDescription.Client" Version="13.16.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="PresentationFramework.Aero2" Version="1.0.1">
-      <TreatAsUsed>true</TreatAsUsed>
-    </PackageReference>
     <PackageReference Include="RestSharp" Version="108.0.1" />
+    <PackageReference Include="telerik.ui.for.wpf.netcore.xaml" Version="2022.1.117">
+      <IncludeAssets></IncludeAssets>
+      <GeneratePathProperty></GeneratePathProperty>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Arction.DirectX">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Arction\LightningChart .NET SDK v.8\LibNET4\Arction.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="Arction.RenderingDefinitions">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Arction\LightningChart .NET SDK v.8\LibNET4\Arction.RenderingDefinitions.dll</HintPath>
+    </Reference>
+    <Reference Include="Arction.Wpf.SemibindableCharting.LightningChartUltimate">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Arction\LightningChart .NET SDK v.8\LibNET4\Arction.Wpf.SemibindableCharting.LightningChartUltimate.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Documents.SpreadsheetStreaming">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Documents.SpreadsheetStreaming.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Pivot.Core">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Pivot.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Pivot.DataProviders.Adomd">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Pivot.DataProviders.Adomd.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Pivot.DataProviders.Queryable">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Pivot.DataProviders.Queryable.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Pivot.DataProviders.Xmla">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Pivot.DataProviders.Xmla.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Cloud">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Cloud.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Cloud.Controls">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Cloud.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Chart">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Chart.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Chart.Direct2D">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Chart.Direct2D.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ConversationalUI">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.ConversationalUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Data">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.DataServices">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.DataServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.DataVisualization">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Diagrams.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams.Extensions">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Diagrams.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams.Ribbon">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Diagrams.Ribbon.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Docking">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.EntityFrameworkCore">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Expressions">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Expressions.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.FileDialogs">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.FileDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.FixedDocumentViewers">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.FixedDocumentViewers.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.FixedDocumentViewersUI">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.FixedDocumentViewersUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GanttView">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.GanttView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView.Export">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.GridView.Export.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView.SpreadsheetStreamingExport">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.GridView.SpreadsheetStreamingExport.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ImageEditor">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.ImageEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Media">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Pivot">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Pivot.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.PivotFieldList">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.PivotFieldList.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RibbonView">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.RibbonView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RichTextBox">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.RichTextBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ScheduleView">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.ScheduleView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Spreadsheet">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.SpreadsheetUI">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.SpreadsheetUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.SyntaxEditor">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.SyntaxEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.VirtualGrid">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Controls.VirtualGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Diagrams.Core">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Diagrams.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.CMapUtils">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.CMapUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Core">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Fixed">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Fixed.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Flow.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow.FormatProviders.Doc">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Flow.FormatProviders.Doc.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow.FormatProviders.Pdf">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Flow.FormatProviders.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Proofing">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Proofing.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Proofing.DataGrid">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Proofing.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Proofing.RadGridView">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Proofing.RadGridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Xls">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Xls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.MediaFoundation">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.PersistenceFramework">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.PersistenceFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Scheduling.Core">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Scheduling.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.SyntaxEditor.Core">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.SyntaxEditor.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Crystal">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Crystal.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Expression_Dark">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Expression_Dark.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Fluent">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Fluent.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Green">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Green.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Material">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Material.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Office2013">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Office2013.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Office2016">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Office2016.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Office2016Touch">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Office2016Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Office2019">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Office2019.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Office_Black">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Office_Black.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Office_Blue">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Office_Blue.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Office_Silver">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Office_Silver.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Summer">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Summer.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Transparent">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Transparent.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Vista">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Vista.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.VisualStudio2013">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.VisualStudio2013.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.VisualStudio2019">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.VisualStudio2019.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Windows7">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Windows7.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Windows8">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Windows8.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Windows8Touch">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Themes.Windows8Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip.Extensions">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries.NoXaml\WPF60\Telerik.Windows.Zip.Extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -74,10 +329,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

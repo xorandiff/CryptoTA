@@ -12,6 +12,7 @@
         Height="650"
         Width="1400"
         Icon="icon_64.png"
+        Style="{DynamicResource CustomWindowStyle}"
         WindowStartupLocation="CenterScreen"
         >
     <Grid>

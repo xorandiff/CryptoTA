@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoTA.Database.Models
 {
+    [Table("Settings")]
     public class Settings
     {
         [Key]

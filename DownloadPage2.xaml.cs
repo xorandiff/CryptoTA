@@ -72,14 +72,14 @@ namespace CryptoTA
 
             using (var db = new DatabaseContext())
             {
-                if (!db.Configuration.Any())
+                if (!db.Settings.Any())
                 {
                     var settings = new Settings
                     {
                         TradingPair = db.TradingPairs.First(),
                         TimeInterval = db.TimeIntervals.First()
                     };
-                    db.Configuration.Add(settings);
+                    db.Settings.Add(settings);
                 }
 
                 var entriesWritten = db.SaveChanges();

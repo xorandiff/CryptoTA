@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using CryptoTA.Apis;
@@ -12,6 +11,7 @@ using CryptoTA.Utils;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CryptoTA.UserControls
 {
@@ -39,7 +39,7 @@ namespace CryptoTA.UserControls
             try
             {
                 using (var db = new DatabaseContext())
-                if (!db.Configuration.Any())
+                if (!db.Settings.Any())
                 {
                     throw new Exception("Configuration data missing.");
                 }
@@ -72,7 +72,7 @@ namespace CryptoTA.UserControls
         {
             using (var db = new DatabaseContext())
             {
-                var settings = db.Configuration.First();
+                var settings = db.Settings.First();
                 var dbTradingPair = db.TradingPairs.Find(settings.TradingPairId);
 
                 if (dbTradingPair != null)
@@ -99,7 +99,7 @@ namespace CryptoTA.UserControls
         {
             using (var db = new DatabaseContext())
             {
-                var settings = db.Configuration.First();
+                var settings = db.Settings.First();
                 var dbTradingPair = db.TradingPairs.Find(settings.TradingPairId);
 
                 if (dbTradingPair != null)
@@ -117,7 +117,7 @@ namespace CryptoTA.UserControls
         {
             using (var db = new DatabaseContext())
             {
-                var settings = db.Configuration.Include("TimeInterval").First();
+                var settings = db.Settings.Include("TimeInterval").First();
                 if (settings.TimeInterval is TimeInterval dbTimeInterval)
                 {
                     return dbTimeInterval;
@@ -295,7 +295,7 @@ namespace CryptoTA.UserControls
 
                     if (dbFirstTradingPair != null)
                     {
-                        var settings = db.Configuration.First();
+                        var settings = db.Settings.First();
                         settings.TradingPairId = dbFirstTradingPair.TradingPairId;
 
                         db.SaveChanges();
@@ -314,7 +314,7 @@ namespace CryptoTA.UserControls
             {
                 using (var db = new DatabaseContext())
                 {
-                    var settings = db.Configuration.First();
+                    var settings = db.Settings.First();
                     settings.TradingPairId = tradingPair.TradingPairId;
 
                     db.SaveChanges();
@@ -330,7 +330,7 @@ namespace CryptoTA.UserControls
             {
                 using (var db = new DatabaseContext())
                 {
-                    var settings = db.Configuration.First();
+                    var settings = db.Settings.First();
                     settings.TimeIntervalId = timeInterval.TimeIntervalId;
 
                     db.SaveChanges();

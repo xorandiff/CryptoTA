@@ -1,8 +1,10 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoTA.Database.Models
 {
+    [Table("TimeIntervals")]
     public class TimeInterval
     {
         [Key]

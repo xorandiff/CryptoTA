@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoTA.Database.Models
 {
-    /// <summary>
-    /// Trading pair model class. 
-    /// Contains basic trading pair data with minimal order amount.
-    /// </summary>
+    [Table("TradingPairs")]
     public class TradingPair
     {
         /// <value>

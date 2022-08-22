@@ -6,141 +6,133 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:t="http://schemas.telerik.com/2008/xaml/presentation"    
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:CryptoTA.ViewModels" 
-        d:DataContext="{d:DesignInstance Type=local:MainWindow}"
+        xmlns:local="clr-namespace:CryptoTA" 
+        xmlns:uc="clr-namespace:CryptoTA.UserControls"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
-        Height="600"
-        Width="800"
+        Height="650"
+        Width="1400"
         Icon="icon_64.png"
         WindowStartupLocation="CenterScreen"
         >
-    <Window.Resources>
-        <vm:ChartViewModel x:Key="ChartViewModel" />
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        
+        <Menu Margin="0,0,0,5">
+            <MenuItem Header="File" />
+            <MenuItem Header="Edit">
+                <MenuItem 
+                    x:Name="AccountsMenuItem" 
+                    Header="Accounts"
+                    Click="AccountsMenuItem_Click" 
+                />
+            </MenuItem>
+            <MenuItem Header="View" />
+            <MenuItem Header="About" />
+        </Menu>
 
-        <t:RadMenu Margin="0,0,0,5">
-            <t:RadMenuItem Header="File" />
-            <t:RadMenuItem Header="Edit">
-                <t:RadMenuItem x:Name="AccountsMenuItem" Header="Accounts" Click="AccountsMenuItem_Click" />
-            </t:RadMenuItem>
-            <t:RadMenuItem Header="View" />
-            <t:RadMenuItem Header="About" />
-        </t:RadMenu>
-
-        <t:RadTabControl Grid.Row="1" TabStripPlacement="Left">
-            <t:RadTabItem Header="Chart" IsSelected="True">
+        <TabControl 
+            x:Name="MenuTabControl" 
+            Grid.Row="1" 
+            TabStripPlacement="Left" 
+            SelectionChanged="MenuTabControl_SelectionChanged"
+        >
+            <TabItem 
+                x:Name="ChartTabItem" 
+                Header="Chart" 
+                IsSelected="True" 
+             >
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel 
-                            Orientation="Horizontal"
-                            DataContext="{StaticResource ChartViewModel}"
-                        >
-                            <GroupBox Header="Market" Margin="10" Padding="10">
-                                <t:RadComboBox 
-                                    x:Name="marketComboBox" 
-                                    ItemsSource="{Binding Markets}"
-                                    SelectedItem="{Binding Market}"
-                                    DisplayMemberPath="Name"
-                                    SelectionChanged="MarketComboBox_SelectionChanged" 
-                                />
-                            </GroupBox>
+                    <uc:CurrencyChart x:Name="CurrencyChart" />
 
-                            <GroupBox Header="Trading Pair" Margin="10" Padding="10">
-                                <t:RadComboBox 
-                                    x:Name="TradingPairComboBox" 
-                                    ItemsSource="{Binding TradingPairs}"
-                                    SelectedItem="{Binding TradingPair}"
-                                    DisplayMemberPath="DisplayName"
-                                    SelectionChanged="TradingPairComboBox_SelectionChanged"
-                                />
-                            </GroupBox>
-
-                            <GroupBox Header="Time span" Margin="10" Padding="10">
-                                <t:RadComboBox 
-                                    x:Name="TimeSpanComboBox"
-                                    ItemsSource="{Binding TimeIntervals}"
-                                    SelectedItem="{Binding TimeInterval}"
-                                    SelectedValuePath="Value"
-                                    DisplayMemberPath="Name"
-                                    SelectionChanged="TimeSpanComboBox_SelectionChanged"
-                                />
-                            </GroupBox>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Orientation="Horizontal">
-                            <TextBlock x:Name="currentChangeText" Text="5%" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Bottom" />
-                            <TextBlock x:Name="currentPriceText" Text="$1121,21" FontSize="36" />
-                            <TextBlock Text="/ETH" FontSize="36" />
-                        </StackPanel>
-                    </Grid>
-
-                    <t:RadCartesianChart 
-                        Grid.Row="1" 
-                        x:Name="OhlcCartesianChart"
+                    <Grid 
+                        Margin="0,5,0,5" 
+                        Grid.Row="2"
                     >
-                        <t:RadCartesianChart.HorizontalAxis>
-                            <t:CategoricalAxis />
-                        </t:RadCartesianChart.HorizontalAxis>
-                        <t:RadCartesianChart.VerticalAxis>
-                            <t:LinearAxis/>
-                        </t:RadCartesianChart.VerticalAxis>
-
-                        <t:OhlcSeries 
-                            ItemsSource="{Binding OhlcSeriesItems}"
-                            CategoryBinding="Category"
-                            OpenBinding="Open" 
-                            CloseBinding="Close" 
-                            LowBinding="Low" 
-                            HighBinding="High"
-                        />
-
-                    </t:RadCartesianChart>
-
-                    <Grid Margin="0,5,0,5" Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="Strong buy" HorizontalAlignment="Center" FontSize="16" />
-                            <Label Content="Oscillators" FontSize="11" HorizontalContentAlignment="Center"  />
+                        <StackPanel 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"
+                        >
+                            <TextBlock 
+                                Text="Strong buy" 
+                                HorizontalAlignment="Center" 
+                                FontSize="16" 
+                            />
+                            <Label 
+                                Content="Oscillators" 
+                                FontSize="11"
+                                HorizontalContentAlignment="Center"
+                            />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1">
-                            <TextBlock Text="Strong buy" HorizontalAlignment="Center" FontSize="21" VerticalAlignment="Center" />
-                            <Label Content="Summary" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" />
+                            <TextBlock
+                                Text="Strong buy" 
+                                HorizontalAlignment="Center" 
+                                FontSize="21" 
+                                VerticalAlignment="Center" 
+                            />
+                            <Label 
+                                Content="Summary" 
+                                FontSize="14" 
+                                HorizontalContentAlignment="Center" 
+                                VerticalContentAlignment="Top" 
+                            />
                         </StackPanel>
 
-                        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="Strong buy" HorizontalAlignment="Center" FontSize="16" />
-                            <Label Content="Moving Averages" FontSize="11" HorizontalContentAlignment="Center"  />
+                        <StackPanel 
+                            Grid.Column="2" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"
+                        >
+                            <TextBlock 
+                                Text="Strong buy" 
+                                HorizontalAlignment="Center" 
+                                FontSize="16" 
+                            />
+                            <Label 
+                                Content="Moving Averages" 
+                                FontSize="11"
+                                HorizontalContentAlignment="Center"
+                            />
                         </StackPanel>
                     </Grid>
                 </Grid>
-            </t:RadTabItem>
-            <t:RadTabItem Header="Indicators">
+            </TabItem>
+            <TabItem 
+                x:Name="IndicatorsTabItem" 
+                Header="Indicators"
+            >
+                <TabItem.Resources>
+                    <DataTemplate x:Key="MovingAverageTemplate">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding Name}"/>
+                            <Label 
+                                Content="{Binding Value}" 
+                                Margin="10,0,0,0" 
+                            />
+                        </StackPanel>
+                    </DataTemplate>
+                </TabItem.Resources>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -150,16 +142,31 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Cryptocurrency" Margin="20">
-                        <ComboBox>
-                            <ComboBoxItem IsSelected="True">ETH</ComboBoxItem>
-                        </ComboBox>
+                    <GroupBox 
+                        Header="Trading pair" 
+                        Margin="20"
+                    >
+                        <ComboBox 
+                            x:Name="IndicatorTradingPairComboBox"
+                        />
                     </GroupBox>
-                    <GroupBox Grid.Row="1" Header="Oscillators" Margin="20">
-
+                    <GroupBox 
+                        Grid.Row="1" 
+                        Header="Oscillators" 
+                        Margin="20"
+                    >
+                        
                     </GroupBox>
-                    <GroupBox Grid.Row="1" Grid.Column="1" Header="Moving averages" Margin="20">
-
+                    <GroupBox 
+                        Grid.Row="1" 
+                        Grid.Column="1" 
+                        Header="Moving averages" 
+                        Margin="20"
+                    >
+                        <ItemsControl 
+                            x:Name="MovingAveragesItemsControl"
+                            ItemTemplate="{StaticResource MovingAverageTemplate}" 
+                        />
                     </GroupBox>
                 </Grid>
             </t:RadTabItem>
@@ -170,20 +177,34 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <TabControl>
-                        <TabItem Header="Kraken" IsSelected="True">
+                        <TabItem 
+                            Header="Kraken" 
+                            IsSelected="True"
+                        >
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <GroupBox Header="Current Balance" Margin="20">
+                                <GroupBox 
+                                    Header="Current Balance" 
+                                    Margin="20"
+                                >
+                                    
+                                </GroupBox>
+                                <GroupBox 
+                                    Grid.Row="1" 
+                                    Header="Transactions" 
+                                    Margin="20"
+                                >
 
                                 </GroupBox>
-                                <GroupBox Grid.Row="1" Header="Transactions" Margin="20">
-
-                                </GroupBox>
-                                <GroupBox Grid.Row="2" Header="Income Results" Margin="20">
+                                <GroupBox 
+                                    Grid.Row="2" 
+                                    Header="Income Results" 
+                                    Margin="20"
+                                >
 
                                 </GroupBox>
                             </Grid>

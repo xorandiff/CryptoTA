@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using Telerik.Windows.Controls;
+using System.Windows;
 
 namespace CryptoTA
 {

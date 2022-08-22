@@ -1,13 +1,10 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoTA.Database.Models
 {
-    /// <summary>
-    /// Tick model containing high, low, open and close prices (for last 
-    /// 24h) and currency current volume.
-    /// </summary>
+    [Table("Ticks")]
     public class Tick
     {
         [Key]

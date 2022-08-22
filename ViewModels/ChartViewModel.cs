@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
 using CryptoTA.Chart;
+using Microsoft.EntityFrameworkCore;
 
 namespace CryptoTA.ViewModels
 {

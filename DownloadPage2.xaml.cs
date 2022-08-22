@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Collections.Generic;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
+using System.Linq;
 
 namespace CryptoTA
 {

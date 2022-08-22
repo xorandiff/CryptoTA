@@ -18,7 +18,7 @@ namespace CryptoTA
     /// <summary>
     /// Logika interakcji dla klasy AccountsWindow.xaml
     /// </summary>
-    public partial class AccountsWindow : RadWindow
+    public partial class AccountsWindow : Window
     {
         public AccountsWindow()
         {

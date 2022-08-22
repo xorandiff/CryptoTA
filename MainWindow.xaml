@@ -4,9 +4,7 @@
         xmlns:local="clr-namespace:CryptoTA"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:t="http://schemas.telerik.com/2008/xaml/presentation"    
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CryptoTA" 
         xmlns:uc="clr-namespace:CryptoTA.UserControls"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
@@ -169,8 +167,8 @@
                         />
                     </GroupBox>
                 </Grid>
-            </t:RadTabItem>
-            <t:RadTabItem Header="Statistics">
+            </TabItem>
+            <TabItem Header="Statistics">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -214,11 +212,11 @@
                         </TabItem>
                     </TabControl>
                 </Grid>
-            </t:RadTabItem>
-            <t:RadTabItem Header="Strategy settings">
+            </TabItem>
+            <TabItem Header="Strategy settings">
 
-            </t:RadTabItem>
-        </t:RadTabControl>
+            </TabItem>
+        </TabControl>
 
         <StatusBar Grid.Row="2">
             <StatusBarItem>

@@ -43,6 +43,7 @@ namespace CryptoTA.UserControls
 
                 markets = CreateMarkets();
                 Market = GetMarketFromSettings();
+                Market = markets.Where(m => m.MarketId == Market.MarketId).First();
 
                 bool marketApiFound = marketApis.setActiveApiByName(Market.Name);
                 if (!marketApiFound)
@@ -52,9 +53,11 @@ namespace CryptoTA.UserControls
 
                 tradingPairs = CreateTradingPairs();
                 TradingPair = GetTradingPairFromSettings();
+                TradingPair = tradingPairs.Where(tp => tp.TradingPairId == TradingPair.TradingPairId).First();
 
                 timeIntervals = CreateTimeIntervals();
                 TimeInterval = GetTimeIntervalFromSettings();
+                TimeInterval = timeIntervals.Where(ti => ti.TimeIntervalId == TimeInterval.TimeIntervalId).First();
 
                 chartLabels = CreateChartLabels();
                 chartSeriesCollection = CreateChartSeriesCollection();
@@ -340,16 +343,16 @@ namespace CryptoTA.UserControls
                     chartTicks = dbTradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
 
                     var values = chartTicks.Select(tick => tick.Close).ToArray();
-                    //if (values.Count > 500)
-                    //{
-                    //    int nthSkipValue = values.Count / 500;
-                    //    values = values.Where((x, i) => i % nthSkipValue == 0).ToList();
-                    //    labels = labels.Where((x, i) => i % nthSkipValue == 0).ToList();
-                    //}
+                    var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
+
+                    if (values.Length > 500)
+                    {
+                        int nthSkipValue = values.Length / 500;
+                        values = values.Where((x, i) => i % nthSkipValue == 0).ToArray();
+                        labels = labels.Where((x, i) => i % nthSkipValue == 0).ToArray();
+                    }
                     chartSeriesCollection[0].Values = new ChartValues<double>(values);
 
-
-                    var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
                     chartLabels.Clear();
                     foreach (var label in labels)
                     {

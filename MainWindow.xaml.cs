@@ -6,14 +6,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using CryptoTA.Apis;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
 using CryptoTA.Chart;
 using CryptoTA.Services;
 using System.Collections.ObjectModel;
-using Telerik.Windows.Controls;
 
 namespace CryptoTA
 {
@@ -41,8 +39,6 @@ namespace CryptoTA
 
         public MainWindow()
         {
-            StyleManager.ApplicationTheme = new VisualStudio2019Theme();
-
             InitializeComponent();
             DataContext = this;
 

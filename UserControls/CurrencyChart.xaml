@@ -25,7 +25,7 @@
                     <ComboBox
                         x:Name="MarketComboBox"
                         ItemsSource="{Binding Markets}"
-                        SelectedItem="{Binding Market}"
+                        SelectedItem="{Binding Market, Mode=TwoWay}"
                         DisplayMemberPath="Name" 
                         SelectionChanged="MarketComboBox_SelectionChanged"
                     />
@@ -35,7 +35,7 @@
                     <ComboBox 
                         x:Name="TradingPairComboBox"
                         ItemsSource="{Binding TradingPairs}"
-                        SelectedItem="{Binding TradingPair}"
+                        SelectedItem="{Binding TradingPair, Mode=TwoWay}"
                         DisplayMemberPath="DisplayName"
                         SelectionChanged="TradingPairComboBox_SelectionChanged"
                      />
@@ -45,7 +45,7 @@
                     <ComboBox 
                         x:Name="TimeIntervalComboBox"
                         ItemsSource="{Binding TimeIntervals}"
-                        SelectedItem="{Binding TimeInterval}"
+                        SelectedItem="{Binding TimeInterval, Mode=TwoWay}"
                         DisplayMemberPath="Name"
                         SelectionChanged="TimeIntervalComboBox_SelectionChanged"
                     />

@@ -146,9 +146,6 @@
                     >
                         <ComboBox 
                             x:Name="IndicatorTradingPairComboBox"
-                            ItemsSource="{Binding TradingPairs}"
-                            SelectedItem="{Binding TradingPair}"
-                            DisplayMemberPath="DisplayName"
                         />
                     </GroupBox>
                     <GroupBox 

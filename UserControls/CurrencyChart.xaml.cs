@@ -18,19 +18,16 @@ namespace CryptoTA.UserControls
     public partial class CurrencyChart : UserControl
     {
         private readonly MarketApis marketApis = new();
-        private Market market;
-        private TradingPair tradingPair;
-        private TimeInterval timeInterval;
-        private string chartTitle;
-        private Func<double, string> chartYFormatter;
+        private string chartTitle = "";
+        private Func<double, string> chartYFormatter = value => value.ToString();
 
         private List<Tick> chartTicks = new();
 
-        private ObservableCollection<Market> markets;
-        private ObservableCollection<TradingPair> tradingPairs;
-        private ObservableCollection<TimeInterval> timeIntervals;
-        private ObservableCollection<string> chartLabels;
-        private SeriesCollection chartSeriesCollection;
+        private ObservableCollection<Market> markets = new();
+        private ObservableCollection<TradingPair> tradingPairs = new();
+        private ObservableCollection<TimeInterval> timeIntervals = new();
+        private ObservableCollection<string> chartLabels = new();
+        private SeriesCollection chartSeriesCollection = new();
 
         public CurrencyChart()
         {
@@ -45,19 +42,19 @@ namespace CryptoTA.UserControls
                 }
 
                 markets = CreateMarkets();
-                market = GetMarketFromSettings();
+                Market = GetMarketFromSettings();
 
-                bool marketApiFound = marketApis.setActiveApiByName(market.Name);
+                bool marketApiFound = marketApis.setActiveApiByName(Market.Name);
                 if (!marketApiFound)
                 {
-                    throw new Exception("No market api found that correspond to database market name.");
+                    throw new Exception("No market API found that correspond to database market name.");
                 }
 
                 tradingPairs = CreateTradingPairs();
-                tradingPair = GetTradingPairFromSettings();
+                TradingPair = GetTradingPairFromSettings();
 
                 timeIntervals = CreateTimeIntervals();
-                timeInterval = GetTimeIntervalFromSettings();
+                TimeInterval = GetTimeIntervalFromSettings();
 
                 chartLabels = CreateChartLabels();
                 chartSeriesCollection = CreateChartSeriesCollection();
@@ -67,6 +64,22 @@ namespace CryptoTA.UserControls
                 MessageBox.Show(e.Message);
             }
         }
+
+        public Market Market { get; set; } = GetMarketFromSettings();
+        public TradingPair TradingPair { get; set; } = GetTradingPairFromSettings();
+        public TimeInterval TimeInterval { get; set; } = GetTimeIntervalFromSettings();
+        public string ChartTitle { get => chartTitle; }
+        public SeriesCollection ChartSeriesCollection { get => chartSeriesCollection; }
+
+        public Func<double, string> ChartYFormatter { get => chartYFormatter; }
+
+        public ObservableCollection<TradingPair> TradingPairs { get => tradingPairs; }
+
+        public ObservableCollection<Market> Markets { get => markets; }
+
+        public ObservableCollection<TimeInterval> TimeIntervals { get => timeIntervals; }
+
+        public ObservableCollection<string> ChartLabels { get => chartLabels; }
 
         private static Market GetMarketFromSettings()
         {
@@ -148,11 +161,9 @@ namespace CryptoTA.UserControls
         {
             ObservableCollection<TradingPair> tradingPairs = new();
 
-            market ??= GetMarketFromSettings();
-
             using (var db = new DatabaseContext())
             {
-                foreach (TradingPair tradingPair in db.Markets.Find(market.MarketId).TradingPairs.ToList())
+                foreach (TradingPair tradingPair in db.TradingPairs.Where(tp => tp.MarketId == Market.MarketId).ToList())
                 {
                     tradingPairs.Add(tradingPair);
                 }
@@ -184,89 +195,17 @@ namespace CryptoTA.UserControls
 
         private SeriesCollection CreateChartSeriesCollection()
         {
-            tradingPair ??= GetTradingPairFromSettings();
-
             chartSeriesCollection = new SeriesCollection
             {
                 new LineSeries
                 {
-                    Title = tradingPair.BaseSymbol + "/" + tradingPair.CounterSymbol,
+                    Title = TradingPair.BaseSymbol + "/" + TradingPair.CounterSymbol,
                     Values = new ChartValues<double> { },
                     PointGeometry = null
                 }
             };
 
             return chartSeriesCollection;
-        }
-
-
-        public Market Market { get => market; set => market = value; }
-        public TradingPair TradingPair { get => tradingPair; set => tradingPair = value; }
-        public TimeInterval TimeInterval { get => timeInterval; set => timeInterval = value; }
-        public SeriesCollection ChartSeriesCollection
-        {
-            get
-            {
-                if (chartSeriesCollection == null)
-                {
-                    chartSeriesCollection = CreateChartSeriesCollection();
-                }
-
-                return chartSeriesCollection;
-            }
-        }
-        public string ChartTitle
-        {
-            get
-            {
-                tradingPair ??= GetTradingPairFromSettings();
-                return tradingPair.CounterSymbol + " price for 1 " + tradingPair.BaseSymbol; ;
-            }
-        }
-
-        public Func<double, string> ChartYFormatter
-        {
-            get
-            {
-                tradingPair ??= GetTradingPairFromSettings();
-                return value => CurrencyCodeMapper.GetSymbol(tradingPair.CounterSymbol) + " " + value;
-            }
-        }
-
-        public ObservableCollection<TradingPair> TradingPairs
-        {
-            get
-            {
-                tradingPairs ??= CreateTradingPairs();
-                return tradingPairs;
-            }
-        }
-
-        public ObservableCollection<Market> Markets
-        {
-            get
-            {
-                markets ??= CreateMarkets();
-                return markets;
-            }
-        }
-
-        public ObservableCollection<TimeInterval> TimeIntervals
-        {
-            get
-            {
-                timeIntervals ??= CreateTimeIntervals();
-                return timeIntervals;
-            }
-        }
-
-        public ObservableCollection<string> ChartLabels
-        {
-            get
-            {
-                chartLabels ??= CreateChartLabels();
-                return chartLabels;
-            }
         }
 
         private void EnableFilterComboBoxes()
@@ -291,7 +230,7 @@ namespace CryptoTA.UserControls
                 marketApis.setActiveApiByName(market.Name);
                 using (var db = new DatabaseContext())
                 {
-                    var dbFirstTradingPair = db.Markets.Find(market.MarketId).TradingPairs.First();
+                    var dbFirstTradingPair = db.TradingPairs.Where(tp => tp.MarketId == market.MarketId).First();
 
                     if (dbFirstTradingPair != null)
                     {
@@ -346,7 +285,7 @@ namespace CryptoTA.UserControls
             {
                 DisableFilterComboBoxes();
                 using DatabaseContext db = new();
-                if (await db.TradingPairs.FindAsync(tradingPair.TradingPairId) is TradingPair dbTradingPair)
+                if (await db.TradingPairs.FindAsync(TradingPair.TradingPairId) is TradingPair dbTradingPair)
                 {
                     await db.Entry(dbTradingPair).Collection(t => t.Ticks).LoadAsync();
 
@@ -418,6 +357,7 @@ namespace CryptoTA.UserControls
                     }
 
                     chartYFormatter = value => CurrencyCodeMapper.GetSymbol(dbTradingPair.CounterSymbol) + " " + value;
+                    chartTitle = dbTradingPair.CounterSymbol + " price for 1 " + dbTradingPair.BaseSymbol;
                 }
             }
             catch (Exception e)

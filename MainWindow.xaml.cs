@@ -40,7 +40,7 @@ namespace CryptoTA
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             using var db = new DatabaseContext();
-            if (!db.Markets.Any())
+            if (!db.Settings.Any())
             {
                 var downloadWindow = new DownloadWindow();
                 downloadWindow.ShowDialog();

@@ -25,8 +25,6 @@ namespace CryptoTA
             public DateTime Date { get; set; }
         }
 
-        private MarketApis marketApis = new();
-        private List<Tick> chartTicks = new();
         private string statusText = "";
 
         public string StatusText { get => statusText; }

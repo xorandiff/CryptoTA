@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
 
 namespace CryptoTA.Database
@@ -79,50 +80,54 @@ namespace CryptoTA.Database
             }
         }
 
-        public async Task<List<Tick>> GetTicks(int tradingPairId, DateTime startDate)
+        public async Task<List<Tick>> GetTicks(int tradingPairId, DateTime? tickStartDate = null)
         {
-            if (await TradingPairs.Where(tp => tp.TradingPairId == tradingPairId).Include(tp => tp.Ticks).Include(tp => tp.Market).FirstOrDefaultAsync() is TradingPair dbTradingPair)
+            if (await TradingPairs.Where(tp => tp.TradingPairId == tradingPairId).Include(tp => tp.Ticks).Include(tp => tp.Market).AsSplitQuery().FirstOrDefaultAsync() is TradingPair dbTradingPair)
             {
-                MarketApis marketApis = new();
-                marketApis.setActiveApiByName(dbTradingPair.Market!.Name);
-
-                if (!dbTradingPair.Ticks.Any())
+                try
                 {
-                    var ticks = await marketApis.ActiveMarketApi.GetOhlcData(dbTradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-                    dbTradingPair.Ticks.AddRange(ticks);
+                    MarketApis marketApis = new();
+                    marketApis.setActiveApiByName(dbTradingPair.Market!.Name);
+                    var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
+                    var smallestMarketRequestInterval = marketApis.ActiveMarketApi.OhlcTimeIntervals.Min();
+                    var currentDateLower = DateTime.Now.AddSeconds(-smallestMarketRequestInterval);
 
-                    await SaveChangesAsync();
-                }
-
-                var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
-
-                if (!dbTradingPair.Ticks.Any(tick => tick.Date < startDate))
-                {
-                    var oldestStoredDate = dbTradingPair.Ticks.Select(tick => tick.Date).Min();
-
-                    while (oldestStoredDate >= startDate)
+                    var startDate = DateTime.Now.AddSeconds(-maxTimeInterval);
+                    if (tickStartDate != null)
                     {
-                        oldestStoredDate = oldestStoredDate.AddSeconds(-maxTimeInterval);
-                        var ticks = await marketApis.ActiveMarketApi.GetOhlcData(dbTradingPair, oldestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
+                        startDate = tickStartDate.Value;
+                    }
+
+                    if (!dbTradingPair.Ticks.Any(tick => tick.Date <= startDate))
+                    {
+                        var oldestStoredDate = dbTradingPair.Ticks.Select(tick => tick.Date).Min();
+
+                        while (oldestStoredDate >= startDate.AddSeconds(-smallestMarketRequestInterval))
+                        {
+                            oldestStoredDate = oldestStoredDate.AddSeconds(-maxTimeInterval);
+                            var ticks = await marketApis.ActiveMarketApi.GetOhlcData(dbTradingPair, oldestStoredDate, smallestMarketRequestInterval);
+                            dbTradingPair.Ticks.AddRange(ticks);
+                        }
+
+                        await SaveChangesAsync();
+                    }
+
+                    var newestStoredDate = dbTradingPair.Ticks.Select(tick => tick.Date).Max();
+                    while (newestStoredDate < currentDateLower)
+                    {
+                        newestStoredDate = newestStoredDate.AddSeconds(maxTimeInterval);
+                        var ticks = await marketApis.ActiveMarketApi.GetOhlcData(dbTradingPair, newestStoredDate, smallestMarketRequestInterval);
                         dbTradingPair.Ticks.AddRange(ticks);
                     }
 
                     await SaveChangesAsync();
+
+                    return await Ticks.Where(tick => tick.TradingPairId == dbTradingPair.TradingPairId && tick.Date >= startDate).AsSplitQuery().IgnoreAutoIncludes().AsNoTracking().OrderByDescending(t => t.Date).ToListAsync();
                 }
-
-                var currentDateLower = DateTime.Now.AddSeconds(-marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-                var newestStoredDate = dbTradingPair.Ticks.Select(tick => tick.Date).Max();
-
-                while (newestStoredDate < currentDateLower)
+                catch (Exception e)
                 {
-                    var ticks = await marketApis.ActiveMarketApi.GetOhlcData(dbTradingPair, newestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-                    dbTradingPair.Ticks.AddRange(ticks);
-                    newestStoredDate = newestStoredDate.AddSeconds(maxTimeInterval);
+                    MessageBox.Show(e.Message);
                 }
-
-                await SaveChangesAsync();
-
-                return dbTradingPair.Ticks.Where(tick => tick.Date >= startDate).OrderByDescending(t => t.Date).ToList();
             }
 
             return new List<Tick>();

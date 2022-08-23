@@ -283,74 +283,43 @@ namespace CryptoTA.UserControls
             try
             {
                 DisableFilterComboBoxes();
-                using DatabaseContext db = new();
-                if (await db.TradingPairs.Where(tp => tp.TradingPairId == TradingPair.TradingPairId).Include(tp => tp.Ticks).FirstOrDefaultAsync() is TradingPair dbTradingPair)
+
+                var currentDate = DateTime.Now;
+                var timeFormat = "dd.MM.yyyy";
+
+                if (currentDate.AddDays(-4) < startDate)
                 {
-                    if (!dbTradingPair.Ticks.Any())
-                    {
-                        var ticks = await marketApis.ActiveMarketApi.GetOhlcData(dbTradingPair, null, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-
-                        dbTradingPair.Ticks.AddRange(ticks);
-
-                        await db.SaveChangesAsync();
-                    }
-
-                    if (startDate == null)
-                    {
-                        startDate = DateTime.Now.AddSeconds(-marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval);
-                    }
-
-                    if (!dbTradingPair.Ticks.Any(tick => tick.Date < startDate))
-                    {
-                        var maxTimeInterval = marketApis.ActiveMarketApi.OhlcMaxDensityTimeInterval;
-                        var oldestStoredDate = dbTradingPair.Ticks.Select(tick => tick.Date).Min();
-
-                        while (oldestStoredDate >= startDate)
-                        {
-                            oldestStoredDate = oldestStoredDate.AddSeconds(-maxTimeInterval);
-
-                            var ticks = await marketApis.ActiveMarketApi.GetOhlcData(dbTradingPair, oldestStoredDate, marketApis.ActiveMarketApi.OhlcTimeIntervals.Min());
-                            dbTradingPair.Ticks.AddRange(ticks);
-                        }
-
-                        await db.SaveChangesAsync();
-                    }
-
-                    var currentDate = DateTime.Now;
-                    var timeFormat = "dd.MM.yyyy";
-                    if (currentDate.AddDays(-4) < startDate)
-                    {
-                        timeFormat = "HH:mm";
-                    }
-                    else if (currentDate.AddDays(-15) < startDate)
-                    {
-                        timeFormat = "dd.MM.yyyy HH:mm";
-                    }
-
-                    chartTicks = dbTradingPair.Ticks.Where(tick => tick.Date >= startDate).ToList();
-
-                    var values = chartTicks.Select(tick => tick.Close).ToArray();
-                    var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
-
-                    // Select subset of at most 500 ticks with equal time distance, used for faster chart rendering
-                    if (values.Length > 500)
-                    {
-                        int nthSkipValue = values.Length / 500;
-                        values = values.Where((x, i) => i % nthSkipValue == 0).ToArray();
-                        labels = labels.Where((x, i) => i % nthSkipValue == 0).ToArray();
-                    }
-
-                    chartSeriesCollection[0].Values = new ChartValues<double>(values);
-
-                    chartLabels.Clear();
-                    foreach (var label in labels)
-                    {
-                        chartLabels.Add(label);
-                    }
-
-                    chartYFormatter = value => CurrencyCodeMapper.GetSymbol(dbTradingPair.CounterSymbol) + " " + value;
-                    chartTitle = dbTradingPair.CounterSymbol + " price for 1 " + dbTradingPair.BaseSymbol;
+                    timeFormat = "HH:mm";
                 }
+                else if (currentDate.AddDays(-15) < startDate)
+                {
+                    timeFormat = "dd.MM.yyyy HH:mm";
+                }
+
+                using var db = new DatabaseContext();
+                chartTicks = await db.GetTicks(TradingPair.TradingPairId, startDate);
+
+                var values = chartTicks.Select(tick => tick.Close).ToArray();
+                var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
+
+                // Select subset of at most 500 ticks with equal time distance, used for faster chart rendering
+                if (values.Length > 500)
+                {
+                    int nthSkipValue = values.Length / 500;
+                    values = values.Where((x, i) => i % nthSkipValue == 0).ToArray();
+                    labels = labels.Where((x, i) => i % nthSkipValue == 0).ToArray();
+                }
+
+                chartSeriesCollection[0].Values = new ChartValues<double>(values);
+
+                chartLabels.Clear();
+                foreach (var label in labels)
+                {
+                    chartLabels.Add(label);
+                }
+
+                chartYFormatter = value => CurrencyCodeMapper.GetSymbol(TradingPair.CounterSymbol) + " " + value;
+                chartTitle = TradingPair.CounterSymbol + " price for 1 " + TradingPair.BaseSymbol;
             }
             catch (Exception e)
             {

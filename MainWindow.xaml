@@ -123,49 +123,7 @@
             </TabItem>
             
             <TabItem Header="Statistics">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TabControl>
-                        <TabItem 
-                            Header="Kraken" 
-                            IsSelected="True"
-                        >
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <GroupBox 
-                                    Header="Current Balance" 
-                                    Margin="20"
-                                >
-                                    
-                                </GroupBox>
-                                <GroupBox 
-                                    Grid.Row="1" 
-                                    Header="Transactions" 
-                                    Margin="20"
-                                >
-
-                                </GroupBox>
-                                <GroupBox 
-                                    Grid.Row="2" 
-                                    Header="Income Results" 
-                                    Margin="20"
-                                >
-
-                                </GroupBox>
-                            </Grid>
-                        </TabItem>
-                        <TabItem Header="Gemini">
-
-                        </TabItem>
-                    </TabControl>
-                </Grid>
+                <Frame Source="Pages/StatisticsPage.xaml" />
             </TabItem>
             
             <TabItem Header="Strategy settings">

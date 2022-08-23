@@ -64,11 +64,13 @@ namespace CryptoTA.Pages
             {
                 if (MovingAveragesItemsControl != null)
                 {
+                    IntervalComboBox.IsEnabled = false;
                     using (var db = new DatabaseContext())
                     {
                         var ticks = await db.GetTicks(TradingPair.TradingPairId, DateTime.Now.AddSeconds(-200 * timeInterval.Seconds));
                         MovingAveragesItemsControl.ItemsSource = movingAverages.Run(ticks, timeInterval.Seconds);
                     }
+                    IntervalComboBox.IsEnabled = true;
                 }
             }
         }

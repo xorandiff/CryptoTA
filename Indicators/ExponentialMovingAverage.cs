@@ -22,7 +22,7 @@ namespace CryptoTA.Indicators
 
             for (int i = 0; i < ticksCount; i++)
             {
-                var pow = Math.Pow(alphaP, ticksCount - 1 - i);
+                var pow = Math.Pow(alphaP, i);
                 nominator += ticks[i].Close * pow;
                 denominator += pow;
             }

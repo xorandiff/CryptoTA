@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Accounts"
         Width="400"
-        Height="510"
+        Height="550"
         Style="{DynamicResource CustomWindowStyle}" 
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
@@ -43,9 +43,13 @@
                     Margin="20"
                 >
                     <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
-                            <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
                         <Label 
                             Content="Enabled" 
@@ -56,6 +60,21 @@
                         <CheckBox 
                             Grid.Column="1" 
                             x:Name="EnabledCheckBox"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Left" 
+                            Margin="10"
+                        />
+                        <Label 
+                            Grid.Row="1"
+                            Content="Credentials Required" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" 
+                            Margin="10" 
+                        />
+                        <CheckBox 
+                            Grid.Row="1"
+                            Grid.Column="1" 
+                            x:Name="CredentialsRequiredCheckBox"
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Left" 
                             Margin="10"
@@ -73,8 +92,8 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
-                            <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
                         <Label 
                             Content="API Key" 

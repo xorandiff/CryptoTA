@@ -42,15 +42,17 @@ namespace CryptoTA
         {
             try
             {
-                if (MarketApiComboBox.SelectedItem is IMarketApi marketApi && EnabledCheckBox.IsChecked != null)
+                if (MarketApiComboBox.SelectedItem is IMarketApi marketApi && EnabledCheckBox.IsChecked != null && CredentialsRequiredCheckBox.IsChecked != null)
                 {
                     using (var db = new DatabaseContext())
                     {
-                        if ((bool)EnabledCheckBox.IsChecked)
+                        if ((bool) EnabledCheckBox.IsChecked)
                         {
                             var market = db.Markets.Include(market => market.Credentials).Where(market => market.Name == marketApi.Name).FirstOrDefault();
                             if (market != null)
                             {
+                                market.CredentialsRequired = (bool) CredentialsRequiredCheckBox.IsChecked;
+
                                 if (!market.Credentials.Any())
                                 {
                                     market.Credentials.Add(new Credentials { PublicKey = ApiKeyTextBox.Text, PrivateKey = PrivateKeyTextBox.Text });
@@ -97,16 +99,20 @@ namespace CryptoTA
                 using (var db = new DatabaseContext())
                 {
                     EnabledCheckBox.IsChecked = db.Markets.Where(market => market.Name == marketApi.Name).Any();
-                    if ((bool)EnabledCheckBox.IsChecked)
+                    if ((bool) EnabledCheckBox.IsChecked)
                     {
                         var market = db.Markets.Include(market => market.Credentials).Where(market => market.Name == marketApi.Name).FirstOrDefault();
-                        if (market != null && market.Credentials.Any())
+                        if (market != null)
                         {
-                            var credentials = market.Credentials.FirstOrDefault();
-                            if (credentials != null)
+                            CredentialsRequiredCheckBox.IsChecked = market.CredentialsRequired;
+                            if (market.Credentials.Any())
                             {
-                                ApiKeyTextBox.Text = credentials.PublicKey;
-                                PrivateKeyTextBox.Text = credentials.PrivateKey;
+                                var credentials = market.Credentials.FirstOrDefault();
+                                if (credentials != null)
+                                {
+                                    ApiKeyTextBox.Text = credentials.PublicKey;
+                                    PrivateKeyTextBox.Text = credentials.PrivateKey;
+                                }
                             }
                         }
                     }

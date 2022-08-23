@@ -127,7 +127,7 @@
             </TabItem>
             
             <TabItem Header="Strategy settings">
-
+                <Frame Source="Pages/StrategySettingsPage.xaml" />
             </TabItem>
         </TabControl>
 

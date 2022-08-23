@@ -1,4 +1,5 @@
-﻿using CryptoTA.Database.Models;
+﻿using System.Linq;
+using CryptoTA.Database.Models;
 using System.Collections.Generic;
 
 namespace CryptoTA.Indicators
@@ -11,7 +12,7 @@ namespace CryptoTA.Indicators
 
         private double Ema(List<Tick> ticks)
         {
-            var count = ticks.Count;
+            var count = ticks.LongCount();
             if (count == 0)
             {
                 return 0;
@@ -19,9 +20,8 @@ namespace CryptoTA.Indicators
             else
             {
                 double alpha = 2.0 / (count + 1);
-                var lastValue = ticks[count - 1].Close;
-                ticks.RemoveAt(count - 1);
-
+                var lastValue = ticks.Last().Close;
+                ticks.Remove(ticks.Last());
                 return alpha * lastValue + (1 - alpha) * Ema(ticks);
             }
         }

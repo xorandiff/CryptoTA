@@ -19,20 +19,33 @@ namespace CryptoTA.Indicators
             };
         }
 
-        public List<IndicatorResult> Run(List<Tick> ticks)
+        public List<IndicatorResult> Run(List<Tick> ticks, uint secondsInterval)
         {
             List<IndicatorResult> result = new();
 
-            foreach (var movingAverage in movingAverages)
+            if (ticks.Any())
             {
-                var indicatorValue = movingAverage.Run(ticks);
-                var indicatorResult = new IndicatorResult()
-                {
-                    Name = movingAverage.Name,
-                    Value = indicatorValue
-                };
+                var currentPrice = ticks.First().Close;
+                var measurements = new List<uint>() { 10, 20, 30, 50, 100, 200 };
 
-                result.Add(indicatorResult);
+                foreach (var measurement in measurements)
+                {
+                    var pDate = DateTime.Now.AddSeconds(-measurement * secondsInterval);
+                    var pTicks = ticks.TakeWhile(t => t.Date >= pDate).ToList();
+
+                    foreach (var movingAverage in movingAverages)
+                    {
+                        var indicatorValue = movingAverage.Run(pTicks);
+                        var indicatorResult = new IndicatorResult()
+                        {
+                            Name = $"{movingAverage.Name} ({measurement})",
+                            Value = indicatorValue,
+                            ShouldBuy = indicatorValue < currentPrice
+                        };
+
+                        result.Add(indicatorResult);
+                    }
+                }
             }
 
             return result;

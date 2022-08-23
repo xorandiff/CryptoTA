@@ -11,6 +11,7 @@ using CryptoTA.Database.Models;
 using System.Collections.Generic;
 using CryptoTA.Indicators;
 using CryptoTA.Utils;
+using System.Collections.ObjectModel;
 
 namespace CryptoTA
 {
@@ -25,7 +26,6 @@ namespace CryptoTA
         }
 
         private MarketApis marketApis = new();
-        private MovingAverages movingAverages = new();
         private List<Tick> chartTicks = new();
         private string statusText = "";
 
@@ -132,19 +132,6 @@ namespace CryptoTA
                 Owner = this
             };
             accountsWindow.ShowDialog();
-        }
-
-        private void MenuTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (MenuTabControl.SelectedItem == IndicatorsTabItem)
-            {
-                if (MovingAveragesItemsControl != null)
-                {
-                    statusText = "Computing indicators...";
-                    MovingAveragesItemsControl.ItemsSource = movingAverages.Run(CurrencyChart.ChartTicks);
-                    statusText = "";
-                }
-            }
         }
     }
 }

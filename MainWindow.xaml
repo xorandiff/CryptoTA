@@ -6,6 +6,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:CryptoTA.UserControls"
+        xmlns:p="clr-namespace:CryptoTA.Pages"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
@@ -39,7 +40,6 @@
             x:Name="MenuTabControl" 
             Grid.Row="1" 
             TabStripPlacement="Left" 
-            SelectionChanged="MenuTabControl_SelectionChanged"
         >
             <TabItem 
                 x:Name="ChartTabItem" 
@@ -117,58 +117,11 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem 
-                x:Name="IndicatorsTabItem" 
-                Header="Indicators"
-            >
-                <TabItem.Resources>
-                    <DataTemplate x:Key="MovingAverageTemplate">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="{Binding Name}"/>
-                            <Label 
-                                Content="{Binding Value}" 
-                                Margin="10,0,0,0" 
-                            />
-                        </StackPanel>
-                    </DataTemplate>
-                </TabItem.Resources>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <GroupBox 
-                        Header="Trading pair" 
-                        Margin="20"
-                    >
-                        <ComboBox 
-                            x:Name="IndicatorTradingPairComboBox"
-                        />
-                    </GroupBox>
-                    <GroupBox 
-                        Grid.Row="1" 
-                        Header="Oscillators" 
-                        Margin="20"
-                    >
-                        
-                    </GroupBox>
-                    <GroupBox 
-                        Grid.Row="1" 
-                        Grid.Column="1" 
-                        Header="Moving averages" 
-                        Margin="20"
-                    >
-                        <ItemsControl 
-                            x:Name="MovingAveragesItemsControl"
-                            ItemTemplate="{StaticResource MovingAverageTemplate}" 
-                        />
-                    </GroupBox>
-                </Grid>
+            
+            <TabItem Header="Indicators">
+                <Frame Source="Pages/IndicatorsPage.xaml" />
             </TabItem>
+            
             <TabItem Header="Statistics">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -214,6 +167,7 @@
                     </TabControl>
                 </Grid>
             </TabItem>
+            
             <TabItem Header="Strategy settings">
 
             </TabItem>

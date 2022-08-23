@@ -31,7 +31,7 @@ namespace CryptoTA.Indicators
                 foreach (var measurement in measurements)
                 {
                     var pDate = DateTime.Now.AddSeconds(-measurement * secondsInterval);
-                    var pTicks = ticks.TakeWhile(t => t.Date >= pDate).ToList();
+                    var pTicks = ticks.SkipWhile(t => t.Date < pDate).ToList();
 
                     foreach (var movingAverage in movingAverages)
                     {

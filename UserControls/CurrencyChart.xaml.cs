@@ -297,18 +297,10 @@ namespace CryptoTA.UserControls
                 }
 
                 using var db = new DatabaseContext();
-                chartTicks = await db.GetTicks(TradingPair.TradingPairId, startDate);
+                chartTicks = await db.GetTicks(TradingPair.TradingPairId, startDate, 500);
 
                 var values = chartTicks.Select(tick => tick.Close).ToArray();
                 var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
-
-                // Select subset of at most 500 ticks with equal time distance, used for faster chart rendering
-                if (values.Length > 500)
-                {
-                    int nthSkipValue = values.Length / 500;
-                    values = values.Where((x, i) => i % nthSkipValue == 0).ToArray();
-                    labels = labels.Where((x, i) => i % nthSkipValue == 0).ToArray();
-                }
 
                 chartSeriesCollection[0].Values = new ChartValues<double>(values);
 

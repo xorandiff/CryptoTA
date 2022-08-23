@@ -6,97 +6,110 @@
         xmlns:local="clr-namespace:CryptoTA"
         mc:Ignorable="d"
         Title="Accounts"
-        Height="330"
         Width="400"
+        Height="510"
         Style="{DynamicResource CustomWindowStyle}" 
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
-        WindowStyle="ToolWindow"
+        WindowStyle="ToolWindow" Loaded="Window_Loaded"
+        d:DataContext="{d:DesignInstance Type=local:AccountsWindow}"
         >
     <Grid>
-        <TabControl>
-            <TabItem Header="Kraken" IsSelected="True">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.ColumnSpan="2">
-                        <GroupBox Header="General" Margin="20">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="3*" />
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Enabled" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <CheckBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                            </Grid>
-                        </GroupBox>
-                        <GroupBox Header="Credentials" Margin="20">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="3*" />
-                                </Grid.ColumnDefinitions>
-                                <Label Content="API Key" />
-                                <Label Content="Private Key" Grid.Row="1" />
-                                <TextBox Grid.Column="1" x:Name="KrakenApiKeyTextBox" />
-                                <TextBox Grid.Row="1" Grid.Column="1" x:Name="KrakenPrivateKeyTextBox" />
-                            </Grid>
-                        </GroupBox>
-                    </StackPanel>
-                    <Button x:Name="AccountsSaveButton" Grid.Row="1" Grid.Column="1" Content="Save" HorizontalAlignment="Right" Margin="0,0,20,20" Click="AccountsSaveButton_Click" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="Gemini">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.ColumnSpan="2">
-                        <GroupBox Header="General" Margin="20">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="3*" />
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Enabled" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <CheckBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                            </Grid>
-                        </GroupBox>
-                        <GroupBox Header="Credentials" Margin="20">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="3*" />
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Client ID" />
-                                <Label Content="Client Secret" Grid.Row="1" />
-                                <TextBox Grid.Column="1" x:Name="GeminiClientIdTextBox" />
-                                <TextBox Grid.Row="1" Grid.Column="1" x:Name="GeminiClientSecretTextBox" />
-                            </Grid>
-                        </GroupBox>
-                    </StackPanel>
-                    <Button Grid.Row="1" Grid.Column="1" Content="Save" HorizontalAlignment="Right" Margin="0,0,20,20" />
-                </Grid>
-            </TabItem>
-        </TabControl>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.ColumnSpan="2">
+                <GroupBox 
+                    Header="Market API" 
+                    Margin="20"
+                >
+                    <ComboBox 
+                        Margin="10"
+                        x:Name="MarketApiComboBox"
+                        ItemsSource="{Binding MarketApis}"
+                        DisplayMemberPath="Name"
+                        SelectedIndex="0" SelectionChanged="MarketApiComboBox_SelectionChanged"
+                    />
+                </GroupBox>
+                
+                <GroupBox 
+                    Header="General" 
+                    Margin="20"
+                >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                            Content="Enabled" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" 
+                            Margin="10" 
+                        />
+                        <CheckBox 
+                            Grid.Column="1" 
+                            x:Name="EnabledCheckBox"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Left" 
+                            Margin="10"
+                        />
+                    </Grid>
+                </GroupBox>
+                
+                <GroupBox 
+                    Header="Credentials" 
+                    Margin="20"
+                >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                            Content="API Key" 
+                            Margin="10"
+                        />
+                        <Label 
+                            Content="Private Key" 
+                            Grid.Row="1" 
+                            Margin="10"
+                        />
+                        <TextBox 
+                            Grid.Column="1" 
+                            x:Name="ApiKeyTextBox"
+                            Margin="10" 
+                        />
+                        <TextBox 
+                            Grid.Row="1" 
+                            Grid.Column="1" 
+                            x:Name="PrivateKeyTextBox" 
+                            Margin="10"
+                        />
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+            
+            <Button 
+                x:Name="AccountsSaveButton" 
+                Grid.Row="1" 
+                Grid.Column="1" 
+                Content="Save" 
+                HorizontalAlignment="Right"
+                Padding="10" 
+                Margin="0,0,20,20" 
+                Click="AccountsSaveButton_Click" 
+            />
+        </Grid>
     </Grid>
 </Window>

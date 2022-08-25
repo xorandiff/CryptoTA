@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CryptoTA.UserControls"
-             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF" 
+             xmlns:skiasharpview="clr-namespace:LiveChartsCore.SkiaSharpView;assembly=LiveChartsCore.SkiaSharpView"
              d:DataContext="{d:DesignInstance Type=local:CurrencyChart}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -78,25 +79,12 @@
         </Grid>
 
         <lvc:CartesianChart 
-            x:Name="ChartControl"
             Grid.Row="1" 
-            Series="{Binding ChartSeriesCollection}" 
-        >
-            <lvc:CartesianChart.DataTooltip>
-                <lvc:DefaultTooltip Background="#FF1D1D1D"/>
-            </lvc:CartesianChart.DataTooltip>
-            <lvc:CartesianChart.AxisY>
-                <lvc:Axis 
-                    Title="{Binding ChartTitle}" 
-                    LabelFormatter="{Binding ChartYFormatter}"
-                />
-            </lvc:CartesianChart.AxisY>
-            <lvc:CartesianChart.AxisX>
-                <lvc:Axis 
-                    Title="Time" 
-                    Labels="{Binding ChartLabels}"
-                />
-            </lvc:CartesianChart.AxisX>
-        </lvc:CartesianChart>
+            Series="{Binding ChartSeriesCollection}"
+            XAxes="{Binding XAxes}"
+            YAxes="{Binding YAxes}"
+            TooltipTextBrush="#f2f4c3"
+            TooltipBackground="#FF1D1D1D"
+        />
     </Grid>
 </UserControl>

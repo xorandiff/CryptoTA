@@ -12,25 +12,33 @@
 >
     <Page.Resources>
         <DataTemplate x:Key="MovingAverageTemplate">
-            <StackPanel Orientation="Horizontal">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
                 <Label Content="{Binding Name}"/>
                 <Label 
-                    Content="{Binding Value}" 
+                    Grid.Column="1"
+                    Content="{Binding DisplayValue}"
                     Margin="10,0,0,0" 
+                    HorizontalAlignment="Right" 
                 />
                 <TextBlock 
+                    Grid.Column="2"
                     Margin="10,0,0,0" 
-                    x:Name="ShouldBuyLabel"
+                    x:Name="ShouldBuyLabel" VerticalAlignment="Center"
                 />
-            </StackPanel>
+            </Grid>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding ShouldBuy}" Value="True">
-                    <Setter Property="Text" TargetName="ShouldBuyLabel" Value="Buy" />
-                    <Setter Property="Foreground" TargetName="ShouldBuyLabel" Value="Green" />
+                    <Setter Property="Text" TargetName="ShouldBuyLabel" Value="BUY" />
+                    <Setter Property="Foreground" TargetName="ShouldBuyLabel" Value="#FF1AC51A" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding ShouldBuy}" Value="False">
-                    <Setter Property="Text" TargetName="ShouldBuyLabel" Value="Sell" />
-                    <Setter Property="Foreground" TargetName="ShouldBuyLabel" Value="Red" />
+                    <Setter Property="Text" TargetName="ShouldBuyLabel" Value="SELL" />
+                    <Setter Property="Foreground" TargetName="ShouldBuyLabel" Value="#FFFF4141" />
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -44,25 +52,82 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <GroupBox 
-            Header="Trading pair" 
-            Margin="20"
-        >
-            <Label Content="{Binding TradingPair.DisplayName}" />
-        </GroupBox>
 
-        <GroupBox 
-            Grid.Column="1"
-            Header="Interval" 
-            Margin="20"
-        >
-            <ComboBox 
-                x:Name="IntervalComboBox"
-                ItemsSource="{Binding Intervals}"
-                SelectedIndex="4"
-                DisplayMemberPath="Name" SelectionChanged="IntervalComboBox_SelectionChanged"
-            />
-        </GroupBox>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox 
+                Header="Trading pair" 
+                Margin="20"
+            >
+                <Label Content="{Binding TradingPair.DisplayName}" />
+            </GroupBox>
+
+            <GroupBox 
+                Grid.Column="1"
+                Header="Interval" 
+                Margin="20"
+            >
+                <ComboBox 
+                    x:Name="IntervalComboBox"
+                    ItemsSource="{Binding Intervals}"
+                    SelectedIndex="4"
+                    DisplayMemberPath="Name" SelectionChanged="IntervalComboBox_SelectionChanged"
+                />
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Oscillators" Margin="20,20,5,5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Strong buy" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Grid.ColumnSpan="2" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                        <Label Content="Buy:" VerticalAlignment="Center" />
+                        <TextBlock x:Name="OscillatorsBuyCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FF1AC51A" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                        <Label Content="Sell:" VerticalAlignment="Center" />
+                        <TextBlock x:Name="OscillatorsSellCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FFFF4141" />
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Header="Moving Averages" Grid.Column="1" Margin="5,20,20,5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Strong buy" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Grid.ColumnSpan="2" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                        <Label Content="Buy:" VerticalAlignment="Center" />
+                        <TextBlock x:Name="MovingAveragesBuyCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FF1AC51A" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                        <Label Content="Sell:" VerticalAlignment="Center" />
+                        <TextBlock x:Name="MovingAveragesSellCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FFFF4141"  />
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
 
         <GroupBox 
             Grid.Row="1" 
@@ -75,7 +140,7 @@
         <GroupBox 
             Grid.Row="1" 
             Grid.Column="1" 
-            Header="Moving averages" 
+            Header="Moving Averages" 
             Margin="20"
         >
             <ItemsControl 

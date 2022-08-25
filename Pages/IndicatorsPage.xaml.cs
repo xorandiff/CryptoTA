@@ -68,7 +68,11 @@ namespace CryptoTA.Pages
                     using (var db = new DatabaseContext())
                     {
                         var ticks = await db.GetTicks(TradingPair.TradingPairId, DateTime.Now.AddSeconds(-200 * timeInterval.Seconds), 1000);
-                        MovingAveragesItemsControl.ItemsSource = movingAverages.Run(ticks, timeInterval.Seconds);
+                        var movingAveragesResult = movingAverages.Run(ticks, timeInterval.Seconds);
+                        MovingAveragesItemsControl.ItemsSource = movingAveragesResult;
+
+                        MovingAveragesBuyCountTextBlock.Text = movingAveragesResult.Where(ir => ir.ShouldBuy).Count().ToString();
+                        MovingAveragesSellCountTextBlock.Text = movingAveragesResult.Where(ir => !ir.ShouldBuy).Count().ToString();
                     }
                     IntervalComboBox.IsEnabled = true;
                 }

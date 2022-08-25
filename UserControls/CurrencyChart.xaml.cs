@@ -5,13 +5,15 @@ using System.Windows.Controls;
 using CryptoTA.Apis;
 using CryptoTA.Database.Models;
 using CryptoTA.Database;
-using LiveCharts;
-using LiveCharts.Wpf;
 using CryptoTA.Utils;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using SkiaSharp;
+using LiveChartsCore.SkiaSharpView.Painting;
 
 namespace CryptoTA.UserControls
 {
@@ -27,7 +29,6 @@ namespace CryptoTA.UserControls
         private ObservableCollection<TradingPair> tradingPairs = new();
         private ObservableCollection<TimeInterval> timeIntervals = new();
         private ObservableCollection<string> chartLabels = new();
-        private SeriesCollection chartSeriesCollection = new();
 
         public CurrencyChart()
         {
@@ -60,7 +61,6 @@ namespace CryptoTA.UserControls
                 TimeInterval = timeIntervals.Where(ti => ti.TimeIntervalId == TimeInterval.TimeIntervalId).First();
 
                 chartLabels = CreateChartLabels();
-                chartSeriesCollection = CreateChartSeriesCollection();
             }
             catch (Exception e)
             {
@@ -72,7 +72,33 @@ namespace CryptoTA.UserControls
         public TradingPair TradingPair { get; set; } = GetTradingPairFromSettings();
         public TimeInterval TimeInterval { get; set; } = GetTimeIntervalFromSettings();
         public string ChartTitle { get => chartTitle; }
-        public SeriesCollection ChartSeriesCollection { get => chartSeriesCollection; }
+        public ISeries[] ChartSeriesCollection { get; set; } =
+        {
+            new LineSeries<double>
+            {
+                Values = Array.Empty<double>(),
+                GeometryFill = null,
+                GeometryStroke = null,
+                Stroke = new SolidColorPaint(SKColors.LightSkyBlue) { StrokeThickness = 1 },
+                LineSmoothness = 0
+            }
+        };
+        public ObservableCollection<Axis> XAxes = new()
+        {
+            new Axis
+            {
+                Name = "Time",
+                Labels = Array.Empty<string>()
+            }
+        };
+        public ObservableCollection<Axis> YAxes = new()
+        {
+            new Axis
+            {
+                Name = "Price",
+                Labels = Array.Empty<string>()
+            }
+        };
         public Func<double, string> ChartYFormatter { get => chartYFormatter; }
         public ObservableCollection<TradingPair> TradingPairs { get => tradingPairs; }
         public ObservableCollection<Market> Markets { get => markets; }
@@ -192,21 +218,6 @@ namespace CryptoTA.UserControls
             return chartLabels;
         }
 
-        private SeriesCollection CreateChartSeriesCollection()
-        {
-            chartSeriesCollection = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = TradingPair.BaseSymbol + "/" + TradingPair.CounterSymbol,
-                    Values = new ChartValues<double> { },
-                    PointGeometry = null
-                }
-            };
-
-            return chartSeriesCollection;
-        }
-
         private void EnableFilterComboBoxes()
         {
             MarketComboBox.IsEnabled = true;
@@ -302,16 +313,13 @@ namespace CryptoTA.UserControls
                 var values = chartTicks.Select(tick => tick.Close).ToArray();
                 var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
 
-                chartSeriesCollection[0].Values = new ChartValues<double>(values);
+                ChartSeriesCollection[0].Values = values;
+                ChartSeriesCollection[0].Name = TradingPair.CounterSymbol + " price for 1 " + TradingPair.BaseSymbol;
 
-                chartLabels.Clear();
-                foreach (var label in labels)
-                {
-                    chartLabels.Add(label);
-                }
+                XAxes.Clear();
+                XAxes.Add(new Axis { Name = "Time", Labels = labels });
 
                 chartYFormatter = value => CurrencyCodeMapper.GetSymbol(TradingPair.CounterSymbol) + " " + value;
-                chartTitle = TradingPair.CounterSymbol + " price for 1 " + TradingPair.BaseSymbol;
             }
             catch (Exception e)
             {

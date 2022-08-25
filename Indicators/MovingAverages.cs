@@ -15,7 +15,7 @@ namespace CryptoTA.Indicators
             movingAverages = new()
             {
                 new SimpleMovingAverage(),
-                //new ExponentialMovingAverage()
+                new ExponentialMovingAverage()
             };
         }
 

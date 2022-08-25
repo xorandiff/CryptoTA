@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.361" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="6.0.8" />
@@ -40,7 +41,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="6.0.3">
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="6.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -52,10 +53,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="RestSharp" Version="108.0.1" />
-    <PackageReference Include="telerik.ui.for.wpf.netcore.xaml" Version="2022.1.117">
-      <IncludeAssets></IncludeAssets>
-      <GeneratePathProperty></GeneratePathProperty>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

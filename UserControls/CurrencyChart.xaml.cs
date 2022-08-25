@@ -308,7 +308,7 @@ namespace CryptoTA.UserControls
                 }
 
                 using var db = new DatabaseContext();
-                chartTicks = await db.GetTicks(TradingPair.TradingPairId, startDate, 500);
+                chartTicks = await db.GetTicks(TradingPair.TradingPairId, startDate, 1000);
 
                 var values = chartTicks.Select(tick => tick.Close).ToArray();
                 var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
@@ -316,9 +316,10 @@ namespace CryptoTA.UserControls
                 ChartSeriesCollection[0].Values = values;
                 ChartSeriesCollection[0].Name = TradingPair.CounterSymbol + " price for 1 " + TradingPair.BaseSymbol;
 
-                XAxes.Clear();
-                XAxes.Add(new Axis { Name = "Time", Labels = labels });
-
+                XAxes = new ObservableCollection<Axis>
+                {
+                    new Axis { Name = "Time", Labels = labels }
+                };
                 chartYFormatter = value => CurrencyCodeMapper.GetSymbol(TradingPair.CounterSymbol) + " " + value;
             }
             catch (Exception e)

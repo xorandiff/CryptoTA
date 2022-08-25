@@ -10,6 +10,7 @@ namespace CryptoTA.Apis
         public MarketApis() : base()
         {
             Add(new BitstampApi());
+            Add(new KrakenApi());
             activeMarketApi = this[0];
         }
 

@@ -16,7 +16,7 @@ using SkiaSharp;
 using LiveChartsCore.SkiaSharpView.Painting;
 using System.Threading;
 using System.Windows.Media;
-using Telerik.Windows.Controls.FieldList;
+using LiveChartsCore.Defaults;
 
 namespace CryptoTA.UserControls
 {
@@ -33,6 +33,8 @@ namespace CryptoTA.UserControls
         private ObservableCollection<TimeInterval> timeIntervals = new();
         private ObservableCollection<string> chartLabels = new();
 
+        private readonly ObservableCollection<ObservableValue> observableValues = new();
+
         public CurrencyChart()
         {
             InitializeComponent();
@@ -46,6 +48,17 @@ namespace CryptoTA.UserControls
                 }
                 
                 chartLabels = CreateChartLabels();
+                ChartSeriesCollection = new ObservableCollection<ISeries>
+                {
+                    new LineSeries<ObservableValue>
+                    {
+                        Values = observableValues,
+                        GeometryFill = null,
+                        GeometryStroke = null,
+                        Stroke = new SolidColorPaint(SKColors.LightSkyBlue) { StrokeThickness = 1 },
+                        LineSmoothness = 0
+                    }
+                };
             }
             catch (Exception e)
             {
@@ -95,17 +108,8 @@ namespace CryptoTA.UserControls
         public TradingPair TradingPair { get; set; } = new();
         public TimeInterval TimeInterval { get; set; } = new();
         public string ChartTitle { get => chartTitle; }
-        public ISeries[] ChartSeriesCollection { get; set; } =
-        {
-            new LineSeries<double>
-            {
-                Values = Array.Empty<double>(),
-                GeometryFill = null,
-                GeometryStroke = null,
-                Stroke = new SolidColorPaint(SKColors.LightSkyBlue) { StrokeThickness = 1 },
-                LineSmoothness = 0
-            }
-        };
+        public ObservableCollection<ISeries> ChartSeriesCollection { get; set; }
+
         public ObservableCollection<Axis> XAxes = new()
         {
             new Axis
@@ -289,6 +293,19 @@ namespace CryptoTA.UserControls
                         CurrentPriceText.Text = CurrencyCodeMapper.GetSymbol(tradingPair.CounterSymbol) + " " + tickData.Close;
                         CurrentBaseSymbolTextBlock.Text = "/" + tradingPair.BaseSymbol;
 
+                        tickData.TradingPairId = TradingPair.TradingPairId;
+                        await db.Ticks.AddAsync(tickData);
+
+                        await db.SaveChangesAsync();
+
+                        observableValues.RemoveAt(0);
+                        observableValues.Add(new ObservableValue(tickData.Close));
+                        if (ChartLabels.Any())
+                        {
+                            ChartLabels.RemoveAt(0);
+                        }
+                        ChartLabels.Add(tickData.Date.ToString("dd.MM.yyyy"));
+
                         var dayBefore = tickData.Date.AddDays(-1);
                         var dayBeforeTick = await db.Ticks
                                             .Where(t => t.TradingPairId == TradingPair.TradingPairId && t.Date <= dayBefore)
@@ -376,7 +393,12 @@ namespace CryptoTA.UserControls
                 var values = chartTicks.Select(tick => tick.Close).ToArray();
                 var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
 
-                ChartSeriesCollection[0].Values = values;
+
+                observableValues.Clear();
+                foreach (var value in values)
+                {
+                    observableValues.Add(new ObservableValue(value));
+                }
                 ChartSeriesCollection[0].Name = TradingPair.CounterSymbol + " price for 1 " + TradingPair.BaseSymbol;
 
                 XAxes = new ObservableCollection<Axis>

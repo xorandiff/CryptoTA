@@ -43,14 +43,34 @@
                 x:Name="MarketsComboBox"
                 ItemsSource="{Binding Markets}"
                 SelectedItem="{Binding Market}"
-                DisplayMemberPath="Name" SelectionChanged="MarketsComboBox_SelectionChanged"
+                DisplayMemberPath="Name" 
+                SelectionChanged="MarketsComboBox_SelectionChanged"
             />
         </GroupBox>
-        
+
+        <GroupBox
+            Grid.Column="1"
+            x:Name="CredentialsMissingGroupBox"
+            Margin="20" BorderBrush="#FF7B0000"
+        >
+            <GroupBox.Header>
+                <TextBlock Text="Credentials Missing" Foreground="#FFFF4040"/>
+            </GroupBox.Header>
+            <StackPanel Margin="10">
+                <TextBlock FontSize="11">
+                You have to provide credentials for this API.
+                </TextBlock>
+                <TextBlock FontSize="11">
+                You can add them by choosing from menu Edit -> Accounts.
+                </TextBlock>
+            </StackPanel>
+        </GroupBox>
+
         <GroupBox 
-            Grid.Row="1" 
-            Header="Current Balance" 
+            Grid.Row="1"
+            Header="Current Balance"
             Margin="20"
+
         >
             <ItemsControl 
                 x:Name="AccountBalanceItemsControl"
@@ -61,7 +81,7 @@
         <GroupBox 
             Grid.Row="1" 
             Grid.Column="1"
-            Header="Transactions" 
+            Header="Transactions"
             Margin="20"
         >
 

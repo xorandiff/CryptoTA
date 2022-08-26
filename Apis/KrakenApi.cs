@@ -90,11 +90,11 @@ namespace CryptoTA.Apis
 
         private string GetKrakenSignature(string urlPath, ulong nonce, Dictionary<string, string> data)
         {
-            var hash256 = new SHA256Managed();
+            var hash256 = SHA256.Create();
             var postData = string.Join("&", data.Select(e => e.Key + "=" + e.Value).ToArray());
             var encoded = Encoding.UTF8.GetBytes(nonce + postData);
             var message = Encoding.UTF8.GetBytes(urlPath).Concat(hash256.ComputeHash(encoded)).ToArray();
-            var mac = new HMACSHA512(Convert.FromBase64String("NWO9QKHhbq2xMPWkFQsfwoJQmH1yF3ROjTvy259Ig59skRbKgF+ZXfHwNcsqlIWGv9K3eWKhDtlgo45jNqOgvQ=="));
+            var mac = new HMACSHA512(Convert.FromBase64String(apiSign!));
             return Convert.ToBase64String(mac.ComputeHash(message));
         }
 
@@ -134,7 +134,7 @@ namespace CryptoTA.Apis
             var data = new Dictionary<string, string> { { "nonce", "0" } };
             var sign = GetKrakenSignature("/0/private/Balance", ulong.Parse(data["nonce"]), data);
             var request = new RestRequest("private/Balance")
-                                .AddHeader("API-Key", "Bsn+3Y4tdosCb0tg7pwpn5gizPyztzFPm9HJ45DoLiO5NnuSmcAZl5W+")
+                                .AddHeader("API-Key", apiKey)
                                 .AddHeader("API-Sign", sign)
                                 .AddBody(data);
 

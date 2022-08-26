@@ -61,7 +61,7 @@
                 Orientation="Horizontal"
             >
                 <TextBlock 
-                    x:Name="currentChangeText" 
+                    x:Name="CurrentChangeText" 
                     Text="5%"
                     FontSize="24" 
                     Margin="0,0,10,0" 
@@ -73,6 +73,7 @@
                     FontSize="36" 
                 />
                 <TextBlock 
+                    x:Name="CurrentBaseSymbolTextBlock"
                     Text="{Binding TradingPair.BaseSymbol, StringFormat=/{0}}" 
                     FontSize="36" 
                     Foreground="#FF797979"

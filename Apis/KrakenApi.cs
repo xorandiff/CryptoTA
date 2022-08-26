@@ -70,7 +70,7 @@ namespace CryptoTA.Apis
             public int[] T { get; set; }
             public string[] L { get; set; }
             public string[] H { get; set; }
-            public string[] O { get; set; }
+            public string O { get; set; }
         }
 
         private void ResponseErrorCheck(string[] error)
@@ -96,6 +96,21 @@ namespace CryptoTA.Apis
             var message = Encoding.UTF8.GetBytes(urlPath).Concat(hash256.ComputeHash(encoded)).ToArray();
             var mac = new HMACSHA512(Convert.FromBase64String(apiSign!));
             return Convert.ToBase64String(mac.ComputeHash(message));
+        }
+
+        private RestRequest AuthPostRequest(string uriPath, Dictionary<string, string> data)
+        {
+            if (apiKey == null || apiSign == null)
+            {
+                throw new Exception("Method requires credentials.");
+            }
+
+            data.Add("nonce", "0");
+            var sign = GetKrakenSignature(uriPath, ulong.Parse(data["nonce"]), data);
+            return new RestRequest(uriPath)
+                                .AddHeader("API-Key", apiKey!)
+                                .AddHeader("API-Sign", sign)
+                                .AddBody(data);
         }
 
         public KrakenApi()
@@ -126,19 +141,8 @@ namespace CryptoTA.Apis
 
         public async Task<List<Balance>> GetAccountBalance()
         {
-            if (apiKey == null || apiSign == null)
-            {
-                throw new Exception("GetAccountBalance() requires credentials.");
-            }
-
-            var data = new Dictionary<string, string> { { "nonce", "0" } };
-            var sign = GetKrakenSignature("/0/private/Balance", ulong.Parse(data["nonce"]), data);
-            var request = new RestRequest("private/Balance")
-                                .AddHeader("API-Key", apiKey)
-                                .AddHeader("API-Sign", sign)
-                                .AddBody(data);
-
-            var response = await restClient.PostAsync<KrakenResult<string>>(request);
+            var data = new Dictionary<string, string> { };
+            var response = await restClient.PostAsync<KrakenResult<string>>(AuthPostRequest("private/Balance", data));
 
             if (response == null)
             {
@@ -146,7 +150,6 @@ namespace CryptoTA.Apis
             }
             
             ResponseErrorCheck(response.Error);
-
 
             var balance = new List<Balance>();
 
@@ -171,7 +174,7 @@ namespace CryptoTA.Apis
         {
             var request = new RestRequest("public/OHLC")
                             .AddQueryParameter("pair", tradingPair.Name)
-                            .AddQueryParameter("interval", timeInterval / 60);
+                            .AddQueryParameter("interval", timeInterval);
             if (startDate != null)
             {
                 var startTimestamp = new DateTimeOffset((DateTime)startDate).ToUnixTimeSeconds();
@@ -240,10 +243,10 @@ namespace CryptoTA.Apis
             return new Tick
             {
                 High = double.Parse(krakenTickerData.H[0], CultureInfo.InvariantCulture),
-                Low = double.Parse(krakenTickerData.H[0], CultureInfo.InvariantCulture),
-                Open = double.Parse(krakenTickerData.H[0], CultureInfo.InvariantCulture),
-                Close = double.Parse(krakenTickerData.H[0], CultureInfo.InvariantCulture),
-                Volume = double.Parse(krakenTickerData.H[0], CultureInfo.InvariantCulture),
+                Low = double.Parse(krakenTickerData.L[0], CultureInfo.InvariantCulture),
+                Open = double.Parse(krakenTickerData.O, CultureInfo.InvariantCulture),
+                Close = double.Parse(krakenTickerData.C[0], CultureInfo.InvariantCulture),
+                Volume = double.Parse(krakenTickerData.V[0], CultureInfo.InvariantCulture),
                 Date = DateTime.Now
             };
         }

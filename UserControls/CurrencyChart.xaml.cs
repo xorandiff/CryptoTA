@@ -14,6 +14,9 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using SkiaSharp;
 using LiveChartsCore.SkiaSharpView.Painting;
+using System.Threading;
+using System.Windows.Media;
+using Telerik.Windows.Controls.FieldList;
 
 namespace CryptoTA.UserControls
 {
@@ -83,6 +86,8 @@ namespace CryptoTA.UserControls
                 }
                 TimeInterval = await db.GetTimeIntervalFromSettings(false);
                 TimeInterval = timeIntervals.Where(ti => ti.TimeIntervalId == TimeInterval.TimeIntervalId).First();
+
+                await FetchTickData();
             }
         }
 
@@ -271,6 +276,82 @@ namespace CryptoTA.UserControls
             }
         }
 
+        public async Task FetchTickData()
+        {
+            var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(2));
+            while (await periodicTimer.WaitForNextTickAsync())
+            {
+                using (var db = new DatabaseContext())
+                {
+                    if (TradingPairComboBox.SelectedItem is TradingPair tradingPair)
+                    {
+                        var tickData = await marketApis.ActiveMarketApi.GetTick(tradingPair);
+                        CurrentPriceText.Text = CurrencyCodeMapper.GetSymbol(tradingPair.CounterSymbol) + " " + tickData.Close;
+                        CurrentBaseSymbolTextBlock.Text = "/" + tradingPair.BaseSymbol;
+
+                        var dayBefore = tickData.Date.AddDays(-1);
+                        var dayBeforeTick = await db.Ticks
+                                            .Where(t => t.TradingPairId == TradingPair.TradingPairId && t.Date <= dayBefore)
+                                            .OrderByDescending(t => t.Date)
+                                            .FirstOrDefaultAsync();
+
+                        if (dayBeforeTick != null)
+                        {
+                            double percents = (tickData.Close - dayBeforeTick.Close) / dayBeforeTick.Close * 100d;
+                            string percentString = string.Format("{0:N2}", percents) + "%";
+
+                            Color percentColor = Color.FromRgb(240, 240, 240);
+                            if (percents > 0)
+                            {
+                                if (percents >= 15)
+                                {
+                                    percentColor = Color.FromRgb(0, 255, 0);
+                                }
+                                else if (percents >= 10)
+                                {
+                                    percentColor = Color.FromRgb(41, 179, 41);
+                                }
+                                else if (percents >= 5)
+                                {
+                                    percentColor = Color.FromRgb(103, 165, 103);
+                                }
+                                else if (percents >= 1)
+                                {
+                                    percentColor = Color.FromRgb(181, 255, 181);
+                                }
+                            }
+                            else if (percents < 0)
+                            {
+                                if (percents <= -15)
+                                {
+                                    percentColor = Color.FromRgb(255, 0, 0);
+                                }
+                                else if (percents <= -10)
+                                {
+                                    percentColor = Color.FromRgb(179, 41, 41);
+                                }
+                                else if (percents <= -5)
+                                {
+                                    percentColor = Color.FromRgb(165, 103, 103);
+                                }
+                                else if (percents <= -1)
+                                {
+                                    percentColor = Color.FromRgb(255, 181, 181);
+                                }
+                            }
+                            CurrentChangeText.Foreground = new SolidColorBrush(percentColor);
+
+                            if (percents > 0)
+                            {
+                                percentString = "+" + percentString;
+                            }
+                            CurrentChangeText.Text = percentString;
+                        }
+                    }
+                }
+            }
+        }
+
         private async Task LoadChartData(DateTime? startDate = null)
         {
             try
@@ -290,7 +371,7 @@ namespace CryptoTA.UserControls
                 }
 
                 using var db = new DatabaseContext();
-                chartTicks = await db.GetTicks(TradingPair.TradingPairId, startDate, 1000);
+                chartTicks = await db.GetTicks(TradingPair.TradingPairId, startDate, 500);
 
                 var values = chartTicks.Select(tick => tick.Close).ToArray();
                 var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();

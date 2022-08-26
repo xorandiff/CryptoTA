@@ -46,68 +46,6 @@ namespace CryptoTA
             }
         }
 
-        public async Task FetchTickData()
-        {
-            //var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(2));
-            //while (await periodicTimer.WaitForNextTickAsync())
-            //{
-            //    if (TradingPairComboBox.SelectedItem is TradingPair tradingPair)
-            //    {
-            //        var tickData = await marketApis.ActiveMarketApi.GetTick(tradingPair);
-            //        CurrentPriceText.Text = CurrencyCodeMapper.GetSymbol(tradingPair.CounterSymbol) + " " + tickData.Close;
-            //    }
-
-
-            //    //float percents = response.Data.Percent_change_24;
-            //    //string percentString = response.Data.Percent_change_24.ToString() + "%";
-
-            //    //Color percentColor = Color.FromRgb(240, 240, 240);
-            //    //if (percents > 0)
-            //    //{
-            //    //    if (percents >= 15)
-            //    //    {
-            //    //        percentColor = Color.FromRgb(0, 255, 0);
-            //    //    }
-            //    //    else if (percents >= 10)
-            //    //    {
-            //    //        percentColor = Color.FromRgb(41, 179, 41);
-            //    //    }
-            //    //    else if (percents >= 5)
-            //    //    {
-            //    //        percentColor = Color.FromRgb(103, 165, 103);
-            //    //    }
-            //    //    else if (percents >= 1)
-            //    //    {
-            //    //        percentColor = Color.FromRgb(181, 255, 181);
-            //    //    }
-            //    //} else if (percents < 0)
-            //    //{
-            //    //    if (percents <= -15)
-            //    //    {
-            //    //        percentColor = Color.FromRgb(255, 0, 0);
-            //    //    }
-            //    //    else if (percents <= -10)
-            //    //    {
-            //    //        percentColor = Color.FromRgb(179, 41, 41);
-            //    //    }
-            //    //    else if (percents <= -5)
-            //    //    {
-            //    //        percentColor = Color.FromRgb(165, 103, 103);
-            //    //    }
-            //    //    else if (percents <= -1)
-            //    //    {
-            //    //        percentColor = Color.FromRgb(255, 181, 181);
-            //    //    }
-            //    //}
-            //    //currentChangeText.Foreground = new SolidColorBrush(percentColor);
-
-            //    //if (percents > 0) {
-            //    //    percentString = "+" + percentString;
-            //    //}
-            //    //currentChangeText.Text = percentString;
-            //}
-        }
-
         private async Task<double> GetCurrencyRate(string sourceCurrency, string targetCurrency)
         {
             string uriString = "https://api.exchangerate.host/convert?from=" + sourceCurrency + "&to=" + targetCurrency;

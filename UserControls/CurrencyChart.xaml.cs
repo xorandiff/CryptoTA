@@ -24,21 +24,22 @@ namespace CryptoTA.UserControls
     {
         private readonly MarketApis marketApis = new();
         private string chartTitle = "";
-        private Func<double, string> chartYFormatter = value => value.ToString();
+        private Func<double, string> yAxisLabeler = value => value.ToString();
 
         private List<Tick> chartTicks = new();
 
         private ObservableCollection<Market> markets = new();
         private ObservableCollection<TradingPair> tradingPairs = new();
         private ObservableCollection<TimeInterval> timeIntervals = new();
-        private ObservableCollection<string> chartLabels = new();
 
-        private readonly ObservableCollection<ObservableValue> observableValues = new();
+        private readonly ObservableCollection<string> observableLabels = new();
+        private readonly ObservableCollection<Tick> observableValues = new();
 
         public CurrencyChart()
         {
             InitializeComponent();
             DataContext = this;
+
             try
             {
                 using (var db = new DatabaseContext())
@@ -46,17 +47,42 @@ namespace CryptoTA.UserControls
                 {
                     throw new Exception("Configuration data missing.");
                 }
-                
-                chartLabels = CreateChartLabels();
+
+                XAxes = new ObservableCollection<Axis>
+                {
+                    new Axis
+                    {
+                        Name = "Time",
+                        Labels = observableLabels,
+                        MaxLimit = 500,
+                    }
+                };
+
+                YAxes = new ObservableCollection<Axis>
+                {
+                    new Axis
+                    {
+                        Name = "Price",
+                        Labeler = yAxisLabeler
+                    }
+                };
+
                 ChartSeriesCollection = new ObservableCollection<ISeries>
                 {
-                    new LineSeries<ObservableValue>
+                    new LineSeries<Tick>
                     {
                         Values = observableValues,
                         GeometryFill = null,
                         GeometryStroke = null,
+                        GeometrySize = 0,
                         Stroke = new SolidColorPaint(SKColors.LightSkyBlue) { StrokeThickness = 1 },
-                        LineSmoothness = 0
+                        LineSmoothness = 0,
+                        Mapping = (tick, chartPoint) =>
+                        {
+                            chartPoint.PrimaryValue = tick.Close;
+                            chartPoint.SecondaryValue = chartPoint.Context.Entity.EntityIndex;
+                        },
+                        TooltipLabelFormatter = chartPoint => $"{CurrencyCodeMapper.GetSymbol(TradingPair.CounterSymbol)}{chartPoint.PrimaryValue}\n{observableValues[(int)chartPoint.SecondaryValue].Date:dd.MM.yyyy HH:mm}"
                     }
                 };
             }
@@ -109,28 +135,11 @@ namespace CryptoTA.UserControls
         public TimeInterval TimeInterval { get; set; } = new();
         public string ChartTitle { get => chartTitle; }
         public ObservableCollection<ISeries> ChartSeriesCollection { get; set; }
-
-        public ObservableCollection<Axis> XAxes = new()
-        {
-            new Axis
-            {
-                Name = "Time",
-                Labels = Array.Empty<string>()
-            }
-        };
-        public ObservableCollection<Axis> YAxes = new()
-        {
-            new Axis
-            {
-                Name = "Price",
-                Labels = Array.Empty<string>()
-            }
-        };
-        public Func<double, string> ChartYFormatter { get => chartYFormatter; }
+        public ObservableCollection<Axis> XAxes { get; set; }
+        public ObservableCollection<Axis> YAxes { get; set; }
         public ObservableCollection<TradingPair> TradingPairs { get => tradingPairs; }
         public ObservableCollection<Market> Markets { get => markets; }
         public ObservableCollection<TimeInterval> TimeIntervals { get => timeIntervals; }
-        public ObservableCollection<string> ChartLabels { get => chartLabels; }
         public List<Tick> ChartTicks { get => chartTicks; }
 
         private static ObservableCollection<Market> CreateMarkets()
@@ -298,13 +307,20 @@ namespace CryptoTA.UserControls
 
                         await db.SaveChangesAsync();
 
-                        observableValues.RemoveAt(0);
-                        observableValues.Add(new ObservableValue(tickData.Close));
-                        if (ChartLabels.Any())
+                        if (TimeInterval.Seconds <= 3600 * 24)
                         {
-                            ChartLabels.RemoveAt(0);
+                            if (observableValues.Any())
+                            {
+                                observableValues.RemoveAt(0);
+                            }
+                            observableValues.Add(tickData);
+
+                            if (observableLabels.Any())
+                            {
+                                observableLabels.RemoveAt(0);
+                            }
+                            observableLabels.Add(tickData.Date.ToString("HH:mm"));
                         }
-                        ChartLabels.Add(tickData.Date.ToString("dd.MM.yyyy"));
 
                         var dayBefore = tickData.Date.AddDays(-1);
                         var dayBeforeTick = await db.Ticks
@@ -395,17 +411,18 @@ namespace CryptoTA.UserControls
 
 
                 observableValues.Clear();
-                foreach (var value in values)
+                foreach (var tick in chartTicks.ToArray())
                 {
-                    observableValues.Add(new ObservableValue(value));
+                    observableValues.Add(tick);
                 }
-                ChartSeriesCollection[0].Name = TradingPair.CounterSymbol + " price for 1 " + TradingPair.BaseSymbol;
 
-                XAxes = new ObservableCollection<Axis>
+                observableLabels.Clear();
+                foreach (var label in labels)
                 {
-                    new Axis { Name = "Time", Labels = labels }
-                };
-                chartYFormatter = value => CurrencyCodeMapper.GetSymbol(TradingPair.CounterSymbol) + " " + value;
+                    observableLabels.Add(label);
+                }
+
+                YAxes[0].Labeler = value => CurrencyCodeMapper.GetSymbol(TradingPair.CounterSymbol) + value;
             }
             catch (Exception e)
             {

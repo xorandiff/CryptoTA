@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using CryptoTA.Indicators;
 using CryptoTA.Utils;
 using System.Collections.ObjectModel;
+using CryptoTA.Pages;
 
 namespace CryptoTA
 {
@@ -130,6 +131,14 @@ namespace CryptoTA
                 Owner = this
             };
             accountsWindow.ShowDialog();
+        }
+
+        private void MenuTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MenuTabControl.SelectedIndex == 1)
+            {
+                //IndicatorsPageFrame.Refresh();
+            }
         }
     }
 }

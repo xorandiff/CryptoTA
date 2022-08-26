@@ -36,9 +36,9 @@
         >
             <Label>Select which of available Market APIs you want to use:</Label>
             <StackPanel Margin="0,10,0,0">
-                <ContentControl 
-                    Content="{Binding Source={StaticResource MarketApisData}}"
-                    ContentTemplate="{Binding Source={StaticResource MarketApiCheckboxTemplate}}"
+                <ItemsControl 
+                    ItemsSource="{Binding Source={StaticResource MarketApisData}}"
+                    ItemTemplate="{Binding Source={StaticResource MarketApiCheckboxTemplate}}"
                 />
             </StackPanel>
         </StackPanel>

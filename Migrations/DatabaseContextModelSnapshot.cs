@@ -76,15 +76,16 @@ namespace CryptoTA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SettingsId"), 1L, 1);
 
-                    b.Property<int>("TimeIntervalId")
+                    b.Property<int>("TimeIntervalIdChart")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeIntervalIdIndicators")
                         .HasColumnType("int");
 
                     b.Property<int>("TradingPairId")
                         .HasColumnType("int");
 
                     b.HasKey("SettingsId");
-
-                    b.HasIndex("TimeIntervalId");
 
                     b.HasIndex("TradingPairId");
 
@@ -134,6 +135,9 @@ namespace CryptoTA.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TimeIntervalId"), 1L, 1);
+
+                    b.Property<bool>("IsIndicatorInterval")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -213,19 +217,11 @@ namespace CryptoTA.Migrations
 
             modelBuilder.Entity("CryptoTA.Database.Models.Settings", b =>
                 {
-                    b.HasOne("CryptoTA.Database.Models.TimeInterval", "TimeInterval")
-                        .WithMany()
-                        .HasForeignKey("TimeIntervalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CryptoTA.Database.Models.TradingPair", "TradingPair")
                         .WithMany()
                         .HasForeignKey("TradingPairId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("TimeInterval");
 
                     b.Navigation("TradingPair");
                 });

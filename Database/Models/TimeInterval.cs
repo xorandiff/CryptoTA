@@ -11,6 +11,9 @@ namespace CryptoTA.Database.Models
         public int TimeIntervalId { get; set; }
 
         [Required]
+        public bool IsIndicatorInterval { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         [Required]

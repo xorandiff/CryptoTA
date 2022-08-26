@@ -1,13 +1,11 @@
 using CryptoTA.Apis;
 using CryptoTA.Database.Models;
-using LiveCharts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
 
 namespace CryptoTA.Database
 {
@@ -28,36 +26,21 @@ namespace CryptoTA.Database
                 providerOptions => { providerOptions.EnableRetryOnFailure(); });
         }
 
-        public Market GetMarketFromSettings()
+        public async Task<Market> GetMarketFromSettings()
         {
-            var settings = Settings.First();
-            var dbTradingPair = TradingPairs.Find(settings.TradingPairId);
-
-            if (dbTradingPair != null)
+            if (await Markets.FindAsync((await GetTradingPairFromSettings()).MarketId) is Market dbMarket)
             {
-                var dbMarket = Markets.Find(dbTradingPair.MarketId);
-
-                if (dbMarket != null)
-                {
-                    return dbMarket;
-                }
-                else
-                {
-                    throw new Exception("Stored trading pair in Settings table has no corresponding Market assigned in database.");
-                }
+                return dbMarket;
             }
             else
             {
-                throw new Exception("Couldn't find stored trading pair in Settings table.");
+                throw new Exception("Stored trading pair in Settings table has no corresponding Market assigned in database.");
             }
         }
 
-        public TradingPair GetTradingPairFromSettings()
+        public async Task<TradingPair> GetTradingPairFromSettings()
         {
-            var settings = Settings.First();
-            var dbTradingPair = TradingPairs.Find(settings.TradingPairId);
-
-            if (dbTradingPair != null)
+            if (await Settings.FirstOrDefaultAsync() is Settings settings && await TradingPairs.FindAsync(settings.TradingPairId) is TradingPair dbTradingPair)
             {
                 return dbTradingPair;
             }
@@ -67,10 +50,11 @@ namespace CryptoTA.Database
             }
         }
 
-        public TimeInterval GetTimeIntervalFromSettings()
+        public async Task<TimeInterval> GetTimeIntervalFromSettings(bool isIndicatorInterval)
         {
-            var settings = Settings.Include("TimeInterval").First();
-            if (settings.TimeInterval is TimeInterval dbTimeInterval)
+            var settings = Settings.First();
+            var dbTimeIntervalId = isIndicatorInterval ? settings.TimeIntervalIdIndicators : settings.TimeIntervalIdChart;
+            if (await TimeIntervals.Where(ti => ti.TimeIntervalId == dbTimeIntervalId).FirstOrDefaultAsync() is TimeInterval dbTimeInterval)
             {
                 return dbTimeInterval;
             }
@@ -128,7 +112,7 @@ namespace CryptoTA.Database
 
                     await SaveChangesAsync();
 
-                    IQueryable<Tick> ticksQuery = tradingPairTicksQuery.OrderBy(t => t.Date);
+                    IQueryable<Tick> ticksQuery = tradingPairTicksQuery.AsNoTracking().OrderBy(t => t.Date);
                     
                     ticksQuery = ticksQuery.Where(tick => tick.Date >= startDate);
                     

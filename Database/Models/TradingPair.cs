@@ -106,7 +106,14 @@ namespace CryptoTA.Database.Models
         {
             get
             {
-                return $"{BaseSymbol.ToUpper()}/{CounterSymbol.ToUpper()}";
+                if (BaseSymbol is not null && CounterSymbol is not null)
+                {
+                    return $"{BaseSymbol.ToUpper()}/{CounterSymbol.ToUpper()}";
+                }
+                else
+                {
+                    return "-";
+                }
             }
         }
     }

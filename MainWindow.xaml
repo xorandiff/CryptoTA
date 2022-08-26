@@ -6,7 +6,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:CryptoTA.UserControls"
-        xmlns:p="clr-namespace:CryptoTA.Pages"
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
@@ -39,7 +38,7 @@
         <TabControl 
             x:Name="MenuTabControl" 
             Grid.Row="1" 
-            TabStripPlacement="Left" 
+            TabStripPlacement="Left" SelectionChanged="MenuTabControl_SelectionChanged"
         >
             <TabItem 
                 x:Name="ChartTabItem" 
@@ -119,7 +118,7 @@
             </TabItem>
             
             <TabItem Header="Indicators">
-                <Frame Source="Pages/IndicatorsPage.xaml" />
+                <Frame x:Name="IndicatorsPageFrame" Source="Pages/IndicatorsPage.xaml" />
             </TabItem>
             
             <TabItem Header="Statistics">

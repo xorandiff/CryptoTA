@@ -1,80 +1,118 @@
 ﻿using CryptoTA.Database;
 using CryptoTA.Database.Models;
 using CryptoTA.Indicators;
-using CryptoTA.UserControls;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CryptoTA.Pages
 {
     public partial class IndicatorsPage : Page
     {
         private MovingAverages movingAverages = new();
+        private readonly ObservableCollection<TimeInterval> timeIntervals = new();
+        private TimeInterval timeInterval = new();
 
-        public TradingPair TradingPair { get; set; }
-        public ObservableCollection<TimeInterval> Intervals
-        {
-            get
-            {
-                ObservableCollection<TimeInterval> result = new()
-                {
-                    new TimeInterval { Name = "1 minute", Seconds = 60 },
-                    new TimeInterval { Name = "5 minutes", Seconds = 60 * 5 },
-                    new TimeInterval { Name = "15 minutes", Seconds = 60 * 15 },
-                    new TimeInterval { Name = "30 minutes", Seconds = 60 * 30 },
-                    new TimeInterval { Name = "1 hour", Seconds = 60 * 60 },
-                    new TimeInterval { Name = "2 hours", Seconds = 60 * 60 * 2 },
-                    new TimeInterval { Name = "4 hours", Seconds = 60 * 60 * 4 },
-                    new TimeInterval { Name = "1 day", Seconds = 60 * 60 * 24 },
-                    new TimeInterval { Name = "1 week", Seconds = 60 * 60 * 24 * 7 },
-                    new TimeInterval { Name = "1 month", Seconds = 60 * 60 * 24 * 31 },
-                };
-
-                return result;
-            }
-        }
+        public Market Market{ get; set; } = new();
+        public TradingPair TradingPair { get; set; } = new();
+        public TimeInterval TimeInterval { get => timeInterval; set => timeInterval = value; }
+        public ObservableCollection<TimeInterval> TimeIntervals { get => timeIntervals; }
 
         public IndicatorsPage()
         {
             InitializeComponent();
             DataContext = this;
+        }
 
+        private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
             using (var db = new DatabaseContext())
             {
-                TradingPair = db.GetTradingPairFromSettings();
+                timeIntervals.Clear();
+                foreach (var newTimeInterval in CreateTimeIntervals())
+                {
+                    timeIntervals.Add(newTimeInterval); 
+                }
+
+                Market = await db.GetMarketFromSettings();
+                MarketTextBlock.Text = Market.Name;
+
+                TradingPair = await db.GetTradingPairFromSettings();
+                TradingPairTextBlock.Text = TradingPair.DisplayName;
+
+                timeInterval = await db.GetTimeIntervalFromSettings(true);
+                timeInterval = timeIntervals.Where(ti => ti.TimeIntervalId == timeInterval.TimeIntervalId).First();
+                TimeIntervalComboBox.SelectedItem = timeInterval;
             }
         }
 
-        private async void IntervalComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private static ObservableCollection<TimeInterval> CreateTimeIntervals()
         {
-            if (IntervalComboBox.SelectedItem is TimeInterval timeInterval)
+            var timeIntervals = new ObservableCollection<TimeInterval>();
+
+            using (var db = new DatabaseContext())
+            {
+                foreach (var dbTimeInterval in db.TimeIntervals.Where(ti => ti.IsIndicatorInterval).ToList())
+                {
+                    timeIntervals.Add(dbTimeInterval);
+                }
+            }
+
+            return timeIntervals;
+        }
+
+        private async void TimeIntervalComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TimeIntervalComboBox.SelectedItem is TimeInterval selectedTimeInterval)
             {
                 if (MovingAveragesItemsControl != null)
                 {
-                    IntervalComboBox.IsEnabled = false;
+                    TimeIntervalComboBox.IsEnabled = false;
                     using (var db = new DatabaseContext())
                     {
-                        var ticks = await db.GetTicks(TradingPair.TradingPairId, DateTime.Now.AddSeconds(-200 * timeInterval.Seconds), 1000);
-                        var movingAveragesResult = movingAverages.Run(ticks, timeInterval.Seconds);
+                        db.Settings.First().TimeIntervalIdIndicators = selectedTimeInterval.TimeIntervalId;
+                        await db.SaveChangesAsync();
+
+                        var ticks = await db.GetTicks(TradingPair.TradingPairId, DateTime.Now.AddSeconds(-200 * selectedTimeInterval.Seconds), 1000);
+                        var movingAveragesResult = movingAverages.Run(ticks, selectedTimeInterval.Seconds);
                         MovingAveragesItemsControl.ItemsSource = movingAveragesResult;
 
-                        MovingAveragesBuyCountTextBlock.Text = movingAveragesResult.Where(ir => ir.ShouldBuy).Count().ToString();
-                        MovingAveragesSellCountTextBlock.Text = movingAveragesResult.Where(ir => !ir.ShouldBuy).Count().ToString();
+                        var movingAveragesBuyCount = movingAveragesResult.Where(ir => ir.ShouldBuy).Count();
+                        var movingAveragesSellCount = movingAveragesResult.Where(ir => !ir.ShouldBuy).Count();
+                        double movingAveragesCountRatio = movingAveragesBuyCount / (movingAveragesBuyCount + movingAveragesSellCount);
+
+                        if (movingAveragesCountRatio >= 0.8)
+                        {
+                            MovingAveragesResultTextBlock.Text = "Strong Buy";
+                            MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                        }
+                        else if (movingAveragesCountRatio >= 0.6)
+                        {
+                            MovingAveragesResultTextBlock.Text = "Buy";
+                            MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(0, 155, 0));
+                        }
+                        else if (movingAveragesCountRatio >= 0.4)
+                        {
+                            MovingAveragesResultTextBlock.Text = "Neutral";
+                            MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(100, 100, 100));
+                        }
+                        else if (movingAveragesCountRatio >= 0.25)
+                        {
+                            MovingAveragesResultTextBlock.Text = "Sell";
+                            MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(155, 0, 0));
+                        }
+                        else
+                        {
+                            MovingAveragesResultTextBlock.Text = "Strong Sell";
+                            MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                        }
+
+                        MovingAveragesBuyCountTextBlock.Text = movingAveragesBuyCount.ToString();
+                        MovingAveragesSellCountTextBlock.Text = movingAveragesSellCount.ToString();
                     }
-                    IntervalComboBox.IsEnabled = true;
+                    TimeIntervalComboBox.IsEnabled = true;
                 }
             }
         }

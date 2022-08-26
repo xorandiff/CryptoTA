@@ -29,6 +29,7 @@ namespace CryptoTA.Migrations
                 {
                     TimeIntervalId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    IsIndicatorInterval = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Seconds = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -93,18 +94,13 @@ namespace CryptoTA.Migrations
                 {
                     SettingsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TradingPairId = table.Column<int>(type: "int", nullable: false),
-                    TimeIntervalId = table.Column<int>(type: "int", nullable: false)
+                    TimeIntervalIdChart = table.Column<int>(type: "int", nullable: false),
+                    TimeIntervalIdIndicators = table.Column<int>(type: "int", nullable: false),
+                    TradingPairId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Settings", x => x.SettingsId);
-                    table.ForeignKey(
-                        name: "FK_Settings_TimeIntervals_TimeIntervalId",
-                        column: x => x.TimeIntervalId,
-                        principalTable: "TimeIntervals",
-                        principalColumn: "TimeIntervalId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Settings_TradingPairs_TradingPairId",
                         column: x => x.TradingPairId,
@@ -142,11 +138,6 @@ namespace CryptoTA.Migrations
                 name: "IX_Credentials_MarketId",
                 table: "Credentials",
                 column: "MarketId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Settings_TimeIntervalId",
-                table: "Settings",
-                column: "TimeIntervalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Settings_TradingPairId",

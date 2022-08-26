@@ -16,25 +16,24 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CryptoTA.Pages
 {
-    /// <summary>
-    /// Logika interakcji dla klasy StatisticsPage.xaml
-    /// </summary>
     public partial class StatisticsPage : Page
     {
         private readonly MarketApis marketApis = new();
         private ObservableCollection<Market> markets = new();
-        public ObservableCollection<Market> Markets { get => markets; }
-        public Market Market { get; set; }
+        public ObservableCollection<Market> Markets { get; set; } = new();
+        public Market Market { get; set; } = new();
 
         public StatisticsPage()
         {
             InitializeComponent();
             DataContext = this;
+        }
 
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
             using (var db = new DatabaseContext())
             {
                 foreach (var market in db.Markets.Include(m => m.Credentials).ToList())
@@ -42,7 +41,7 @@ namespace CryptoTA.Pages
                     markets.Add(market);
                 }
 
-                var selectedMarketId = db.GetMarketFromSettings().MarketId;
+                var selectedMarketId = (await db.GetMarketFromSettings()).MarketId;
                 Market = markets.Where(m => m.MarketId == selectedMarketId).FirstOrDefault()!;
             }
         }

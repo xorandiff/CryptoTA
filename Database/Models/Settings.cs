@@ -9,14 +9,12 @@ namespace CryptoTA.Database.Models
     {
         [Key]
         public int SettingsId { get; set; }
+        public int TimeIntervalIdChart { get; set; }
+        public int TimeIntervalIdIndicators { get; set; }
 
         [ForeignKey("TradingPair")]
         public int TradingPairId { get; set; }
 
-        [ForeignKey("TimeInterval")]
-        public int TimeIntervalId { get; set; }
-
         public virtual TradingPair TradingPair { get; set; }
-        public virtual TimeInterval TimeInterval { get; set; }
     }
 }

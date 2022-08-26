@@ -14,7 +14,6 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using SkiaSharp;
 using LiveChartsCore.SkiaSharpView.Painting;
-using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
 
 namespace CryptoTA.UserControls
 {
@@ -42,25 +41,7 @@ namespace CryptoTA.UserControls
                 {
                     throw new Exception("Configuration data missing.");
                 }
-
-                markets = CreateMarkets();
-                Market = GetMarketFromSettings();
-                Market = markets.Where(m => m.MarketId == Market.MarketId).First();
-
-                bool marketApiFound = marketApis.setActiveApiByName(Market.Name);
-                if (!marketApiFound)
-                {
-                    throw new Exception("No market API found that correspond to database market name.");
-                }
-
-                tradingPairs = CreateTradingPairs();
-                TradingPair = GetTradingPairFromSettings();
-                TradingPair = tradingPairs.Where(tp => tp.TradingPairId == TradingPair.TradingPairId).First();
-
-                timeIntervals = CreateTimeIntervals();
-                TimeInterval = GetTimeIntervalFromSettings();
-                TimeInterval = timeIntervals.Where(ti => ti.TimeIntervalId == TimeInterval.TimeIntervalId).First();
-
+                
                 chartLabels = CreateChartLabels();
             }
             catch (Exception e)
@@ -69,9 +50,45 @@ namespace CryptoTA.UserControls
             }
         }
 
-        public Market Market { get; set; } = GetMarketFromSettings();
-        public TradingPair TradingPair { get; set; } = GetTradingPairFromSettings();
-        public TimeInterval TimeInterval { get; set; } = GetTimeIntervalFromSettings();
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            using (var db = new DatabaseContext())
+            {
+                markets.Clear();
+                foreach (var market in CreateMarkets())
+                {
+                    markets.Add(market);
+                }
+                Market = await db.GetMarketFromSettings();
+                Market = markets.Where(m => m.MarketId == Market.MarketId).First();
+                MarketComboBox.SelectedItem = Market;
+
+                if (!marketApis.setActiveApiByName(Market.Name))
+                {
+                    throw new Exception("No market API found that correspond to database market name.");
+                }
+
+                tradingPairs.Clear();
+                foreach (var tradingPair in CreateTradingPairs())
+                {
+                    tradingPairs.Add(tradingPair);
+                }
+                TradingPair = await db.GetTradingPairFromSettings();
+                TradingPair = tradingPairs.Where(tp => tp.TradingPairId == TradingPair.TradingPairId).First();
+
+                timeIntervals.Clear();
+                foreach (var timeInterval in CreateTimeIntervals())
+                {
+                    timeIntervals.Add(timeInterval);
+                }
+                TimeInterval = await db.GetTimeIntervalFromSettings(false);
+                TimeInterval = timeIntervals.Where(ti => ti.TimeIntervalId == TimeInterval.TimeIntervalId).First();
+            }
+        }
+
+        public Market Market { get; set; } = new();
+        public TradingPair TradingPair { get; set; } = new();
+        public TimeInterval TimeInterval { get; set; } = new();
         public string ChartTitle { get => chartTitle; }
         public ISeries[] ChartSeriesCollection { get; set; } =
         {
@@ -106,67 +123,6 @@ namespace CryptoTA.UserControls
         public ObservableCollection<TimeInterval> TimeIntervals { get => timeIntervals; }
         public ObservableCollection<string> ChartLabels { get => chartLabels; }
         public List<Tick> ChartTicks { get => chartTicks; }
-
-        private static Market GetMarketFromSettings()
-        {
-            using (var db = new DatabaseContext())
-            {
-                var settings = db.Settings.First();
-                var dbTradingPair = db.TradingPairs.Find(settings.TradingPairId);
-
-                if (dbTradingPair != null)
-                {
-                    var dbMarket = db.Markets.Find(dbTradingPair.MarketId);
-
-                    if (dbMarket != null)
-                    {
-                        return dbMarket;
-                    }
-                    else
-                    {
-                        throw new Exception("Stored trading pair in Settings table has no corresponding Market assigned in database.");
-                    }
-                }
-                else
-                {
-                    throw new Exception("Couldn't find stored trading pair in Settings table.");
-                }
-            }
-        }
-
-        private static TradingPair GetTradingPairFromSettings()
-        {
-            using (var db = new DatabaseContext())
-            {
-                var settings = db.Settings.First();
-                var dbTradingPair = db.TradingPairs.Find(settings.TradingPairId);
-
-                if (dbTradingPair != null)
-                {
-                    return dbTradingPair;
-                }
-                else
-                {
-                    throw new Exception("Couldn't find stored trading pair in Settings table.");
-                }
-            }
-        }
-
-        private static TimeInterval GetTimeIntervalFromSettings()
-        {
-            using (var db = new DatabaseContext())
-            {
-                var settings = db.Settings.Include("TimeInterval").First();
-                if (settings.TimeInterval is TimeInterval dbTimeInterval)
-                {
-                    return dbTimeInterval;
-                }
-                else
-                {
-                    throw new Exception("Couldn't find stored time interval in Settings table.");
-                }
-            }
-        }
 
         private static ObservableCollection<Market> CreateMarkets()
         {
@@ -203,7 +159,7 @@ namespace CryptoTA.UserControls
 
             using (var db = new DatabaseContext())
             {
-                foreach (var timeInterval in db.TimeIntervals.ToList())
+                foreach (var timeInterval in db.TimeIntervals.Where(ti => !ti.IsIndicatorInterval).ToList())
                 {
                     timeIntervals.Add(timeInterval);
                 }
@@ -257,9 +213,22 @@ namespace CryptoTA.UserControls
                         await db.SaveChangesAsync();
                     }
 
-                    tradingPairs = CreateTradingPairs();
-                    TradingPair = GetTradingPairFromSettings();
+                    tradingPairs.Clear();
+                    foreach (var tp in CreateTradingPairs())
+                    {
+                        tradingPairs.Add(tp);
+                    }
+                    TradingPair = await db.GetTradingPairFromSettings();
+                    if (TradingPair.MarketId != market.MarketId)
+                    {
+                        TradingPair = tradingPairs[0];
+                    }
                     TradingPair = tradingPairs.Where(tp => tp.TradingPairId == TradingPair.TradingPairId).First();
+                    TradingPairComboBox.SelectedItem = TradingPair;
+
+                    TimeInterval = await db.GetTimeIntervalFromSettings(false);
+                    TimeInterval = timeIntervals.Where(tp => tp.TimeIntervalId == TimeInterval.TimeIntervalId).First();
+                    TimeIntervalComboBox.SelectedItem = TimeInterval;
 
                     await LoadChartData();
                 }
@@ -293,7 +262,7 @@ namespace CryptoTA.UserControls
                 using (var db = new DatabaseContext())
                 {
                     var settings = db.Settings.First();
-                    settings.TimeIntervalId = timeInterval.TimeIntervalId;
+                    settings.TimeIntervalIdChart = timeInterval.TimeIntervalId;
 
                     await db.SaveChangesAsync();
                 }

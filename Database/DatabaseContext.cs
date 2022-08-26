@@ -102,7 +102,7 @@ namespace CryptoTA.Database
 
                     if (!tradingPairTicksQuery.Any(tick => tick.Date <= startDate))
                     {
-                        var oldestStoredDate = tradingPairTicksQuery.Select(tick => tick.Date).Min();
+                        var oldestStoredDate = tradingPairTicksQuery.Any() ? tradingPairTicksQuery.Select(tick => tick.Date).Min() : DateTime.Now;
 
                         while (oldestStoredDate >= startDate.AddSeconds(-smallestMarketRequestInterval))
                         {

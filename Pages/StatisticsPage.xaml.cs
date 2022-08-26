@@ -47,17 +47,18 @@ namespace CryptoTA.Pages
             }
         }
 
-        private void MarketsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void MarketsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Market != null)
             {
                 if (Market.Credentials.Any())
                 {
-                    bool marketApiFound = marketApis.setActiveApiByName(Market.Name);
-                    if (!marketApiFound)
+                    if (!marketApis.setActiveApiByName(Market.Name))
                     {
                         throw new Exception("No market API found that correspond to database market name.");
                     }
+
+                    //AccountBalanceItemsControl.ItemsSource = await marketApis.ActiveMarketApi.GetAccountBalance();
                 }
                 else
                 {

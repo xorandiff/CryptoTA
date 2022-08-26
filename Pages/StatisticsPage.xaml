@@ -9,6 +9,21 @@
       d:DataContext="{d:DesignInstance Type=local:StatisticsPage}"
       Title="StatisticsPage">
 
+    <Page.Resources>
+        <DataTemplate x:Key="AccountBalanceTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Content="{Binding Name}"/>
+                <Label 
+                    Grid.Column="1"
+                    Content="{Binding TotalAmount}"
+                />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -36,7 +51,10 @@
             Header="Current Balance" 
             Margin="20"
         >
-
+            <ItemsControl 
+                x:Name="AccountBalanceItemsControl"
+                ItemTemplate="{StaticResource AccountBalanceTemplate}" 
+            />
         </GroupBox>
         
         <GroupBox 

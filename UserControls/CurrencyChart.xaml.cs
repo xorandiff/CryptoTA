@@ -14,6 +14,7 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using SkiaSharp;
 using LiveChartsCore.SkiaSharpView.Painting;
+using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
 
 namespace CryptoTA.UserControls
 {
@@ -233,26 +234,38 @@ namespace CryptoTA.UserControls
         }
 
 
-        private void MarketComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void MarketComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (MarketComboBox.SelectedItem is Market market)
             {
-                marketApis.setActiveApiByName(market.Name);
-                using (var db = new DatabaseContext())
+                try
                 {
-                    var dbFirstTradingPair = db.TradingPairs.Where(tp => tp.MarketId == market.MarketId).First();
+                    marketApis.setActiveApiByName(market.Name);
 
-                    if (dbFirstTradingPair != null)
+                    using var db = new DatabaseContext();
+                    if (!db.TradingPairs.Where(tp => tp.MarketId == market.MarketId).Any())
                     {
-                        var settings = db.Settings.First();
-                        settings.TradingPairId = dbFirstTradingPair.TradingPairId;
+                        var newTradingPairs = await marketApis.ActiveMarketApi.GetTradingPairs();
+                        if (newTradingPairs == null)
+                        {
+                            throw new Exception("Couldn't download any trading pair for selected market API. This may be problem with market implementation.");
+                        }
 
-                        db.SaveChanges();
+                        var dbMarket = await db.Markets.Where(m => m.Name == market.Name).Include(m => m.TradingPairs).FirstOrDefaultAsync();
+                        dbMarket!.TradingPairs.AddRange(newTradingPairs);
+
+                        await db.SaveChangesAsync();
                     }
-                    else
-                    {
-                        throw new Exception("Selected market has no trading pairs available.");
-                    }
+
+                    tradingPairs = CreateTradingPairs();
+                    TradingPair = GetTradingPairFromSettings();
+                    TradingPair = tradingPairs.Where(tp => tp.TradingPairId == TradingPair.TradingPairId).First();
+
+                    await LoadChartData();
+                }
+                catch (Exception ex)
+                {
+                    _ = MessageBox.Show(ex.Message);
                 }
             }
         }
@@ -266,7 +279,7 @@ namespace CryptoTA.UserControls
                     var settings = db.Settings.First();
                     settings.TradingPairId = tradingPair.TradingPairId;
 
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                 }
 
                 await LoadChartData();
@@ -282,7 +295,7 @@ namespace CryptoTA.UserControls
                     var settings = db.Settings.First();
                     settings.TimeIntervalId = timeInterval.TimeIntervalId;
 
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                 }
 
                 await LoadChartData(DateTime.Now.AddSeconds(-timeInterval.Seconds));

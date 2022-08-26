@@ -74,7 +74,8 @@
                     x:Name="IntervalComboBox"
                     ItemsSource="{Binding Intervals}"
                     SelectedIndex="4"
-                    DisplayMemberPath="Name" SelectionChanged="IntervalComboBox_SelectionChanged"
+                    DisplayMemberPath="Name" 
+                    SelectionChanged="IntervalComboBox_SelectionChanged"
                 />
             </GroupBox>
         </Grid>

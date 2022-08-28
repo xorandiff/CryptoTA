@@ -5,7 +5,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Windows;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
@@ -75,16 +74,9 @@ namespace CryptoTA.Apis
 
         private void ResponseErrorCheck(string[] error)
         {
-            try
+            if (error.Length > 0)
             {
-                if (error.Length > 0)
-                {
-                    throw new Exception($"Kraken API response error: {error[0]}");
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
+                throw new Exception($"Kraken API response error: {error[0]}");
             }
         }
 

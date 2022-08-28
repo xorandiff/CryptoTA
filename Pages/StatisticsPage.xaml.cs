@@ -47,17 +47,36 @@ namespace CryptoTA.Pages
             {
                 if (Market.Credentials.Any())
                 {
-                    CredentialsMissingGroupBox.Visibility = Visibility.Hidden;
+                    MarketsComboBox.IsEnabled = false;
+
+                    WarningGroupBox.Visibility = Visibility.Hidden;
                     if (!marketApis.setActiveApiByName(Market.Name))
                     {
                         throw new Exception("No market API found that correspond to database market name.");
                     }
 
-                    var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalance();
+                    try
+                    {
+                        var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalance();
+                    }
+                    catch (Exception)
+                    {
+                        WarningGroupBox.Visibility = Visibility.Visible;
+                        WarningHeader.Text = "Invalid Credentials";
+                        WarningText1.Text = "Server rejected your credentials.";
+                        WarningText2.Text = "You can change them by choosing Edit -> Accounts from menu.";
+                    }
+                    finally
+                    {
+                        MarketsComboBox.IsEnabled = true;
+                    }
                 }
                 else
                 {
-                    CredentialsMissingGroupBox.Visibility = Visibility.Visible;
+                    WarningGroupBox.Visibility = Visibility.Visible;
+                    WarningHeader.Text = "Credentials Missing";
+                    WarningText1.Text = "You have to provide credentials for this API.";
+                    WarningText2.Text = "You can add them by choosing Edit -> Accounts from menu.";
                 }
             }
         }

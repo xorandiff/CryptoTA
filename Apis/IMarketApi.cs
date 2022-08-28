@@ -135,6 +135,12 @@ namespace CryptoTA.Apis
         public Task<List<Order>> GetClosedOrders();
 
         /// <summary>
+        /// Gets list of account's trades.
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Trade>> GetTradesHistory();
+
+        /// <summary>
         /// Gets websockets token and expiration date for real-time websockets 
         /// communication.
         /// </summary>

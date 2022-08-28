@@ -5,9 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
 using CryptoTA.Utils;
@@ -121,7 +119,58 @@ namespace CryptoTA.Apis
             return sha512Hash;
         }
 
-        private async Task<string> QueryPrivateEndpoint(string endpointName, string inputParameters = "")
+        private async Task<JToken> QueryPublicEndpoint(string endpointName, string[] responsePath, string apiGetData = "")
+        {
+            string apiEndpointFullURL = baseDomain + publicPath + endpointName;
+
+            if (string.IsNullOrWhiteSpace(apiGetData) == false)
+            {
+                apiGetData = "&" + apiGetData;
+            }
+
+            apiEndpointFullURL += apiGetData;
+
+            string jsonData;
+
+            using (HttpClient client = new())
+            {
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA Client");
+                HttpResponseMessage response = await client.GetAsync(apiEndpointFullURL);
+                jsonData = response.Content.ReadAsStringAsync().Result;
+            }
+
+            if (JObject.Parse(jsonData) is not JToken jTokenData)
+            {
+                throw new Exception("Error during deserializing Kraken API response.");
+            }
+
+            foreach (string path in responsePath)
+            {
+                if (jTokenData[path] is null)
+                {
+                    throw new Exception("Error during deserializing Kraken API response.");
+                }
+
+                jTokenData = jTokenData[path]!;
+            }
+
+            return jTokenData;
+        }
+
+        private async Task<Dictionary<string, T>> QueryPublicEndpoint<T>(string endpointName, string[] responsePath, string apiGetData = "")
+        {
+            var jToken = await QueryPublicEndpoint(endpointName, responsePath, apiGetData);
+
+            if (JsonConvert.DeserializeObject<Dictionary<string, T>>(jToken.ToString()) is not Dictionary<string, T> resultDictionary)
+            {
+                throw new Exception("Error during deserializing Kraken API response into dictionary.");
+            }
+
+            return resultDictionary;
+        }
+
+        private async Task<JToken> QueryPrivateEndpoint(string endpointName, string[] responsePath, string inputParameters = "")
         {
             string apiEndpointFullURL = baseDomain + privatePath + endpointName;
             string nonce = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
@@ -146,7 +195,34 @@ namespace CryptoTA.Apis
                 jsonData = response.Content.ReadAsStringAsync().Result;
             }
 
-            return jsonData;
+            if (JObject.Parse(jsonData) is not JToken jTokenData)
+            {
+                throw new Exception("Error during deserializing Kraken API response.");
+            }
+
+            foreach (string path in responsePath)
+            {
+                if (jTokenData[path] is null)
+                {
+                    throw new Exception("Error during deserializing Kraken API response.");
+                }
+
+                jTokenData = jTokenData[path]!;
+            }
+
+            return jTokenData;
+        }
+
+        private async Task<Dictionary<string, T>> QueryPrivateEndpoint<T>(string endpointName, string[] responsePath, string inputParameters = "")
+        {
+            var jToken = await QueryPrivateEndpoint(endpointName, responsePath, inputParameters);
+
+            if (JsonConvert.DeserializeObject<Dictionary<string, T>>(jToken.ToString()) is not Dictionary<string, T> resultDictionary)
+            {
+                throw new Exception("Error during deserializing Kraken API response into dictionary.");
+            }
+
+            return resultDictionary;
         }
 
         public KrakenApi()
@@ -176,26 +252,14 @@ namespace CryptoTA.Apis
 
         public async Task<List<Balance>> GetAccountBalance()
         {
-            var response = await QueryPrivateEndpoint("Balance");
-
-            if (JObject.Parse(response) is not JToken result || result["result"] is not JToken accountBalance)
-            {
-                throw new Exception("Error during parsing Kraken account balance response.");
-            }
-            
-            if (JsonConvert.DeserializeObject<Dictionary<string, string>>(accountBalance.ToString()) is not Dictionary<string, string> balanceDictionary)
-            {
-                throw new Exception("Error during deserializing Kraken account balance to dictionary.");
-            }
-
             var balance = new List<Balance>();
 
-            foreach (var kvp in balanceDictionary)
+            foreach (var balanceKvp in await QueryPrivateEndpoint<string>("Balance", new string[] { "result" }))
             {
                 balance.Add(new Balance
                 {
-                    Name = kvp.Key,
-                    TotalAmount = double.Parse(kvp.Value.ToString(), CultureInfo.InvariantCulture)
+                    Name = balanceKvp.Key,
+                    TotalAmount = double.Parse(balanceKvp.Value.ToString(), CultureInfo.InvariantCulture)
                 });
             }
 
@@ -288,14 +352,35 @@ namespace CryptoTA.Apis
             };
         }
 
-        public Task<List<Balance>> GetTradingBalance()
+        public async Task<List<Balance>> GetTradingBalance()
         {
-            throw new NotImplementedException();
+            var tradingBalance = new List<Balance>();
+
+            foreach (var tradingBalanceKvp in await QueryPrivateEndpoint<string>("TradeBalance", new string[] { "result" }))
+            {
+                tradingBalance.Add(new Balance
+                {
+                    Name = tradingBalanceKvp.Key,
+                    TotalAmount = double.Parse(tradingBalanceKvp.Value.ToString(), CultureInfo.InvariantCulture)
+                });
+            }
+
+            return tradingBalance;
         }
 
-        public Task<List<Fees>> GetTradingFees(TradingPair tradingPair)
+        public async Task<List<Fees>> GetTradingFees(TradingPair tradingPair)
         {
-            throw new NotImplementedException();
+            var fees = new List<Fees>();
+
+            foreach (var feeKvp in await QueryPrivateEndpoint<string>("TradeVolume", new string[] { "result", "fees" }, "pair=" + tradingPair.Name))
+            {
+                fees.Add(new Fees
+                {
+                    TakerFee = double.Parse(feeKvp.Key.ToString(), CultureInfo.InvariantCulture)
+                });
+            }
+
+            return fees;
         }
 
         public async Task<List<TradingPair>> GetTradingPairs()
@@ -341,14 +426,41 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<List<Fees>> GetWithdrawalFees(TradingPair tradingPair)
+        public async Task<List<Fees>> GetWithdrawalFees(TradingPair tradingPair)
         {
-            throw new NotImplementedException();
+            var fees = new List<Fees>();
+
+            foreach (var feeKvp in await QueryPrivateEndpoint<string>("TradeVolume", new string[] { "result", "fees" }, "pair=" + tradingPair.Name))
+            {
+                fees.Add(new Fees
+                {
+                    TakerFee = double.Parse(feeKvp.Key.ToString(), CultureInfo.InvariantCulture)
+                });
+            }
+
+            return fees;
         }
 
         public Task<int> SellOrder(OrderType orderType, double amount, double price)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Trade>> GetTradesHistory()
+        {
+            var trades = new List<Trade>();
+
+            foreach (var tradeKvp in (await QueryPrivateEndpoint<Trade>("TradesHistory", new string[] { "result", "trades" })).Skip(1))
+            {
+                var trade = tradeKvp.Value!;
+                trades.Add(new Trade
+                {
+                    MarketTradeId = tradeKvp.Key,
+                    Volume = double.Parse(trade.ToString()!, CultureInfo.InvariantCulture)
+                });
+            }
+
+            return trades;
         }
     }
 }

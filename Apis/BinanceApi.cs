@@ -86,6 +86,11 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
+        public Task<List<Trade>> GetTradesHistory()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<Balance>> GetTradingBalance()
         {
             throw new NotImplementedException();

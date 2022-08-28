@@ -9,7 +9,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using Telerik.Windows.Diagrams.Core;
 
 namespace CryptoTA.Pages
 {

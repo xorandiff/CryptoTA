@@ -5,7 +5,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
 using CryptoTA.Utils;
@@ -80,13 +79,13 @@ namespace CryptoTA.Apis
             }
         }
 
-        private string GetKrakenSignature(string urlPath, ulong nonce, Dictionary<string, string> data)
+        public string GetKrakenSignature(string urlPath, ulong nonce, Dictionary<string, string> data, string? privateKey = null)
         {
             var hash256 = SHA256.Create();
             var postData = string.Join("&", data.Select(e => e.Key + "=" + e.Value).ToArray());
             var encoded = Encoding.UTF8.GetBytes(nonce + postData);
             var message = Encoding.UTF8.GetBytes(urlPath).Concat(hash256.ComputeHash(encoded)).ToArray();
-            var mac = new HMACSHA512(Convert.FromBase64String(apiSign!));
+            var mac = new HMACSHA512(Convert.FromBase64String(privateKey ?? apiSign!));
             return Convert.ToBase64String(mac.ComputeHash(message));
         }
 
@@ -97,8 +96,7 @@ namespace CryptoTA.Apis
                 throw new Exception("Method requires credentials.");
             }
 
-            data.Add("nonce", "0");
-            var sign = GetKrakenSignature(uriPath, ulong.Parse(data["nonce"]), data);
+            var sign = GetKrakenSignature("/0/" + uriPath, ulong.Parse(data["nonce"]), data);
             return new RestRequest(uriPath)
                                 .AddHeader("API-Key", apiKey!)
                                 .AddHeader("API-Sign", sign)
@@ -133,7 +131,10 @@ namespace CryptoTA.Apis
 
         public async Task<List<Balance>> GetAccountBalance()
         {
-            var data = new Dictionary<string, string> { };
+            var data = new Dictionary<string, string>()
+            {
+                { "nonce", "0" }
+            };
             var response = await restClient.PostAsync<KrakenResult<string>>(AuthPostRequest("private/Balance", data));
 
             if (response == null)

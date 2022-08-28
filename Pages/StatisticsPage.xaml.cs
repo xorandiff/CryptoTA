@@ -57,7 +57,7 @@ namespace CryptoTA.Pages
 
                     try
                     {
-                        var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalance();
+                        AccountBalanceItemsControl.ItemsSource = await marketApis.ActiveMarketApi.GetAccountBalance();
                     }
                     catch (Exception)
                     {

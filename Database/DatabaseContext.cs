@@ -18,6 +18,8 @@ namespace CryptoTA.Database
         public DbSet<Tick> Ticks => Set<Tick>();
         public DbSet<Settings> Settings => Set<Settings>();
         public DbSet<TimeInterval> TimeIntervals => Set<TimeInterval>();
+        public DbSet<Strategy> Strategies => Set<Strategy>();
+        public DbSet<StrategyCategory> StrategyCategories => Set<StrategyCategory>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -25,6 +27,39 @@ namespace CryptoTA.Database
             .UseSqlServer(
                 @"Server=(localdb)\mssqllocaldb;Database=CryptoTA",
                 providerOptions => { providerOptions.EnableRetryOnFailure(); });
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StrategyCategory>().HasData(
+                new() { StrategyCategoryId = 1, Name = "Rapid (less than an hour)" },
+                new() { StrategyCategoryId = 2, Name = "Short (less than a day)" },
+                new() { StrategyCategoryId = 3, Name = "Medium (less than 3 days" },
+                new() { StrategyCategoryId = 4, Name = "Long (less than a week" }
+            );
+
+            modelBuilder.Entity<TimeInterval>().HasData(
+                new() { TimeIntervalId = 1, Name = "1 day", Seconds = 86400, IsIndicatorInterval = false },
+                new() { TimeIntervalId = 2, Name = "3 days", Seconds = 86400 * 3, IsIndicatorInterval = false },
+                new() { TimeIntervalId = 3, Name = "1 week", Seconds = 86400 * 7, IsIndicatorInterval = false },
+                new() { TimeIntervalId = 4, Name = "2 weeks", Seconds = 86400 * 14, IsIndicatorInterval = false },
+                new() { TimeIntervalId = 5, Name = "1 month", Seconds = 86400 * 31, IsIndicatorInterval = false },
+                new() { TimeIntervalId = 6, Name = "3 months", Seconds = 86400 * 31 * 3, IsIndicatorInterval = false },
+                new() { TimeIntervalId = 7, Name = "6 months", Seconds = 86400 * 31 * 6, IsIndicatorInterval = false },
+                new() { TimeIntervalId = 8, Name = "1 year", Seconds = 86400 * 31 * 12, IsIndicatorInterval = false },
+                new() { TimeIntervalId = 9, Name = "5 years", Seconds = 86400 * 31 * 12 * 5, IsIndicatorInterval = false },
+
+                new() { TimeIntervalId = 10, Name = "1 minute", Seconds = 60, IsIndicatorInterval = true },
+                new() { TimeIntervalId = 11, Name = "5 minutes", Seconds = 60 * 5, IsIndicatorInterval = true },
+                new() { TimeIntervalId = 12, Name = "15 minutes", Seconds = 60 * 15, IsIndicatorInterval = true },
+                new() { TimeIntervalId = 13, Name = "30 minutes", Seconds = 60 * 30, IsIndicatorInterval = true },
+                new() { TimeIntervalId = 14, Name = "1 hour", Seconds = 60 * 60, IsIndicatorInterval = true },
+                new() { TimeIntervalId = 15, Name = "2 hours", Seconds = 60 * 60 * 2, IsIndicatorInterval = true },
+                new() { TimeIntervalId = 16, Name = "4 hours", Seconds = 60 * 60 * 4, IsIndicatorInterval = true },
+                new() { TimeIntervalId = 17, Name = "1 day", Seconds = 60 * 60 * 24, IsIndicatorInterval = true },
+                new() { TimeIntervalId = 18, Name = "1 week", Seconds = 60 * 60 * 24 * 7, IsIndicatorInterval = true },
+                new() { TimeIntervalId = 19, Name = "1 month", Seconds = 60 * 60 * 24 * 31, IsIndicatorInterval = true }
+            );
         }
 
         public async Task<Market> GetMarketFromSettings()

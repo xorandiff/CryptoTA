@@ -28,6 +28,9 @@ namespace CryptoTA.Database.Models
         [Required]
         public bool AskBeforeTrade { get; set; }
 
+        [Required]
+        public bool Active { get; set; }
+
         [ForeignKey("TradingPair"), Required]
         public int TradingPairId { get; set; }
 

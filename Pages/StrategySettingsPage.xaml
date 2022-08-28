@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CryptoTA.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="750"
+      d:DesignHeight="680"
       d:DesignWidth="1000"
       d:DataContext="{d:DesignInstance Type=local:StrategySettingsPage}"
       Title="StrategySettingsPage" 
@@ -87,6 +87,7 @@
                     <TextBox 
                         Margin="10, 25"
                         Padding="5"
+                        Text="{Binding Strategy.MinimalGain, Mode=TwoWay}"
                     />
                     <ComboBox
                         Margin="10, 25"
@@ -113,6 +114,7 @@
                     <TextBox 
                         Margin="10, 25"
                         Padding="5"
+                        Text="{Binding Strategy.MaximalLoss, Mode=TwoWay}"
                     />
                     <ComboBox
                         Margin="10, 25"
@@ -126,13 +128,16 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
                 >
-                    Buy if
+                    Buy indicator strategy
                 </Label>
                 <ComboBox
                     Grid.Row="2"
                     Grid.Column="1"
                     Margin="10, 25"
                     Padding="5"
+                    ItemsSource="{Binding StrategyCategories}"
+                    SelectedItem="{Binding StrategyCategory}"
+                    DisplayMemberPath="Name"
                 />
 
                 <Label 
@@ -143,13 +148,14 @@
                     Target
                 </Label>
                 <ComboBox
+                    x:Name="TradingPairComboBox"
                     Grid.Column="3"
                     Margin="10, 25"
                     Padding="5"
-                    x:Name="TradingPairComboBox"
                     ItemsSource="{Binding TradingPairs}"
                     SelectedItem="{Binding TradingPair}"
-                    DisplayMemberPath="DisplayName" SelectionChanged="TradingPairComboBox_SelectionChanged"
+                    DisplayMemberPath="DisplayName" 
+                    SelectionChanged="TradingPairComboBox_SelectionChanged"
                 />
 
                 <Label 
@@ -171,6 +177,7 @@
                     <TextBox 
                         Margin="10, 25"
                         Padding="5"
+                        Text="{Binding Strategy.BuyAmount, Mode=TwoWay}"
                     />
                     <ComboBox
                         Margin="10, 25"
@@ -192,6 +199,7 @@
                     Grid.Column="3"
                     Padding="5"
                     Margin="10, 0, 0, 0"
+                    IsChecked="{Binding Strategy.AskBeforeTrade, Mode=TwoWay}"
                 />
             </Grid>
         </GroupBox>
@@ -205,37 +213,25 @@
         >
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*" />
                     <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock 
+                    x:Name="StrategyStatusTextBlock"
                     Margin="10"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center" 
                     FontSize="15"
-                >
-                    <TextBlock.Style>
-                        <Style>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding StrategyEnabled}" Value="true">
-                                    <Setter Property="TextBlock.Text" Value="Active" />
-                                    <Setter Property="TextBlock.Foreground" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding StrategyEnabled}" Value="false">
-                                    <Setter Property="TextBlock.Text" Value="Inactive" />
-                                    <Setter Property="TextBlock.Foreground" Value="Red" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+                />
 
                 <Button 
                     x:Name="StrategySwitchButton"
                     Grid.Column="1"
                     Margin="10"
                     Padding="10"
+                    IsEnabled="False"
                     Content="Activate"
+                    Click="StrategySwitchButton_Click"
                 />
             </Grid>
         </GroupBox>
@@ -249,9 +245,9 @@
         >
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock 
                     Margin="10"
@@ -262,38 +258,13 @@
                 />
 
                 <TextBlock 
+                    x:Name="ActiveStrategiesCountTextBlock"
                     Grid.Column="1"
                     Margin="10"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center" 
                     FontSize="15"
-                    Text="{Binding ActiveStrategiesCount}"
-                >
-                    <TextBlock.Style>
-                        <Style>
-                            <Style.Triggers>
-                                <DataTrigger 
-                                    Binding="{Binding HasActiveStrategy}" 
-                                    Value="true"
-                                >
-                                    <Setter 
-                                        Property="TextBlock.Foreground" 
-                                        Value="Green"
-                                    />
-                                </DataTrigger>
-                                <DataTrigger 
-                                    Binding="{Binding HasActiveStrategy}" 
-                                    Value="false"
-                                >
-                                    <Setter 
-                                        Property="TextBlock.Foreground" 
-                                        Value="Red"
-                                    />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+                />
 
                 <Button 
                     x:Name="StrategiesSwitchButton"
@@ -301,7 +272,7 @@
                     Margin="10"
                     Padding="10"
                     Content="Deactivate All"
-                    IsEnabled="{Binding HasActiveStrategy}"
+                    IsEnabled="False" Click="StrategiesSwitchButton_Click"
                 />
             </Grid>
         </GroupBox>

@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:CryptoTA"
         mc:Ignorable="d"
         Title="Accounts"
-        Width="400"
+        Width="800"
         Height="550"
         Style="{DynamicResource CustomWindowStyle}" 
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
-        WindowStyle="ToolWindow" Loaded="Window_Loaded"
+        WindowStyle="ToolWindow"
+        Loaded="Window_Loaded"
         d:DataContext="{d:DesignInstance Type=local:AccountsWindow}"
         >
     <Grid>
@@ -31,10 +32,12 @@
                 >
                     <ComboBox 
                         Margin="10"
+                        Padding="5"
                         x:Name="MarketApiComboBox"
                         ItemsSource="{Binding MarketApis}"
                         DisplayMemberPath="Name"
-                        SelectedIndex="0" SelectionChanged="MarketApiComboBox_SelectionChanged"
+                        SelectedIndex="0" 
+                        SelectionChanged="MarketApiComboBox_SelectionChanged"
                     />
                 </GroupBox>
                 
@@ -96,7 +99,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Label 
-                            Content="API Key" 
+                            Content="Public Key" 
                             Margin="10"
                         />
                         <Label 
@@ -108,12 +111,14 @@
                             Grid.Column="1" 
                             x:Name="ApiKeyTextBox"
                             Margin="10" 
+                            Padding="5"
                         />
                         <TextBox 
                             Grid.Row="1" 
                             Grid.Column="1" 
                             x:Name="PrivateKeyTextBox" 
                             Margin="10"
+                            Padding="5"
                         />
                     </Grid>
                 </GroupBox>

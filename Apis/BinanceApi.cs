@@ -66,7 +66,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<List<Tick>> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
+        public List<Tick> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
         {
             throw new NotImplementedException();
         }
@@ -81,7 +81,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<Tick> GetTick(TradingPair tradingPair)
+        public Task<Tick?> GetTick(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }

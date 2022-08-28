@@ -7,8 +7,9 @@
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF" 
              d:DataContext="{d:DesignInstance Type=local:CurrencyChart}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" 
              Loaded="UserControl_Loaded"
+             Width="Auto"
+             Height="Auto"
 >
     <Grid>
         <Grid.RowDefinitions>
@@ -81,13 +82,13 @@
         </Grid>
 
         <lvc:CartesianChart 
-            Grid.Row="1" 
+            Grid.Row="1"
             Series="{Binding ChartSeriesCollection}"
             XAxes="{Binding XAxes}"
             YAxes="{Binding YAxes}"
             TooltipTextBrush="#f2f4c3"
             TooltipBackground="#FF1D1D1D"
-            TooltipFindingStrategy="CompareOnlyXTakeClosest"
+            TooltipFindingStrategy="CompareOnlyXTakeClosest" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
         />
 
     </Grid>

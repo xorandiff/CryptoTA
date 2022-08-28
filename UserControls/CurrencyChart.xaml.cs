@@ -16,17 +16,16 @@ using SkiaSharp;
 using LiveChartsCore.SkiaSharpView.Painting;
 using System.Threading;
 using System.Windows.Media;
-using LiveChartsCore.Defaults;
+using System.ComponentModel;
 
 namespace CryptoTA.UserControls
 {
     public partial class CurrencyChart : UserControl
     {
         private readonly MarketApis marketApis = new();
-        private string chartTitle = "";
         private Func<double, string> yAxisLabeler = value => value.ToString();
-
-        private List<Tick> chartTicks = new();
+        private DateTime? startDate = null;
+        private DatabaseModel databaseModel;
 
         private ObservableCollection<Market> markets = new();
         private ObservableCollection<TradingPair> tradingPairs = new();
@@ -35,10 +34,13 @@ namespace CryptoTA.UserControls
         private readonly ObservableCollection<string> observableLabels = new();
         private readonly ObservableCollection<Tick> observableValues = new();
 
-        public CurrencyChart()
+        public CurrencyChart(DatabaseModel dbModel)
         {
             InitializeComponent();
             DataContext = this;
+
+            databaseModel = dbModel;
+            databaseModel.worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
 
             try
             {
@@ -133,14 +135,12 @@ namespace CryptoTA.UserControls
         public Market Market { get; set; } = new();
         public TradingPair TradingPair { get; set; } = new();
         public TimeInterval TimeInterval { get; set; } = new();
-        public string ChartTitle { get => chartTitle; }
         public ObservableCollection<ISeries> ChartSeriesCollection { get; set; }
         public ObservableCollection<Axis> XAxes { get; set; }
         public ObservableCollection<Axis> YAxes { get; set; }
         public ObservableCollection<TradingPair> TradingPairs { get => tradingPairs; }
         public ObservableCollection<Market> Markets { get => markets; }
         public ObservableCollection<TimeInterval> TimeIntervals { get => timeIntervals; }
-        public List<Tick> ChartTicks { get => chartTicks; }
 
         private static ObservableCollection<Market> CreateMarkets()
         {
@@ -184,13 +184,6 @@ namespace CryptoTA.UserControls
             }
 
             return timeIntervals;
-        }
-
-        private static ObservableCollection<string> CreateChartLabels()
-        {
-            ObservableCollection<string> chartLabels = new();
-
-            return chartLabels;
         }
 
         private void EnableFilterComboBoxes()
@@ -248,7 +241,7 @@ namespace CryptoTA.UserControls
                     TimeInterval = timeIntervals.Where(tp => tp.TimeIntervalId == TimeInterval.TimeIntervalId).First();
                     TimeIntervalComboBox.SelectedItem = TimeInterval;
 
-                    await LoadChartData();
+                    LoadChartData();
                 }
                 catch (Exception ex)
                 {
@@ -269,7 +262,7 @@ namespace CryptoTA.UserControls
                     await db.SaveChangesAsync();
                 }
 
-                await LoadChartData();
+                LoadChartData();
             }
         }
 
@@ -285,7 +278,8 @@ namespace CryptoTA.UserControls
                     await db.SaveChangesAsync();
                 }
 
-                await LoadChartData(DateTime.Now.AddSeconds(-timeInterval.Seconds));
+                startDate = DateTime.Now.AddSeconds(-timeInterval.Seconds);
+                LoadChartData();
             }
         }
 
@@ -298,12 +292,16 @@ namespace CryptoTA.UserControls
                 {
                     if (TradingPairComboBox.SelectedItem is TradingPair tradingPair)
                     {
-                        var tickData = await marketApis.ActiveMarketApi.GetTick(tradingPair);
-                        CurrentPriceText.Text = CurrencyCodeMapper.GetSymbol(tradingPair.CounterSymbol) + " " + tickData.Close;
+                        if (await marketApis.ActiveMarketApi.GetTick(tradingPair) is not Tick tick)
+                        {
+                            continue;
+                        }
+
+                        CurrentPriceText.Text = CurrencyCodeMapper.GetSymbol(tradingPair.CounterSymbol) + " " + tick.Close;
                         CurrentBaseSymbolTextBlock.Text = "/" + tradingPair.BaseSymbol;
 
-                        tickData.TradingPairId = TradingPair.TradingPairId;
-                        await db.Ticks.AddAsync(tickData);
+                        tick.TradingPairId = TradingPair.TradingPairId;
+                        await db.Ticks.AddAsync(tick);
 
                         await db.SaveChangesAsync();
 
@@ -313,16 +311,16 @@ namespace CryptoTA.UserControls
                             {
                                 observableValues.RemoveAt(0);
                             }
-                            observableValues.Add(tickData);
+                            observableValues.Add(tick);
 
                             if (observableLabels.Any())
                             {
                                 observableLabels.RemoveAt(0);
                             }
-                            observableLabels.Add(tickData.Date.ToString("HH:mm"));
+                            observableLabels.Add(tick.Date.ToString("HH:mm"));
                         }
 
-                        var dayBefore = tickData.Date.AddDays(-1);
+                        var dayBefore = tick.Date.AddDays(-1);
                         var dayBeforeTick = await db.Ticks
                                             .Where(t => t.TradingPairId == TradingPair.TradingPairId && t.Date <= dayBefore)
                                             .OrderByDescending(t => t.Date)
@@ -330,7 +328,7 @@ namespace CryptoTA.UserControls
 
                         if (dayBeforeTick != null)
                         {
-                            double percents = (tickData.Close - dayBeforeTick.Close) / dayBeforeTick.Close * 100d;
+                            double percents = (tick.Close - dayBeforeTick.Close) / dayBeforeTick.Close * 100d;
                             string percentString = string.Format("{0:N2}", percents) + "%";
 
                             Color percentColor = Color.FromRgb(240, 240, 240);
@@ -385,53 +383,51 @@ namespace CryptoTA.UserControls
             }
         }
 
-        private async Task LoadChartData(DateTime? startDate = null)
+        private void Worker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
-            try
-            {
-                DisableFilterComboBoxes();
-
-                var currentDate = DateTime.Now;
-                var timeFormat = "dd.MM.yyyy";
-
-                if (currentDate.AddDays(-4) < startDate)
-                {
-                    timeFormat = "HH:mm";
-                }
-                else if (currentDate.AddDays(-15) < startDate)
-                {
-                    timeFormat = "dd.MM.yyyy HH:mm";
-                }
-
-                using var db = new DatabaseContext();
-                chartTicks = await db.GetTicks(TradingPair.TradingPairId, startDate, 500);
-
-                var values = chartTicks.Select(tick => tick.Close).ToArray();
-                var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
-
-
-                observableValues.Clear();
-                foreach (var tick in chartTicks.ToArray())
-                {
-                    observableValues.Add(tick);
-                }
-
-                observableLabels.Clear();
-                foreach (var label in labels)
-                {
-                    observableLabels.Add(label);
-                }
-
-                YAxes[0].Labeler = value => CurrencyCodeMapper.GetSymbol(TradingPair.CounterSymbol) + value;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-            finally
+            if (e.Result is not List<Tick> chartTicks)
             {
                 EnableFilterComboBoxes();
+                return;
             }
+
+            var currentDate = DateTime.Now;
+            var timeFormat = "dd.MM.yyyy";
+
+            if (currentDate.AddDays(-4) < startDate)
+            {
+                timeFormat = "HH:mm";
+            }
+            else if (currentDate.AddDays(-15) < startDate)
+            {
+                timeFormat = "dd.MM.yyyy HH:mm";
+            }
+
+            var values = chartTicks.Select(tick => tick.Close).ToArray();
+            var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
+
+
+            observableValues.Clear();
+            foreach (var tick in chartTicks.ToArray())
+            {
+                observableValues.Add(tick);
+            }
+
+            observableLabels.Clear();
+            foreach (var label in labels)
+            {
+                observableLabels.Add(label);
+            }
+
+            YAxes[0].Labeler = value => CurrencyCodeMapper.GetSymbol(TradingPair.CounterSymbol) + value.ToString(".##");
+
+            EnableFilterComboBoxes();
+        }
+
+        private void LoadChartData()
+        {
+            DisableFilterComboBoxes();
+            databaseModel.GetTicks(TradingPair.TradingPairId, startDate, 500);
         }
     }
 }

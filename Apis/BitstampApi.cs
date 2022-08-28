@@ -124,7 +124,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public async Task<List<Tick>> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
+        public List<Tick> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
         {
             string uriString = "https://www.bitstamp.net/api/v2/ohlc/";
             uriString       += tradingPair.Name;
@@ -139,7 +139,7 @@ namespace CryptoTA.Apis
             var client = new RestClient(baseUrl);
             var request = new RestRequest(baseUrl, Method.Get);
 
-            var response = await client.ExecuteAsync<BitstampOhlc>(request);
+            var response = client.Execute<BitstampOhlc>(request);
 
             var ohlcData = new List<Tick>();
 
@@ -176,7 +176,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public async Task<Tick> GetTick(TradingPair tradingPair)
+        public async Task<Tick?> GetTick(TradingPair tradingPair)
         {
             var baseUrl = new Uri($"https://www.bitstamp.net/api/v2/ticker/{tradingPair.Name}/");
             var client = new RestClient(baseUrl);
@@ -198,7 +198,7 @@ namespace CryptoTA.Apis
             }
             else
             {
-                throw new TaskCanceledException();
+                return null;
             }
         }
 

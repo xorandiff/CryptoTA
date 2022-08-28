@@ -170,7 +170,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public async Task<List<Tick>> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
+        public List<Tick> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
         {
             var request = new RestRequest("public/OHLC")
                             .AddQueryParameter("pair", tradingPair.Name)
@@ -181,7 +181,7 @@ namespace CryptoTA.Apis
                 request.AddQueryParameter("since", startTimestamp);
             }
 
-            var response = await restClient.ExecuteAsync(request);
+            var response = restClient.Execute(request);
             var ohlcData = new List<Tick>();
 
             if (response is not RestResponse { Content: string content } _ || JObject.Parse(content) is not JObject responseJson)
@@ -226,7 +226,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public async Task<Tick> GetTick(TradingPair tradingPair)
+        public async Task<Tick?> GetTick(TradingPair tradingPair)
         {
             var request = new RestRequest("public/Ticker").AddQueryParameter("pair", tradingPair.Name);
 

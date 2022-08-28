@@ -1,17 +1,10 @@
 using RestSharp;
 using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using CryptoTA.Apis;
 using CryptoTA.Database;
-using CryptoTA.Database.Models;
-using System.Collections.Generic;
-using CryptoTA.Indicators;
-using CryptoTA.Utils;
-using System.Collections.ObjectModel;
+using CryptoTA.UserControls;
 using CryptoTA.Pages;
 
 namespace CryptoTA
@@ -26,14 +19,30 @@ namespace CryptoTA
             public DateTime Date { get; set; }
         }
 
-        private string statusText = "";
-
-        public string StatusText { get => statusText; }
+        private DatabaseModel databaseModel;
+        private readonly StatusBarControl statusBarControl;
+        private readonly CurrencyChart currencyChart;
+        private readonly IndicatorsPage indicatorsPage;
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
+
+            databaseModel = new();
+
+            statusBarControl = new();
+            currencyChart = new(databaseModel);
+
+            indicatorsPage = new(databaseModel);
+
+            databaseModel.worker.ProgressChanged += statusBarControl.Worker_ProgressChanged;
+            databaseModel.worker.RunWorkerCompleted += statusBarControl.Worker_RunWorkerCompleted;
+
+            ChartGrid.Children.Add(currencyChart);
+            BottomStackPanel.Children.Add(statusBarControl);
+
+            IndicatorsPageFrame.Content = indicatorsPage;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -69,14 +78,6 @@ namespace CryptoTA
                 Owner = this
             };
             accountsWindow.ShowDialog();
-        }
-
-        private void MenuTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (MenuTabControl.SelectedIndex == 1)
-            {
-                //IndicatorsPageFrame.Refresh();
-            }
         }
     }
 }

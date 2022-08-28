@@ -9,9 +9,10 @@ namespace CryptoTA.Apis
 {
     public class BitstampApi : IMarketApi
     {
-        private readonly string name = "Bitstamp";
+        private const string name = "Bitstamp";
         private readonly uint[] ohlcTimeIntervals = { 60, 180, 300, 900, 1800, 3600, 7200, 14400, 21600, 43200, 86400, 259200 };
         private bool enabled = false;
+        private const uint requestMaxTickCount = 1000;
 
         public bool Enabled
         { 
@@ -47,6 +48,14 @@ namespace CryptoTA.Apis
             get
             {
                 return ohlcTimeIntervals.Min() * 1000;
+            }
+        }
+
+        public uint RequestMaxTickCount
+        {
+            get
+            {
+                return requestMaxTickCount;
             }
         }
 
@@ -271,6 +280,16 @@ namespace CryptoTA.Apis
         }
 
         public Task<List<Trade>> GetTradesHistory()
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Balance> IMarketApi.GetAccountBalance()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Balance>> GetAccountBalanceAsync()
         {
             throw new NotImplementedException();
         }

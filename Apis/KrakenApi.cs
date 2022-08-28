@@ -18,13 +18,15 @@ namespace CryptoTA.Apis
 {
     public class KrakenApi : IMarketApi
     {
-        private readonly string name = "Kraken";
+        private const string name = "Kraken";
         private readonly uint[] ohlcTimeIntervals = { 60, 300, 900, 1800, 3600, 14400, 86400, 604800, 1296000 };
+        private const uint requestMaxTickCount = 720;
         private bool enabled = false;
 
-        private static string baseDomain = "https://api.kraken.com";
-        private static string publicPath = "/0/private/";
-        private static string privatePath = "/0/private/";
+        private const string baseDomain = "https://api.kraken.com";
+        private const string publicPath = "/0/private/";
+        private const string privatePath = "/0/private/";
+
         private readonly Credentials credentials = new();
 
         private readonly RestClient restClient = new(baseDomain);
@@ -35,6 +37,8 @@ namespace CryptoTA.Apis
         public uint[] OhlcTimeIntervals { get => ohlcTimeIntervals; }
 
         public uint OhlcMaxDensityTimeInterval { get => ohlcTimeIntervals.Min() * 720; }
+
+        public uint RequestMaxTickCount { get => requestMaxTickCount; }
 
         public class KrakenResult<T>
         {
@@ -119,7 +123,49 @@ namespace CryptoTA.Apis
             return sha512Hash;
         }
 
-        private async Task<JToken> QueryPublicEndpoint(string endpointName, string[] responsePath, string apiGetData = "")
+        private JToken QueryPublicEndpoint(string endpointName, string[] responsePath, string apiGetData = "")
+        {
+            string apiEndpointFullURL = baseDomain + publicPath + endpointName;
+
+            if (string.IsNullOrWhiteSpace(apiGetData) == false)
+            {
+                apiGetData = "&" + apiGetData;
+            }
+
+            apiEndpointFullURL += apiGetData;
+
+            string jsonData;
+
+            using (HttpClient client = new())
+            {
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA Client");
+
+                var request = new HttpRequestMessage(HttpMethod.Get, apiEndpointFullURL);
+                HttpResponseMessage response = client.Send(request);
+
+                jsonData = response.Content.ReadAsStringAsync().Result;
+            }
+
+            if (JObject.Parse(jsonData) is not JToken jTokenData)
+            {
+                throw new Exception("Error during deserializing Kraken API response.");
+            }
+
+            foreach (string path in responsePath)
+            {
+                if (jTokenData[path] is null)
+                {
+                    throw new Exception("Error during deserializing Kraken API response.");
+                }
+
+                jTokenData = jTokenData[path]!;
+            }
+
+            return jTokenData;
+        }
+
+        private async Task<JToken> QueryPublicEndpointAsync(string endpointName, string[] responsePath, string apiGetData = "")
         {
             string apiEndpointFullURL = baseDomain + publicPath + endpointName;
 
@@ -158,9 +204,9 @@ namespace CryptoTA.Apis
             return jTokenData;
         }
 
-        private async Task<Dictionary<string, T>> QueryPublicEndpoint<T>(string endpointName, string[] responsePath, string apiGetData = "")
+        private Dictionary<string, T> QueryPublicEndpoint<T>(string endpointName, string[] responsePath, string apiGetData = "")
         {
-            var jToken = await QueryPublicEndpoint(endpointName, responsePath, apiGetData);
+            var jToken = QueryPublicEndpoint(endpointName, responsePath, apiGetData);
 
             if (JsonConvert.DeserializeObject<Dictionary<string, T>>(jToken.ToString()) is not Dictionary<string, T> resultDictionary)
             {
@@ -170,7 +216,19 @@ namespace CryptoTA.Apis
             return resultDictionary;
         }
 
-        private async Task<JToken> QueryPrivateEndpoint(string endpointName, string[] responsePath, string inputParameters = "")
+        private async Task<Dictionary<string, T>> QueryPublicEndpointAsync<T>(string endpointName, string[] responsePath, string apiGetData = "")
+        {
+            var jToken = await QueryPublicEndpointAsync(endpointName, responsePath, apiGetData);
+
+            if (JsonConvert.DeserializeObject<Dictionary<string, T>>(jToken.ToString()) is not Dictionary<string, T> resultDictionary)
+            {
+                throw new Exception("Error during deserializing Kraken API response into dictionary.");
+            }
+
+            return resultDictionary;
+        }
+
+        private JToken QueryPrivateEndpoint(string endpointName, string[] responsePath, string inputParameters = "")
         {
             string apiEndpointFullURL = baseDomain + privatePath + endpointName;
             string nonce = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
@@ -190,8 +248,16 @@ namespace CryptoTA.Apis
                 client.DefaultRequestHeaders.Add("API-Key", credentials.PublicKey);
                 client.DefaultRequestHeaders.Add("API-Sign", signature);
                 client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA Client");
+
                 StringContent data = new (apiPostBodyData, Encoding.UTF8, "application/x-www-form-urlencoded");
-                HttpResponseMessage response = await client.PostAsync(apiEndpointFullURL, data);
+
+                var request = new HttpRequestMessage(HttpMethod.Post, apiEndpointFullURL)
+                {
+                    Content = data
+                };
+
+                HttpResponseMessage response = client.Send(request);
+
                 jsonData = response.Content.ReadAsStringAsync().Result;
             }
 
@@ -213,9 +279,66 @@ namespace CryptoTA.Apis
             return jTokenData;
         }
 
-        private async Task<Dictionary<string, T>> QueryPrivateEndpoint<T>(string endpointName, string[] responsePath, string inputParameters = "")
+        private async Task<JToken> QueryPrivateEndpointAsync(string endpointName, string[] responsePath, string inputParameters = "")
         {
-            var jToken = await QueryPrivateEndpoint(endpointName, responsePath, inputParameters);
+            string apiEndpointFullURL = baseDomain + privatePath + endpointName;
+            string nonce = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+
+            if (string.IsNullOrWhiteSpace(inputParameters) == false)
+            {
+                inputParameters = "&" + inputParameters;
+            }
+
+            string apiPostBodyData = "nonce=" + nonce + inputParameters;
+            string signature = CreateAuthenticationSignature(privatePath, endpointName, nonce, inputParameters);
+            string jsonData;
+
+            using (HttpClient client = new())
+            {
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("API-Key", credentials.PublicKey);
+                client.DefaultRequestHeaders.Add("API-Sign", signature);
+                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA Client");
+
+                StringContent data = new(apiPostBodyData, Encoding.UTF8, "application/x-www-form-urlencoded");
+                HttpResponseMessage response = await client.PostAsync(apiEndpointFullURL, data);
+
+                jsonData = response.Content.ReadAsStringAsync().Result;
+            }
+
+            if (JObject.Parse(jsonData) is not JToken jTokenData)
+            {
+                throw new Exception("Error during deserializing Kraken API response.");
+            }
+
+            foreach (string path in responsePath)
+            {
+                if (jTokenData[path] is null)
+                {
+                    throw new Exception("Error during deserializing Kraken API response.");
+                }
+
+                jTokenData = jTokenData[path]!;
+            }
+
+            return jTokenData;
+        }
+
+        private async Task<Dictionary<string, T>> QueryPrivateEndpointAsync<T>(string endpointName, string[] responsePath, string inputParameters = "")
+        {
+            var jToken = await QueryPrivateEndpointAsync(endpointName, responsePath, inputParameters);
+
+            if (JsonConvert.DeserializeObject<Dictionary<string, T>>(jToken.ToString()) is not Dictionary<string, T> resultDictionary)
+            {
+                throw new Exception("Error during deserializing Kraken API response into dictionary.");
+            }
+
+            return resultDictionary;
+        }
+
+        private Dictionary<string, T> QueryPrivateEndpoint<T>(string endpointName, string[] responsePath, string inputParameters = "")
+        {
+            var jToken = QueryPrivateEndpoint(endpointName, responsePath, inputParameters);
 
             if (JsonConvert.DeserializeObject<Dictionary<string, T>>(jToken.ToString()) is not Dictionary<string, T> resultDictionary)
             {
@@ -250,11 +373,27 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public async Task<List<Balance>> GetAccountBalance()
+        public List<Balance> GetAccountBalance()
         {
             var balance = new List<Balance>();
 
-            foreach (var balanceKvp in await QueryPrivateEndpoint<string>("Balance", new string[] { "result" }))
+            foreach (var balanceKvp in QueryPrivateEndpoint<string>("Balance", new string[] { "result" }))
+            {
+                balance.Add(new Balance
+                {
+                    Name = balanceKvp.Key,
+                    TotalAmount = double.Parse(balanceKvp.Value.ToString(), CultureInfo.InvariantCulture)
+                });
+            }
+
+            return balance;
+        }
+
+        public async Task<List<Balance>> GetAccountBalanceAsync()
+        {
+            var balance = new List<Balance>();
+
+            foreach (var balanceKvp in await QueryPrivateEndpointAsync<string>("Balance", new string[] { "result" }))
             {
                 balance.Add(new Balance
                 {
@@ -297,7 +436,6 @@ namespace CryptoTA.Apis
 
             if (responseJson["result"] is null || responseJson["result"]![tradingPair.Name] is null)
             {
-                //throw new Exception("Error during parsing Kraken OHLC Tick.");
                 return ohlcData;
             }
 
@@ -356,7 +494,7 @@ namespace CryptoTA.Apis
         {
             var tradingBalance = new List<Balance>();
 
-            foreach (var tradingBalanceKvp in await QueryPrivateEndpoint<string>("TradeBalance", new string[] { "result" }))
+            foreach (var tradingBalanceKvp in await QueryPrivateEndpointAsync<string>("TradeBalance", new string[] { "result" }))
             {
                 tradingBalance.Add(new Balance
                 {
@@ -372,7 +510,7 @@ namespace CryptoTA.Apis
         {
             var fees = new List<Fees>();
 
-            foreach (var feeKvp in await QueryPrivateEndpoint<string>("TradeVolume", new string[] { "result", "fees" }, "pair=" + tradingPair.Name))
+            foreach (var feeKvp in await QueryPrivateEndpointAsync<string>("TradeVolume", new string[] { "result", "fees" }, "pair=" + tradingPair.Name))
             {
                 fees.Add(new Fees
                 {
@@ -430,7 +568,7 @@ namespace CryptoTA.Apis
         {
             var fees = new List<Fees>();
 
-            foreach (var feeKvp in await QueryPrivateEndpoint<string>("TradeVolume", new string[] { "result", "fees" }, "pair=" + tradingPair.Name))
+            foreach (var feeKvp in await QueryPrivateEndpointAsync<string>("TradeVolume", new string[] { "result", "fees" }, "pair=" + tradingPair.Name))
             {
                 fees.Add(new Fees
                 {
@@ -450,7 +588,7 @@ namespace CryptoTA.Apis
         {
             var trades = new List<Trade>();
 
-            foreach (var tradeKvp in (await QueryPrivateEndpoint<Trade>("TradesHistory", new string[] { "result", "trades" })).Skip(1))
+            foreach (var tradeKvp in (await QueryPrivateEndpointAsync<Trade>("TradesHistory", new string[] { "result", "trades" })).Skip(1))
             {
                 var trade = tradeKvp.Value!;
                 trades.Add(new Trade

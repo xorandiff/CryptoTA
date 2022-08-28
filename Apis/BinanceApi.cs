@@ -10,6 +10,7 @@ namespace CryptoTA.Apis
         private readonly string name = "Binance";
         private readonly uint[] ohlcTimeIntervals = { };
         private bool enabled = false;
+        private const uint requestMaxTickCount = 0;
 
         public bool Enabled
         {
@@ -39,6 +40,14 @@ namespace CryptoTA.Apis
             }
         }
 
+        public uint RequestMaxTickCount
+        {
+            get
+            {
+                return requestMaxTickCount;
+            }
+        }
+
         public uint OhlcMaxDensityTimeInterval => throw new NotImplementedException();
 
         public Task<int> BuyOrder(OrderType orderType, double amount, double price)
@@ -57,6 +66,11 @@ namespace CryptoTA.Apis
         }
 
         public Task<List<Balance>> GetAccountBalance()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Balance>> GetAccountBalanceAsync()
         {
             throw new NotImplementedException();
         }
@@ -117,6 +131,11 @@ namespace CryptoTA.Apis
         }
 
         public Task<int> SellOrder(OrderType orderType, double amount, double price)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Balance> IMarketApi.GetAccountBalance()
         {
             throw new NotImplementedException();
         }

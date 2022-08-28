@@ -29,6 +29,11 @@ namespace CryptoTA.Apis
         public uint[] OhlcTimeIntervals { get; }
 
         /// <value>
+        /// Maxmial amount of ticks per OHLC request.
+        /// </value>
+        public uint RequestMaxTickCount { get; }
+
+        /// <value>
         /// Maxmial amount of secods of densiest possible time interval for single 
         /// OHLC query.
         /// </value>
@@ -76,7 +81,13 @@ namespace CryptoTA.Apis
         /// objects.
         /// </summary>
         /// <returns></returns>
-        public Task<List<Balance>> GetAccountBalance();
+        public List<Balance> GetAccountBalance();
+
+        /// <summary>
+        /// Async version of <c>GetAccountBalance</c>
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Balance>> GetAccountBalanceAsync();
 
         /// <summary>
         /// Gets market trading balance as a enumerable of currency-amount <c>Balance</c> 

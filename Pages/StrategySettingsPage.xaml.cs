@@ -4,10 +4,12 @@ using CryptoTA.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
+using Telerik.Windows.Diagrams.Core;
 
 namespace CryptoTA.Pages
 {
@@ -16,29 +18,192 @@ namespace CryptoTA.Pages
         private readonly MarketApis marketApis = new();
         private Market market = new();
         private TradingPair tradingPair = new();
-        private Strategy strategy = new();
-        private StrategyCategory strategyCategory = new();
+        private StrategyData strategyData;
         private ObservableCollection<Market> markets = new();
         private ObservableCollection<TradingPair> tradingPairs = new();
-        private ObservableCollection<StrategyCategory> strategyCategories;
-        private bool strategyEnabled = false;
 
         public Market Market { get => market; set => market = value; }
         public TradingPair TradingPair { get => tradingPair; set => tradingPair = value; }
-        public Strategy Strategy { get => strategy; set => strategy = value; }
-        public StrategyCategory StrategyCategory { get => strategyCategory; set => strategyCategory = value; }
+        public StrategyData Strategy { get => strategyData; }
         public ObservableCollection<Market> Markets { get => markets; }
         public ObservableCollection<TradingPair> TradingPairs { get => tradingPairs; }
-        public ObservableCollection<StrategyCategory> StrategyCategories { get => strategyCategories; }
-        public bool StrategyEnabled { get => strategyEnabled; }
+
+        public class StrategyData : INotifyPropertyChanged
+        {
+            private double minimalGain;
+            private double maximalLoss;
+            private double buyAmount;
+            private double buyPercentages;
+            private bool askBeforeTrade;
+            private int activeStrategiesCount;
+            private bool active;
+            private StrategyCategory strategyCategory;
+            private readonly ObservableCollection<StrategyCategory> strategyCategories;
+            private Visibility hasCredentials;
+
+            public string MinimalGain
+            {
+                get => minimalGain.ToString();
+                set
+                {
+                    double valueDouble = double.Parse(value);
+                    if (valueDouble != minimalGain)
+                    {
+                        minimalGain = valueDouble;
+                        NotifyPropertyChanged();
+                    }
+                }
+            }
+            public string MaximalLoss
+            {
+                get => maximalLoss.ToString();
+                set
+                {
+                    double valueDouble = double.Parse(value);
+                    if (valueDouble != maximalLoss)
+                    {
+                        maximalLoss = valueDouble;
+                        NotifyPropertyChanged();
+                    }
+                }
+            }
+            public string BuyAmount
+            {
+                get => buyAmount.ToString();
+                set
+                {
+                    double valueDouble = double.Parse(value);
+                    if (valueDouble != buyAmount)
+                    {
+                        buyAmount = valueDouble;
+                        NotifyPropertyChanged();
+                    }
+                }
+            }
+            public string BuyPercentages
+            {
+                get => buyPercentages.ToString();
+                set
+                {
+                    double valueDouble = double.Parse(value);
+                    if (valueDouble != buyPercentages)
+                    {
+                        buyPercentages = valueDouble;
+                        NotifyPropertyChanged();
+                    }
+                }
+            }
+            public bool AskBeforeTrade
+            {
+                get => askBeforeTrade;
+                set
+                {
+                    if (value != askBeforeTrade)
+                    {
+                        askBeforeTrade = value;
+                        NotifyPropertyChanged();
+                    }
+                }
+            }
+            public string ActiveStrategiesCount
+            {
+                get => activeStrategiesCount.ToString();
+                set
+                {
+                    int valueInt = int.Parse(value);
+                    if (valueInt != activeStrategiesCount)
+                    {
+                        activeStrategiesCount = valueInt;
+                        NotifyPropertyChanged();
+                        NotifyPropertyChanged(nameof(HasActiveStrategies));
+
+                        if (valueInt == 0)
+                        {
+                            Active = false;
+                        }
+                    }
+                }
+            }
+            public bool HasActiveStrategies { get => activeStrategiesCount > 0; }
+            public bool Active
+            {
+                get => active;
+                set
+                {
+                    if (value != active)
+                    {
+                        active = value;
+                        NotifyPropertyChanged();
+                        NotifyPropertyChanged(nameof(Inactive));
+                        NotifyPropertyChanged(nameof(StatusText));
+                        NotifyPropertyChanged(nameof(StatusButtonContent));
+                        NotifyPropertyChanged(nameof(FormVisibility));
+                    }
+                }
+            }
+
+            public StrategyCategory StrategyCategory
+            {
+                get => strategyCategory;
+                set
+                {
+                    if (value.StrategyCategoryId != strategyCategory.StrategyCategoryId)
+                    {
+                        strategyCategory = value;
+                        NotifyPropertyChanged();
+                    }
+                }
+            }
+            public ObservableCollection<StrategyCategory> StrategyCategories { get => strategyCategories; }
+            public Visibility FormVisibility
+            {
+                get => hasCredentials;
+                set
+                {
+                    if (value != hasCredentials)
+                    {
+                        hasCredentials = value;
+                        NotifyPropertyChanged();
+                        NotifyPropertyChanged(nameof(WarningVisibility));
+                    }
+                }
+            }
+            public Visibility WarningVisibility 
+            {
+                get
+                {
+                    if (hasCredentials == Visibility.Visible)
+                    {
+                        return Visibility.Hidden;
+                    }
+                    return Visibility.Visible;
+                }
+            }
+            public bool Inactive { get => !active; }
+            public string StatusText { get => active ? "Active" : "Inactive"; }
+            public string StatusButtonContent { get => active ? "Deactivate" : "Activate"; }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            public StrategyData()
+            {
+                using (var db = new DatabaseContext())
+                strategyCategories = new ObservableCollection<StrategyCategory>(db.StrategyCategories.ToList());
+                strategyCategory = strategyCategories.First();
+            }
+
+            private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         public StrategySettingsPage()
         {
             InitializeComponent();
             DataContext = this;
 
-            using (var db = new DatabaseContext())
-            strategyCategories = new ObservableCollection<StrategyCategory>(db.StrategyCategories.ToList());
+            strategyData = new();
         }
 
         private ObservableCollection<TradingPair> CreateTradingPairs()
@@ -69,12 +234,6 @@ namespace CryptoTA.Pages
                 var settingsMarket = await db.GetMarketFromSettings();
                 market = markets.Where(m => m.MarketId == settingsMarket.MarketId).First();
                 MarketsComboBox.SelectedItem = market;
-
-                tradingPairs.Clear();
-                foreach (var tradingPair in CreateTradingPairs())
-                {
-                    tradingPairs.Add(tradingPair);
-                }
             }
         }
 
@@ -84,24 +243,22 @@ namespace CryptoTA.Pages
             {
                 if (Market.Credentials.Any())
                 {
-                    CredentialsMissingGroupBox.Visibility = Visibility.Hidden;
-                    StrategyGroupBox.IsEnabled = true;
-                    StrategyStatusGroupBox.IsEnabled = true;
-                    StrategiesStatusGroupBox.IsEnabled = true;
-
+                    strategyData.FormVisibility = Visibility.Visible;
                     if (!marketApis.setActiveApiByName(Market.Name))
                     {
                         throw new Exception("No market API found that correspond to database market name.");
                     }
 
-                    // ...
+                    tradingPairs.Clear();
+                    foreach (var tradingPair in CreateTradingPairs())
+                    {
+                        tradingPairs.Add(tradingPair);
+                    }
+                    TradingPairComboBox.SelectedItem = tradingPairs.First();
                 }
                 else
                 {
-                    CredentialsMissingGroupBox.Visibility = Visibility.Visible;
-                    StrategyGroupBox.IsEnabled = false;
-                    StrategyStatusGroupBox.IsEnabled = false;
-                    StrategiesStatusGroupBox.IsEnabled = false;
+                    strategyData.FormVisibility = Visibility.Hidden;
                 }
             }
         }
@@ -114,8 +271,7 @@ namespace CryptoTA.Pages
 
                 var strategiesQuery = db.Strategies.Where(strategy => strategy.TradingPairId == tradingPair.TradingPairId);
                 var tradingPairIds = tradingPairs.Select(tp => tp.TradingPairId).ToArray();
-                ActiveStrategiesCountTextBlock.Text = db.Strategies.Where(s => s.Active && tradingPairIds.Contains(s.TradingPairId)).Count().ToString();
-                StrategiesSwitchButton.IsEnabled = ActiveStrategiesCountTextBlock.Text != "0";
+                strategyData.ActiveStrategiesCount = db.Strategies.Where(s => s.Active && tradingPairIds.Contains(s.TradingPairId)).Count().ToString();
 
                 if (!strategiesQuery.Any())
                 {
@@ -139,11 +295,13 @@ namespace CryptoTA.Pages
                     throw new Exception("Couldn't find stored strategy in database.");
                 }
 
-                strategy = dbStrategy;
-
-                StrategySwitchButton.IsEnabled = true;
-                StrategySwitchButton.Content = strategy.Active ? "Deactivate" : "Activate";
-                StrategyStatusTextBlock.Text = strategy.Active ? "Active" : "Inactive";
+                strategyData.Active = dbStrategy.Active;
+                strategyData.StrategyCategory = strategyData.StrategyCategories.ElementAt(Math.Abs((int)dbStrategy.BuyIndicatorCategory - 1));
+                strategyData.AskBeforeTrade = dbStrategy.AskBeforeTrade;
+                strategyData.MaximalLoss = dbStrategy.MaximalLoss.ToString();
+                strategyData.MinimalGain = dbStrategy.MinimalGain.ToString();
+                strategyData.BuyAmount = dbStrategy.BuyAmount.ToString();
+                strategyData.BuyPercentages = dbStrategy.BuyPercentages.ToString();
             }
         }
 
@@ -160,17 +318,20 @@ namespace CryptoTA.Pages
                     throw new Exception("Couldn't find stored strategy in database.");
                 }
 
-                strategy.Active = !strategy.Active;
-                dbStrategy = strategy;
+                strategyData.Active = !strategyData.Active;
 
-                StrategyStatusTextBlock.Text = dbStrategy.Active ? "Inactive" : "Active";
-                StrategySwitchButton.Content = dbStrategy.Active ? "Activate" : "Deactivate";
+                dbStrategy.Active = strategyData.Active;
+                dbStrategy.BuyIndicatorCategory = (uint)strategyData.StrategyCategories.IndexOf(strategyData.StrategyCategory) + 1;
+                dbStrategy.AskBeforeTrade = strategyData.AskBeforeTrade;
+                dbStrategy.BuyPercentages = double.Parse(strategyData.BuyPercentages);
+                dbStrategy.MaximalLoss = double.Parse(strategyData.MaximalLoss);
+                dbStrategy.MinimalGain = double.Parse(strategyData.MinimalGain);
+                dbStrategy.BuyAmount = double.Parse(strategyData.BuyAmount);
 
                 _ = db.SaveChanges();
 
                 var tradingPairIds = tradingPairs.Select(tp => tp.TradingPairId).ToArray();
-                ActiveStrategiesCountTextBlock.Text = db.Strategies.Where(s => s.Active && tradingPairIds.Contains(s.TradingPairId)).Count().ToString();
-                StrategiesSwitchButton.IsEnabled = ActiveStrategiesCountTextBlock.Text != "0";
+                strategyData.ActiveStrategiesCount = db.Strategies.Where(s => s.Active && tradingPairIds.Contains(s.TradingPairId)).Count().ToString();
             }
         }
 
@@ -190,10 +351,7 @@ namespace CryptoTA.Pages
 
                 _ = db.SaveChanges();
 
-                StrategiesSwitchButton.IsEnabled = false;
-                ActiveStrategiesCountTextBlock.Text = "0";
-                StrategyStatusTextBlock.Text = "Inactive";
-                StrategySwitchButton.Content = "Activate";
+                strategyData.ActiveStrategiesCount = "0";
             }
         }
     }

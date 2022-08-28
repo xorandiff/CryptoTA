@@ -38,8 +38,9 @@
 
         <GroupBox
             Grid.Column="1"
-            x:Name="CredentialsMissingGroupBox"
-            Margin="10" BorderBrush="#FF7B0000"
+            Margin="10" 
+            BorderBrush="#FF7B0000"
+            Visibility="{Binding Strategy.WarningVisibility}"
         >
             <GroupBox.Header>
                 <TextBlock Text="Credentials Missing" Foreground="#FFFF4040"/>
@@ -55,11 +56,11 @@
         </GroupBox>
 
         <GroupBox 
-            x:Name="StrategyGroupBox"
             Grid.Row="1"
             Grid.ColumnSpan="2"
             Header="Strategy Settings"
             Margin="10"
+            Visibility="{Binding Strategy.FormVisibility}"
         >
             <Grid>
                 <Grid.RowDefinitions>
@@ -76,10 +77,15 @@
                 <Label 
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
+                    IsEnabled="{Binding Strategy.Inactive}"
+
                 >
                     Sell if gain is at least
                 </Label>
-                <Grid Grid.Column="1">
+                <Grid 
+                    Grid.Column="1" 
+                    IsEnabled="{Binding Strategy.Inactive}"
+                >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
@@ -87,7 +93,7 @@
                     <TextBox 
                         Margin="10, 25"
                         Padding="5"
-                        Text="{Binding Strategy.MinimalGain, Mode=TwoWay}"
+                        Text="{Binding Strategy.MinimalGain}"
                     />
                     <ComboBox
                         Margin="10, 25"
@@ -100,12 +106,14 @@
                     Grid.Row="1"
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
+                    IsEnabled="{Binding Strategy.Inactive}"
                 >
                     Sell if loss is at least
                 </Label>
                 <Grid 
                     Grid.Row="1"
                     Grid.Column="1"
+                    IsEnabled="{Binding Strategy.Inactive}"
                 >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -114,7 +122,7 @@
                     <TextBox 
                         Margin="10, 25"
                         Padding="5"
-                        Text="{Binding Strategy.MaximalLoss, Mode=TwoWay}"
+                        Text="{Binding Strategy.MaximalLoss}"
                     />
                     <ComboBox
                         Margin="10, 25"
@@ -127,17 +135,20 @@
                     Grid.Row="2"
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
+                    IsEnabled="{Binding Strategy.Inactive}"
                 >
                     Buy indicator strategy
                 </Label>
                 <ComboBox
+                    x:Name="StrategyCategoryComboBox"
                     Grid.Row="2"
                     Grid.Column="1"
                     Margin="10, 25"
                     Padding="5"
-                    ItemsSource="{Binding StrategyCategories}"
-                    SelectedItem="{Binding StrategyCategory}"
+                    ItemsSource="{Binding Strategy.StrategyCategories}"
+                    SelectedItem="{Binding Strategy.StrategyCategory}"
                     DisplayMemberPath="Name"
+                    IsEnabled="{Binding Strategy.Inactive}" 
                 />
 
                 <Label 
@@ -154,7 +165,7 @@
                     Padding="5"
                     ItemsSource="{Binding TradingPairs}"
                     SelectedItem="{Binding TradingPair}"
-                    DisplayMemberPath="DisplayName" 
+                    DisplayMemberPath="DisplayName"
                     SelectionChanged="TradingPairComboBox_SelectionChanged"
                 />
 
@@ -163,12 +174,14 @@
                     Grid.Column="2"
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
+                    IsEnabled="{Binding Strategy.Inactive}"
                 >
                     Buy amount
                 </Label>
                 <Grid 
                     Grid.Row="1"
                     Grid.Column="3"
+                    IsEnabled="{Binding Strategy.Inactive}"
                 >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -177,7 +190,7 @@
                     <TextBox 
                         Margin="10, 25"
                         Padding="5"
-                        Text="{Binding Strategy.BuyAmount, Mode=TwoWay}"
+                        Text="{Binding Strategy.BuyAmount}"
                     />
                     <ComboBox
                         Margin="10, 25"
@@ -191,6 +204,7 @@
                     Grid.Column="2"
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
+                    IsEnabled="{Binding Strategy.Inactive}"
                 >
                     Ask before trade
                 </Label>
@@ -199,49 +213,56 @@
                     Grid.Column="3"
                     Padding="5"
                     Margin="10, 0, 0, 0"
-                    IsChecked="{Binding Strategy.AskBeforeTrade, Mode=TwoWay}"
+                    IsChecked="{Binding Strategy.AskBeforeTrade}"
+                    IsEnabled="{Binding Strategy.Inactive}"
                 />
             </Grid>
         </GroupBox>
 
         <GroupBox 
-            x:Name="StrategyStatusGroupBox"
             Grid.Row="2" 
             Grid.ColumnSpan="2"
             Header="Status" 
             Margin="10"
+            Visibility="{Binding Strategy.FormVisibility}"
         >
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock 
-                    x:Name="StrategyStatusTextBlock"
                     Margin="10"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center" 
                     FontSize="15"
+                    Text="{Binding Strategy.StatusText}"
                 />
 
                 <Button 
-                    x:Name="StrategySwitchButton"
                     Grid.Column="1"
                     Margin="10"
                     Padding="10"
-                    IsEnabled="False"
-                    Content="Activate"
+                    Content="Update Changes"
+                />
+
+                <Button 
+                    Grid.Column="2"
+                    Margin="10"
+                    Padding="10"
+                    Content="{Binding Strategy.StatusButtonContent}"
                     Click="StrategySwitchButton_Click"
                 />
             </Grid>
         </GroupBox>
         
         <GroupBox 
-            x:Name="StrategiesStatusGroupBox"
             Grid.Row="3" 
             Grid.ColumnSpan="2"
             Header="Strategies status" 
             Margin="10"
+            Visibility="{Binding Strategy.FormVisibility}"
         >
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -258,12 +279,12 @@
                 />
 
                 <TextBlock 
-                    x:Name="ActiveStrategiesCountTextBlock"
                     Grid.Column="1"
                     Margin="10"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center" 
                     FontSize="15"
+                    Text="{Binding Strategy.ActiveStrategiesCount}"
                 />
 
                 <Button 
@@ -272,7 +293,8 @@
                     Margin="10"
                     Padding="10"
                     Content="Deactivate All"
-                    IsEnabled="False" Click="StrategiesSwitchButton_Click"
+                    IsEnabled="{Binding Strategy.HasActiveStrategies}" 
+                    Click="StrategiesSwitchButton_Click"
                 />
             </Grid>
         </GroupBox>

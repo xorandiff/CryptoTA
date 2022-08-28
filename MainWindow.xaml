@@ -9,8 +9,8 @@
         mc:Ignorable="d" 
         Loaded="Window_Loaded"
         Title="CryptoTA"
-        Height="650"
-        Width="1400"
+        Height="750"
+        Width="1200"
         Icon="icon_64.png"
         WindowStartupLocation="CenterScreen"
         Style="{DynamicResource CustomWindowStyle}"
@@ -38,7 +38,7 @@
         <TabControl 
             x:Name="MenuTabControl" 
             Grid.Row="1" 
-            TabStripPlacement="Left"
+            TabStripPlacement="Left" Background="#FF171717"
         >
             <TabItem 
                 x:Name="ChartTabItem" 
@@ -118,23 +118,15 @@
             </TabItem>
             
             <TabItem Header="Indicators">
-                <Frame 
-                    x:Name="IndicatorsPageFrame"
-                />
+                <Frame x:Name="IndicatorsPageFrame" />
             </TabItem>
             
             <TabItem Header="Statistics">
-                <Frame 
-                    x:Name="StatisticsPageFrame"
-                    Source="Pages/StatisticsPage.xaml"
-                />
+                <Frame x:Name="StatisticsPageFrame" />
             </TabItem>
             
             <TabItem Header="Strategy settings">
-                <Frame 
-                    x:Name="StrategySettingsPageFrame"
-                    Source="Pages/StrategySettingsPage.xaml"
-                />
+                <Frame x:Name="StrategySettingsPageFrame" />
             </TabItem>
         </TabControl>
 

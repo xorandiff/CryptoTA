@@ -1,7 +1,4 @@
-using RestSharp;
-using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using CryptoTA.Database;
 using CryptoTA.UserControls;
@@ -11,18 +8,16 @@ namespace CryptoTA
 {
     public partial class MainWindow : Window
     {
-        public class ExchangeRateConvertResponse
-        {
-            public bool Success { get; set; }
-            public bool Historical { get; set; }
-            public double Result { get; set; }
-            public DateTime Date { get; set; }
-        }
+        private readonly DatabaseModel databaseModel;
 
-        private DatabaseModel databaseModel;
+        // Controls
         private readonly StatusBarControl statusBarControl;
         private readonly CurrencyChart currencyChart;
+
+        // Pages
         private readonly IndicatorsPage indicatorsPage;
+        private readonly StatisticsPage statisticsPage;
+        private readonly StrategySettingsPage strategySettingsPage;
 
         public MainWindow()
         {
@@ -35,7 +30,10 @@ namespace CryptoTA
             currencyChart = new(databaseModel);
 
             indicatorsPage = new(databaseModel);
+            statisticsPage = new();
+            strategySettingsPage = new();
 
+            // Subscribe StatusBar to BackgroundWorker events before loading
             databaseModel.worker.ProgressChanged += statusBarControl.Worker_ProgressChanged;
             databaseModel.worker.RunWorkerCompleted += statusBarControl.Worker_RunWorkerCompleted;
 
@@ -43,6 +41,8 @@ namespace CryptoTA
             BottomStackPanel.Children.Add(statusBarControl);
 
             IndicatorsPageFrame.Content = indicatorsPage;
+            StatisticsPageFrame.Content = statisticsPage;
+            StrategySettingsPageFrame.Content = strategySettingsPage;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -50,34 +50,13 @@ namespace CryptoTA
             using var db = new DatabaseContext();
             if (!db.Settings.Any())
             {
-                var downloadWindow = new DownloadWindow();
-                downloadWindow.ShowDialog();
+                _ = new DownloadWindow().ShowDialog();
             }
-        }
-
-        private async Task<double> GetCurrencyRate(string sourceCurrency, string targetCurrency)
-        {
-            string uriString = "https://api.exchangerate.host/convert?from=" + sourceCurrency + "&to=" + targetCurrency;
-            Uri baseUrl = new (uriString);
-            RestClient client = new (baseUrl);
-            RestRequest request = new (baseUrl, Method.Get);
-
-            var response = await client.ExecuteAsync<ExchangeRateConvertResponse>(request);
-            if (response.IsSuccessful && response.Data != null && response.Data.Success)
-            {
-                return response.Data.Result;
-            }
-
-            return 0d;
         }
 
         private void AccountsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var accountsWindow = new AccountsWindow
-            {
-                Owner = this
-            };
-            accountsWindow.ShowDialog();
+            _ = new AccountsWindow { Owner = this }.ShowDialog();
         }
     }
 }

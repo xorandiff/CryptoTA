@@ -8,8 +8,6 @@
              d:DataContext="{d:DesignInstance Type=local:CurrencyChart}"
              mc:Ignorable="d" 
              Loaded="UserControl_Loaded"
-             Width="Auto"
-             Height="Auto"
 >
     <Grid>
         <Grid.RowDefinitions>

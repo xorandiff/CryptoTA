@@ -5,12 +5,305 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CryptoTA.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450"
-      d:DesignWidth="800"
+      d:DesignHeight="750"
+      d:DesignWidth="1000"
       d:DataContext="{d:DesignInstance Type=local:StrategySettingsPage}"
-      Title="StrategySettingsPage"
+      Title="StrategySettingsPage" 
+      Loaded="Page_Loaded"
 >
-    <Grid>
-               
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <GroupBox
+            Header="Market API"
+            Margin="10"
+        >
+            <ComboBox 
+                x:Name="MarketsComboBox"
+                Margin="10"
+                ItemsSource="{Binding Markets}"
+                SelectedItem="{Binding Market}"
+                DisplayMemberPath="Name" 
+                SelectionChanged="MarketsComboBox_SelectionChanged"
+            />
+        </GroupBox>
+
+        <GroupBox
+            Grid.Column="1"
+            x:Name="CredentialsMissingGroupBox"
+            Margin="10" BorderBrush="#FF7B0000"
+        >
+            <GroupBox.Header>
+                <TextBlock Text="Credentials Missing" Foreground="#FFFF4040"/>
+            </GroupBox.Header>
+            <StackPanel Margin="10">
+                <TextBlock FontSize="11">
+                You have to provide credentials for this API.
+                </TextBlock>
+                <TextBlock FontSize="11">
+                You can add them by choosing from menu Edit -> Accounts.
+                </TextBlock>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox 
+            x:Name="StrategyGroupBox"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Header="Strategy Settings"
+            Margin="10"
+        >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Label 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                >
+                    Sell if gain is at least
+                </Label>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBox 
+                        Margin="10, 25"
+                        Padding="5"
+                    />
+                    <ComboBox
+                        Margin="10, 25"
+                        Grid.Column="1"
+                        Padding="5"
+                    />
+                </Grid>
+
+                <Label 
+                    Grid.Row="1"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                >
+                    Sell if loss is at least
+                </Label>
+                <Grid 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBox 
+                        Margin="10, 25"
+                        Padding="5"
+                    />
+                    <ComboBox
+                        Margin="10, 25"
+                        Padding="5"
+                        Grid.Column="1"
+                    />
+                </Grid>
+
+                <Label 
+                    Grid.Row="2"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                >
+                    Buy if
+                </Label>
+                <ComboBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="10, 25"
+                    Padding="5"
+                />
+
+                <Label 
+                    Grid.Column="2"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                >
+                    Target
+                </Label>
+                <ComboBox
+                    Grid.Column="3"
+                    Margin="10, 25"
+                    Padding="5"
+                    x:Name="TradingPairComboBox"
+                    ItemsSource="{Binding TradingPairs}"
+                    SelectedItem="{Binding TradingPair}"
+                    DisplayMemberPath="DisplayName" SelectionChanged="TradingPairComboBox_SelectionChanged"
+                />
+
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                >
+                    Buy amount
+                </Label>
+                <Grid 
+                    Grid.Row="1"
+                    Grid.Column="3"
+                >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBox 
+                        Margin="10, 25"
+                        Padding="5"
+                    />
+                    <ComboBox
+                        Margin="10, 25"
+                        Padding="5"
+                        Grid.Column="1"
+                    />
+                </Grid>
+
+                <Label 
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                >
+                    Ask before trade
+                </Label>
+                <CheckBox 
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Padding="5"
+                    Margin="10, 0, 0, 0"
+                />
+            </Grid>
+        </GroupBox>
+
+        <GroupBox 
+            x:Name="StrategyStatusGroupBox"
+            Grid.Row="2" 
+            Grid.ColumnSpan="2"
+            Header="Status" 
+            Margin="10"
+        >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock 
+                    Margin="10"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    FontSize="15"
+                >
+                    <TextBlock.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding StrategyEnabled}" Value="true">
+                                    <Setter Property="TextBlock.Text" Value="Active" />
+                                    <Setter Property="TextBlock.Foreground" Value="Green" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StrategyEnabled}" Value="false">
+                                    <Setter Property="TextBlock.Text" Value="Inactive" />
+                                    <Setter Property="TextBlock.Foreground" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <Button 
+                    x:Name="StrategySwitchButton"
+                    Grid.Column="1"
+                    Margin="10"
+                    Padding="10"
+                    Content="Activate"
+                />
+            </Grid>
+        </GroupBox>
+        
+        <GroupBox 
+            x:Name="StrategiesStatusGroupBox"
+            Grid.Row="3" 
+            Grid.ColumnSpan="2"
+            Header="Strategies status" 
+            Margin="10"
+        >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock 
+                    Margin="10"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    FontSize="15"
+                    Text="Active strategies"
+                />
+
+                <TextBlock 
+                    Grid.Column="1"
+                    Margin="10"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    FontSize="15"
+                    Text="{Binding ActiveStrategiesCount}"
+                >
+                    <TextBlock.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger 
+                                    Binding="{Binding HasActiveStrategy}" 
+                                    Value="true"
+                                >
+                                    <Setter 
+                                        Property="TextBlock.Foreground" 
+                                        Value="Green"
+                                    />
+                                </DataTrigger>
+                                <DataTrigger 
+                                    Binding="{Binding HasActiveStrategy}" 
+                                    Value="false"
+                                >
+                                    <Setter 
+                                        Property="TextBlock.Foreground" 
+                                        Value="Red"
+                                    />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <Button 
+                    x:Name="StrategiesSwitchButton"
+                    Grid.Column="2"
+                    Margin="10"
+                    Padding="10"
+                    Content="Deactivate All"
+                    IsEnabled="{Binding HasActiveStrategy}"
+                />
+            </Grid>
+        </GroupBox>
     </Grid>
 </Page>

@@ -241,13 +241,17 @@
                 />
 
                 <Button 
+                    x:Name="SaveChangesButton"
                     Grid.Column="1"
                     Margin="10"
                     Padding="10"
-                    Content="Update Changes"
+                    Content="Save Changes"
+                    IsEnabled="{Binding Strategy.Inactive}"
+                    Click="SaveChangesButton_Click"
                 />
 
                 <Button 
+                    x:Name="StrategySwitchButton"
                     Grid.Column="2"
                     Margin="10"
                     Padding="10"

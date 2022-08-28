@@ -309,29 +309,17 @@ namespace CryptoTA.Pages
         {
             if (TradingPairComboBox.SelectedItem is TradingPair)
             {
-                using var db = new DatabaseContext();
-
-                var strategiesQuery = db.Strategies.Where(strategy => strategy.TradingPairId == tradingPair.TradingPairId);
-
-                if (strategiesQuery.First() is not Strategy dbStrategy)
+                if (strategyData.Inactive)
                 {
-                    throw new Exception("Couldn't find stored strategy in database.");
+                    StrategySwitchButton.IsEnabled = false;
+                    
+                    // Check if API auth is correct before activation
+
+                    StrategySwitchButton.IsEnabled = true;
                 }
 
                 strategyData.Active = !strategyData.Active;
-
-                dbStrategy.Active = strategyData.Active;
-                dbStrategy.BuyIndicatorCategory = (uint)strategyData.StrategyCategories.IndexOf(strategyData.StrategyCategory) + 1;
-                dbStrategy.AskBeforeTrade = strategyData.AskBeforeTrade;
-                dbStrategy.BuyPercentages = double.Parse(strategyData.BuyPercentages);
-                dbStrategy.MaximalLoss = double.Parse(strategyData.MaximalLoss);
-                dbStrategy.MinimalGain = double.Parse(strategyData.MinimalGain);
-                dbStrategy.BuyAmount = double.Parse(strategyData.BuyAmount);
-
-                _ = db.SaveChanges();
-
-                var tradingPairIds = tradingPairs.Select(tp => tp.TradingPairId).ToArray();
-                strategyData.ActiveStrategiesCount = db.Strategies.Where(s => s.Active && tradingPairIds.Contains(s.TradingPairId)).Count().ToString();
+                SaveChanges();
             }
         }
 
@@ -352,6 +340,39 @@ namespace CryptoTA.Pages
                 _ = db.SaveChanges();
 
                 strategyData.ActiveStrategiesCount = "0";
+            }
+        }
+
+        private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveChanges();
+        }
+
+        private void SaveChanges()
+        {
+            if (TradingPairComboBox.SelectedItem is TradingPair)
+            {
+                using var db = new DatabaseContext();
+
+                var strategiesQuery = db.Strategies.Where(strategy => strategy.TradingPairId == tradingPair.TradingPairId);
+
+                if (strategiesQuery.First() is not Strategy dbStrategy)
+                {
+                    throw new Exception("Couldn't find stored strategy in database.");
+                }
+
+                dbStrategy.Active = strategyData.Active;
+                dbStrategy.BuyIndicatorCategory = (uint)strategyData.StrategyCategories.IndexOf(strategyData.StrategyCategory) + 1;
+                dbStrategy.AskBeforeTrade = strategyData.AskBeforeTrade;
+                dbStrategy.BuyPercentages = double.Parse(strategyData.BuyPercentages);
+                dbStrategy.MaximalLoss = double.Parse(strategyData.MaximalLoss);
+                dbStrategy.MinimalGain = double.Parse(strategyData.MinimalGain);
+                dbStrategy.BuyAmount = double.Parse(strategyData.BuyAmount);
+
+                _ = db.SaveChanges();
+
+                var tradingPairIds = tradingPairs.Select(tp => tp.TradingPairId).ToArray();
+                strategyData.ActiveStrategiesCount = db.Strategies.Where(s => s.Active && tradingPairIds.Contains(s.TradingPairId)).Count().ToString();
             }
         }
     }

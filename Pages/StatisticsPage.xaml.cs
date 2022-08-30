@@ -1,6 +1,8 @@
 ﻿using CryptoTA.Apis;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
+using CryptoTA.Exceptions;
+using CryptoTA.UserControls;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
@@ -72,7 +74,7 @@ namespace CryptoTA.Pages
                 {
                     MarketsComboBox.IsEnabled = false;
 
-                    WarningGroupBox.Visibility = Visibility.Hidden;
+                    MessageBoxGrid.Content = null;
                     if (!marketApis.setActiveApiByName(Market.Name))
                     {
                         throw new Exception("No market API found that correspond to database market name.");
@@ -94,13 +96,9 @@ namespace CryptoTA.Pages
 
                         AccountBalanceListBox.ItemsSource = accountBalance;
                     }
-                    catch (Exception ex)
+                    catch (KrakenApiException krakenApiException)
                     {
-                        WarningGroupBox.Visibility = Visibility.Visible;
-                        WarningHeader.Text = "Invalid Credentials";
-                        WarningText1.Text = "Server rejected your credentials.";
-                        WarningText2.Text = "You can change them by choosing Edit -> Accounts from menu.";
-                        MessageBox.Show(ex.Message);
+                        MessageBoxGrid.Content = new FeedbackMessage(krakenApiException.Message);
                     }
                     finally
                     {
@@ -109,10 +107,7 @@ namespace CryptoTA.Pages
                 }
                 else
                 {
-                    WarningGroupBox.Visibility = Visibility.Visible;
-                    WarningHeader.Text = "Credentials Missing";
-                    WarningText1.Text = "You have to provide credentials for this API.";
-                    WarningText2.Text = "You can add them by choosing Edit -> Accounts from menu.";
+                    MessageBoxGrid.Content = new FeedbackMessage(MessageType.CredentialsMissing);
                 }
             }
         }

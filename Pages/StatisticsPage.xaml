@@ -55,28 +55,11 @@
             />
         </GroupBox>
 
-        <GroupBox
-            Grid.Column="1"
-            x:Name="WarningGroupBox"
-            Margin="20" 
-            BorderBrush="#FF7B0000"
-        >
-            <GroupBox.Header>
-                <TextBlock 
-                    x:Name="WarningHeader" 
-                    Text="Credentials Missing" 
-                    Foreground="#FFFF4040"
-                />
-            </GroupBox.Header>
-            <StackPanel Margin="10">
-                <TextBlock x:Name="WarningText1" FontSize="11">
-                You have to provide credentials for this API.
-                </TextBlock>
-                <TextBlock x:Name="WarningText2" FontSize="11">
-                You can add them in account settings.
-                </TextBlock>
-            </StackPanel>
-        </GroupBox>
+        <Grid Grid.Column="1">
+            <ContentControl 
+                x:Name="MessageBoxGrid"
+            />
+        </Grid>
 
         <GroupBox 
             Grid.Row="1"

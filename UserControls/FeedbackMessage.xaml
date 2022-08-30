@@ -12,20 +12,18 @@
 >
     <GroupBox
         Grid.Column="1"
-        x:Name="MessageGroupBox"
         Margin="20" 
         BorderBrush="#FF7B0000"
     >
         <GroupBox.Header>
             <TextBlock 
-                x:Name="MessageHeader" 
                 Text="{Binding Header}" 
                 Foreground="#FFFF4040"
             />
         </GroupBox.Header>
         <StackPanel Margin="10">
             <TextBlock 
-                x:Name="MessageText" 
+                TextWrapping="Wrap"
                 Text="{Binding Text}" 
                 FontSize="11" 
             />

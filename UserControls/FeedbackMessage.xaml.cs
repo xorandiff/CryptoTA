@@ -77,23 +77,23 @@ namespace CryptoTA.UserControls
                     break;
                 case "EAPI:Invalid key":
                     Header = "Kraken API Authentication Error";
-                    Text = "An invalid API-Key header was supplied.";
+                    Text = "An invalid API-Key header was supplied.\nYou can change it in account settings under the name 'Public key'.";
                     break;
                 case "EAPI:Invalid signature":
                     Header = "Kraken API Authentication Error";
-                    Text = "An invalid API-Sign header was supplied.";
+                    Text = "An invalid API-Sign header was supplied.\nPrivate key may be invalid, you can change it in account settings.";
                     break;
                 case "EAPI:Invalid nonce":
                     Header = "Kraken API Authentication Error";
-                    Text = "An invalid nonce was supplied.";
+                    Text = "An invalid nonce was supplied.\nMake sure nonce window for your API is big enough to fit UNIX timestamp.";
                     break;
                 case "EGeneral:Permission denied":
                     Header = "Kraken API General Error";
-                    Text = "API key doesn't have permission to make this request.";
+                    Text = "API key doesn't have permission to make this request.\nCheck permissions in your Kraken account.";
                     break;
                 case "EOrder:Cannot open position":
                     Header = "Kraken API Order Error";
-                    Text = "The request payload is malformed, incorrect or ambiguous.";
+                    Text = "User/tier is ineligible for margin trading.";
                     break;
                 case "EOrder:Margin allowance exceeded":
                     Header = "Kraken API Order Error";

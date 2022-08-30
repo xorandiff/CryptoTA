@@ -304,6 +304,11 @@ namespace CryptoTA.Pages
             }
         }
 
+        private void CurrencyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
+
         private void StrategySwitchButton_Click(object sender, RoutedEventArgs e)
         {
             if (TradingPairComboBox.SelectedItem is TradingPair)
@@ -311,8 +316,12 @@ namespace CryptoTA.Pages
                 if (strategyData.Inactive)
                 {
                     StrategySwitchButton.IsEnabled = false;
-                    
-                    // Check if API auth is correct before activation
+
+                    if (marketApis.ActiveMarketApi.GetAccountBalance() is null)
+                    {
+                        StrategySwitchButton.IsEnabled = true;
+                        return;
+                    }
 
                     StrategySwitchButton.IsEnabled = true;
                 }

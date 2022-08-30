@@ -4,12 +4,35 @@ using CryptoTA.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace CryptoTA.Pages
 {
+    [ValueConversion(typeof(double), typeof(string))]
+    public class CurrencyConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double currency = (double)value;
+            return currency.ToString("0.########");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string strCurrency = (string)value;
+            double currency;
+            if (double.TryParse(strCurrency, out currency))
+            {
+                return currency;
+            }
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
     public partial class StatisticsPage : Page
     {
         private readonly MarketApis marketApis = new();
@@ -58,16 +81,26 @@ namespace CryptoTA.Pages
                     try
                     {
                         var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync();
-                        var tradingBalance = await marketApis.ActiveMarketApi.GetTradingBalance();
+                        //var tradingBalance = await marketApis.ActiveMarketApi.GetTradingBalance();
 
-                        AccountBalanceItemsControl.ItemsSource = accountBalance.Concat(tradingBalance);
+                        foreach (var balance in accountBalance)
+                        {
+                            var asset = await marketApis.ActiveMarketApi.GetAssetDataAsync(balance.Name!);
+                            if (asset?.Altname is not null)
+                            {
+                                balance.Name = asset.Altname;
+                            }
+                        }
+
+                        AccountBalanceListBox.ItemsSource = accountBalance;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         WarningGroupBox.Visibility = Visibility.Visible;
                         WarningHeader.Text = "Invalid Credentials";
                         WarningText1.Text = "Server rejected your credentials.";
                         WarningText2.Text = "You can change them by choosing Edit -> Accounts from menu.";
+                        MessageBox.Show(ex.Message);
                     }
                     finally
                     {

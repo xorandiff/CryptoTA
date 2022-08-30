@@ -22,19 +22,44 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <GroupBox
-            Header="Market API"
-            Margin="10"
-        >
-            <ComboBox 
-                x:Name="MarketsComboBox"
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <GroupBox
+                Header="Market API"
                 Margin="10"
-                ItemsSource="{Binding Markets}"
-                SelectedItem="{Binding Market}"
-                DisplayMemberPath="Name" 
-                SelectionChanged="MarketsComboBox_SelectionChanged"
-            />
-        </GroupBox>
+            >
+                <ComboBox 
+                    x:Name="MarketsComboBox"
+                    Margin="10"
+                    Padding="5"
+                    ItemsSource="{Binding Markets}"
+                    SelectedItem="{Binding Market}"
+                    DisplayMemberPath="Name" 
+                    SelectionChanged="MarketsComboBox_SelectionChanged"
+                />
+            </GroupBox>
+
+            <GroupBox
+                Header="Target Trading Pair"
+                Margin="10"
+                Grid.Column="1"
+            >
+                <ComboBox
+                    x:Name="TradingPairComboBox"
+                    Margin="10"
+                    Padding="5"
+                    ItemsSource="{Binding TradingPairs}"
+                    SelectedItem="{Binding TradingPair}"
+                    DisplayMemberPath="DisplayName"
+                    SelectionChanged="TradingPairComboBox_SelectionChanged"
+                />
+            </GroupBox>
+        </Grid>
 
         <GroupBox
             Grid.Column="1"
@@ -82,25 +107,13 @@
                 >
                     Sell if gain is at least
                 </Label>
-                <Grid 
+                <TextBox 
                     Grid.Column="1" 
                     IsEnabled="{Binding Strategy.Inactive}"
-                >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBox 
-                        Margin="10, 25"
-                        Padding="5"
-                        Text="{Binding Strategy.MinimalGain}"
-                    />
-                    <ComboBox
-                        Margin="10, 25"
-                        Grid.Column="1"
-                        Padding="5"
-                    />
-                </Grid>
+                    Margin="10, 25"
+                    Padding="5"
+                    Text="{Binding Strategy.MinimalGain}"
+                />
 
                 <Label 
                     Grid.Row="1"
@@ -110,26 +123,14 @@
                 >
                     Sell if loss is at least
                 </Label>
-                <Grid 
+                <TextBox 
                     Grid.Row="1"
                     Grid.Column="1"
                     IsEnabled="{Binding Strategy.Inactive}"
-                >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBox 
-                        Margin="10, 25"
-                        Padding="5"
-                        Text="{Binding Strategy.MaximalLoss}"
-                    />
-                    <ComboBox
-                        Margin="10, 25"
-                        Padding="5"
-                        Grid.Column="1"
-                    />
-                </Grid>
+                    Margin="10, 25"
+                    Padding="5"
+                    Text="{Binding Strategy.MaximalLoss}"
+                />
 
                 <Label 
                     Grid.Row="2"
@@ -156,17 +157,14 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
                 >
-                    Target
+                    Currency
                 </Label>
                 <ComboBox
-                    x:Name="TradingPairComboBox"
+                    x:Name="CurrencyComboBox"
                     Grid.Column="3"
                     Margin="10, 25"
                     Padding="5"
-                    ItemsSource="{Binding TradingPairs}"
-                    SelectedItem="{Binding TradingPair}"
-                    DisplayMemberPath="DisplayName"
-                    SelectionChanged="TradingPairComboBox_SelectionChanged"
+                    SelectionChanged="CurrencyComboBox_SelectionChanged"
                 />
 
                 <Label 

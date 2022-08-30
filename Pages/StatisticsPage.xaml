@@ -12,16 +12,21 @@
       Loaded="Page_Loaded"
 >
     <Page.Resources>
+        <local:CurrencyConverter x:Key="currencyConverter"/>
         <DataTemplate x:Key="AccountBalanceTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Label Content="{Binding Name}"/>
+                <Label 
+                    Content="{Binding Name}"
+                    HorizontalAlignment="Center"
+                />
                 <Label 
                     Grid.Column="1"
-                    Content="{Binding TotalAmount}"
+                    HorizontalAlignment="Left"
+                    Content="{Binding TotalAmount, Converter={StaticResource currencyConverter}}"
                 />
             </Grid>
         </DataTemplate>
@@ -68,7 +73,7 @@
                 You have to provide credentials for this API.
                 </TextBlock>
                 <TextBlock x:Name="WarningText2" FontSize="11">
-                You can add them by choosing from menu Edit -> Accounts.
+                You can add them in account settings.
                 </TextBlock>
             </StackPanel>
         </GroupBox>
@@ -80,8 +85,9 @@
 
         >
             <ItemsControl 
-                x:Name="AccountBalanceItemsControl"
+                x:Name="AccountBalanceListBox"
                 ItemTemplate="{StaticResource AccountBalanceTemplate}" 
+                Margin="20"
             />
         </GroupBox>
         

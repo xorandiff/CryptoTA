@@ -293,5 +293,15 @@ namespace CryptoTA.Apis
         {
             throw new NotImplementedException();
         }
+
+        public Asset GetAssetData(string assetName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Asset> GetAssetDataAsync(string assetName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

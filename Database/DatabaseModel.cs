@@ -11,7 +11,7 @@ namespace CryptoTA.Database
 {
     public class DatabaseModel
     {
-        private MarketApis marketApis;
+        private readonly MarketApis marketApis;
 
         public BackgroundWorker worker;
 

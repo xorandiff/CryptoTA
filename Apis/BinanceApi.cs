@@ -5,7 +5,7 @@ using CryptoTA.Database.Models;
 
 namespace CryptoTA.Apis
 {
-    public class BinanceApi : IMarketApi
+    public class BinanceApi
     {
         private readonly string name = "Binance";
         private readonly uint[] ohlcTimeIntervals = { };
@@ -65,7 +65,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<List<Balance>> GetAccountBalance()
+        public List<Balance> GetAccountBalance()
         {
             throw new NotImplementedException();
         }
@@ -131,11 +131,6 @@ namespace CryptoTA.Apis
         }
 
         public Task<int> SellOrder(OrderType orderType, double amount, double price)
-        {
-            throw new NotImplementedException();
-        }
-
-        List<Balance> IMarketApi.GetAccountBalance()
         {
             throw new NotImplementedException();
         }

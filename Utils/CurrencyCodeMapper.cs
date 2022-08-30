@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CryptoTA.Utils
 {
@@ -20,6 +17,16 @@ namespace CryptoTA.Utils
             }
 
             return SymbolsByCode[code];
+        }
+
+        public static string AttachSymbol(string code, string value)
+        {
+            if (!SymbolsByCode.ContainsKey(code))
+            {
+                return value;
+            }
+
+            return $"{SymbolsByCode[code]} {value}";
         }
 
         static CurrencyCodeMapper()

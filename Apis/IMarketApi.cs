@@ -46,6 +46,18 @@ namespace CryptoTA.Apis
         public Task<List<TradingPair>> GetTradingPairs();
 
         /// <summary>
+        /// Gets market asset data.
+        /// </summary>
+        /// <returns></returns>
+        public Asset GetAssetData(string assetName);
+
+        /// <summary>
+        /// Async version of <c>GetAssetData</c>.
+        /// </summary>
+        /// <returns></returns>
+        public Task<Asset> GetAssetDataAsync(string assetName);
+
+        /// <summary>
         /// Gets OHLC data for given trading pair, start date and time interval. 
         /// Time interval must be one of intervals from property <c>OhlcTimeIntervals</c>.
         /// </summary>

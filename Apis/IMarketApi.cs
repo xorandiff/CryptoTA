@@ -169,5 +169,11 @@ namespace CryptoTA.Apis
         /// </summary>
         /// <returns></returns>
         public Task<WebsocketsToken> GetWebsocketsToken();
+
+        /// <summary>
+        /// Gets list of ledgers.
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Ledger>> GetLedgers();
     }
 }

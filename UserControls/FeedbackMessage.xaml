@@ -13,12 +13,12 @@
     <GroupBox
         Grid.Column="1"
         Margin="20" 
-        BorderBrush="#FF7B0000"
+        BorderBrush="#FFAF4848"
     >
         <GroupBox.Header>
             <TextBlock 
                 Text="{Binding Header}" 
-                Foreground="#FFFF4040"
+                Foreground="#FFFF4343"
             />
         </GroupBox.Header>
         <StackPanel Margin="10">

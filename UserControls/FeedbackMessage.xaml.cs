@@ -59,6 +59,10 @@ namespace CryptoTA.UserControls
                     Header = "Kraken API General Error";
                     Text = "Index pricing is unavailable for stop/profit orders on this pair.";
                     break;
+                case "EGeneral:Unknown method":
+                    Header = "Kraken API General Error";
+                    Text = "API method in request doesn't exist.";
+                    break;
                 case "EService:Unavailable":
                     Header = "Kraken API General Error";
                     Text = "The matching engine or API is offline";

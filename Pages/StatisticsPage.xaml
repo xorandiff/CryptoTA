@@ -13,6 +13,7 @@
 >
     <Page.Resources>
         <local:CurrencyConverter x:Key="currencyConverter"/>
+        <local:SignConverter x:Key="signConverter"/>
         <DataTemplate x:Key="AccountBalanceTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -29,6 +30,93 @@
                     Content="{Binding TotalAmount, Converter={StaticResource currencyConverter}}"
                 />
             </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="TransactionTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label 
+                    Content="{Binding Date}"
+                    HorizontalAlignment="Center"
+                />
+                <Label 
+                    Grid.Column="1"
+                    Content="{Binding Type}"
+                    HorizontalAlignment="Center"
+                />
+                <Label 
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    Content="{Binding Asset}"
+                />
+                <TextBlock 
+                    Grid.Column="3"
+                    x:Name="AmountTextBlock"
+                    HorizontalAlignment="Right"
+                    Text="{Binding Amount}"
+                />
+                <TextBlock 
+                    Grid.Column="4"
+                    x:Name="FeeTextBlock"
+                    HorizontalAlignment="Right"
+                    Text="{Binding Fee}"
+                />
+                <TextBlock 
+                    Grid.Column="5"
+                    x:Name="BalanceTextBlock"
+                    HorizontalAlignment="Right"
+                    Text="{Binding Balance}"
+                />
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger
+                    Binding="{Binding Path=Amount, Converter={StaticResource signConverter}}"
+                    Value="true"
+                >
+                    <Setter 
+                        Property="Foreground" 
+                        TargetName="AmountTextBlock" 
+                        Value="#FF73B973"
+                    />
+                </DataTrigger>
+                <DataTrigger
+                    Binding="{Binding Path=Amount, Converter={StaticResource signConverter}}"
+                    Value="false"
+                >
+                    <Setter 
+                        Property="Foreground" 
+                        TargetName="AmountTextBlock" 
+                        Value="#FFFF7F7F" 
+                    />
+                </DataTrigger>
+
+                <DataTrigger
+                    Binding="{Binding Path=Balance, Converter={StaticResource signConverter}}"
+                    Value="true"
+                >
+                    <Setter 
+                        Property="Foreground" 
+                        TargetName="BalanceTextBlock" 
+                        Value="#FF73B973" 
+                    />
+                </DataTrigger>
+                <DataTrigger
+                    Binding="{Binding Path=Balance, Converter={StaticResource signConverter}}"
+                    Value="false"
+                >
+                    <Setter 
+                        Property="Foreground" 
+                        TargetName="BalanceTextBlock" 
+                        Value="#FFFF7F7F" 
+                    />
+                </DataTrigger>
+            </DataTemplate.Triggers>
         </DataTemplate>
     </Page.Resources>
     <Grid>
@@ -80,7 +168,31 @@
             Header="Transactions"
             Margin="20"
         >
-
+            <StackPanel>
+                <Grid Margin="20,5,20,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="11" Text="Date" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock FontSize="11" Grid.Column="1" Text="Type" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock FontSize="11" Grid.Column="2" Text="Asset" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock FontSize="11" Grid.Column="3" Text="Amount" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    <TextBlock FontSize="11" Grid.Column="4" Text="Fee" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    <TextBlock FontSize="11" Grid.Column="5" Text="Balance" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden" Height="150" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl 
+                        x:Name="TransactionsListBox"
+                        ItemTemplate="{StaticResource TransactionTemplate}" 
+                        Margin="20,0,20,20"
+                    />
+                </ScrollViewer>
+            </StackPanel>
         </GroupBox>
         
         <GroupBox 

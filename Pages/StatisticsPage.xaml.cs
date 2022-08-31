@@ -3,8 +3,10 @@ using CryptoTA.Database;
 using CryptoTA.Database.Models;
 using CryptoTA.Exceptions;
 using CryptoTA.UserControls;
+using CryptoTA.Utils;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
@@ -33,6 +35,39 @@ namespace CryptoTA.Pages
             }
             return DependencyProperty.UnsetValue;
         }
+    }
+
+    [ValueConversion(typeof(string), typeof(bool?))]
+    public class SignConverter : IValueConverter
+    {
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string currency = (string)value;
+            if (currency.Split(" ")[0] == "0")
+            {
+                return null;
+            }
+            return !currency.StartsWith("-");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
+    public class LedgerDisplay
+    {
+        public string MarketLedgerId { get; set; }
+        public string ReferenceId { get; set; }
+        public string Date { get; set; }
+        public string Type { get; set; }
+        public string Subtype { get; set; }
+        public string AssetClass { get; set; }
+        public string Asset { get; set; }
+        public string Amount { get; set; }
+        public string Fee { get; set; }
+        public string Balance { get; set; }
     }
 
     public partial class StatisticsPage : Page
@@ -83,7 +118,9 @@ namespace CryptoTA.Pages
                     try
                     {
                         var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync();
-                        //var tradingBalance = await marketApis.ActiveMarketApi.GetTradingBalance();
+
+                        var ledgersDisplay = new List<LedgerDisplay>();
+                        var ledgers = await marketApis.ActiveMarketApi.GetLedgers();
 
                         foreach (var balance in accountBalance)
                         {
@@ -94,7 +131,39 @@ namespace CryptoTA.Pages
                             }
                         }
 
+                        foreach (var ledger in ledgers)
+                        {
+                            var ledgerDisplay = new LedgerDisplay
+                            {
+                                ReferenceId = ledger.ReferenceId,
+                                Date = ledger.Date.ToString("dd.MM.yyyy"),
+                                Type = ledger.Type.Substring(0, 1).ToUpper() + ledger.Type.Substring(1),
+                                Subtype = ledger.Subtype,
+                                Amount = ledger.Amount.ToString(),
+                                Fee = ledger.Fee.ToString(),
+                                Balance = ledger.Balance.ToString()
+                            };
+
+                            var asset = await marketApis.ActiveMarketApi.GetAssetDataAsync(ledger.Asset);
+                            if (asset?.Altname is not null)
+                            {
+                                ledger.Asset = asset.Altname;
+                                string currencySymbol = CurrencyCodeMapper.GetSymbol(ledger.Asset);
+                                ledgerDisplay.Amount = $"{ledgerDisplay.Amount} {currencySymbol}";
+                                ledgerDisplay.Fee = $"{ledgerDisplay.Fee} {currencySymbol}";
+                                ledgerDisplay.Balance = $"{ledgerDisplay.Balance} {currencySymbol}";
+
+                                if (ledger.Amount > 0)
+                                {
+                                    ledgerDisplay.Amount = "+" + ledgerDisplay.Amount;
+                                }
+                            }
+
+                            ledgersDisplay.Add(ledgerDisplay);
+                        }
+
                         AccountBalanceListBox.ItemsSource = accountBalance;
+                        TransactionsListBox.ItemsSource = ledgersDisplay;
                     }
                     catch (KrakenApiException krakenApiException)
                     {

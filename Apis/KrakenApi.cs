@@ -12,6 +12,8 @@ using Newtonsoft.Json.Linq;
 
 namespace CryptoTA.Apis
 {
+    using UriParams = Dictionary<string, string>;
+
     public class KrakenApi : IMarketApi
     {
         private const string name = "Kraken";
@@ -71,9 +73,80 @@ namespace CryptoTA.Apis
             public int Display_decimals { get; set; }
         }
 
+        public class KrakenTradeData
+        {
+            public string Ordertxid { get; set; }
+            public string Pair { get; set; }
+            public long Time { get; set; }
+            public string Type { get; set; }
+            public string Ordertype { get; set; }
+            public string Price { get; set; }
+            public string Cost { get; set; }
+            public string Fee { get; set; }
+            public string Vol { get; set; }
+            public string Margin { get; set; }
+            public string Misc { get; set; }
+            public string? Posstatus { get; set; }
+            public string? Cprice { get; set; }
+            public string? Ccost { get; set; }
+            public string? Cfee { get; set; }
+            public string? Cvol { get; set; }
+            public string? Cmargin { get; set; }
+            public string? Net { get; set; }
+            public string[]? Trades { get; set; }
+        }
+
+        public class KrakenOrderDescription
+        {
+            public string Pair { get; set; }
+            public string Type { get; set; }
+            public string Ordertype { get; set; }
+            public string Price { get; set; }
+            public string Price2 { get; set; }
+            public string Leverage { get; set; }
+            public string Order { get; set; }
+            public string Close { get; set; }
+        }
+
+        public class KrakenOrderData
+        {
+            public string Refid { get; set; }
+            public string Userref { get; set; }
+            public string Status { get; set; }
+            public long Opentm { get; set; }
+            public long Starttm { get; set; }
+            public long Expiretm { get; set; }
+            public KrakenOrderDescription Descr { get; set; }
+            public string Vol { get; set; }
+            public string Vol_exec { get; set; }
+            public string Cost { get; set; }
+            public string Fee { get; set; }
+            public string Price { get; set; }
+            public string Stopprice { get; set; }
+            public string Limitprice { get; set; }
+            public string Trigger { get; set; }
+            public string Misc { get; set; }
+            public string Oflags { get; set; }
+            public string[]? Trades { get; set; }
+        }
+
+        public class KrakenLedger
+        {
+            public string Refid { get; set; }
+            public long Time { get; set; }
+            public string Type { get; set; }
+            public string Subtype { get; set; }
+            public string Aclass { get; set; }
+            public string Asset { get; set; }
+            public string Amount { get; set; }
+            public string Fee { get; set; }
+            public string Balance { get; set; }
+        }
+
         public KrakenApi()
         {
             using var db = new DatabaseContext();
+
             var dbMarket = db.Markets.Include(market => market.Credentials).Where(market => market.Name == Name).FirstOrDefault();
             if (dbMarket != null && dbMarket.Credentials.FirstOrDefault() is Credentials dbCredentials)
             {
@@ -90,14 +163,32 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<bool> CancelAllOrders()
+        public async Task<bool> CancelAllOrders()
         {
-            throw new NotImplementedException();
+            var resultCount = await api.QueryPrivateEndpointAsync("CancelAll", new string[] { "result", "count" });
+
+            int count;
+
+            if (int.TryParse(resultCount.ToString(), out count))
+            {
+                return count > 0;
+            }
+
+            return false;
         }
 
-        public Task<bool> CancelOrder(int orderId)
+        public async Task<bool> CancelOrder(int transactionIdOrUserRef)
         {
-            throw new NotImplementedException();
+            var resultCount = await api.QueryPrivateEndpointAsync("CancelOrder", new string[] { "result", "count" }, new UriParams { { "txid", transactionIdOrUserRef.ToString() } });
+
+            int count;
+
+            if (int.TryParse(resultCount.ToString(), out count))
+            {
+                return count > 0;
+            }
+
+            return false;
         }
 
         public List<Balance> GetAccountBalance()
@@ -132,14 +223,48 @@ namespace CryptoTA.Apis
             return balance;
         }
 
-        public Task<List<Order>> GetClosedOrders()
+        public async Task<List<Order>> GetClosedOrders()
         {
-            throw new NotImplementedException();
+            var closedOrders = new List<Order>();
+
+            foreach (var orderKvp in await api.QueryPrivateEndpointAsync<KrakenOrderData>("ClosedOrders", new string[] { "result", "closed" }))
+            {
+                if (orderKvp.Value is not KrakenOrderData orderData)
+                {
+                    continue;
+                }
+
+                using var db = new DatabaseContext();
+                var dbTradingPair = db.TradingPairs.Where(tp => tp.Name == orderData.Descr.Pair).First();
+
+                if (dbTradingPair is not TradingPair tradingPair)
+                {
+                    continue;
+                }
+
+                closedOrders.Add(new Order
+                {
+                    MarketOrderId = orderData.Refid,
+                    OrderType = orderData.Descr.Ordertype,
+                    Status = orderData.Status,
+                    Cost = double.Parse(orderData.Cost, CultureInfo.InvariantCulture),
+                    Price = double.Parse(orderData.Price, CultureInfo.InvariantCulture),
+                    Fee = double.Parse(orderData.Fee, CultureInfo.InvariantCulture),
+                    Volume = double.Parse(orderData.Vol, CultureInfo.InvariantCulture),
+                    VolumeExecuted = double.Parse(orderData.Vol_exec, CultureInfo.InvariantCulture),
+                    StartDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    OpenDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    ExpireDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    TradingPairId = tradingPair.TradingPairId
+                });
+            }
+
+            return closedOrders;
         }
 
         public List<Tick> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
         {
-            var queryParams = new Dictionary<string, string>
+            var queryParams = new UriParams
             {
                 { "pair", tradingPair.Name },
                 { "interval", timeInterval.ToString() }
@@ -175,9 +300,45 @@ namespace CryptoTA.Apis
             return ohlcData;
         }
 
-        public Task<List<Order>> GetOpenOrders()
+        public async Task<List<Order>> GetOpenOrders()
         {
-            throw new NotImplementedException();
+            var openOrders = new List<Order>();
+
+            foreach (var orderKvp in await api.QueryPrivateEndpointAsync<KrakenOrderData>("OpenOrders", new string[] { "result", "open" }))
+            {
+                if (orderKvp.Value is not KrakenOrderData orderData)
+                {
+                    continue;
+                }
+
+                using (var db = new DatabaseContext())
+                {
+                    var dbTradingPair = db.TradingPairs.Where(tp => tp.Name == orderData.Descr.Pair).First();
+
+                    if (dbTradingPair is not TradingPair tradingPair)
+                    {
+                        continue;
+                    }
+
+                    openOrders.Add(new Order
+                    {
+                        MarketOrderId = orderData.Refid,
+                        OrderType = orderData.Descr.Ordertype,
+                        Status = orderData.Status,
+                        Cost = double.Parse(orderData.Cost, CultureInfo.InvariantCulture),
+                        Price = double.Parse(orderData.Price, CultureInfo.InvariantCulture),
+                        Fee = double.Parse(orderData.Fee, CultureInfo.InvariantCulture),
+                        Volume = double.Parse(orderData.Vol, CultureInfo.InvariantCulture),
+                        VolumeExecuted = double.Parse(orderData.Vol_exec, CultureInfo.InvariantCulture),
+                        StartDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                        OpenDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                        ExpireDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                        TradingPairId = tradingPair.TradingPairId
+                    });
+                }
+            }
+
+            return openOrders;
         }
 
         public Task<OrderBook> GetOrderBook()
@@ -187,8 +348,10 @@ namespace CryptoTA.Apis
 
         public async Task<Tick?> GetTick(TradingPair tradingPair)
         {
-            Dictionary<string, string> queryParams = new() { { "pair", tradingPair.Name } };
+            UriParams queryParams = new() { { "pair", tradingPair.Name } };
+
             var response = await api.QueryPublicEndpointAsync<KrakenTickerData>("Ticker", new string[] { "result" }, queryParams);
+
             if (response == null)
             {
                 throw new Exception("Error parsing Kraken ticker data");
@@ -227,7 +390,9 @@ namespace CryptoTA.Apis
         {
             var fees = new List<Fees>();
 
-            foreach (var feeKvp in await api.QueryPrivateEndpointAsync<string>("TradeVolume", new string[] { "result", "fees" }, "pair=" + tradingPair.Name))
+            UriParams bodyParams = new() { { "pair", tradingPair.Name } };
+
+            foreach (var feeKvp in await api.QueryPrivateEndpointAsync<string>("TradeVolume", new string[] { "result", "fees" }, bodyParams))
             {
                 fees.Add(new Fees
                 {
@@ -283,7 +448,9 @@ namespace CryptoTA.Apis
         {
             var fees = new List<Fees>();
 
-            foreach (var feeKvp in await api.QueryPrivateEndpointAsync<string>("TradeVolume", new string[] { "result", "fees" }, "pair=" + tradingPair.Name))
+            UriParams bodyParams = new() { { "pair", tradingPair.Name } };
+
+            foreach (var feeKvp in await api.QueryPrivateEndpointAsync<string>("TradeVolume", new string[] { "result", "fees" }, bodyParams))
             {
                 fees.Add(new Fees
                 {
@@ -303,14 +470,38 @@ namespace CryptoTA.Apis
         {
             var trades = new List<Trade>();
 
-            foreach (var tradeKvp in (await api.QueryPrivateEndpointAsync<Trade>("TradesHistory", new string[] { "result", "trades" })).Skip(1))
+            var tradeHistory = await api.QueryPrivateEndpointAsync<KrakenTradeData>("TradesHistory", new string[] { "result", "trades" });
+
+            foreach (var tradeKvp in tradeHistory)
             {
-                var trade = tradeKvp.Value!;
-                trades.Add(new Trade
+                if (tradeKvp.Value is not KrakenTradeData tradeData)
                 {
-                    MarketTradeId = tradeKvp.Key,
-                    Volume = double.Parse(trade.ToString()!, CultureInfo.InvariantCulture)
-                });
+                    continue;
+                }
+
+                using (var db = new DatabaseContext())
+                {
+                    var dbTradingPair = db.TradingPairs.Where(tp => tp.Name == tradeData.Pair).First();
+
+                    if (dbTradingPair is not TradingPair tradingPair)
+                    {
+                        continue;
+                    }
+
+                    trades.Add(new Trade
+                    {
+                        MarketTradeId = tradeKvp.Key,
+                        MarketOrderId = tradeData.Ordertxid,
+                        OrderType = tradeData.Ordertype,
+                        Type = tradeData.Type,
+                        Cost = double.Parse(tradeData.Cost, CultureInfo.InvariantCulture),
+                        Price = double.Parse(tradeData.Price, CultureInfo.InvariantCulture),
+                        Fee = double.Parse(tradeData.Fee, CultureInfo.InvariantCulture),
+                        Volume = double.Parse(tradeData.Vol, CultureInfo.InvariantCulture),
+                        Date = DateTimeUtils.FromTimestamp(tradeData.Time),
+                        TradingPairId = tradingPair.TradingPairId
+                    });
+                }
             }
 
             return trades;
@@ -318,7 +509,7 @@ namespace CryptoTA.Apis
 
         public Asset GetAssetData(string assetName)
         {
-            var queryParams = new Dictionary<string, string> { { "assets", assetName } };
+            var queryParams = new UriParams { { "assets", assetName } };
             var krakenAsset = api.QueryPublicEndpoint<string>("Assets", new string[] { "result", assetName }, queryParams);
 
             if (krakenAsset == null)
@@ -331,7 +522,7 @@ namespace CryptoTA.Apis
 
         public async Task<Asset> GetAssetDataAsync(string assetName)
         {
-            var queryParams = new Dictionary<string, string> { { "assets", assetName } };
+            var queryParams = new UriParams { { "assets", assetName } };
             var krakenAsset = await api.QueryPublicEndpointAsync<string>("Assets", new string[] { "result", assetName }, queryParams);
 
             if (krakenAsset == null)
@@ -340,6 +531,35 @@ namespace CryptoTA.Apis
             }
 
             return new Asset { Name = assetName, Altname = krakenAsset["altname"], Decimals = int.Parse(krakenAsset["decimals"]) };
+        }
+
+        public async Task<List<Ledger>> GetLedgers()
+        {
+            var ledgers = new List<Ledger>();
+
+            foreach (var ledgerKvp in await api.QueryPrivateEndpointAsync<KrakenLedger>("Ledgers", new string[] { "result", "ledger" }))
+            {
+                if (ledgerKvp.Value is not KrakenLedger krakenLedger)
+                {
+                    continue;
+                }
+
+                ledgers.Add(new Ledger
+                {
+                    MarketLedgerId = ledgerKvp.Key,
+                    ReferenceId = krakenLedger.Refid,
+                    Type = krakenLedger.Type,
+                    Subtype = krakenLedger.Subtype,
+                    AssetClass = krakenLedger.Aclass,
+                    Asset = krakenLedger.Asset,
+                    Date = DateTimeUtils.FromTimestamp(krakenLedger.Time),
+                    Amount = double.Parse(krakenLedger.Amount, CultureInfo.InvariantCulture),
+                    Fee = double.Parse(krakenLedger.Fee, CultureInfo.InvariantCulture),
+                    Balance = double.Parse(krakenLedger.Balance, CultureInfo.InvariantCulture)
+                });
+            }
+
+            return ledgers;
         }
     }
 }

@@ -18,6 +18,7 @@ namespace CryptoTA.Database.Models
 
         [Required]
         public string MarketOrderId { get; set; }
+        public string OrderType { get; set; }
 
         public double Cost { get; set; }
 

@@ -97,12 +97,12 @@ namespace CryptoTA.Pages
             if (movingAveragesCountRatio >= 0.8)
             {
                 MovingAveragesResultTextBlock.Text = "Strong Buy";
-                MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(115, 185, 115));
             }
             else if (movingAveragesCountRatio >= 0.6)
             {
                 MovingAveragesResultTextBlock.Text = "Buy";
-                MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(132, 255, 132));
+                MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(159, 200, 159));
             }
             else if (movingAveragesCountRatio >= 0.4)
             {
@@ -112,12 +112,12 @@ namespace CryptoTA.Pages
             else if (movingAveragesCountRatio >= 0.25)
             {
                 MovingAveragesResultTextBlock.Text = "Sell";
-                MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(255, 132, 132));
+                MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(222, 168, 168));
             }
             else
             {
                 MovingAveragesResultTextBlock.Text = "Strong Sell";
-                MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                MovingAveragesResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(255, 127, 127));
             }
 
             MovingAveragesBuyCountTextBlock.Text = buyCount.ToString();
@@ -137,12 +137,12 @@ namespace CryptoTA.Pages
             if (oscillatorsCountRatio >= 0.8)
             {
                 OscillatorsResultTextBlock.Text = "Strong Buy";
-                OscillatorsResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                OscillatorsResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(115, 185, 115));
             }
             else if (oscillatorsCountRatio >= 0.6)
             {
                 OscillatorsResultTextBlock.Text = "Buy";
-                OscillatorsResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(132, 255, 132));
+                OscillatorsResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(159, 200, 159));
             }
             else if (oscillatorsCountRatio >= 0.4)
             {
@@ -152,12 +152,12 @@ namespace CryptoTA.Pages
             else if (oscillatorsCountRatio >= 0.25)
             {
                 OscillatorsResultTextBlock.Text = "Sell";
-                OscillatorsResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(255, 132, 132));
+                OscillatorsResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(222, 168, 168));
             }
             else
             {
                 OscillatorsResultTextBlock.Text = "Strong Sell";
-                OscillatorsResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                OscillatorsResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(255, 127, 127));
             }
 
             OscillatorsBuyCountTextBlock.Text = oBuyCount.ToString();
@@ -175,12 +175,12 @@ namespace CryptoTA.Pages
             if (overallRatio >= 0.8)
             {
                 OverallResultTextBlock.Text = "Strong Buy";
-                OverallResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                OverallResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(115, 185, 115));
             }
             else if (overallRatio >= 0.6)
             {
                 OverallResultTextBlock.Text = "Buy";
-                OverallResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(132, 255, 132));
+                OverallResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(159, 200, 159));
             }
             else if (overallRatio >= 0.4)
             {
@@ -190,12 +190,12 @@ namespace CryptoTA.Pages
             else if (overallRatio >= 0.25)
             {
                 OverallResultTextBlock.Text = "Sell";
-                OverallResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(255, 132, 132));
+                OverallResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(222, 168, 168));
             }
             else
             {
                 OverallResultTextBlock.Text = "Strong Sell";
-                OverallResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                OverallResultTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(255, 127, 127));
             }
 
             OverallBuyCountTextBlock.Text = tBuy.ToString();

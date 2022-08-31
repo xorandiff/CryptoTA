@@ -303,5 +303,10 @@ namespace CryptoTA.Apis
         {
             throw new NotImplementedException();
         }
+
+        public Task<List<Ledger>> GetLedgers()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

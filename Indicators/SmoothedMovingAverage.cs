@@ -1,12 +1,12 @@
 ﻿using CryptoTA.Database.Models;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
 namespace CryptoTA.Indicators
 {
-    public class ExponentialMovingAverage : IIndicator
+    public class SmoothedMovingAverage : IIndicator
     {
-        public string Name => "Exponential Moving Average (EMA)";
+        public string Name => "Smoothed Moving Average (SMMA)";
 
         public string Description => "";
 
@@ -19,18 +19,18 @@ namespace CryptoTA.Indicators
 
             for (int i = 0; i < ticksCount; i++)
             {
-                var pow = Math.Pow(2d / (i + 2), i);
+                var pow = Math.Pow(1 - 1d / (i + 1), i);
                 nominator += ticks[i].Close * pow;
                 denominator += pow;
             }
 
-            var ema = nominator / denominator;
+            var smma = nominator / denominator;
 
             return new IndicatorResult
             {
                 Name = $"{Name} ({ticks.Count})",
-                Value = ema,
-                ShouldBuy = currentTick.Close != ema ? (ema < currentTick.Close) : null
+                Value = smma,
+                ShouldBuy = currentTick.Close != smma ? (smma < currentTick.Close) : null
             };
         }
     }

@@ -1,9 +1,5 @@
 ﻿using CryptoTA.Database.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CryptoTA.Indicators
 {
@@ -11,6 +7,6 @@ namespace CryptoTA.Indicators
     {
         public string Name { get; }
         public string Description { get; }
-        public double Run(List<Tick> ticks);
+        public IndicatorResult Run(List<Tick> ticks, Tick currentTick);
     }
 }

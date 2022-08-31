@@ -12,7 +12,7 @@
       Loaded="Page_Loaded"
 >
     <Page.Resources>
-        <DataTemplate x:Key="MovingAverageTemplate">
+        <DataTemplate x:Key="IndicatorResultTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
@@ -31,15 +31,17 @@
                     Margin="10,0,0,0" 
                     x:Name="ShouldBuyLabel" 
                     VerticalAlignment="Center"
+                    Text="Neutral"
+                    Foreground="#FFB1B1B1"
                 />
             </Grid>
             <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding ShouldBuy}" Value="True">
-                    <Setter Property="Text" TargetName="ShouldBuyLabel" Value="BUY" />
+                <DataTrigger Binding="{Binding ShouldBuy}" Value="true">
+                    <Setter Property="Text" TargetName="ShouldBuyLabel" Value="Buy" />
                     <Setter Property="Foreground" TargetName="ShouldBuyLabel" Value="#FF1AC51A" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding ShouldBuy}" Value="False">
-                    <Setter Property="Text" TargetName="ShouldBuyLabel" Value="SELL" />
+                <DataTrigger Binding="{Binding ShouldBuy}" Value="false">
+                    <Setter Property="Text" TargetName="ShouldBuyLabel" Value="Sell" />
                     <Setter Property="Foreground" TargetName="ShouldBuyLabel" Value="#FFFF4141" />
                 </DataTrigger>
             </DataTemplate.Triggers>
@@ -47,6 +49,7 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -56,33 +59,63 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
             <GroupBox 
-                Header="Market" 
-                Margin="20"
+                Header="Currency" 
+                Margin="20,20,20,5"
             >
-                <TextBlock x:Name="MarketTextBlock" Text="{Binding Market.Name}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                >
+                    <Run 
+                        x:Name="MarketTextBlock" 
+                    />
+                    
+                    <Run 
+                        x:Name="PriceTextBlock" 
+                    />
+                </TextBlock>
             </GroupBox>
-            
-            <GroupBox 
-                Grid.Column="1"
-                Header="Trading pair" 
-                Margin="20"
-            >
-                <TextBlock x:Name="TradingPairTextBlock" Text="{Binding TradingPair.DisplayName}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </GroupBox>
+        </Grid>
 
+        <Grid Grid.Column="1">
+            <GroupBox Header="Overall" Margin="20,20,20,5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="OverallResultTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Grid.ColumnSpan="3" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                        <Label Content="Buy:" VerticalAlignment="Center" FontSize="10" />
+                        <TextBlock x:Name="OverallBuyCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FF1AC51A" FontSize="10" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                        <Label Content="Neutral:" VerticalAlignment="Center" FontSize="10" />
+                        <TextBlock x:Name="OverallNeutralCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FFB1B1B1" FontSize="10" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                        <Label Content="Sell:" VerticalAlignment="Center" FontSize="10" />
+                        <TextBlock x:Name="OverallSellCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FFFF4141" FontSize="10" />
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="1">
             <GroupBox 
                 Grid.Column="2"
                 Header="Interval" 
-                Margin="20"
+                Margin="20,5,20,5"
             >
                 <ComboBox 
                     x:Name="TimeIntervalComboBox"
+                    Margin="10"
                     ItemsSource="{Binding TimeIntervals}"
                     SelectedItem="{Binding TimeInterval}"
                     DisplayMemberPath="Name"
@@ -91,12 +124,15 @@
             </GroupBox>
         </Grid>
 
-        <Grid Grid.Column="1">
+        <Grid 
+            Grid.Row="1"
+            Grid.Column="1"
+        >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <GroupBox Header="Oscillators" Margin="20,20,5,5">
+            <GroupBox Header="Oscillators" Margin="20,5,5,5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
@@ -105,20 +141,25 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Strong buy" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Grid.ColumnSpan="2" />
+                    <TextBlock x:Name="OscillatorsResultTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Grid.ColumnSpan="3" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
-                        <Label Content="Buy:" VerticalAlignment="Center" />
-                        <TextBlock x:Name="OscillatorsBuyCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FF1AC51A" />
+                        <Label Content="Buy:" VerticalAlignment="Center" FontSize="10" />
+                        <TextBlock x:Name="OscillatorsBuyCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FF1AC51A" FontSize="10" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
-                        <Label Content="Sell:" VerticalAlignment="Center" />
-                        <TextBlock x:Name="OscillatorsSellCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FFFF4141" />
+                        <Label Content="Neutral:" VerticalAlignment="Center" FontSize="10" />
+                        <TextBlock x:Name="OscillatorsNeutralCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FFB1B1B1" FontSize="10" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                        <Label Content="Sell:" VerticalAlignment="Center" FontSize="10" />
+                        <TextBlock x:Name="OscillatorsSellCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FFFF4141" FontSize="10" />
                     </StackPanel>
                 </Grid>
             </GroupBox>
 
-            <GroupBox Header="Moving Averages" Grid.Column="1" Margin="5,20,20,5">
+            <GroupBox Header="Moving Averages" Grid.Column="1" Margin="5,5,20,5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
@@ -127,37 +168,45 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="MovingAveragesResultTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Grid.ColumnSpan="2" />
+                    <TextBlock x:Name="MovingAveragesResultTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Grid.ColumnSpan="3" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
-                        <Label Content="Buy:" VerticalAlignment="Center" />
-                        <TextBlock x:Name="MovingAveragesBuyCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FF1AC51A" />
+                        <Label Content="Buy:" VerticalAlignment="Center" FontSize="10" />
+                        <TextBlock x:Name="MovingAveragesBuyCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FF1AC51A" FontSize="10" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
-                        <Label Content="Sell:" VerticalAlignment="Center" />
-                        <TextBlock x:Name="MovingAveragesSellCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FFFF4141"  />
+                        <Label Content="Neutral:" VerticalAlignment="Center" FontSize="10" />
+                        <TextBlock x:Name="MovingAveragesNeutralCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FFB1B1B1" FontSize="10" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                        <Label Content="Sell:" VerticalAlignment="Center" FontSize="10" />
+                        <TextBlock x:Name="MovingAveragesSellCountTextBlock" Text="0" VerticalAlignment="Center" Foreground="#FFFF4141" FontSize="10" />
                     </StackPanel>
                 </Grid>
             </GroupBox>
         </Grid>
 
         <GroupBox 
-            Grid.Row="1" 
+            Grid.Row="2" 
             Header="Oscillators" 
-            Margin="20"
+            Margin="20,5,20,20"
         >
-
+            <ItemsControl 
+                x:Name="OscillatorsItemsControl"
+                ItemTemplate="{StaticResource IndicatorResultTemplate}" 
+            />
         </GroupBox>
 
         <GroupBox 
-            Grid.Row="1" 
+            Grid.Row="2" 
             Grid.Column="1" 
             Header="Moving Averages" 
-            Margin="20"
+            Margin="20,5,20,20"
         >
             <ItemsControl 
                 x:Name="MovingAveragesItemsControl"
-                ItemTemplate="{StaticResource MovingAverageTemplate}" 
+                ItemTemplate="{StaticResource IndicatorResultTemplate}" 
             />
         </GroupBox>
     </Grid>

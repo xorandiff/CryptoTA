@@ -1,5 +1,6 @@
 ﻿using CryptoTA.Database.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CryptoTA.Indicators
 {
@@ -9,16 +10,16 @@ namespace CryptoTA.Indicators
 
         public string Description => "";
 
-        public double Run(List<Tick> ticks)
+        public IndicatorResult Run(List<Tick> ticks, Tick currentTick)
         {
-            double result = 0;
+            double sma = ticks.Average(t => t.Close);
 
-            foreach (var tick in ticks)
+            return new IndicatorResult
             {
-                result += tick.Close;
-            }
-
-            return ticks.Count > 0 ? result / ticks.Count : 0;
+                Name = $"{Name} ({ticks.Count})",
+                Value = sma,
+                ShouldBuy = currentTick.Close != sma ? (sma < currentTick.Close) : null
+            };
         }
     }
 }

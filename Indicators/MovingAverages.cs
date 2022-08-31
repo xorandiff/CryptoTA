@@ -1,5 +1,5 @@
-﻿using CryptoTA.Database.Models;
-using System;
+﻿using CryptoTA.Database;
+using CryptoTA.Database.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,31 +17,20 @@ namespace CryptoTA.Indicators
             };
         }
 
-        public List<IndicatorResult> Run(List<Tick> ticks, uint secondsInterval)
+        public List<IndicatorResult> Run(List<Tick> ticks, uint secondsInterval, Tick currentTick)
         {
             List<IndicatorResult> result = new();
 
             if (ticks.Any())
             {
-                var currentPrice = ticks.First().Close;
-                var measurements = new List<uint>() { 10, 20, 30, 50, 100, 200 };
+                var measurements = new List<int>() { 10, 20, 30, 50, 100, 200 };
+                var tickPeriods = DatabaseModel.GetTickPeriods(ticks, secondsInterval, 200);
 
                 foreach (var measurement in measurements)
                 {
-                    var pDate = DateTime.Now.AddSeconds(-measurement * secondsInterval);
-                    var pTicks = ticks.SkipWhile(t => t.Date < pDate).ToList();
-
                     foreach (var movingAverage in movingAverages)
                     {
-                        var indicatorValue = movingAverage.Run(pTicks);
-                        var indicatorResult = new IndicatorResult()
-                        {
-                            Name = $"{movingAverage.Name} ({measurement})",
-                            Value = indicatorValue,
-                            ShouldBuy = indicatorValue < currentPrice
-                        };
-
-                        result.Add(indicatorResult);
+                        result.Add(movingAverage.Run(tickPeriods.TakeLast(measurement).ToList(), currentTick));
                     }
                 }
             }

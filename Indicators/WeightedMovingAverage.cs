@@ -9,7 +9,7 @@ namespace CryptoTA.Indicators
 
         public string Description => "";
 
-        public double Run(List<Tick> ticks)
+        public IndicatorResult Run(List<Tick> ticks, Tick currentTick)
         {
             double nominator = 0;
             double denominator = 0;
@@ -20,7 +20,14 @@ namespace CryptoTA.Indicators
                 denominator += i + 1;
             }
 
-            return nominator / denominator;
+            var wma = nominator / denominator;
+
+            return new IndicatorResult
+            {
+                Name = $"{Name} ({ticks.Count})",
+                Value = wma,
+                ShouldBuy = currentTick.Close != wma ? (wma < currentTick.Close) : null
+            };
         }
     }
 }

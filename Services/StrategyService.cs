@@ -107,13 +107,14 @@ namespace CryptoTA.Services
                                 var startDate = DateTime.Now.AddSeconds(-marketApi.OhlcMaxDensityTimeInterval * intervalMultiplier);
 
                                 var ticks = databaseModel.GetTicksBlocking(tradingPair.TradingPairId, startDate, marketApi.RequestMaxTickCount);
-                                var movingAveragesResult = movingAverages.Run(ticks, secondsIndicatorInterval);
+                                var movingAveragesResult = movingAverages.Run(ticks, secondsIndicatorInterval, new Tick());
 
                                 if (movingAveragesResult != null)
                                 {
-                                    var movingAveragesBuyCount = movingAveragesResult.Where(ir => ir.ShouldBuy).Count();
-                                    var movingAveragesSellCount = movingAveragesResult.Where(ir => !ir.ShouldBuy).Count();
-                                    double movingAveragesCountRatio = movingAveragesBuyCount / (movingAveragesBuyCount + movingAveragesSellCount);
+                                    var maBuyCount = movingAveragesResult.Where(ir => ir.ShouldBuy == true).Count();
+                                    var maSellCount = movingAveragesResult.Where(ir => ir.ShouldBuy == false).Count();
+                                    var maNeutralCount = movingAveragesResult.Where(ir => ir.ShouldBuy == null).Count();
+                                    double movingAveragesCountRatio = maBuyCount * 1d / (maBuyCount + maSellCount + maSellCount);
 
                                     if (movingAveragesCountRatio >= 0.8)
                                     {

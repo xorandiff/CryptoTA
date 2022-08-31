@@ -1,6 +1,8 @@
 ﻿using CryptoTA.Apis;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
+using CryptoTA.Exceptions;
+using CryptoTA.UserControls;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
@@ -242,6 +244,7 @@ namespace CryptoTA.Pages
             {
                 if (Market.Credentials.Any())
                 {
+                    FeedbackMessageContentControl.Content = null;
                     strategyData.FormVisibility = Visibility.Visible;
                     if (!marketApis.setActiveApiByName(Market.Name))
                     {
@@ -258,6 +261,7 @@ namespace CryptoTA.Pages
                 else
                 {
                     strategyData.FormVisibility = Visibility.Hidden;
+                    FeedbackMessageContentControl.Content = new FeedbackMessage(MessageType.CredentialsMissing);
                 }
             }
         }
@@ -317,10 +321,17 @@ namespace CryptoTA.Pages
                 {
                     StrategySwitchButton.IsEnabled = false;
 
-                    if (marketApis.ActiveMarketApi.GetAccountBalance() is null)
+                    try
+                    {
+                        _ = marketApis.ActiveMarketApi.GetAccountBalance();
+                    }
+                    catch (KrakenApiException krakenApiException)
+                    {
+                        FeedbackMessageContentControl.Content = new FeedbackMessage(krakenApiException.Message);
+                    }
+                    finally
                     {
                         StrategySwitchButton.IsEnabled = true;
-                        return;
                     }
 
                     StrategySwitchButton.IsEnabled = true;

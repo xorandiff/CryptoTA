@@ -185,7 +185,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<OrderBook> GetOrderBook()
+        public Task<OrderBook> GetOrderBook(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }

@@ -194,9 +194,7 @@ namespace CryptoTA.Apis
         {
             var resultCount = await api.QueryPrivateEndpointAsync("CancelAll", new string[] { "result", "count" });
 
-            int count;
-
-            if (int.TryParse(resultCount.ToString(), out count))
+            if (int.TryParse(resultCount.ToString(), out int count))
             {
                 return count > 0;
             }
@@ -208,9 +206,7 @@ namespace CryptoTA.Apis
         {
             var resultCount = await api.QueryPrivateEndpointAsync("CancelOrder", new string[] { "result", "count" }, new UriParams { { "txid", transactionIdOrUserRef.ToString() } });
 
-            int count;
-
-            if (int.TryParse(resultCount.ToString(), out count))
+            if (int.TryParse(resultCount.ToString(), out int count))
             {
                 return count > 0;
             }
@@ -456,9 +452,44 @@ namespace CryptoTA.Apis
             return openOrders;
         }
 
-        public Task<OrderBook> GetOrderBook()
+        public async Task<OrderBook> GetOrderBook(TradingPair tradingPair)
         {
-            throw new NotImplementedException();
+            UriParams queryParams = new() { { "pair", tradingPair.Name } };
+
+            var response = await api.QueryPublicEndpointAsync<JArray>("Depth", new string[] { "result", tradingPair.Name }, queryParams);
+
+            if (response is null || response["asks"] is not JArray asks || response["bid"] is not JArray bids)
+            {
+                throw new Exception("Error parsing Kraken ticker data");
+            }
+
+            var orderBook = new OrderBook
+            {
+                Asks = new List<OrderBookEntry>(),
+                Bids = new List<OrderBookEntry>()
+            };
+
+            foreach (var ask in asks)
+            {
+                orderBook.Asks.Add(new OrderBookEntry
+                {
+                    Price = double.Parse(ask[0]!.ToString(), CultureInfo.InvariantCulture),
+                    Volume = double.Parse(ask[1]!.ToString(), CultureInfo.InvariantCulture),
+                    Date = DateTimeUtils.FromTimestamp((long)ask[2]!)
+                });
+            }
+
+            foreach (var bid in bids)
+            {
+                orderBook.Bids.Add(new OrderBookEntry
+                {
+                    Price = double.Parse(bid[0]!.ToString(), CultureInfo.InvariantCulture),
+                    Volume = double.Parse(bid[1]!.ToString(), CultureInfo.InvariantCulture),
+                    Date = DateTimeUtils.FromTimestamp((long)bid[2]!)
+                });
+            }
+
+            return orderBook;
         }
 
         public Tick? GetTick(TradingPair tradingPair)
@@ -559,9 +590,20 @@ namespace CryptoTA.Apis
             return tradingPairs;
         }
 
-        public Task<WebsocketsToken> GetWebsocketsToken()
+        public async Task<WebsocketsToken> GetWebsocketsToken()
         {
-            throw new NotImplementedException();
+            var result = await api.QueryPrivateEndpointAsync<JValue>("GetWebSocketsToken", new string[] { "result" });
+
+            if (result is null || result["token"] is null || result["expires"] is null)
+            {
+                throw new Exception("Error during processing response from Kraken API.");
+            }
+
+            return new WebsocketsToken
+            {
+                Token = result["token"].ToString(),
+                ExpirationDate = DateTimeUtils.FromTimestamp((long)result["expires"])
+            };
         }
 
         public async Task<List<Fees>> GetWithdrawalFees(TradingPair tradingPair)

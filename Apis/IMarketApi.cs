@@ -138,10 +138,11 @@ namespace CryptoTA.Apis
         public Task<List<Balance>> GetTradingBalance();
 
         /// <summary>
-        /// Gets order book of asks/bids.
+        /// Gets order book of asks/bids for given trading pair.
         /// </summary>
+        /// <param name="tradingPair"></param>
         /// <returns></returns>
-        public Task<OrderBook> GetOrderBook();
+        public Task<OrderBook> GetOrderBook(TradingPair tradingPair);
 
         /// <summary>
         /// Creates buy order with given type and amount (volume) and optional price.

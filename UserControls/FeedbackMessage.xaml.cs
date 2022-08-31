@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using CryptoTA.Exceptions;
+using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace CryptoTA.UserControls
@@ -6,7 +8,7 @@ namespace CryptoTA.UserControls
     public enum MessageType
     {
         CredentialsMissing,
-        CredentialsInvalid
+        StrategyNoFunds
     }
 
     public partial class FeedbackMessage : UserControl
@@ -36,6 +38,10 @@ namespace CryptoTA.UserControls
                 case MessageType.CredentialsMissing: 
                     Header = "Credentials Missing";
                     Text = "You have to provide credentials for this API.\nYou can add them in account settings.";
+                    break;
+                case MessageType.StrategyNoFunds:
+                    Header = "Funds missing";
+                    Text = "You have no funds in neither of current trading pair's assets.\nDeposit funds before activating strategy for chosen trading pair.";
                     break;
                 default:
                     Header = "Unknown Error";

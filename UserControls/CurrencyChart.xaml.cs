@@ -292,7 +292,7 @@ namespace CryptoTA.UserControls
                 {
                     if (TradingPairComboBox.SelectedItem is TradingPair tradingPair)
                     {
-                        if (await marketApis.ActiveMarketApi.GetTick(tradingPair) is not Tick tick)
+                        if (await marketApis.ActiveMarketApi.GetTickAsync(tradingPair) is not Tick tick)
                         {
                             continue;
                         }

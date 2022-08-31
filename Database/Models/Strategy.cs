@@ -23,17 +23,24 @@ namespace CryptoTA.Database.Models
         public double BuyPercentages { get; set; }
 
         [Required]
-        public uint BuyIndicatorCategory { get; set; }
-
-        [Required]
         public bool AskBeforeTrade { get; set; }
 
         [Required]
         public bool Active { get; set; }
 
+        [ForeignKey("StrategyCategory"), Required]
+        public int StrategyCategoryId { get; set; }
+
         [ForeignKey("TradingPair"), Required]
         public int TradingPairId { get; set; }
 
-        public virtual TradingPair TradingPair { get; set; }
+        [ForeignKey("Orders")]
+        public int? OrderId { get; set; }
+
+        public virtual StrategyCategory? StrategyCategory { get; set; }
+
+        public virtual TradingPair? TradingPair { get; set; }
+
+        public virtual Order? Order { get; set; }
     }
 }

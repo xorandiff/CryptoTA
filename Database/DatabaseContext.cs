@@ -20,6 +20,7 @@ namespace CryptoTA.Database
         public DbSet<TimeInterval> TimeIntervals => Set<TimeInterval>();
         public DbSet<Strategy> Strategies => Set<Strategy>();
         public DbSet<StrategyCategory> StrategyCategories => Set<StrategyCategory>();
+        public DbSet<Order> Orders => Set<Order>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,14 +32,14 @@ namespace CryptoTA.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StrategyCategory>().HasData(
+            _ = modelBuilder.Entity<StrategyCategory>().HasData(
                 new() { StrategyCategoryId = 1, Name = "Rapid (less than an hour)" },
                 new() { StrategyCategoryId = 2, Name = "Short (less than a day)" },
                 new() { StrategyCategoryId = 3, Name = "Medium (less than 3 days)" },
                 new() { StrategyCategoryId = 4, Name = "Long (less than a week)" }
             );
 
-            modelBuilder.Entity<TimeInterval>().HasData(
+            _ = modelBuilder.Entity<TimeInterval>().HasData(
                 new() { TimeIntervalId = 1, Name = "1 day", Seconds = 86400, IsIndicatorInterval = false },
                 new() { TimeIntervalId = 2, Name = "3 days", Seconds = 86400 * 3, IsIndicatorInterval = false },
                 new() { TimeIntervalId = 3, Name = "1 week", Seconds = 86400 * 7, IsIndicatorInterval = false },

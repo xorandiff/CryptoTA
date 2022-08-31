@@ -3,6 +3,7 @@ using System.Windows;
 using CryptoTA.Database;
 using CryptoTA.UserControls;
 using CryptoTA.Pages;
+using CryptoTA.Services;
 
 namespace CryptoTA
 {
@@ -18,6 +19,7 @@ namespace CryptoTA
         private readonly IndicatorsPage indicatorsPage;
         private readonly StatisticsPage statisticsPage;
         private readonly StrategySettingsPage strategySettingsPage;
+        private readonly StrategyService strategyService;
 
         public MainWindow()
         {
@@ -32,17 +34,21 @@ namespace CryptoTA
             indicatorsPage = new(databaseModel);
             statisticsPage = new();
             strategySettingsPage = new();
+            strategyService = new();
 
             // Subscribe StatusBar to BackgroundWorker events before loading
+            strategyService.worker.ProgressChanged += statusBarControl.Worker_ProgressChanged;
             databaseModel.worker.ProgressChanged += statusBarControl.Worker_ProgressChanged;
             databaseModel.worker.RunWorkerCompleted += statusBarControl.Worker_RunWorkerCompleted;
 
             ChartGrid.Children.Add(currencyChart);
-            BottomStackPanel.Children.Add(statusBarControl);
+            _ = BottomStackPanel.Children.Add(statusBarControl);
 
             IndicatorsPageFrame.Content = indicatorsPage;
             StatisticsPageFrame.Content = statisticsPage;
             StrategySettingsPageFrame.Content = strategySettingsPage;
+
+            strategyService.Run();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

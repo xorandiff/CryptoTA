@@ -72,14 +72,28 @@ namespace CryptoTA.Apis
         /// </summary>
         /// <param name="tradingPair">One of available trading pairs.</param>
         /// <returns></returns>
-        public Task<Tick?> GetTick(TradingPair tradingPair);
+        public Tick? GetTick(TradingPair tradingPair);
+
+        /// <summary>
+        /// Async version of <c>GetTick</c>.
+        /// </summary>
+        /// <param name="tradingPair">One of available trading pairs.</param>
+        /// <returns></returns>
+        public Task<Tick?> GetTickAsync(TradingPair tradingPair);
 
         /// <summary>
         /// Gets market trading fees for given trading pair.
         /// </summary>
         /// <param name="tradingPair">One of available trading pairs.</param>
         /// <returns></returns>
-        public Task<List<Fees>> GetTradingFees(TradingPair tradingPair);
+        public List<Fees> GetTradingFees(TradingPair tradingPair);
+
+        /// <summary>
+        /// Async version of <c>GetTradingFees</c>.
+        /// </summary>
+        /// <param name="tradingPair">One of available trading pairs.</param>
+        /// <returns></returns>
+        public Task<List<Fees>> GetTradingFeesAsync(TradingPair tradingPair);
 
         /// <summary>
         /// Gets withdrawal fees for given trading pair.
@@ -89,17 +103,32 @@ namespace CryptoTA.Apis
         public Task<List<Fees>> GetWithdrawalFees(TradingPair tradingPair);
 
         /// <summary>
-        /// Gets account balance as an array of currency-amount <c>Balance</c> 
+        /// Gets account balance as a list of currency-amount <c>Balance</c> 
         /// objects.
         /// </summary>
         /// <returns></returns>
         public List<Balance> GetAccountBalance();
 
         /// <summary>
+        /// Gets subset account balance assets as a list of currency-amount 
+        /// <c>Balance</c> objects which matches with given trading pair.
+        /// </summary>
+        /// <param name="tradingPair"></param>
+        /// <returns></returns>
+        public List<Balance> GetAccountBalance(TradingPair tradingPair);
+
+        /// <summary>
         /// Async version of <c>GetAccountBalance</c>
         /// </summary>
         /// <returns></returns>
         public Task<List<Balance>> GetAccountBalanceAsync();
+
+        /// <summary>
+        /// Async version of <c>GetAccountBalance</c>
+        /// </summary>
+        /// <param name="tradingPair"></param>
+        /// <returns></returns>
+        public Task<List<Balance>> GetAccountBalanceAsync(TradingPair tradingPair);
 
         /// <summary>
         /// Gets market trading balance as a enumerable of currency-amount <c>Balance</c> 
@@ -117,11 +146,20 @@ namespace CryptoTA.Apis
         /// <summary>
         /// Creates buy order with given type and amount (volume) and optional price.
         /// </summary>
+        /// <param name="tradingPair"></param>
         /// <param name="orderType"></param>
         /// <param name="amount"></param>
-        /// <param name="price">Used in orders of type <c>OrderType.Limit</c></param>
         /// <returns>ID of created order.</returns>
-        public Task<int> BuyOrder(OrderType orderType, double amount, double price = 0);
+        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount);
+
+        /// <summary>
+        /// Async version of <c>BuyOrder</c>.
+        /// </summary>
+        /// <param name="tradingPair"></param>
+        /// <param name="orderType"></param>
+        /// <param name="amount"></param>
+        /// <returns>ID of created order.</returns>
+        public Task<string> BuyOrderAsync(TradingPair tradingPair, OrderType orderType, double amount);
 
         /// <summary>
         /// Creates sell order with given type and amount (volume) and optional price.
@@ -130,7 +168,16 @@ namespace CryptoTA.Apis
         /// <param name="amount"></param>
         /// <param name="price">Used in orders of type <c>OrderType.Limit</c></param>
         /// <returns>ID of created order.</returns>
-        public Task<int> SellOrder(OrderType orderType, double amount, double price = 0);
+        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount);
+
+        /// <summary>
+        /// Async version of <c>SellOrder</c>.
+        /// </summary>
+        /// <param name="orderType"></param>
+        /// <param name="amount"></param>
+        /// <param name="price">Used in orders of type <c>OrderType.Limit</c></param>
+        /// <returns>ID of created order.</returns>
+        public Task<string> SellOrderAsync(TradingPair tradingPair, OrderType orderType, double amount);
 
         /// <summary>
         /// Cancells order of given ID.

@@ -5,9 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
+using CryptoTA.Exceptions;
 using CryptoTA.Services;
 using CryptoTA.Utils;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace CryptoTA.Apis
@@ -143,6 +145,36 @@ namespace CryptoTA.Apis
             public string Balance { get; set; }
         }
 
+        public class KrakenOrderResultDescription
+        {
+            public string Order { get; set; }
+            public string Close { get; set; }
+        }
+
+        public class KrakenOrderResult
+        {
+            public KrakenOrderResultDescription Descr { get; set; }
+            public string[] Txid { get; set; }
+        }
+
+        public class KrakenFeesData
+        {
+            public string Fee { get; set; }
+            public string Min_fee { get; set; }
+            public string Max_fee { get; set; }
+            public string Next_fee { get; set; }
+            public string Tier_volume { get; set; }
+            public string Next_volume { get; set; }
+        }
+
+        public class KrakenTradingFeesResult
+        {
+            public string Currency { get; set; }
+            public string Volume { get; set; }
+            public Dictionary<string, KrakenFeesData> Fees { get; set; }
+            public Dictionary<string, KrakenFeesData> Fees_maker { get; set; }
+        }
+
         public KrakenApi()
         {
             using var db = new DatabaseContext();
@@ -156,11 +188,6 @@ namespace CryptoTA.Apis
             {
                 api = new();
             }
-        }
-
-        public Task<int> BuyOrder(OrderType orderType, double amount, double price)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<bool> CancelAllOrders()
@@ -193,34 +220,122 @@ namespace CryptoTA.Apis
 
         public List<Balance> GetAccountBalance()
         {
-            var balance = new List<Balance>();
+            var accountBalance = new List<Balance>();
 
             foreach (var balanceKvp in api.QueryPrivateEndpoint<string>("Balance", new string[] { "result" }))
             {
-                balance.Add(new Balance
+                accountBalance.Add(new Balance
                 {
                     Name = balanceKvp.Key,
                     TotalAmount = double.Parse(balanceKvp.Value.ToString(), CultureInfo.InvariantCulture)
                 });
             }
 
-            return balance;
+            return accountBalance;
+        }
+
+        public List<Balance> GetAccountBalance(TradingPair tradingPair)
+        {
+            string? baseAltName = null;
+            string? counterAltName = null;
+
+            if (tradingPair.DisplayName is not null && tradingPair.DisplayName.Contains("/"))
+            {
+                var pairNames = tradingPair.DisplayName.Split("/");
+                baseAltName = pairNames[0];
+                counterAltName = pairNames[1];
+            }
+
+            var accountBalance = new List<Balance>
+            {
+                new() { Name = tradingPair.BaseName, TotalAmount = 0 },
+                new() { Name = tradingPair.CounterName, TotalAmount = 0 }
+            };
+
+            List<Balance> apiAccountBalance = GetAccountBalance() ?? new();
+
+            if (accountBalance.Count == 0)
+            {
+                return accountBalance;
+            }
+
+            var matchedBalances = apiAccountBalance
+                                    .Where(b => !string.IsNullOrWhiteSpace(b.Name) && tradingPair.Name.Contains(b.Name))
+                                    .ToList(); 
+            
+            foreach (var matchedBalance in matchedBalances)
+            {
+                if ((baseAltName is not null && baseAltName == matchedBalance.Name) || tradingPair.Name.StartsWith(matchedBalance.Name!))
+                {
+                    accountBalance[0].TotalAmount = matchedBalance.TotalAmount;
+                }
+                else if ((counterAltName is not null && counterAltName == matchedBalance.Name) || tradingPair.Name.EndsWith(matchedBalance.Name!))
+                {
+                    accountBalance[1].TotalAmount = matchedBalance.TotalAmount;
+                }
+            }
+
+            return accountBalance;
+        }
+
+        public async Task<List<Balance>> GetAccountBalanceAsync(TradingPair tradingPair)
+        {
+            string? baseAltName = null;
+            string? counterAltName = null;
+
+            if (tradingPair.DisplayName is not null && tradingPair.DisplayName.Contains("/"))
+            {
+                var pairNames = tradingPair.DisplayName.Split("/");
+                baseAltName = pairNames[0];
+                counterAltName = pairNames[1];
+            }
+
+            var accountBalance = new List<Balance>
+            {
+                new() { Name = tradingPair.BaseName, TotalAmount = 0 },
+                new() { Name = tradingPair.CounterName, TotalAmount = 0 }
+            };
+
+            List<Balance> apiAccountBalance = await GetAccountBalanceAsync() ?? new();
+
+            if (accountBalance.Count == 0)
+            {
+                return accountBalance;
+            }
+
+            var matchedBalances = apiAccountBalance
+                                    .Where(b => !string.IsNullOrWhiteSpace(b.Name) && tradingPair.Name.Contains(b.Name))
+                                    .ToList();
+
+            foreach (var matchedBalance in matchedBalances)
+            {
+                if ((baseAltName is not null && baseAltName == matchedBalance.Name) || tradingPair.Name.StartsWith(matchedBalance.Name!))
+                {
+                    accountBalance[0].TotalAmount = matchedBalance.TotalAmount;
+                }
+                else if ((counterAltName is not null && counterAltName == matchedBalance.Name) || tradingPair.Name.EndsWith(matchedBalance.Name!))
+                {
+                    accountBalance[1].TotalAmount = matchedBalance.TotalAmount;
+                }
+            }
+
+            return accountBalance;
         }
 
         public async Task<List<Balance>> GetAccountBalanceAsync()
         {
-            var balance = new List<Balance>();
+            var accountBalance = new List<Balance>();
 
             foreach (var balanceKvp in await api.QueryPrivateEndpointAsync<string>("Balance", new string[] { "result" }))
             {
-                balance.Add(new Balance
+                accountBalance.Add(new Balance
                 {
                     Name = balanceKvp.Key,
                     TotalAmount = double.Parse(balanceKvp.Value.ToString(), CultureInfo.InvariantCulture)
                 });
             }
 
-            return balance;
+            return accountBalance;
         }
 
         public async Task<List<Order>> GetClosedOrders()
@@ -247,8 +362,8 @@ namespace CryptoTA.Apis
                     MarketOrderId = orderData.Refid,
                     OrderType = orderData.Descr.Ordertype,
                     Status = orderData.Status,
-                    Cost = double.Parse(orderData.Cost, CultureInfo.InvariantCulture),
-                    Price = double.Parse(orderData.Price, CultureInfo.InvariantCulture),
+                    TotalCost = double.Parse(orderData.Cost, CultureInfo.InvariantCulture),
+                    AveragePrice = double.Parse(orderData.Price, CultureInfo.InvariantCulture),
                     Fee = double.Parse(orderData.Fee, CultureInfo.InvariantCulture),
                     Volume = double.Parse(orderData.Vol, CultureInfo.InvariantCulture),
                     VolumeExecuted = double.Parse(orderData.Vol_exec, CultureInfo.InvariantCulture),
@@ -325,8 +440,8 @@ namespace CryptoTA.Apis
                         MarketOrderId = orderData.Refid,
                         OrderType = orderData.Descr.Ordertype,
                         Status = orderData.Status,
-                        Cost = double.Parse(orderData.Cost, CultureInfo.InvariantCulture),
-                        Price = double.Parse(orderData.Price, CultureInfo.InvariantCulture),
+                        TotalCost = double.Parse(orderData.Cost, CultureInfo.InvariantCulture),
+                        AveragePrice = double.Parse(orderData.Price, CultureInfo.InvariantCulture),
                         Fee = double.Parse(orderData.Fee, CultureInfo.InvariantCulture),
                         Volume = double.Parse(orderData.Vol, CultureInfo.InvariantCulture),
                         VolumeExecuted = double.Parse(orderData.Vol_exec, CultureInfo.InvariantCulture),
@@ -346,11 +461,11 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public async Task<Tick?> GetTick(TradingPair tradingPair)
+        public Tick? GetTick(TradingPair tradingPair)
         {
             UriParams queryParams = new() { { "pair", tradingPair.Name } };
 
-            var response = await api.QueryPublicEndpointAsync<KrakenTickerData>("Ticker", new string[] { "result" }, queryParams);
+            var response = api.QueryPublicEndpoint<KrakenTickerData>("Ticker", new string[] { "result" }, queryParams);
 
             if (response == null)
             {
@@ -386,19 +501,24 @@ namespace CryptoTA.Apis
             return tradingBalance;
         }
 
-        public async Task<List<Fees>> GetTradingFees(TradingPair tradingPair)
+        public List<Fees> GetTradingFees(TradingPair tradingPair)
         {
             var fees = new List<Fees>();
 
             UriParams bodyParams = new() { { "pair", tradingPair.Name } };
 
-            foreach (var feeKvp in await api.QueryPrivateEndpointAsync<string>("TradeVolume", new string[] { "result", "fees" }, bodyParams))
+            var jResult = api.QueryPrivateEndpoint("TradeVolume", new string[] { "result" }, bodyParams);
+
+            if (JsonConvert.DeserializeObject<KrakenTradingFeesResult>(jResult.ToString()) is not KrakenTradingFeesResult krakenTradingFeesResult)
             {
-                fees.Add(new Fees
-                {
-                    TakerFee = double.Parse(feeKvp.Key.ToString(), CultureInfo.InvariantCulture)
-                });
+                throw new KrakenApiException("Error during deserializing response into dictionary.");
             }
+
+            fees.Add(new Fees
+            {
+                TakerFee = double.Parse(krakenTradingFeesResult.Fees.First().Value.Fee, CultureInfo.InvariantCulture),
+                MakerFee = double.Parse(krakenTradingFeesResult.Fees_maker.First().Value.Fee, CultureInfo.InvariantCulture),
+            });
 
             return fees;
         }
@@ -459,11 +579,6 @@ namespace CryptoTA.Apis
             }
 
             return fees;
-        }
-
-        public Task<int> SellOrder(OrderType orderType, double amount, double price)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<List<Trade>> GetTradesHistory()
@@ -560,6 +675,127 @@ namespace CryptoTA.Apis
             }
 
             return ledgers;
+        }
+
+        public async Task<Tick?> GetTickAsync(TradingPair tradingPair)
+        {
+            UriParams queryParams = new() { { "pair", tradingPair.Name } };
+
+            var response = await api.QueryPublicEndpointAsync<KrakenTickerData>("Ticker", new string[] { "result" }, queryParams);
+
+            if (response == null)
+            {
+                throw new Exception("Error parsing Kraken ticker data");
+            }
+
+            var krakenTickerData = response.First().Value;
+
+            return new Tick
+            {
+                High = double.Parse(krakenTickerData.H[0], CultureInfo.InvariantCulture),
+                Low = double.Parse(krakenTickerData.L[0], CultureInfo.InvariantCulture),
+                Open = double.Parse(krakenTickerData.O, CultureInfo.InvariantCulture),
+                Close = double.Parse(krakenTickerData.C[0], CultureInfo.InvariantCulture),
+                Volume = double.Parse(krakenTickerData.V[0], CultureInfo.InvariantCulture),
+                Date = DateTime.Now
+            };
+        }
+
+        public async Task<List<Fees>> GetTradingFeesAsync(TradingPair tradingPair)
+        {
+            var fees = new List<Fees>();
+
+            UriParams bodyParams = new() { { "pair", tradingPair.Name } };
+
+            foreach (var feeKvp in await api.QueryPrivateEndpointAsync<string>("TradeVolume", new string[] { "result", "fees" }, bodyParams))
+            {
+                fees.Add(new Fees
+                {
+                    TakerFee = double.Parse(feeKvp.Key.ToString(), CultureInfo.InvariantCulture)
+                });
+            }
+
+            return fees;
+        }
+
+        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount)
+        {
+            var bodyParams = new UriParams
+            {
+                { "ordertype", orderType.ToString() },
+                { "type", "buy" },
+                { "volume", amount.ToString() },
+                { "pair", tradingPair.Name },
+            };
+
+            var krakenResult = api.QueryPrivateEndpoint<KrakenOrderResult>("AddOrder", null, bodyParams);
+
+            if (krakenResult is null || krakenResult.First().Value is not KrakenOrderResult krakenOrderResult)
+            {
+                return "";
+            }
+
+            return krakenOrderResult.Txid.First();
+        }
+
+        public async Task<string> BuyOrderAsync(TradingPair tradingPair, OrderType orderType, double amount)
+        {
+            var bodyParams = new UriParams
+            {
+                { "ordertype", orderType.ToString() },
+                { "type", "buy" },
+                { "volume", amount.ToString() },
+                { "pair", tradingPair.Name },
+            };
+
+            var krakenResult = await api.QueryPrivateEndpointAsync<KrakenOrderResult>("AddOrder", null, bodyParams);
+
+            if (krakenResult is null || krakenResult.First().Value is not KrakenOrderResult krakenOrderResult)
+            {
+                return "";
+            }
+
+            return krakenOrderResult.Txid.First();
+        }
+
+        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount)
+        {
+            var bodyParams = new UriParams
+            {
+                { "ordertype", orderType.ToString() },
+                { "type", "sell" },
+                { "volume", amount.ToString() },
+                { "pair", tradingPair.Name },
+            };
+
+            var krakenResult = api.QueryPrivateEndpoint<KrakenOrderResult>("AddOrder", null, bodyParams);
+
+            if (krakenResult is null || krakenResult.First().Value is not KrakenOrderResult krakenOrderResult)
+            {
+                return "";
+            }
+
+            return krakenOrderResult.Txid.First();
+        }
+
+        public async Task<string> SellOrderAsync(TradingPair tradingPair, OrderType orderType, double amount)
+        {
+            var bodyParams = new UriParams
+            {
+                { "ordertype", orderType.ToString() },
+                { "type", "sell" },
+                { "volume", amount.ToString() },
+                { "pair", tradingPair.Name },
+            };
+
+            var krakenResult = await api.QueryPrivateEndpointAsync<KrakenOrderResult>("AddOrder", null, bodyParams);
+
+            if (krakenResult is null || krakenResult.First().Value is not KrakenOrderResult krakenOrderResult)
+            {
+                return "";
+            }
+
+            return krakenOrderResult.Txid.First();
         }
     }
 }

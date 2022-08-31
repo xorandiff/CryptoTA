@@ -285,7 +285,7 @@ namespace CryptoTA.Pages
                         MaximalLoss = 1,
                         BuyAmount = 0,
                         BuyPercentages = 100,
-                        BuyIndicatorCategory = 1,
+                        StrategyCategoryId = 1,
                         AskBeforeTrade = false,
                         Active = false
                     });
@@ -298,8 +298,13 @@ namespace CryptoTA.Pages
                     throw new Exception("Couldn't find stored strategy in database.");
                 }
 
+                if (db.StrategyCategories.Find(dbStrategy.StrategyCategoryId) is not StrategyCategory dbStrategyCategory)
+                {
+                    throw new Exception("Couldn't find stored strategy category in database.");
+                }
+
                 strategyData.Active = dbStrategy.Active;
-                strategyData.StrategyCategory = strategyData.StrategyCategories.ElementAt(Math.Abs((int)dbStrategy.BuyIndicatorCategory - 1));
+                strategyData.StrategyCategory = dbStrategyCategory;
                 strategyData.AskBeforeTrade = dbStrategy.AskBeforeTrade;
                 strategyData.MaximalLoss = dbStrategy.MaximalLoss.ToString();
                 strategyData.MinimalGain = dbStrategy.MinimalGain.ToString();
@@ -311,6 +316,8 @@ namespace CryptoTA.Pages
 
                 BuyAmountCurrencyComboBox.ItemsSource = new ObservableCollection<TradingPair> { TradingPair, new TradingPair { CounterSymbol = "%" } };
                 BuyAmountCurrencyComboBox.SelectedIndex = 0;
+
+                FeedbackMessageContentControl.Content = null;
             }
         }
 
@@ -319,7 +326,7 @@ namespace CryptoTA.Pages
             
         }
 
-        private void StrategySwitchButton_Click(object sender, RoutedEventArgs e)
+        private async void StrategySwitchButton_Click(object sender, RoutedEventArgs e)
         {
             if (TradingPairComboBox.SelectedItem is TradingPair)
             {
@@ -329,7 +336,16 @@ namespace CryptoTA.Pages
 
                     try
                     {
-                        _ = marketApis.ActiveMarketApi.GetAccountBalance();
+                        var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync(tradingPair);
+                        if (accountBalance is null || !accountBalance.Any(b => b.TotalAmount > 0d))
+                        {
+                            FeedbackMessageContentControl.Content = new FeedbackMessage(MessageType.StrategyNoFunds);
+                            return;
+                        }
+                        else
+                        {
+                            FeedbackMessageContentControl.Content = null;
+                        }
                     }
                     catch (KrakenApiException krakenApiException)
                     {
@@ -375,7 +391,7 @@ namespace CryptoTA.Pages
 
         private void SaveChanges()
         {
-            if (TradingPairComboBox.SelectedItem is TradingPair)
+            if (TradingPairComboBox.SelectedItem is TradingPair && BuyAmountCurrencyComboBox.SelectedItem is TradingPair currencyTradingPair)
             {
                 using var db = new DatabaseContext();
 
@@ -386,13 +402,18 @@ namespace CryptoTA.Pages
                     throw new Exception("Couldn't find stored strategy in database.");
                 }
 
+                if (db.StrategyCategories.Find(dbStrategy.StrategyCategoryId) is not StrategyCategory dbStrategyCategory)
+                {
+                    throw new Exception("Couldn't find stored strategy category in database.");
+                }
+
                 dbStrategy.Active = strategyData.Active;
-                dbStrategy.BuyIndicatorCategory = (uint)strategyData.StrategyCategories.IndexOf(strategyData.StrategyCategory) + 1;
+                dbStrategy.StrategyCategoryId = dbStrategyCategory.StrategyCategoryId;
                 dbStrategy.AskBeforeTrade = strategyData.AskBeforeTrade;
-                dbStrategy.BuyPercentages = double.Parse(strategyData.BuyPercentages);
+                dbStrategy.BuyPercentages = currencyTradingPair.CounterSymbol == "%" ? double.Parse(strategyData.BuyAmount) : 0d;
                 dbStrategy.MaximalLoss = double.Parse(strategyData.MaximalLoss);
                 dbStrategy.MinimalGain = double.Parse(strategyData.MinimalGain);
-                dbStrategy.BuyAmount = double.Parse(strategyData.BuyAmount);
+                dbStrategy.BuyAmount = currencyTradingPair.CounterSymbol != "%" ? double.Parse(strategyData.BuyAmount) : 0d;
 
                 _ = db.SaveChanges();
 

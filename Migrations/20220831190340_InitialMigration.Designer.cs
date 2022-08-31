@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoTA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220828043233_Strategies")]
-    partial class Strategies
+    [Migration("20220831190340_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,6 +70,91 @@ namespace CryptoTA.Migrations
                     b.ToTable("Markets");
                 });
 
+            modelBuilder.Entity("CryptoTA.Database.Models.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
+
+                    b.Property<double?>("AveragePrice")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ExpireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Fee")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Flags")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Leverage")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("LimitPrice")
+                        .HasColumnType("float");
+
+                    b.Property<string>("MarketOrderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MarketReferralOrderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Miscellaneous")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OpenDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("SecondaryPrice")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("StopPrice")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalCost")
+                        .HasColumnType("float");
+
+                    b.Property<int>("TradingPairId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserReferenceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Volume")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("VolumeExecuted")
+                        .HasColumnType("float");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("TradingPairId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("CryptoTA.Database.Models.Settings", b =>
                 {
                     b.Property<int>("SettingsId")
@@ -111,9 +196,6 @@ namespace CryptoTA.Migrations
                     b.Property<double>("BuyAmount")
                         .HasColumnType("float");
 
-                    b.Property<long>("BuyIndicatorCategory")
-                        .HasColumnType("bigint");
-
                     b.Property<double>("BuyPercentages")
                         .HasColumnType("float");
 
@@ -123,10 +205,20 @@ namespace CryptoTA.Migrations
                     b.Property<double>("MinimalGain")
                         .HasColumnType("float");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StrategyCategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("TradingPairId")
                         .HasColumnType("int");
 
                     b.HasKey("StrategyId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("StrategyCategoryId");
 
                     b.HasIndex("TradingPairId");
 
@@ -147,7 +239,7 @@ namespace CryptoTA.Migrations
 
                     b.HasKey("StrategyCategoryId");
 
-                    b.ToTable("StrategyCategory");
+                    b.ToTable("StrategyCategories");
 
                     b.HasData(
                         new
@@ -163,12 +255,12 @@ namespace CryptoTA.Migrations
                         new
                         {
                             StrategyCategoryId = 3,
-                            Name = "Medium (less than 3 days"
+                            Name = "Medium (less than 3 days)"
                         },
                         new
                         {
                             StrategyCategoryId = 4,
-                            Name = "Long (less than a week"
+                            Name = "Long (less than a week)"
                         });
                 });
 
@@ -430,6 +522,17 @@ namespace CryptoTA.Migrations
                     b.Navigation("Market");
                 });
 
+            modelBuilder.Entity("CryptoTA.Database.Models.Order", b =>
+                {
+                    b.HasOne("CryptoTA.Database.Models.TradingPair", "TradingPair")
+                        .WithMany()
+                        .HasForeignKey("TradingPairId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TradingPair");
+                });
+
             modelBuilder.Entity("CryptoTA.Database.Models.Settings", b =>
                 {
                     b.HasOne("CryptoTA.Database.Models.TradingPair", "TradingPair")
@@ -443,11 +546,25 @@ namespace CryptoTA.Migrations
 
             modelBuilder.Entity("CryptoTA.Database.Models.Strategy", b =>
                 {
+                    b.HasOne("CryptoTA.Database.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("CryptoTA.Database.Models.StrategyCategory", "StrategyCategory")
+                        .WithMany()
+                        .HasForeignKey("StrategyCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CryptoTA.Database.Models.TradingPair", "TradingPair")
                         .WithMany()
                         .HasForeignKey("TradingPairId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("StrategyCategory");
 
                     b.Navigation("TradingPair");
                 });

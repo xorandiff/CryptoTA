@@ -41,6 +41,11 @@ namespace CryptoTA
                         TradingPairs = tradingPairs
                     });
                 }
+
+                if (await db.SaveChangesAsync() == 0)
+                {
+                    throw new Exception("Cannot store initial configuration in the database.");
+                }
             }
 
             using (var db = new DatabaseContext())

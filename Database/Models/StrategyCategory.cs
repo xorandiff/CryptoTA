@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoTA.Database.Models
 {
-    [Table("StrategyCategory")]
+    [Table("StrategyCategories")]
     public class StrategyCategory
     {
         [Key]

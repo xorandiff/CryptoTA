@@ -336,7 +336,21 @@ namespace CryptoTA.Database
 
             marketApis.setActiveApiByName(dbTradingPair.Market!.Name);
 
-            return await marketApis.ActiveMarketApi.GetTick(tradingPair);
+            return await marketApis.ActiveMarketApi.GetTickAsync(tradingPair);
+        }
+
+        public Tick? GetTickBlocking(TradingPair tradingPair)
+        {
+            using DatabaseContext db = new();
+
+            if (db.TradingPairs.Where(tp => tp.TradingPairId == tradingPair.TradingPairId).Include(tp => tp.Market).FirstOrDefault() is not TradingPair dbTradingPair)
+            {
+                return null;
+            }
+
+            marketApis.setActiveApiByName(dbTradingPair.Market!.Name);
+
+            return marketApis.ActiveMarketApi.GetTick(tradingPair);
         }
 
         public static List<Tick> GetTickPeriods(List<Tick> ticks, long periodSecondsInterval, int periodsCount)

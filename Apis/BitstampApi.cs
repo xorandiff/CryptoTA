@@ -108,7 +108,7 @@ namespace CryptoTA.Apis
             public string? Description { get; set; }
         }
 
-        public Task<int> BuyOrder(OrderType orderType, double amount, double price = 0)
+        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount)
         {
             throw new NotImplementedException();
         }
@@ -123,7 +123,12 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<List<Balance>> GetAccountBalance()
+        public List<Balance> GetAccountBalance()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Balance>> GetAccountBalanceAsync()
         {
             throw new NotImplementedException();
         }
@@ -185,13 +190,13 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public async Task<Tick?> GetTick(TradingPair tradingPair)
+        public Tick? GetTick(TradingPair tradingPair)
         {
             var baseUrl = new Uri($"https://www.bitstamp.net/api/v2/ticker/{tradingPair.Name}/");
             var client = new RestClient(baseUrl);
             var request = new RestRequest("get", Method.Get);
 
-            var response = await client.ExecuteAsync<BitstampTick>(request);
+            var response = client.Execute<BitstampTick>(request);
 
             if (response.IsSuccessful && response.Data != null)
             {
@@ -216,7 +221,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<List<Fees>> GetTradingFees(TradingPair tradingPair)
+        public List<Fees> GetTradingFees(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
@@ -274,22 +279,12 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<int> SellOrder(OrderType orderType, double amount, double price = 0)
+        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount)
         {
             throw new NotImplementedException();
         }
 
         public Task<List<Trade>> GetTradesHistory()
-        {
-            throw new NotImplementedException();
-        }
-
-        List<Balance> IMarketApi.GetAccountBalance()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Balance>> GetAccountBalanceAsync()
         {
             throw new NotImplementedException();
         }
@@ -305,6 +300,57 @@ namespace CryptoTA.Apis
         }
 
         public Task<List<Ledger>> GetLedgers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Tick?> GetTickAsync(TradingPair tradingPair)
+        {
+            var baseUrl = new Uri($"https://www.bitstamp.net/api/v2/ticker/{tradingPair.Name}/");
+            var client = new RestClient(baseUrl);
+            var request = new RestRequest("get", Method.Get);
+
+            var response = await client.ExecuteAsync<BitstampTick>(request);
+
+            if (response.IsSuccessful && response.Data != null)
+            {
+                return new Tick
+                {
+                    High = response.Data.High,
+                    Low = response.Data.Low,
+                    Open = response.Data.Open,
+                    Close = response.Data.Last,
+                    Volume = response.Data.Volume,
+                    Date = DateTime.Now
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Task<List<Fees>> GetTradingFeesAsync(TradingPair tradingPair)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> BuyOrderAsync(TradingPair tradingPair, OrderType orderType, double amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> SellOrderAsync(TradingPair tradingPair, OrderType orderType, double amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Balance> GetAccountBalance(TradingPair tradingPair)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Balance>> GetAccountBalanceAsync(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }

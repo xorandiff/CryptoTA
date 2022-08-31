@@ -23,13 +23,22 @@
         </Grid.RowDefinitions>
         
         <Menu Margin="0,0,0,5">
-            <MenuItem Header="File" />
+            <MenuItem Header="File">
+                <MenuItem Header="New data"/>
+                <MenuItem Header="Reload data"/>
+                <Separator />
+                <MenuItem Header="Export settings..."/>
+                <MenuItem Header="Import settings..."/>
+                <Separator />
+                <MenuItem Header="Close"/>
+            </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem 
                     x:Name="AccountsMenuItem" 
                     Header="Accounts"
                     Click="AccountsMenuItem_Click" 
                 />
+                <MenuItem Header="Preferences"/>
             </MenuItem>
             <MenuItem Header="View" />
             <MenuItem Header="About" />

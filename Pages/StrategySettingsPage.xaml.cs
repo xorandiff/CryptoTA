@@ -305,6 +305,12 @@ namespace CryptoTA.Pages
                 strategyData.MinimalGain = dbStrategy.MinimalGain.ToString();
                 strategyData.BuyAmount = dbStrategy.BuyAmount.ToString();
                 strategyData.BuyPercentages = dbStrategy.BuyPercentages.ToString();
+
+                CurrencyComboBox.ItemsSource = new ObservableCollection<TradingPair> { TradingPair };
+                CurrencyComboBox.SelectedIndex = 0;
+
+                BuyAmountCurrencyComboBox.ItemsSource = new ObservableCollection<TradingPair> { TradingPair, new TradingPair { CounterSymbol = "%" } };
+                BuyAmountCurrencyComboBox.SelectedIndex = 0;
             }
         }
 

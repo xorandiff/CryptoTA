@@ -34,8 +34,8 @@ namespace CryptoTA.Database
             modelBuilder.Entity<StrategyCategory>().HasData(
                 new() { StrategyCategoryId = 1, Name = "Rapid (less than an hour)" },
                 new() { StrategyCategoryId = 2, Name = "Short (less than a day)" },
-                new() { StrategyCategoryId = 3, Name = "Medium (less than 3 days" },
-                new() { StrategyCategoryId = 4, Name = "Long (less than a week" }
+                new() { StrategyCategoryId = 3, Name = "Medium (less than 3 days)" },
+                new() { StrategyCategoryId = 4, Name = "Long (less than a week)" }
             );
 
             modelBuilder.Entity<TimeInterval>().HasData(

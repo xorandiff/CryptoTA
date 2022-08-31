@@ -146,10 +146,10 @@
                 </Label>
                 <ComboBox
                     x:Name="CurrencyComboBox"
+                    DisplayMemberPath="CounterSymbol"
                     Grid.Column="3"
                     Margin="10, 25"
                     Padding="5"
-                    SelectionChanged="CurrencyComboBox_SelectionChanged"
                 />
 
                 <Label 
@@ -176,6 +176,8 @@
                         Text="{Binding Strategy.BuyAmount}"
                     />
                     <ComboBox
+                        x:Name="BuyAmountCurrencyComboBox"
+                        DisplayMemberPath="CounterSymbol"
                         Margin="10, 25"
                         Padding="5"
                         Grid.Column="1"

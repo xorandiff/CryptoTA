@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace CryptoTA.Pages
 {
@@ -29,7 +30,7 @@ namespace CryptoTA.Pages
         public ObservableCollection<Market> Markets { get => markets; }
         public ObservableCollection<TradingPair> TradingPairs { get => tradingPairs; }
 
-        public class StrategyData : INotifyPropertyChanged
+        public class StrategyData : INotifyPropertyChanged, IDataErrorInfo
         {
             private double minimalGain;
             private double maximalLoss;
@@ -183,6 +184,46 @@ namespace CryptoTA.Pages
             public bool Inactive { get => !active; }
             public string StatusText { get => active ? "Active" : "Inactive"; }
             public string StatusButtonContent { get => active ? "Deactivate" : "Activate"; }
+
+            public string Error => null;
+
+            public string this[string name]
+            {
+                get
+                {
+                    string result = null;
+
+                    switch (name)
+                    {
+                        case "MaximalLoss":
+                            if (maximalLoss < 0)
+                            {
+                                result = "Maximal loss cannot be less than zero.";
+                            }
+                            break;
+                        case "BuyAmount":
+                            if (buyAmount <= 0)
+                            {
+                                result = "Buy amount must be positive number.";
+                            }
+                            break;
+                        case "MinimalGain":
+                            if (minimalGain < 0)
+                            {
+                                result = "Minimal gain cannot be less than zero.";
+                            }
+                            break;
+                        case "BuyPercentages":
+                            if (buyPercentages <= 0 || buyPercentages > 100)
+                            {
+                                result = "Buy amount in percentages must be more than 0% and at most 100%.";
+                            }
+                            break;
+                    }
+
+                    return result;
+                }
+            }
 
             public event PropertyChangedEventHandler? PropertyChanged;
 

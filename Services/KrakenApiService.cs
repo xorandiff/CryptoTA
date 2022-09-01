@@ -9,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using CryptoTA.Exceptions;
 using CryptoTA.Utils;
+using Microsoft.VisualBasic.Logging;
+using Websocket.Client;
+using System.Threading;
+using System.Windows;
 
 namespace CryptoTA.Services
 {
@@ -19,6 +23,9 @@ namespace CryptoTA.Services
         private const string baseDomain = "https://api.kraken.com";
         private const string publicPath = "/0/public/";
         private const string privatePath = "/0/private/";
+
+        private const string publicWsAddress = "wss://ws.kraken.com";
+        private const string privateWsAddress = "wss://ws-auth.kraken.com";
 
         private readonly string apiKey;
         private readonly string apiSecret;
@@ -280,6 +287,24 @@ namespace CryptoTA.Services
             }
 
             return resultDictionary;
+        }
+
+        public async Task QueryWebsocketApi(object payload)
+        {
+            var exitEvent = new ManualResetEvent(false);
+
+            using var client = new WebsocketClient(new Uri(publicWsAddress));
+            client.Name = "Kraken";
+            client.ReconnectTimeout = TimeSpan.FromSeconds(30);
+            client.ReconnectionHappened.Subscribe(type => MessageBox.Show($"Reconnection happened, type: {type}"));
+            client.DisconnectionHappened.Subscribe(type => MessageBox.Show($"Disconnection happened, type: {type}"));
+            client.MessageReceived.Subscribe(msg => MessageBox.Show($"Message received: {msg}"));
+
+            await client.Start();
+
+            await Task.Run(() => client.Send(JObject.FromObject(payload).ToString()));
+
+            exitEvent.WaitOne();
         }
     }
 }

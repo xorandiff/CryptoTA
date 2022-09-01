@@ -97,7 +97,7 @@
                     IsEnabled="{Binding Strategy.Inactive}"
                     Margin="10, 25"
                     Padding="5"
-                    Text="{Binding Strategy.MinimalGain}"
+                    Text="{Binding Strategy.MinimalGain, ValidatesOnDataErrors=True}"
                 />
 
                 <Label 
@@ -114,7 +114,7 @@
                     IsEnabled="{Binding Strategy.Inactive}"
                     Margin="10, 25"
                     Padding="5"
-                    Text="{Binding Strategy.MaximalLoss}"
+                    Text="{Binding Strategy.MaximalLoss, ValidatesOnDataErrors=True}"
                 />
 
                 <Label 
@@ -173,7 +173,7 @@
                     <TextBox 
                         Margin="10, 25"
                         Padding="5"
-                        Text="{Binding Strategy.BuyAmount}"
+                        Text="{Binding Strategy.BuyAmount, ValidatesOnDataErrors=True}"
                     />
                     <ComboBox
                         x:Name="BuyAmountCurrencyComboBox"

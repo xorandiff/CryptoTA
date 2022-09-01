@@ -373,6 +373,18 @@ namespace CryptoTA.Apis
             return closedOrders;
         }
 
+        public async Task GetOhlcDataWsAsync(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
+        {
+            var payload = new
+            {
+                @event = "subscribe",
+                pair = new string[] { "XBT/USD" },
+                subscription = new { name = "ohlc" }
+            };
+
+            await api.QueryWebsocketApi(payload);
+        }
+
         public List<Tick> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
         {
             var queryParams = new UriParams
@@ -636,29 +648,27 @@ namespace CryptoTA.Apis
                     continue;
                 }
 
-                using (var db = new DatabaseContext())
+                using var db = new DatabaseContext();
+                var dbTradingPair = db.TradingPairs.Where(tp => tp.Name == tradeData.Pair).First();
+
+                if (dbTradingPair is not TradingPair tradingPair)
                 {
-                    var dbTradingPair = db.TradingPairs.Where(tp => tp.Name == tradeData.Pair).First();
-
-                    if (dbTradingPair is not TradingPair tradingPair)
-                    {
-                        continue;
-                    }
-
-                    trades.Add(new Trade
-                    {
-                        MarketTradeId = tradeKvp.Key,
-                        MarketOrderId = tradeData.Ordertxid,
-                        OrderType = tradeData.Ordertype,
-                        Type = tradeData.Type,
-                        Cost = double.Parse(tradeData.Cost, CultureInfo.InvariantCulture),
-                        Price = double.Parse(tradeData.Price, CultureInfo.InvariantCulture),
-                        Fee = double.Parse(tradeData.Fee, CultureInfo.InvariantCulture),
-                        Volume = double.Parse(tradeData.Vol, CultureInfo.InvariantCulture),
-                        Date = DateTimeUtils.FromTimestamp(tradeData.Time),
-                        TradingPairId = tradingPair.TradingPairId
-                    });
+                    continue;
                 }
+
+                trades.Add(new Trade
+                {
+                    MarketTradeId = tradeKvp.Key,
+                    MarketOrderId = tradeData.Ordertxid,
+                    OrderType = tradeData.Ordertype,
+                    Type = tradeData.Type,
+                    Cost = double.Parse(tradeData.Cost, CultureInfo.InvariantCulture),
+                    Price = double.Parse(tradeData.Price, CultureInfo.InvariantCulture),
+                    Fee = double.Parse(tradeData.Fee, CultureInfo.InvariantCulture),
+                    Volume = double.Parse(tradeData.Vol, CultureInfo.InvariantCulture),
+                    Date = DateTimeUtils.FromTimestamp(tradeData.Time),
+                    TradingPairId = tradingPair.TradingPairId
+                });
             }
 
             return trades;

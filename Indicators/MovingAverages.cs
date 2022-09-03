@@ -7,10 +7,11 @@ namespace CryptoTA.Indicators
 {
     public class MovingAverages
     {
-        private readonly List<IIndicator> movingAverages;
+        public List<IIndicator> IndicatorsCollection { get; }
+
         public MovingAverages()
         {
-            movingAverages = new()
+            IndicatorsCollection = new()
             {
                 new SimpleMovingAverage(),
                 new ExponentialMovingAverage()
@@ -28,7 +29,7 @@ namespace CryptoTA.Indicators
 
                 foreach (var measurement in measurements)
                 {
-                    foreach (var movingAverage in movingAverages)
+                    foreach (var movingAverage in IndicatorsCollection)
                     {
                         result.Add(movingAverage.Run(tickPeriods.TakeLast(measurement).ToList(), currentTick));
                     }

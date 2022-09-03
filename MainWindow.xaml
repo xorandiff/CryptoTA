@@ -47,7 +47,8 @@
         <TabControl 
             x:Name="MenuTabControl" 
             Grid.Row="1" 
-            TabStripPlacement="Left" Background="#FF171717"
+            TabStripPlacement="Left"
+            Background="#FF171717"
         >
             <TabItem 
                 x:Name="ChartTabItem" 

@@ -27,9 +27,7 @@ namespace CryptoTA.Pages
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string strCurrency = (string)value;
-            double currency;
-            if (double.TryParse(strCurrency, out currency))
+            if (double.TryParse((string)value, out double currency))
             {
                 return currency;
             }
@@ -103,81 +101,78 @@ namespace CryptoTA.Pages
 
         private async void MarketsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Market != null)
+            if (Market is null || !Market.Credentials.Any())
             {
-                if (Market.Credentials.Any())
+                MessageBoxGrid.Content = new FeedbackMessage(MessageType.CredentialsMissing);
+                return;
+            }
+
+            MarketsComboBox.IsEnabled = false;
+
+            MessageBoxGrid.Content = null;
+            if (!marketApis.setActiveApiByName(Market.Name))
+            {
+                throw new Exception("No market API found that correspond to database market name.");
+            }
+
+            try
+            {
+                var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync();
+
+                var ledgersDisplay = new List<LedgerDisplay>();
+                var ledgers = await marketApis.ActiveMarketApi.GetLedgersAsync();
+
+                foreach (var balance in accountBalance)
                 {
-                    MarketsComboBox.IsEnabled = false;
-
-                    MessageBoxGrid.Content = null;
-                    if (!marketApis.setActiveApiByName(Market.Name))
+                    var asset = await marketApis.ActiveMarketApi.GetAssetDataAsync(balance.Name!);
+                    if (asset is not null)
                     {
-                        throw new Exception("No market API found that correspond to database market name.");
-                    }
-
-                    try
-                    {
-                        var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync();
-
-                        var ledgersDisplay = new List<LedgerDisplay>();
-                        var ledgers = await marketApis.ActiveMarketApi.GetLedgers();
-
-                        foreach (var balance in accountBalance)
-                        {
-                            var asset = await marketApis.ActiveMarketApi.GetAssetDataAsync(balance.Name!);
-                            if (asset?.Altname is not null)
-                            {
-                                balance.Name = asset.Altname;
-                            }
-                        }
-
-                        foreach (var ledger in ledgers)
-                        {
-                            var ledgerDisplay = new LedgerDisplay
-                            {
-                                ReferenceId = ledger.ReferenceId,
-                                Date = ledger.Date.ToString("dd.MM.yyyy"),
-                                Type = ledger.Type.Substring(0, 1).ToUpper() + ledger.Type.Substring(1),
-                                Subtype = ledger.Subtype,
-                                Amount = ledger.Amount.ToString(),
-                                Fee = ledger.Fee.ToString(),
-                                Balance = ledger.Balance.ToString()
-                            };
-
-                            var asset = await marketApis.ActiveMarketApi.GetAssetDataAsync(ledger.Asset);
-                            if (asset?.Altname is not null)
-                            {
-                                ledger.Asset = asset.Altname;
-                                string currencySymbol = CurrencyCodeMapper.GetSymbol(ledger.Asset);
-                                ledgerDisplay.Amount = $"{ledgerDisplay.Amount} {currencySymbol}";
-                                ledgerDisplay.Fee = $"{ledgerDisplay.Fee} {currencySymbol}";
-                                ledgerDisplay.Balance = $"{ledgerDisplay.Balance} {currencySymbol}";
-
-                                if (ledger.Amount > 0)
-                                {
-                                    ledgerDisplay.Amount = "+" + ledgerDisplay.Amount;
-                                }
-                            }
-
-                            ledgersDisplay.Add(ledgerDisplay);
-                        }
-
-                        AccountBalanceListBox.ItemsSource = accountBalance;
-                        TransactionsListBox.ItemsSource = ledgersDisplay;
-                    }
-                    catch (KrakenApiException krakenApiException)
-                    {
-                        MessageBoxGrid.Content = new FeedbackMessage(krakenApiException.Message);
-                    }
-                    finally
-                    {
-                        MarketsComboBox.IsEnabled = true;
+                        balance.Name = asset.Symbol;
                     }
                 }
-                else
+
+                foreach (var ledger in ledgers)
                 {
-                    MessageBoxGrid.Content = new FeedbackMessage(MessageType.CredentialsMissing);
+                    var ledgerDisplay = new LedgerDisplay
+                    {
+                        ReferenceId = ledger.ReferenceId,
+                        Date = ledger.Date.ToString("dd.MM.yyyy"),
+                        Type = ledger.Type.Substring(0, 1).ToUpper() + ledger.Type.Substring(1),
+                        Subtype = ledger.Subtype,
+                        Amount = ledger.Amount.ToString(),
+                        Fee = ledger.Fee.ToString(),
+                        Balance = ledger.Balance.ToString()
+                    };
+
+                    var asset = await marketApis.ActiveMarketApi.GetAssetDataAsync(ledger.Asset);
+                    if (asset is not null)
+                    {
+                        ledger.Asset = asset.Symbol;
+                        string currencySymbol = CurrencyCodeMapper.GetSymbol(ledger.Asset);
+
+                        ledgerDisplay.Amount = $"{ledgerDisplay.Amount} {currencySymbol}";
+                        ledgerDisplay.Fee = $"{ledgerDisplay.Fee} {currencySymbol}";
+                        ledgerDisplay.Balance = $"{ledgerDisplay.Balance} {currencySymbol}";
+
+                        if (ledger.Amount > 0)
+                        {
+                            ledgerDisplay.Amount = "+" + ledgerDisplay.Amount;
+                        }
+                    }
+
+                    ledgersDisplay.Add(ledgerDisplay);
                 }
+
+                AccountBalanceListBox.ItemsSource = accountBalance;
+                TransactionsListBox.ItemsSource = ledgersDisplay;
+            }
+            catch (KrakenApiException krakenApiException)
+            {
+                MessageBoxGrid.Content = new FeedbackMessage(krakenApiException.Message);
+            }
+            finally
+            {
+                MarketsComboBox.IsEnabled = true;
             }
         }
     }

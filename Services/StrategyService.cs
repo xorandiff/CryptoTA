@@ -1,9 +1,8 @@
 ﻿using CryptoTA.Apis;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
-using CryptoTA.Indicators;
+using CryptoTA.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,10 +13,11 @@ namespace CryptoTA.Services
 {
     public class StrategyService
     {
+        // 15 minutes loop interval
+        private const int loopInterval = 60 * 15;
+
         private readonly Dictionary<IMarketApi, Market> apis;
-        private readonly MovingAverages movingAverages;
-        private readonly Oscillators oscillators;
-        private readonly DatabaseModel databaseModel;
+        private readonly IndicatorsModel indicatorsModel;
 
         public BackgroundWorker worker;
 
@@ -28,9 +28,7 @@ namespace CryptoTA.Services
             worker.WorkerSupportsCancellation = true;
 
             apis = new();
-            movingAverages = new();
-            oscillators = new();
-            databaseModel = new();
+            indicatorsModel = new();
 
             var marketApis = new MarketApis();
             foreach (var marketApi in marketApis)
@@ -71,12 +69,9 @@ namespace CryptoTA.Services
                     var market = api.Value;
 
                     using var db = new DatabaseContext();
-                    var activeStrategies = db.Strategies
-                                            .Where(s => s.Active)
-                                            .Include(s => s.TradingPair)
-                                            .Include(s => s.Order)
-                                            .Where(s => s.TradingPair is TradingPair && s.TradingPair.MarketId == market.MarketId)
-                                            .ToArray();
+
+                    var marketTradingPairIds = db.TradingPairs.Where(tp => tp.MarketId == market.MarketId).Select(tp => tp.TradingPairId).ToList();
+                    var activeStrategies = db.Strategies.Include(s => s.Order).Include(s => s.TradingPair).Where(s => s.Active && marketTradingPairIds.Contains(s.TradingPairId)).ToArray();
 
                     foreach (var strategy in activeStrategies)
                     {
@@ -85,7 +80,7 @@ namespace CryptoTA.Services
                             continue;
                         }
 
-                        var accountBalance = marketApi.GetAccountBalance();
+                        var accountBalance = marketApi.GetAccountBalance(tradingPair);
 
                         var balance = accountBalance.Where(b => b.Name is not null && tradingPair.Name.Contains(b.Name)).FirstOrDefault();
                         if (balance?.TotalAmount is not double availableBalance || availableBalance == 0d)
@@ -111,56 +106,28 @@ namespace CryptoTA.Services
                             secondsIndicatorInterval = 60 * 60 * 24 * 7;
                         }
 
-                        var startDate = DateTime.Now.AddSeconds(-marketApi.OhlcMaxDensityTimeInterval * intervalMultiplier);
+                        var currentDate = DateTime.Now;
+                        var startDate = currentDate.AddSeconds(-marketApi.OhlcMaxDensityTimeInterval * intervalMultiplier);
 
-                        if (databaseModel.GetTickBlocking(tradingPair) is not Tick currentTick)
+                        var indicatorsRatio = indicatorsModel.GetTotalRatio(tradingPair, startDate, secondsIndicatorInterval);
+                        double volume = strategy.BuyAmount == 0 ? availableBalance * (strategy.BuyPercentages / 100d) : strategy.BuyAmount;
+
+                        if (indicatorsRatio is null 
+                            || indicatorsRatio > 0.3d && indicatorsRatio < 0.7d
+                            || marketApi.GetTradingFees(tradingPair) is not List<Fees> fees
+                            || fees.First().MakerFee > strategy.MaximalLoss
+                            || db.Strategies.Find(strategy.StrategyId) is not Strategy dbStrategy
+                            || volume > availableBalance)
                         {
                             continue;
                         }
 
-                        var ticks = databaseModel.GetTicksBlocking(tradingPair.TradingPairId, startDate, marketApi.RequestMaxTickCount);
-
-                        var indicatorResults = new List<IndicatorResult>();
-                        indicatorResults.AddRange(movingAverages.Run(ticks, secondsIndicatorInterval, currentTick));
-                        indicatorResults.AddRange(oscillators.Run(ticks, secondsIndicatorInterval, currentTick));
-
-                        if (indicatorResults is null || indicatorResults.Count == 0)
-                        {
-                            continue;
-                        }
-
-                        var buyCount = indicatorResults.Where(ir => ir.ShouldBuy == true).Count();
-                        var sellCount = indicatorResults.Where(ir => ir.ShouldBuy == false).Count();
-                        var neutralCount = indicatorResults.Where(ir => ir.ShouldBuy == null).Count();
-                        double indicatorsRatio = (buyCount + neutralCount * 0.5d) / (buyCount + neutralCount + sellCount);
-
-                        if (indicatorsRatio > 0.3d && indicatorsRatio < 0.7d)
-                        {
-                            continue;
-                        }
-
-                        if (marketApi.GetTradingFees(tradingPair) is not List<Fees> fees)
-                        {
-                            continue;
-                        }
-
-                        if (fees.First().MakerFee > strategy.MaximalLoss)
-                        {
-                            continue;
-                        }
-
-                        if (db.Strategies.Find(strategy.StrategyId) is not Strategy dbStrategy)
-                        {
-                            continue;
-                        }
 
                         double orderFee = fees.First().TakerFee;
 
                         if (indicatorsRatio >= 0.7d && (strategy.Order is null || strategy.Order.Type != "buy"))
                         {
                             // Buy
-
-                            double volume = availableBalance * (strategy.BuyPercentages / 100d);
 
                             if (marketApi.BuyOrder(tradingPair, OrderType.Instant, volume) is not string tradeId)
                             {
@@ -171,13 +138,13 @@ namespace CryptoTA.Services
                             {
                                 MarketOrderId = tradeId,
                                 Type = "buy",
-                                OrderType = OrderType.Instant.ToString(),
+                                OrderType = "market",
                                 Status = "open",
                                 TotalCost = volume + orderFee,
                                 Fee = orderFee,
                                 Volume = volume,
-                                OpenDate = DateTime.Now,
-                                StartDate = DateTime.Now,
+                                OpenDate = currentDate,
+                                StartDate = currentDate,
                                 TradingPairId = tradingPair.TradingPairId
                             };
                         }
@@ -194,13 +161,13 @@ namespace CryptoTA.Services
                             {
                                 MarketOrderId = tradeId,
                                 Type = "sell",
-                                OrderType = OrderType.Instant.ToString(),
+                                OrderType = "market",
                                 Status = "open",
                                 TotalCost = availableBalance + orderFee,
                                 Fee = orderFee,
                                 Volume = availableBalance,
-                                OpenDate = DateTime.Now,
-                                StartDate = DateTime.Now,
+                                OpenDate = currentDate,
+                                StartDate = currentDate,
                                 TradingPairId = tradingPair.TradingPairId
                             };
                         }
@@ -209,7 +176,7 @@ namespace CryptoTA.Services
                     }
                 }
 
-                Thread.Sleep(1000 * 60 * 15);
+                Thread.Sleep(1000 * loopInterval);
             }
         }
     }

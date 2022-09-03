@@ -81,7 +81,7 @@ namespace CryptoTA
                 {
                     if (marketApi.Enabled)
                     {
-                        if (await marketApi.GetTradingPairs() is List<TradingPair> tradingPairs)
+                        if (await marketApi.GetTradingPairsAsync() is List<TradingPair> tradingPairs)
                         {
                             downloadedData.Add((marketApi.Name, tradingPairs));
                             totalTradingPairsCount += tradingPairs.Count;

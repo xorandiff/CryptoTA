@@ -1,6 +1,5 @@
 ﻿using CryptoTA.Database;
 using CryptoTA.Database.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,10 +7,11 @@ namespace CryptoTA.Indicators
 {
     public class Oscillators
     {
-        private readonly List<IIndicator> oscillators;
+        public List<IIndicator> IndicatorsCollection { get; }
+
         public Oscillators()
         {
-            oscillators = new()
+            IndicatorsCollection = new()
             {
                 new RelativeStrengthIndex(),
                 new StochasticOscillator(),
@@ -29,9 +29,9 @@ namespace CryptoTA.Indicators
 
                 var tickPeriods = DatabaseModel.GetTickPeriods(ticks, secondsInterval, measurements.Max());
 
-                for (var i = 0; i < oscillators.Count; i++)
+                for (var i = 0; i < IndicatorsCollection.Count; i++)
                 {
-                    result.Add(oscillators[i].Run(tickPeriods.TakeLast(measurements[i]).ToList(), currentTick));
+                    result.Add(IndicatorsCollection[i].Run(tickPeriods.TakeLast(measurements[i]).ToList(), currentTick));
                 }
             }
 

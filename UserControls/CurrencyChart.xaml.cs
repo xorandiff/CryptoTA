@@ -42,51 +42,55 @@ namespace CryptoTA.UserControls
             databaseModel = dbModel;
             databaseModel.worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
 
+            XAxes = new ObservableCollection<Axis>
+            {
+                new Axis
+                {
+                    Name = "Time",
+                    Labels = observableLabels,
+                    MinLimit = null,
+                    MaxLimit = null,
+                }
+            };
+
+            YAxes = new ObservableCollection<Axis>
+            {
+                new Axis
+                {
+                    Name = "Price",
+                    Labeler = yAxisLabeler,
+                    MinLimit = null,
+                    MaxLimit = null
+                }
+            };
+
+            ChartSeriesCollection = new ObservableCollection<ISeries>
+            {
+                new LineSeries<Tick>
+                {
+                    Values = observableValues,
+                    DataPadding = new LiveChartsCore.Drawing.LvcPoint(0, 0),
+                    GeometryFill = null,
+                    GeometryStroke = null,
+                    GeometrySize = 0,
+                    Stroke = new SolidColorPaint(SKColors.LightSkyBlue) { StrokeThickness = 1 },
+                    LineSmoothness = 0,
+                    Mapping = (tick, chartPoint) =>
+                    {
+                        chartPoint.PrimaryValue = tick.Close;
+                        chartPoint.SecondaryValue = chartPoint.Context.Entity.EntityIndex;
+                    },
+                    TooltipLabelFormatter = chartPoint => $"{CurrencyCodeMapper.GetSymbol(TradingPair.CounterSymbol)}{chartPoint.PrimaryValue}\n{observableValues[(int)chartPoint.SecondaryValue].Date:dd.MM.yyyy HH:mm}"
+                }
+            };
+
             try
             {
-                using (var db = new DatabaseContext())
+                using var db = new DatabaseContext();
                 if (!db.Settings.Any())
                 {
                     throw new Exception("Configuration data missing.");
                 }
-
-                XAxes = new ObservableCollection<Axis>
-                {
-                    new Axis
-                    {
-                        Name = "Time",
-                        Labels = observableLabels,
-                        MaxLimit = 500,
-                    }
-                };
-
-                YAxes = new ObservableCollection<Axis>
-                {
-                    new Axis
-                    {
-                        Name = "Price",
-                        Labeler = yAxisLabeler
-                    }
-                };
-
-                ChartSeriesCollection = new ObservableCollection<ISeries>
-                {
-                    new LineSeries<Tick>
-                    {
-                        Values = observableValues,
-                        GeometryFill = null,
-                        GeometryStroke = null,
-                        GeometrySize = 0,
-                        Stroke = new SolidColorPaint(SKColors.LightSkyBlue) { StrokeThickness = 1 },
-                        LineSmoothness = 0,
-                        Mapping = (tick, chartPoint) =>
-                        {
-                            chartPoint.PrimaryValue = tick.Close;
-                            chartPoint.SecondaryValue = chartPoint.Context.Entity.EntityIndex;
-                        },
-                        TooltipLabelFormatter = chartPoint => $"{CurrencyCodeMapper.GetSymbol(TradingPair.CounterSymbol)}{chartPoint.PrimaryValue}\n{observableValues[(int)chartPoint.SecondaryValue].Date:dd.MM.yyyy HH:mm}"
-                    }
-                };
             }
             catch (Exception e)
             {
@@ -212,7 +216,7 @@ namespace CryptoTA.UserControls
                     using var db = new DatabaseContext();
                     if (!db.TradingPairs.Where(tp => tp.MarketId == market.MarketId).Any())
                     {
-                        var newTradingPairs = await marketApis.ActiveMarketApi.GetTradingPairs();
+                        var newTradingPairs = await marketApis.ActiveMarketApi.GetTradingPairsAsync();
                         if (newTradingPairs == null)
                         {
                             throw new Exception("Couldn't download any trading pair for selected market API. This may be problem with market implementation.");
@@ -405,7 +409,6 @@ namespace CryptoTA.UserControls
 
             var values = chartTicks.Select(tick => tick.Close).ToArray();
             var labels = chartTicks.Select(tick => tick.Date.ToString(timeFormat)).ToArray();
-
 
             observableValues.Clear();
             foreach (var tick in chartTicks.ToArray())

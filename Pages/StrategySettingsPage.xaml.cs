@@ -11,7 +11,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Xml.Linq;
 
 namespace CryptoTA.Pages
 {
@@ -32,6 +31,7 @@ namespace CryptoTA.Pages
 
         public class StrategyData : INotifyPropertyChanged, IDataErrorInfo
         {
+            private TradingPair tradingPair;
             private double minimalGain;
             private double maximalLoss;
             private double buyAmount;
@@ -42,6 +42,25 @@ namespace CryptoTA.Pages
             private StrategyCategory strategyCategory;
             private readonly ObservableCollection<StrategyCategory> strategyCategories;
             private Visibility hasCredentials;
+
+            public TradingPair TradingPair
+            {
+                get => tradingPair;
+                set
+                {
+                    if (value != tradingPair)
+                    {
+                        tradingPair = value;
+                        NotifyPropertyChanged();
+                        NotifyPropertyChanged(nameof(Currency));
+                    }
+                }
+            }
+
+            public string Currency
+            {
+                get => tradingPair.CounterSymbol;
+            }
 
             public string MinimalGain
             {
@@ -127,6 +146,24 @@ namespace CryptoTA.Pages
                 }
             }
             public bool HasActiveStrategies { get => activeStrategiesCount > 0; }
+            public bool NoFunds
+            {
+                get => noFunds;
+                set
+                {
+                    if (value != noFunds)
+                    {
+                        noFunds = value;
+                        NotifyPropertyChanged();
+                        NotifyPropertyChanged(nameof(Inactive));
+                        NotifyPropertyChanged(nameof(HasFunds));
+                        NotifyPropertyChanged(nameof(StatusText));
+                        NotifyPropertyChanged(nameof(StatusButtonContent));
+                        NotifyPropertyChanged(nameof(FormVisibility));
+                    }
+                }
+            }
+
             public bool Active
             {
                 get => active;
@@ -181,17 +218,19 @@ namespace CryptoTA.Pages
                     return Visibility.Visible;
                 }
             }
-            public bool Inactive { get => !active; }
+            public bool noFunds = true;
+            public bool Inactive => !active && !noFunds;
+            public bool HasFunds => !noFunds;
             public string StatusText { get => active ? "Active" : "Inactive"; }
             public string StatusButtonContent { get => active ? "Deactivate" : "Activate"; }
 
-            public string Error => null;
+            public string Error => "";
 
             public string this[string name]
             {
                 get
                 {
-                    string result = null;
+                    string result = "";
 
                     switch (name)
                     {
@@ -232,6 +271,8 @@ namespace CryptoTA.Pages
                 using (var db = new DatabaseContext())
                 strategyCategories = new ObservableCollection<StrategyCategory>(db.StrategyCategories.ToList());
                 strategyCategory = strategyCategories.First();
+
+                tradingPair = new();
             }
 
             private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -265,18 +306,16 @@ namespace CryptoTA.Pages
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            using (var db = new DatabaseContext())
+            using var db = new DatabaseContext();
+            markets.Clear();
+            foreach (var dbMarket in db.Markets.Include(m => m.Credentials).ToList())
             {
-                markets.Clear();
-                foreach (var dbMarket in db.Markets.Include(m => m.Credentials).ToList())
-                {
-                    markets.Add(dbMarket);
-                }
-
-                var settingsMarket = await db.GetMarketFromSettings();
-                market = markets.Where(m => m.MarketId == settingsMarket.MarketId).First();
-                MarketsComboBox.SelectedItem = market;
+                markets.Add(dbMarket);
             }
+
+            var settingsMarket = await db.GetMarketFromSettings();
+            market = markets.Where(m => m.MarketId == settingsMarket.MarketId).First();
+            MarketsComboBox.SelectedItem = market;
         }
 
         private void MarketsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -307,10 +346,11 @@ namespace CryptoTA.Pages
             }
         }
 
-        private void TradingPairComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void TradingPairComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (TradingPairComboBox.SelectedItem is TradingPair)
             {
+                FeedbackMessageContentControl.Content = null;
                 using var db = new DatabaseContext();
 
                 var strategiesQuery = db.Strategies.Where(strategy => strategy.TradingPairId == tradingPair.TradingPairId);
@@ -334,12 +374,12 @@ namespace CryptoTA.Pages
                     _ = db.SaveChanges();
                 }
 
-                if (strategiesQuery.First() is not Strategy dbStrategy)
+                if (await strategiesQuery.FirstAsync() is not Strategy dbStrategy)
                 {
                     throw new Exception("Couldn't find stored strategy in database.");
                 }
 
-                if (db.StrategyCategories.Find(dbStrategy.StrategyCategoryId) is not StrategyCategory dbStrategyCategory)
+                if (await db.StrategyCategories.FindAsync(dbStrategy.StrategyCategoryId) is not StrategyCategory dbStrategyCategory)
                 {
                     throw new Exception("Couldn't find stored strategy category in database.");
                 }
@@ -351,6 +391,7 @@ namespace CryptoTA.Pages
                 strategyData.MinimalGain = dbStrategy.MinimalGain.ToString();
                 strategyData.BuyAmount = dbStrategy.BuyAmount.ToString();
                 strategyData.BuyPercentages = dbStrategy.BuyPercentages.ToString();
+                strategyData.TradingPair = TradingPair;
 
                 CurrencyComboBox.ItemsSource = new ObservableCollection<TradingPair> { TradingPair };
                 CurrencyComboBox.SelectedIndex = 0;
@@ -358,6 +399,15 @@ namespace CryptoTA.Pages
                 BuyAmountCurrencyComboBox.ItemsSource = new ObservableCollection<TradingPair> { TradingPair, new TradingPair { CounterSymbol = "%" } };
                 BuyAmountCurrencyComboBox.SelectedIndex = 0;
 
+                var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync(tradingPair);
+                if (accountBalance is null || !accountBalance.Any(b => b.TotalAmount > 0d))
+                {
+                    FeedbackMessageContentControl.Content = new FeedbackMessage(MessageType.StrategyNoFunds);
+                    strategyData.NoFunds = true;
+                    return;
+                }
+
+                strategyData.NoFunds = false;
                 FeedbackMessageContentControl.Content = null;
             }
         }

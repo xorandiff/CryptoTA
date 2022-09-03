@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Security.Cryptography;
+﻿using System.Collections.ObjectModel;
 
 namespace CryptoTA.Apis
 {
@@ -14,14 +12,6 @@ namespace CryptoTA.Apis
             Add(new BitstampApi());
             Add(new KrakenApi());
             activeMarketApi = this[0];
-        }
-
-        public static string GenerateNonce()
-        {
-            var random = RandomNumberGenerator.Create();
-            var bytes = new byte[sizeof(uint)];
-            random.GetNonZeroBytes(bytes);
-            return BitConverter.ToUInt32(bytes).ToString();
         }
 
         public bool setActiveApiByName(string marketName)

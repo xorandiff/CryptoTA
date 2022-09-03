@@ -71,8 +71,8 @@ namespace CryptoTA.Apis
         {
             public string? Aclass { get; set; }
             public string? Altname { get; set; }
-            public int Decimals { get; set; }
-            public int Display_decimals { get; set; }
+            public uint Decimals { get; set; }
+            public uint Display_decimals { get; set; }
         }
 
         public class KrakenTradeData
@@ -190,7 +190,19 @@ namespace CryptoTA.Apis
             }
         }
 
-        public async Task<bool> CancelAllOrders()
+        public bool CancelAllOrders()
+        {
+            var resultCount = api.QueryPrivateEndpoint("CancelAll", new string[] { "result", "count" });
+
+            if (int.TryParse(resultCount.ToString(), out int count))
+            {
+                return count > 0;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> CancelAllOrdersAsync()
         {
             var resultCount = await api.QueryPrivateEndpointAsync("CancelAll", new string[] { "result", "count" });
 
@@ -202,7 +214,19 @@ namespace CryptoTA.Apis
             return false;
         }
 
-        public async Task<bool> CancelOrder(int transactionIdOrUserRef)
+        public bool CancelOrder(int transactionIdOrUserRef)
+        {
+            var resultCount = api.QueryPrivateEndpoint("CancelOrder", new string[] { "result", "count" }, new UriParams { { "txid", transactionIdOrUserRef.ToString() } });
+
+            if (int.TryParse(resultCount.ToString(), out int count))
+            {
+                return count > 0;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> CancelOrderAsync(int transactionIdOrUserRef)
         {
             var resultCount = await api.QueryPrivateEndpointAsync("CancelOrder", new string[] { "result", "count" }, new UriParams { { "txid", transactionIdOrUserRef.ToString() } });
 
@@ -334,7 +358,46 @@ namespace CryptoTA.Apis
             return accountBalance;
         }
 
-        public async Task<List<Order>> GetClosedOrders()
+        public List<Order> GetClosedOrders()
+        {
+            var closedOrders = new List<Order>();
+
+            foreach (var orderKvp in api.QueryPrivateEndpoint<KrakenOrderData>("ClosedOrders", new string[] { "result", "closed" }))
+            {
+                if (orderKvp.Value is not KrakenOrderData orderData)
+                {
+                    continue;
+                }
+
+                using var db = new DatabaseContext();
+                var dbTradingPair = db.TradingPairs.Where(tp => tp.Name == orderData.Descr.Pair).First();
+
+                if (dbTradingPair is not TradingPair tradingPair)
+                {
+                    continue;
+                }
+
+                closedOrders.Add(new Order
+                {
+                    MarketOrderId = orderData.Refid,
+                    OrderType = orderData.Descr.Ordertype,
+                    Status = orderData.Status,
+                    TotalCost = double.Parse(orderData.Cost, CultureInfo.InvariantCulture),
+                    AveragePrice = double.Parse(orderData.Price, CultureInfo.InvariantCulture),
+                    Fee = double.Parse(orderData.Fee, CultureInfo.InvariantCulture),
+                    Volume = double.Parse(orderData.Vol, CultureInfo.InvariantCulture),
+                    VolumeExecuted = double.Parse(orderData.Vol_exec, CultureInfo.InvariantCulture),
+                    StartDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    OpenDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    ExpireDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    TradingPairId = tradingPair.TradingPairId
+                });
+            }
+
+            return closedOrders;
+        }
+
+        public async Task<List<Order>> GetClosedOrdersAsync()
         {
             var closedOrders = new List<Order>();
 
@@ -423,7 +486,86 @@ namespace CryptoTA.Apis
             return ohlcData;
         }
 
-        public async Task<List<Order>> GetOpenOrders()
+        public async Task<List<Tick>> GetOhlcDataAsync(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
+        {
+            var queryParams = new UriParams
+            {
+                { "pair", tradingPair.Name },
+                { "interval", timeInterval.ToString() }
+            };
+
+            if (startDate is DateTime date)
+            {
+                queryParams.Add("since", $"{DateTimeUtils.ToTimestamp(date)}");
+            }
+
+            var ohlcTicks = await api.QueryPublicEndpointAsync("OHLC", new string[] { "result", tradingPair.Name }, queryParams);
+
+            var ohlcData = new List<Tick>();
+
+            foreach (JArray krakenOhlcTick in ohlcTicks)
+            {
+                if (krakenOhlcTick is null)
+                {
+                    continue;
+                }
+
+                ohlcData.Add(new Tick
+                {
+                    Date = DateTimeUtils.FromTimestamp((int)krakenOhlcTick[0]!),
+                    Open = double.Parse((string)krakenOhlcTick[1]!, CultureInfo.InvariantCulture),
+                    High = double.Parse((string)krakenOhlcTick[2]!, CultureInfo.InvariantCulture),
+                    Low = double.Parse((string)krakenOhlcTick[3]!, CultureInfo.InvariantCulture),
+                    Close = double.Parse((string)krakenOhlcTick[4]!, CultureInfo.InvariantCulture),
+                    Volume = double.Parse((string)krakenOhlcTick[6]!, CultureInfo.InvariantCulture),
+                });
+            }
+
+            return ohlcData;
+        }
+
+        public List<Order> GetOpenOrders()
+        {
+            var openOrders = new List<Order>();
+
+            foreach (var orderKvp in api.QueryPrivateEndpoint<KrakenOrderData>("OpenOrders", new string[] { "result", "open" }))
+            {
+                if (orderKvp.Value is not KrakenOrderData orderData)
+                {
+                    continue;
+                }
+
+                using (var db = new DatabaseContext())
+                {
+                    var dbTradingPair = db.TradingPairs.Where(tp => tp.Name == orderData.Descr.Pair).First();
+
+                    if (dbTradingPair is not TradingPair tradingPair)
+                    {
+                        continue;
+                    }
+
+                    openOrders.Add(new Order
+                    {
+                        MarketOrderId = orderData.Refid,
+                        OrderType = orderData.Descr.Ordertype,
+                        Status = orderData.Status,
+                        TotalCost = double.Parse(orderData.Cost, CultureInfo.InvariantCulture),
+                        AveragePrice = double.Parse(orderData.Price, CultureInfo.InvariantCulture),
+                        Fee = double.Parse(orderData.Fee, CultureInfo.InvariantCulture),
+                        Volume = double.Parse(orderData.Vol, CultureInfo.InvariantCulture),
+                        VolumeExecuted = double.Parse(orderData.Vol_exec, CultureInfo.InvariantCulture),
+                        StartDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                        OpenDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                        ExpireDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                        TradingPairId = tradingPair.TradingPairId
+                    });
+                }
+            }
+
+            return openOrders;
+        }
+
+        public async Task<List<Order>> GetOpenOrdersAsync()
         {
             var openOrders = new List<Order>();
 
@@ -464,7 +606,47 @@ namespace CryptoTA.Apis
             return openOrders;
         }
 
-        public async Task<OrderBook> GetOrderBook(TradingPair tradingPair)
+        public OrderBook GetOrderBook(TradingPair tradingPair)
+        {
+            UriParams queryParams = new() { { "pair", tradingPair.Name } };
+
+            var response = api.QueryPublicEndpoint<JArray>("Depth", new string[] { "result", tradingPair.Name }, queryParams);
+
+            if (response is null || response["asks"] is not JArray asks || response["bid"] is not JArray bids)
+            {
+                throw new Exception("Error parsing Kraken ticker data");
+            }
+
+            var orderBook = new OrderBook
+            {
+                Asks = new List<OrderBookEntry>(),
+                Bids = new List<OrderBookEntry>()
+            };
+
+            foreach (var ask in asks)
+            {
+                orderBook.Asks.Add(new OrderBookEntry
+                {
+                    Price = double.Parse(ask[0]!.ToString(), CultureInfo.InvariantCulture),
+                    Volume = double.Parse(ask[1]!.ToString(), CultureInfo.InvariantCulture),
+                    Date = DateTimeUtils.FromTimestamp((long)ask[2]!)
+                });
+            }
+
+            foreach (var bid in bids)
+            {
+                orderBook.Bids.Add(new OrderBookEntry
+                {
+                    Price = double.Parse(bid[0]!.ToString(), CultureInfo.InvariantCulture),
+                    Volume = double.Parse(bid[1]!.ToString(), CultureInfo.InvariantCulture),
+                    Date = DateTimeUtils.FromTimestamp((long)bid[2]!)
+                });
+            }
+
+            return orderBook;
+        }
+
+        public async Task<OrderBook> GetOrderBookAsync(TradingPair tradingPair)
         {
             UriParams queryParams = new() { { "pair", tradingPair.Name } };
 
@@ -528,7 +710,23 @@ namespace CryptoTA.Apis
             };
         }
 
-        public async Task<List<Balance>> GetTradingBalance()
+        public List<Balance> GetTradingBalance()
+        {
+            var tradingBalance = new List<Balance>();
+
+            foreach (var tradingBalanceKvp in api.QueryPrivateEndpoint<string>("TradeBalance", new string[] { "result" }))
+            {
+                tradingBalance.Add(new Balance
+                {
+                    Name = tradingBalanceKvp.Key,
+                    TotalAmount = double.Parse(tradingBalanceKvp.Value.ToString(), CultureInfo.InvariantCulture)
+                });
+            }
+
+            return tradingBalance;
+        }
+
+        public async Task<List<Balance>> GetTradingBalanceAsync()
         {
             var tradingBalance = new List<Balance>();
 
@@ -566,7 +764,103 @@ namespace CryptoTA.Apis
             return fees;
         }
 
-        public async Task<List<TradingPair>> GetTradingPairs()
+        public List<Asset> GetAssets()
+        {
+            var krakenAssets = api.QueryPublicEndpoint<KrakenAsset>("Assets", new string[] { "result" });
+
+            List<Asset> assets = new();
+
+            if (krakenAssets == null)
+            {
+                throw new Exception("Error during requesting asset info from Kraken API.");
+            }
+
+            foreach (var krakenAssetKvp in krakenAssets)
+            {
+                if (krakenAssetKvp.Value is not KrakenAsset krakenAsset || krakenAsset.Altname is null)
+                {
+                    throw new Exception("Error during requesting asset info from Kraken API.");
+                }
+
+                assets.Add(new Asset
+                {
+                    MarketName = krakenAssetKvp.Key,
+                    Name = krakenAsset.Altname,
+                    AlternativeSymbol = krakenAsset.Altname,
+                    Decimals = krakenAsset.Decimals
+                });
+            }
+
+            return assets;
+        }
+
+        public async Task<List<Asset>> GetAssetsAsync()
+        {
+            var krakenAssets = await api.QueryPublicEndpointAsync<KrakenAsset>("Assets", new string[] { "result" });
+
+            List<Asset> assets = new();
+
+            if (krakenAssets == null)
+            {
+                throw new Exception("Error during requesting asset info from Kraken API.");
+            }
+
+            foreach (var krakenAssetKvp in krakenAssets)
+            {
+                if (krakenAssetKvp.Value is not KrakenAsset krakenAsset || krakenAsset.Altname is null)
+                {
+                    throw new Exception("Error during requesting asset info from Kraken API.");
+                }
+
+                assets.Add(new Asset
+                {
+                    MarketName = krakenAssetKvp.Key,
+                    Name = krakenAsset.Altname,
+                    AlternativeSymbol = krakenAsset.Altname,
+                    Decimals = krakenAsset.Decimals
+                });
+            }
+
+            return assets;
+        }
+
+        public List<TradingPair> GetTradingPairs()
+        {
+            var tradingPairs = new List<TradingPair>();
+
+            var response = api.QueryPublicEndpoint<KrakenTradingPair>("AssetPairs", new string[] { "result" });
+            if (response == null)
+            {
+                throw new Exception("Couldn't parse Kraken API trading pairs.");
+            }
+
+            foreach (var tradingPairKvp in response)
+            {
+                var krakenTradingPair = tradingPairKvp.Value;
+
+                if (krakenTradingPair.Wsname is not string wsname)
+                {
+                    throw new Exception("Kraken trading pair has no wsname property.");
+                }
+                var pairSymbols = krakenTradingPair.Wsname.Split("/");
+
+                tradingPairs.Add(new TradingPair
+                {
+                    Name = tradingPairKvp.Key,
+                    AlternativeName = krakenTradingPair.Altname,
+                    WebsocketName = krakenTradingPair.Wsname,
+                    BaseSymbol = pairSymbols[0],
+                    CounterSymbol = pairSymbols[1],
+                    BaseName = pairSymbols[0],
+                    CounterName = pairSymbols[1],
+                    MinimalOrderAmount = krakenTradingPair.Ordermin != null ? double.Parse(krakenTradingPair.Ordermin, CultureInfo.InvariantCulture) : 0,
+                });
+            }
+
+            return tradingPairs;
+        }
+
+        public async Task<List<TradingPair>> GetTradingPairsAsync()
         {
             var tradingPairs = new List<TradingPair>();
 
@@ -602,7 +896,23 @@ namespace CryptoTA.Apis
             return tradingPairs;
         }
 
-        public async Task<WebsocketsToken> GetWebsocketsToken()
+        public WebsocketsToken GetWebsocketsToken()
+        {
+            var result = api.QueryPrivateEndpoint<JValue>("GetWebSocketsToken", new string[] { "result" });
+
+            if (result is null || result["token"] is null || result["expires"] is null)
+            {
+                throw new Exception("Error during processing response from Kraken API.");
+            }
+
+            return new WebsocketsToken
+            {
+                Token = result["token"].ToString(),
+                ExpirationDate = DateTimeUtils.FromTimestamp((long)result["expires"])
+            };
+        }
+
+        public async Task<WebsocketsToken> GetWebsocketsTokenAsync()
         {
             var result = await api.QueryPrivateEndpointAsync<JValue>("GetWebSocketsToken", new string[] { "result" });
 
@@ -618,7 +928,24 @@ namespace CryptoTA.Apis
             };
         }
 
-        public async Task<List<Fees>> GetWithdrawalFees(TradingPair tradingPair)
+        public List<Fees> GetWithdrawalFees(TradingPair tradingPair)
+        {
+            var fees = new List<Fees>();
+
+            UriParams bodyParams = new() { { "pair", tradingPair.Name } };
+
+            foreach (var feeKvp in api.QueryPrivateEndpoint<string>("TradeVolume", new string[] { "result", "fees" }, bodyParams))
+            {
+                fees.Add(new Fees
+                {
+                    TakerFee = double.Parse(feeKvp.Key.ToString(), CultureInfo.InvariantCulture)
+                });
+            }
+
+            return fees;
+        }
+
+        public async Task<List<Fees>> GetWithdrawalFeesAsync(TradingPair tradingPair)
         {
             var fees = new List<Fees>();
 
@@ -635,7 +962,46 @@ namespace CryptoTA.Apis
             return fees;
         }
 
-        public async Task<List<Trade>> GetTradesHistory()
+        public List<Trade> GetTradesHistory()
+        {
+            var trades = new List<Trade>();
+
+            var tradeHistory = api.QueryPrivateEndpoint<KrakenTradeData>("TradesHistory", new string[] { "result", "trades" });
+
+            foreach (var tradeKvp in tradeHistory)
+            {
+                if (tradeKvp.Value is not KrakenTradeData tradeData)
+                {
+                    continue;
+                }
+
+                using var db = new DatabaseContext();
+                var dbTradingPair = db.TradingPairs.Where(tp => tp.Name == tradeData.Pair).First();
+
+                if (dbTradingPair is not TradingPair tradingPair)
+                {
+                    continue;
+                }
+
+                trades.Add(new Trade
+                {
+                    MarketTradeId = tradeKvp.Key,
+                    MarketOrderId = tradeData.Ordertxid,
+                    OrderType = tradeData.Ordertype,
+                    Type = tradeData.Type,
+                    Cost = double.Parse(tradeData.Cost, CultureInfo.InvariantCulture),
+                    Price = double.Parse(tradeData.Price, CultureInfo.InvariantCulture),
+                    Fee = double.Parse(tradeData.Fee, CultureInfo.InvariantCulture),
+                    Volume = double.Parse(tradeData.Vol, CultureInfo.InvariantCulture),
+                    Date = DateTimeUtils.FromTimestamp(tradeData.Time),
+                    TradingPairId = tradingPair.TradingPairId
+                });
+            }
+
+            return trades;
+        }
+
+        public async Task<List<Trade>> GetTradesHistoryAsync()
         {
             var trades = new List<Trade>();
 
@@ -684,7 +1050,7 @@ namespace CryptoTA.Apis
                 throw new Exception("Error during requesting asset info from Kraken API.");
             }
 
-            return new Asset { Name = assetName, Altname = krakenAsset["altname"], Decimals = int.Parse(krakenAsset["decimals"]) };
+            return new Asset { Name = assetName, AlternativeSymbol = krakenAsset["altname"], Decimals = uint.Parse(krakenAsset["decimals"]) };
         }
 
         public async Task<Asset> GetAssetDataAsync(string assetName)
@@ -697,10 +1063,39 @@ namespace CryptoTA.Apis
                 throw new Exception("Error during requesting asset info from Kraken API.");
             }
 
-            return new Asset { Name = assetName, Altname = krakenAsset["altname"], Decimals = int.Parse(krakenAsset["decimals"]) };
+            return new Asset { Name = assetName, AlternativeSymbol = krakenAsset["altname"], Decimals = uint.Parse(krakenAsset["decimals"]) };
         }
 
-        public async Task<List<Ledger>> GetLedgers()
+        public List<Ledger> GetLedgers()
+        {
+            var ledgers = new List<Ledger>();
+
+            foreach (var ledgerKvp in api.QueryPrivateEndpoint<KrakenLedger>("Ledgers", new string[] { "result", "ledger" }))
+            {
+                if (ledgerKvp.Value is not KrakenLedger krakenLedger)
+                {
+                    continue;
+                }
+
+                ledgers.Add(new Ledger
+                {
+                    MarketLedgerId = ledgerKvp.Key,
+                    ReferenceId = krakenLedger.Refid,
+                    Type = krakenLedger.Type,
+                    Subtype = krakenLedger.Subtype,
+                    AssetClass = krakenLedger.Aclass,
+                    Asset = krakenLedger.Asset,
+                    Date = DateTimeUtils.FromTimestamp(krakenLedger.Time),
+                    Amount = double.Parse(krakenLedger.Amount, CultureInfo.InvariantCulture),
+                    Fee = double.Parse(krakenLedger.Fee, CultureInfo.InvariantCulture),
+                    Balance = double.Parse(krakenLedger.Balance, CultureInfo.InvariantCulture)
+                });
+            }
+
+            return ledgers;
+        }
+
+        public async Task<List<Ledger>> GetLedgersAsync()
         {
             var ledgers = new List<Ledger>();
 

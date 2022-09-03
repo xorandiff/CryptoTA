@@ -366,5 +366,13 @@ namespace CryptoTA.Database
 
             return result;
         }
+
+        public static IMarketApi GetMarketApi(TradingPair tradingPair)
+        {
+            using var db = new DatabaseContext();
+            TradingPair dbTradingPair = db.TradingPairs.Include(tp => tp.Market).First(tp => tp.TradingPairId == tradingPair.TradingPairId);
+
+            return new MarketApis().First(api => api.Name == dbTradingPair.Market!.Name)!;
+        }
     }
 }

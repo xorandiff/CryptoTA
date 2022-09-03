@@ -165,7 +165,7 @@
         <GroupBox 
             Grid.Row="1" 
             Grid.Column="1"
-            Header="Transactions"
+            Header="Ledgers"
             Margin="20"
         >
             <StackPanel>

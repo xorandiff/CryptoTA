@@ -92,13 +92,25 @@
                 >
                     Sell if gain is at least
                 </Label>
-                <TextBox 
+                <Grid
                     Grid.Column="1" 
-                    IsEnabled="{Binding Strategy.Inactive}"
                     Margin="10, 25"
-                    Padding="5"
-                    Text="{Binding Strategy.MinimalGain, ValidatesOnDataErrors=True}"
-                />
+                    IsEnabled="{Binding Strategy.Inactive}"
+                >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox 
+                        Padding="5"
+                        Text="{Binding Strategy.MinimalGain, ValidatesOnDataErrors=True}"
+                    />
+                    <Label 
+                        Grid.Column="1"
+                        Content="{Binding Strategy.Currency}"
+                    />
+                </Grid>
+                
 
                 <Label 
                     Grid.Row="1"
@@ -108,14 +120,25 @@
                 >
                     Sell if loss is at least
                 </Label>
-                <TextBox 
+                <Grid
                     Grid.Row="1"
-                    Grid.Column="1"
-                    IsEnabled="{Binding Strategy.Inactive}"
+                    Grid.Column="1" 
                     Margin="10, 25"
-                    Padding="5"
-                    Text="{Binding Strategy.MaximalLoss, ValidatesOnDataErrors=True}"
-                />
+                    IsEnabled="{Binding Strategy.Inactive}"
+                >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox 
+                        Padding="5"
+                        Text="{Binding Strategy.MaximalLoss, ValidatesOnDataErrors=True}"
+                    />
+                    <Label 
+                        Grid.Column="1"
+                        Content="{Binding Strategy.Currency}"
+                    />
+                </Grid>
 
                 <Label 
                     Grid.Row="2"
@@ -240,6 +263,7 @@
                     Grid.Column="2"
                     Margin="10"
                     Padding="10"
+                    IsEnabled="{Binding Strategy.HasFunds}"
                     Content="{Binding Strategy.StatusButtonContent}"
                     Click="StrategySwitchButton_Click"
                 />

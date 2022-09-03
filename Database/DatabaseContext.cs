@@ -1,12 +1,9 @@
 using CryptoTA.Apis;
 using CryptoTA.Database.Models;
-using CryptoTA.UserControls;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace CryptoTA.Database
 {
@@ -15,6 +12,7 @@ namespace CryptoTA.Database
         public DbSet<Credentials> Credentials => Set<Credentials>();
         public DbSet<Market> Markets => Set<Market>();
         public DbSet<TradingPair> TradingPairs => Set<TradingPair>();
+        public DbSet<Asset> Assets => Set<Asset>();
         public DbSet<Tick> Ticks => Set<Tick>();
         public DbSet<Settings> Settings => Set<Settings>();
         public DbSet<TimeInterval> TimeIntervals => Set<TimeInterval>();

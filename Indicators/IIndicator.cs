@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CryptoTA.Indicators
 {
-    internal interface IIndicator
+    public interface IIndicator
     {
         public string Name { get; }
         public string Description { get; }

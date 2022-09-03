@@ -86,7 +86,6 @@
             YAxes="{Binding YAxes}"
             TooltipTextBrush="#f2f4c3"
             TooltipBackground="#FF1D1D1D"
-            TooltipFindingStrategy="CompareOnlyXTakeClosest" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
         />
 
     </Grid>

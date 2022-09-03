@@ -7,11 +7,18 @@ namespace CryptoTA.Apis
 {
     /// <summary>
     /// <c>IMarketApi</c> is a cryptocurrency market API interface used by application 
-    /// for all operations. Every implemented method must be asynchronous, hence returns
-    /// <c>Task<T></c>.
+    /// for all operations. Every market API must implement every property and method.
+    /// 
+    /// Methods are synchronious and have asynchronious equivalents 
+    /// with "Async" added at the end of methods's name. Also, if synchronious method 
+    /// returns <c>T</c>, then asynchronious equivalent returns <c>Task<T></c>.
     /// </summary>
     public interface IMarketApi
     {
+        /***************************************************************
+         ************************* Properties **************************
+         ***************************************************************/
+
         /// <value>
         /// Boolean property for enabling/disabling current API 
         /// in the application.
@@ -39,23 +46,28 @@ namespace CryptoTA.Apis
         /// </value>
         public uint OhlcMaxDensityTimeInterval { get; }
 
+        /***************************************************************
+         ********************* Synchronious methods ********************
+         ***************************************************************/
+
+        /// <summary>
+        /// Gets all available assets.
+        /// </summary>
+        /// <returns></returns>
+        public List<Asset> GetAssets();
+
         /// <summary>
         /// Gets all available trading pairs.
         /// </summary>
         /// <returns></returns>
-        public Task<List<TradingPair>> GetTradingPairs();
+        public List<TradingPair> GetTradingPairs();
 
         /// <summary>
-        /// Gets market asset data.
+        /// Gets market asset data of given <param name="assetName">.
         /// </summary>
+        /// <param name="assetName"></param>
         /// <returns></returns>
         public Asset GetAssetData(string assetName);
-
-        /// <summary>
-        /// Async version of <c>GetAssetData</c>.
-        /// </summary>
-        /// <returns></returns>
-        public Task<Asset> GetAssetDataAsync(string assetName);
 
         /// <summary>
         /// Gets OHLC data for given trading pair, start date and time interval. 
@@ -75,13 +87,6 @@ namespace CryptoTA.Apis
         public Tick? GetTick(TradingPair tradingPair);
 
         /// <summary>
-        /// Async version of <c>GetTick</c>.
-        /// </summary>
-        /// <param name="tradingPair">One of available trading pairs.</param>
-        /// <returns></returns>
-        public Task<Tick?> GetTickAsync(TradingPair tradingPair);
-
-        /// <summary>
         /// Gets market trading fees for given trading pair.
         /// </summary>
         /// <param name="tradingPair">One of available trading pairs.</param>
@@ -89,18 +94,11 @@ namespace CryptoTA.Apis
         public List<Fees> GetTradingFees(TradingPair tradingPair);
 
         /// <summary>
-        /// Async version of <c>GetTradingFees</c>.
-        /// </summary>
-        /// <param name="tradingPair">One of available trading pairs.</param>
-        /// <returns></returns>
-        public Task<List<Fees>> GetTradingFeesAsync(TradingPair tradingPair);
-
-        /// <summary>
         /// Gets withdrawal fees for given trading pair.
         /// </summary>
         /// <param name="tradingPair"></param>
         /// <returns></returns>
-        public Task<List<Fees>> GetWithdrawalFees(TradingPair tradingPair);
+        public List<Fees> GetWithdrawalFees(TradingPair tradingPair);
 
         /// <summary>
         /// Gets account balance as a list of currency-amount <c>Balance</c> 
@@ -118,31 +116,18 @@ namespace CryptoTA.Apis
         public List<Balance> GetAccountBalance(TradingPair tradingPair);
 
         /// <summary>
-        /// Async version of <c>GetAccountBalance</c>
-        /// </summary>
-        /// <returns></returns>
-        public Task<List<Balance>> GetAccountBalanceAsync();
-
-        /// <summary>
-        /// Async version of <c>GetAccountBalance</c>
-        /// </summary>
-        /// <param name="tradingPair"></param>
-        /// <returns></returns>
-        public Task<List<Balance>> GetAccountBalanceAsync(TradingPair tradingPair);
-
-        /// <summary>
         /// Gets market trading balance as a enumerable of currency-amount <c>Balance</c> 
         /// objects.
         /// </summary>
         /// <returns></returns>
-        public Task<List<Balance>> GetTradingBalance();
+        public List<Balance> GetTradingBalance();
 
         /// <summary>
         /// Gets order book of asks/bids for given trading pair.
         /// </summary>
         /// <param name="tradingPair"></param>
         /// <returns></returns>
-        public Task<OrderBook> GetOrderBook(TradingPair tradingPair);
+        public OrderBook GetOrderBook(TradingPair tradingPair);
 
         /// <summary>
         /// Creates buy order with given type and amount (volume) and optional price.
@@ -154,15 +139,6 @@ namespace CryptoTA.Apis
         public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount);
 
         /// <summary>
-        /// Async version of <c>BuyOrder</c>.
-        /// </summary>
-        /// <param name="tradingPair"></param>
-        /// <param name="orderType"></param>
-        /// <param name="amount"></param>
-        /// <returns>ID of created order.</returns>
-        public Task<string> BuyOrderAsync(TradingPair tradingPair, OrderType orderType, double amount);
-
-        /// <summary>
         /// Creates sell order with given type and amount (volume) and optional price.
         /// </summary>
         /// <param name="orderType"></param>
@@ -170,6 +146,138 @@ namespace CryptoTA.Apis
         /// <param name="price">Used in orders of type <c>OrderType.Limit</c></param>
         /// <returns>ID of created order.</returns>
         public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount);
+
+        /// <summary>
+        /// Cancells order of given ID.
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns>Boolean true/false whether operation succeded/failed.</returns>
+        public bool CancelOrder(int orderId);
+
+        /// <summary>
+        /// Cancells all user's orders.
+        /// </summary>
+        /// <returns>Boolean true/false whether operation succeded/failed.</returns>
+        public bool CancelAllOrders();
+
+        /// <summary>
+        /// Gets list of open user orders.
+        /// </summary>
+        /// <returns></returns>
+        public List<Order> GetOpenOrders();
+
+        /// <summary>
+        /// Gets list of closed user orders.
+        /// </summary>
+        /// <returns></returns>
+        public List<Order> GetClosedOrders();
+
+        /// <summary>
+        /// Gets list of account's trades.
+        /// </summary>
+        /// <returns></returns>
+        public List<Trade> GetTradesHistory();
+
+        /// <summary>
+        /// Gets websockets token and expiration date for real-time websockets 
+        /// communication.
+        /// </summary>
+        /// <returns></returns>
+        public WebsocketsToken GetWebsocketsToken();
+
+        /// <summary>
+        /// Gets list of ledgers.
+        /// </summary>
+        /// <returns></returns>
+        public List<Ledger> GetLedgers();
+
+        /***************************************************************
+         ****************** Asynchronious equivalents ******************
+         ***************************************************************/
+
+        /// <summary>
+        /// Async version of <c>GetAssets</c>.
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Asset>> GetAssetsAsync();
+
+        /// <summary>
+        /// Async version of <c>GetAssets</c>.
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<TradingPair>> GetTradingPairsAsync();
+
+        /// <summary>
+        /// Async version of <c>GetAssetData</c>.
+        /// </summary>
+        /// <param name="assetName"></param>
+        /// <returns></returns>
+        public Task<Asset> GetAssetDataAsync(string assetName);
+
+        /// <summary>
+        /// Async version of <c>GetOhlcData</c>.
+        /// </summary>
+        /// <param name="tradingPair">One of available trading pairs</param>
+        /// <param name="startDate"></param>
+        /// <param name="timeInterval"></param>
+        /// <returns></returns>
+        public Task<List<Tick>> GetOhlcDataAsync(TradingPair tradingPair, DateTime? startDate, uint timeInterval);
+
+        /// <summary>
+        /// Async version of <c>GetTick</c>.
+        /// </summary>
+        /// <param name="tradingPair">One of available trading pairs.</param>
+        /// <returns></returns>
+        public Task<Tick?> GetTickAsync(TradingPair tradingPair);
+
+        /// <summary>
+        /// Async version of <c>GetTradingFees</c>.
+        /// </summary>
+        /// <param name="tradingPair">One of available trading pairs.</param>
+        /// <returns></returns>
+        public Task<List<Fees>> GetTradingFeesAsync(TradingPair tradingPair);
+
+        /// <summary>
+        /// Async version of <c>GetWithdrawalFees</c>.
+        /// </summary>
+        /// <param name="tradingPair"></param>
+        /// <returns></returns>
+        public Task<List<Fees>> GetWithdrawalFeesAsync(TradingPair tradingPair);
+
+        /// <summary>
+        /// Async version of <c>GetAccountBalance</c>.
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Balance>> GetAccountBalanceAsync();
+
+        /// <summary>
+        /// Async version of <c>GetAccountBalance</c>.
+        /// </summary>
+        /// <param name="tradingPair"></param>
+        /// <returns></returns>
+        public Task<List<Balance>> GetAccountBalanceAsync(TradingPair tradingPair);
+
+        /// <summary>
+        /// Async version of <c>GetTradingBalance</c>.
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Balance>> GetTradingBalanceAsync();
+
+        /// <summary>
+        /// Async version of <c>GetOrderBook</c>.
+        /// </summary>
+        /// <param name="tradingPair"></param>
+        /// <returns></returns>
+        public Task<OrderBook> GetOrderBookAsync(TradingPair tradingPair);
+
+        /// <summary>
+        /// Async version of <c>BuyOrder</c>.
+        /// </summary>
+        /// <param name="tradingPair"></param>
+        /// <param name="orderType"></param>
+        /// <param name="amount"></param>
+        /// <returns>ID of created order.</returns>
+        public Task<string> BuyOrderAsync(TradingPair tradingPair, OrderType orderType, double amount);
 
         /// <summary>
         /// Async version of <c>SellOrder</c>.
@@ -181,47 +289,46 @@ namespace CryptoTA.Apis
         public Task<string> SellOrderAsync(TradingPair tradingPair, OrderType orderType, double amount);
 
         /// <summary>
-        /// Cancells order of given ID.
+        /// Async version of <c>CancelOrder</c>.
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns>Boolean true/false whether operation succeded/failed.</returns>
-        public Task<bool> CancelOrder(int orderId);
+        public Task<bool> CancelOrderAsync(int orderId);
 
         /// <summary>
-        /// Cancells all user orders.
+        /// Async version of <c>CancelAllOrders</c>.
         /// </summary>
         /// <returns>Boolean true/false whether operation succeded/failed.</returns>
-        public Task<bool> CancelAllOrders();
+        public Task<bool> CancelAllOrdersAsync();
 
         /// <summary>
-        /// Gets list of open user orders.
+        /// Async version of <c>CancelAllOrders</c>.
         /// </summary>
         /// <returns></returns>
-        public Task<List<Order>> GetOpenOrders();
+        public Task<List<Order>> GetOpenOrdersAsync();
 
         /// <summary>
-        /// Gets list of closed user orders.
+        /// Async version of <c>GetOpenOrders</c>.
         /// </summary>
         /// <returns></returns>
-        public Task<List<Order>> GetClosedOrders();
+        public Task<List<Order>> GetClosedOrdersAsync();
 
         /// <summary>
-        /// Gets list of account's trades.
+        /// Async version of <c>GetClosedOrders</c>.
         /// </summary>
         /// <returns></returns>
-        public Task<List<Trade>> GetTradesHistory();
+        public Task<List<Trade>> GetTradesHistoryAsync();
 
         /// <summary>
-        /// Gets websockets token and expiration date for real-time websockets 
-        /// communication.
+        /// Async version of <c>GetTradesHistory</c>.
         /// </summary>
         /// <returns></returns>
-        public Task<WebsocketsToken> GetWebsocketsToken();
+        public Task<WebsocketsToken> GetWebsocketsTokenAsync();
 
         /// <summary>
-        /// Gets list of ledgers.
+        /// Async version of <c>GetWebsocketsToken</c>.
         /// </summary>
         /// <returns></returns>
-        public Task<List<Ledger>> GetLedgers();
+        public Task<List<Ledger>> GetLedgersAsync();
     }
 }

@@ -108,36 +108,6 @@ namespace CryptoTA.Apis
             public string? Description { get; set; }
         }
 
-        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> CancelAllOrders()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> CancelOrder(int orderId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Balance> GetAccountBalance()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Balance>> GetAccountBalanceAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Order>> GetClosedOrders()
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Tick> GetOhlcData(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
         {
             string uriString = "https://www.bitstamp.net/api/v2/ohlc/";
@@ -180,14 +150,46 @@ namespace CryptoTA.Apis
             return ohlcData;
         }
 
-        public Task<List<Order>> GetOpenOrders()
+        public async Task<List<Tick>> GetOhlcDataAsync(TradingPair tradingPair, DateTime? startDate, uint timeInterval)
         {
-            throw new NotImplementedException();
-        }
+            string uriString = "https://www.bitstamp.net/api/v2/ohlc/";
+            uriString += tradingPair.Name;
+            uriString += "/?limit=1000&step=" + timeInterval;
+            if (startDate != null)
+            {
+                var startTimestamp = new DateTimeOffset((DateTime)startDate).ToUnixTimeSeconds();
+                uriString += "&start=" + startTimestamp;
+            }
 
-        public Task<OrderBook> GetOrderBook(TradingPair tradingPair)
-        {
-            throw new NotImplementedException();
+            var baseUrl = new Uri(uriString);
+            var client = new RestClient(baseUrl);
+            var request = new RestRequest(baseUrl, Method.Get);
+
+            var response = await client.ExecuteAsync<BitstampOhlc>(request);
+
+            var ohlcData = new List<Tick>();
+
+            if (response.IsSuccessful && response.Data != null && response.Data.Data != null && response.Data.Data.Ohlc != null)
+            {
+                foreach (BitstampOhlcItem ohlcItem in response.Data.Data.Ohlc)
+                {
+                    var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                    dateTime = dateTime.AddSeconds(ohlcItem.Timestamp).ToLocalTime();
+
+                    var Tick = new Tick
+                    {
+                        Open = ohlcItem.Open,
+                        Close = ohlcItem.Close,
+                        High = ohlcItem.High,
+                        Low = ohlcItem.Low,
+                        Volume = ohlcItem.Volume,
+                        Date = dateTime,
+                    };
+                    ohlcData.Add(Tick);
+                }
+            }
+
+            return ohlcData;
         }
 
         public Tick? GetTick(TradingPair tradingPair)
@@ -216,17 +218,76 @@ namespace CryptoTA.Apis
             }
         }
 
-        public Task<List<Balance>> GetTradingBalance()
+        public async Task<Tick?> GetTickAsync(TradingPair tradingPair)
         {
-            throw new NotImplementedException();
+            var baseUrl = new Uri($"https://www.bitstamp.net/api/v2/ticker/{tradingPair.Name}/");
+            var client = new RestClient(baseUrl);
+            var request = new RestRequest("get", Method.Get);
+
+            var response = await client.ExecuteAsync<BitstampTick>(request);
+
+            if (response.IsSuccessful && response.Data != null)
+            {
+                return new Tick
+                {
+                    High = response.Data.High,
+                    Low = response.Data.Low,
+                    Open = response.Data.Open,
+                    Close = response.Data.Last,
+                    Volume = response.Data.Volume,
+                    Date = DateTime.Now
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public List<Fees> GetTradingFees(TradingPair tradingPair)
+        public List<TradingPair> GetTradingPairs()
         {
-            throw new NotImplementedException();
+            var baseUrl = new Uri("https://www.bitstamp.net/api/v2/trading-pairs-info/");
+            var client = new RestClient(baseUrl);
+            var request = new RestRequest(baseUrl, Method.Get);
+
+            var response = client.Execute<BitstampTradingPair[]>(request);
+
+            var tradingPairs = new List<TradingPair>();
+
+            if (response.IsSuccessful && response.Data != null)
+            {
+                if (response.Data.Length == 0)
+                {
+                    throw new Exception("API call successful, but no trading pairs serialized.");
+                }
+
+                foreach (var bitstampTradingPair in response.Data)
+                {
+                    if (bitstampTradingPair.Name != null && bitstampTradingPair.Description != null)
+                    {
+                        var pairSymbols = bitstampTradingPair.Name.Split("/");
+                        var pairNames = bitstampTradingPair.Description.Split(" / ");
+                        var tradingPair = new TradingPair
+                        {
+                            Name = bitstampTradingPair.Url_symbol,
+                            BaseSymbol = pairSymbols[0],
+                            CounterSymbol = pairSymbols[1],
+                            BaseName = pairNames[0],
+                            CounterName = pairNames[1]
+                        };
+                        tradingPairs.Add(tradingPair);
+                    }
+                }
+
+                return tradingPairs;
+            }
+            else
+            {
+                throw new Exception(response.ErrorMessage);
+            }
         }
 
-        public async Task<List<TradingPair>> GetTradingPairs()
+        public async Task<List<TradingPair>> GetTradingPairsAsync()
         {
             var baseUrl = new Uri("https://www.bitstamp.net/api/v2/trading-pairs-info/");
             var client = new RestClient(baseUrl);
@@ -269,22 +330,7 @@ namespace CryptoTA.Apis
             }
         }
 
-        public Task<WebsocketsToken> GetWebsocketsToken()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Fees>> GetWithdrawalFees(TradingPair tradingPair)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Trade>> GetTradesHistory()
+        public List<Asset> GetAssets()
         {
             throw new NotImplementedException();
         }
@@ -294,43 +340,117 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
+        public List<Fees> GetTradingFees(TradingPair tradingPair)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Fees> GetWithdrawalFees(TradingPair tradingPair)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Balance> GetAccountBalance()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Balance> GetAccountBalance(TradingPair tradingPair)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Balance> GetTradingBalance()
+        {
+            throw new NotImplementedException();
+        }
+
+        public OrderBook GetOrderBook(TradingPair tradingPair)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CancelOrder(int orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CancelAllOrders()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Order> GetOpenOrders()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Order> GetClosedOrders()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Trade> GetTradesHistory()
+        {
+            throw new NotImplementedException();
+        }
+
+        public WebsocketsToken GetWebsocketsToken()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Ledger> GetLedgers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Asset>> GetAssetsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Asset> GetAssetDataAsync(string assetName)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Ledger>> GetLedgers()
+        public Task<List<Fees>> GetTradingFeesAsync(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Tick?> GetTickAsync(TradingPair tradingPair)
+        public Task<List<Fees>> GetWithdrawalFeesAsync(TradingPair tradingPair)
         {
-            var baseUrl = new Uri($"https://www.bitstamp.net/api/v2/ticker/{tradingPair.Name}/");
-            var client = new RestClient(baseUrl);
-            var request = new RestRequest("get", Method.Get);
-
-            var response = await client.ExecuteAsync<BitstampTick>(request);
-
-            if (response.IsSuccessful && response.Data != null)
-            {
-                return new Tick
-                {
-                    High = response.Data.High,
-                    Low = response.Data.Low,
-                    Open = response.Data.Open,
-                    Close = response.Data.Last,
-                    Volume = response.Data.Volume,
-                    Date = DateTime.Now
-                };
-            }
-            else
-            {
-                return null;
-            }
+            throw new NotImplementedException();
         }
 
-        public Task<List<Fees>> GetTradingFeesAsync(TradingPair tradingPair)
+        public Task<List<Balance>> GetAccountBalanceAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Balance>> GetAccountBalanceAsync(TradingPair tradingPair)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Balance>> GetTradingBalanceAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<OrderBook> GetOrderBookAsync(TradingPair tradingPair)
         {
             throw new NotImplementedException();
         }
@@ -345,12 +465,37 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public List<Balance> GetAccountBalance(TradingPair tradingPair)
+        public Task<bool> CancelOrderAsync(int orderId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Balance>> GetAccountBalanceAsync(TradingPair tradingPair)
+        public Task<bool> CancelAllOrdersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Order>> GetOpenOrdersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Order>> GetClosedOrdersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Trade>> GetTradesHistoryAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<WebsocketsToken> GetWebsocketsTokenAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Ledger>> GetLedgersAsync()
         {
             throw new NotImplementedException();
         }

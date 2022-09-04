@@ -1262,12 +1262,80 @@ namespace CryptoTA.Apis
 
         public List<Order> GetOrdersInfo(string[] transactionIds)
         {
-            throw new NotImplementedException();
+            var orders = new List<Order>();
+
+            foreach (var orderKvp in api.QueryPrivateEndpoint<KrakenOrderData>("QueryOrders", new string[] { "result" }))
+            {
+                if (orderKvp.Value is not KrakenOrderData orderData)
+                {
+                    continue;
+                }
+
+                using var db = new DatabaseContext();
+                var dbTradingPair = db.TradingPairs.Where(tp => tp.Name == orderData.Descr.Pair).First();
+
+                if (dbTradingPair is not TradingPair tradingPair)
+                {
+                    continue;
+                }
+
+                orders.Add(new Order
+                {
+                    MarketOrderId = orderData.Refid,
+                    OrderType = orderData.Descr.Ordertype,
+                    Status = orderData.Status,
+                    TotalCost = double.Parse(orderData.Cost, CultureInfo.InvariantCulture),
+                    AveragePrice = double.Parse(orderData.Price, CultureInfo.InvariantCulture),
+                    Fee = double.Parse(orderData.Fee, CultureInfo.InvariantCulture),
+                    Volume = double.Parse(orderData.Vol, CultureInfo.InvariantCulture),
+                    VolumeExecuted = double.Parse(orderData.Vol_exec, CultureInfo.InvariantCulture),
+                    StartDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    OpenDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    ExpireDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    TradingPairId = tradingPair.TradingPairId
+                });
+            }
+
+            return orders;
         }
 
-        public Task<List<Order>> GetOrdersInfoAsync(string[] transactionIds)
+        public async Task<List<Order>> GetOrdersInfoAsync(string[] transactionIds)
         {
-            throw new NotImplementedException();
+            var orders = new List<Order>();
+
+            foreach (var orderKvp in await api.QueryPrivateEndpointAsync<KrakenOrderData>("QueryOrders", new string[] { "result" }))
+            {
+                if (orderKvp.Value is not KrakenOrderData orderData)
+                {
+                    continue;
+                }
+
+                using var db = new DatabaseContext();
+                var dbTradingPair = db.TradingPairs.Where(tp => tp.Name == orderData.Descr.Pair).First();
+
+                if (dbTradingPair is not TradingPair tradingPair)
+                {
+                    continue;
+                }
+
+                orders.Add(new Order
+                {
+                    MarketOrderId = orderData.Refid,
+                    OrderType = orderData.Descr.Ordertype,
+                    Status = orderData.Status,
+                    TotalCost = double.Parse(orderData.Cost, CultureInfo.InvariantCulture),
+                    AveragePrice = double.Parse(orderData.Price, CultureInfo.InvariantCulture),
+                    Fee = double.Parse(orderData.Fee, CultureInfo.InvariantCulture),
+                    Volume = double.Parse(orderData.Vol, CultureInfo.InvariantCulture),
+                    VolumeExecuted = double.Parse(orderData.Vol_exec, CultureInfo.InvariantCulture),
+                    StartDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    OpenDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    ExpireDate = DateTimeUtils.FromTimestamp(orderData.Starttm),
+                    TradingPairId = tradingPair.TradingPairId
+                });
+            }
+
+            return orders;
         }
     }
 }

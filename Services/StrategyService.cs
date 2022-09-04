@@ -155,7 +155,6 @@ namespace CryptoTA.Services
                         double buyMinAmount = tradingPair.MinimalOrderAmount * currentTick.Close;
                         double sellMinAmount = tradingPair.MinimalOrderAmount;
 
-                        continue;
                         if (indicatorsRatio <= 0.6d && (strategy.Order is null || strategy.Order.Type != "buy") && buyVolume >= buyMinAmount)
                         {
                             // Buy
@@ -165,19 +164,14 @@ namespace CryptoTA.Services
                                 continue;
                             }
 
-                            //dbStrategy.Order = new Order
-                            //{
-                            //    MarketOrderId = tradeId,
-                            //    Type = "buy",
-                            //    OrderType = "market",
-                            //    Status = "open",
-                            //    TotalCost = buyVolume,
-                            //    Fee = buyFee,
-                            //    Volume = buyNetVolume,
-                            //    OpenDate = currentDate,
-                            //    StartDate = currentDate,
-                            //    TradingPairId = tradingPair.TradingPairId
-                            //};
+                            if (marketApi.GetOrdersInfo(new string[] { tradeId }).First() is not Order order)
+                            {
+                                continue;
+                            }
+
+                            dbStrategy.Order = order;
+
+                            db.SaveChanges();
                         }
                         else if (indicatorsRatio >= 0.8d && (strategy.Order is null || strategy.Order.Type != "sell") && sellVolume >= sellMinAmount)
                         {
@@ -188,22 +182,15 @@ namespace CryptoTA.Services
                                 continue;
                             }
 
-                            //dbStrategy.Order = new Order
-                            //{
-                            //    MarketOrderId = tradeId,
-                            //    Type = "sell",
-                            //    OrderType = "market",
-                            //    Status = "open",
-                            //    TotalCost = sellVolume,
-                            //    Fee = sellFee,
-                            //    Volume = sellNetVolume,
-                            //    OpenDate = currentDate,
-                            //    StartDate = currentDate,
-                            //    TradingPairId = tradingPair.TradingPairId
-                            //};
-                        }
+                            if (marketApi.GetOrdersInfo(new string[] { tradeId }).First() is not Order order)
+                            {
+                                continue;
+                            }
 
-                        db.SaveChanges();
+                            dbStrategy.Order = order;
+
+                            db.SaveChanges();
+                        }
                     }
                 }
             }

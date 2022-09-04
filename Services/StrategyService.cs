@@ -14,7 +14,7 @@ namespace CryptoTA.Services
     public class StrategyService
     {
         // 15 minutes loop interval
-        private const int loopInterval = 60 * 1;
+        private const int loopInterval = 10;
 
         private readonly Dictionary<IMarketApi, Market> apis;
         private readonly DatabaseModel databaseModel;
@@ -84,15 +84,10 @@ namespace CryptoTA.Services
                             continue;
                         }
 
-                        var accountBalance = marketApi.GetAccountBalance(tradingPair);
+                        var accountBalance = marketApi.GetAccountBalance();
 
-                        var baseBalance = accountBalance.Where(b => b.Name is not null && tradingPair.BaseSymbol.Contains(b.Name)).FirstOrDefault();
-                        var counterBalance = accountBalance.Where(b => b.Name is not null && tradingPair.CounterSymbol.Contains(b.Name)).FirstOrDefault();
-
-                        if (baseBalance?.TotalAmount is not double availableBaseVolume || counterBalance?.TotalAmount is not double availableCounterVolume)
-                        {
-                            continue;
-                        }
+                        var availableBaseVolume = accountBalance.Where(b => b.Name == tradingPair.BaseSymbol).FirstOrDefault()?.TotalAmount ?? 0;
+                        var availableCounterVolume = accountBalance.Where(b => b.Name == tradingPair.CounterSymbol).FirstOrDefault()?.TotalAmount ?? 0;
 
                         availableBaseVolume = Math.Round(availableBaseVolume, tradingPair.BaseDecimals);
                         availableCounterVolume = Math.Round(availableCounterVolume, tradingPair.CounterDecimals);
@@ -125,48 +120,43 @@ namespace CryptoTA.Services
 
                         var indicatorsRatio = indicatorsModel.GetTotalRatio(tradingPair, startDate, secondsIndicatorInterval);
 
-                        if (indicatorsRatio is null || marketApi.GetTradingFees(tradingPair) is not List<Fees> fees || db.Strategies.Find(strategy.StrategyId) is not Strategy dbStrategy)
+                        if (indicatorsRatio is null || db.Strategies.Find(strategy.StrategyId) is not Strategy dbStrategy)
                         {
                             continue;
                         }
 
-                        var fee = fees.First();
+                        if (marketApi.GetTradingFees(tradingPair, availableBaseVolume) is not Fees fee)
+                        {
+                            continue;
+                        }
 
                         if (databaseModel.GetTickBlocking(tradingPair) is not Tick currentTick)
                         {
                             continue;
                         }
 
-                        double buyVolume = strategy.BuyAmount == 0 ? availableCounterVolume * (strategy.BuyPercentages / 100d) / currentTick.Close : strategy.BuyAmount;
+                        double feePercent = fee.TakerPercent;
+
+                        double buyCounterVolume = strategy.BuyAmount == 0 ? availableCounterVolume * (strategy.BuyPercentages / 100d) / currentTick.Close : strategy.BuyAmount;
+                        double buyVolume = Math.Round(buyCounterVolume / currentTick.Close, tradingPair.BaseDecimals);
+                        buyCounterVolume = Math.Round(buyCounterVolume, tradingPair.CounterDecimals);
+
                         double sellVolume = availableBaseVolume;
+                        double sellCounterVolume = Math.Round(sellVolume * currentTick.Close, tradingPair.CounterDecimals);
 
-                        buyVolume = Math.Round(buyVolume, tradingPair.BaseDecimals, MidpointRounding.ToZero);
-
-                        var buyFee = buyVolume * fee.TakerPercent;
-                        var sellFee = sellVolume * fee.MakerPercent;
-
-                        if (buyFee < fee.TakerMin)
-                        {
-                            buyFee = fee.TakerMin;
-                        }
-
-                        if (sellFee < fee.MakerMin)
-                        {
-                            sellFee = fee.MakerMin;
-                        }
-
-                        if (buyVolume <= 0d && sellVolume <= 0d || indicatorsRatio > 0.6d && indicatorsRatio < 0.8d)
+                        if (buyVolume == 0d && sellVolume == 0d || indicatorsRatio > 0.6d && indicatorsRatio < 0.8d)
                         {
                             continue;
                         }
 
-                        var buyNetVolume = buyVolume - buyFee;
-                        var sellNetVolume = sellVolume - sellFee;
+                        double buyNetVolume = Math.Round(buyCounterVolume * (1 - feePercent) / currentTick.Close, tradingPair.BaseDecimals);
+                        double sellNetVolume = Math.Round(sellCounterVolume * (1 - feePercent) / currentTick.Close, tradingPair.BaseDecimals);
 
-                        buyNetVolume = tradingPair.MinimalOrderAmount > buyNetVolume ? tradingPair.MinimalOrderAmount : buyNetVolume;
-                        sellNetVolume = tradingPair.MinimalOrderAmount > sellNetVolume ? tradingPair.MinimalOrderAmount : sellNetVolume;
+                        double buyMinAmount = tradingPair.MinimalOrderAmount * currentTick.Close;
+                        double sellMinAmount = tradingPair.MinimalOrderAmount;
+
                         continue;
-                        if (indicatorsRatio <= 0.6d && (strategy.Order is null || strategy.Order.Type != "buy") && buyVolume > 0)
+                        if (indicatorsRatio <= 0.6d && (strategy.Order is null || strategy.Order.Type != "buy") && buyVolume >= buyMinAmount)
                         {
                             // Buy
 
@@ -189,7 +179,7 @@ namespace CryptoTA.Services
                             //    TradingPairId = tradingPair.TradingPairId
                             //};
                         }
-                        else if (indicatorsRatio >= 0.8d && (strategy.Order is null || strategy.Order.Type != "sell") && sellVolume > 0)
+                        else if (indicatorsRatio >= 0.8d && (strategy.Order is null || strategy.Order.Type != "sell") && sellVolume >= sellMinAmount)
                         {
                             // Sell
 

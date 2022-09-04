@@ -84,11 +84,13 @@ namespace CryptoTA.Apis
         public Tick? GetTick(TradingPair tradingPair);
 
         /// <summary>
-        /// Gets market trading fees for given trading pair.
+        /// Gets market trading fees for given trading pair and given base 
+        /// volume.
         /// </summary>
-        /// <param name="tradingPair">One of available trading pairs.</param>
+        /// <param name="tradingPair"></param>
+        /// <param name="baseVolume"></param>
         /// <returns></returns>
-        public List<Fees> GetTradingFees(TradingPair tradingPair);
+        public Fees GetTradingFees(TradingPair tradingPair, double baseVolume);
 
         /// <summary>
         /// Gets withdrawal fees for given trading pair.
@@ -103,14 +105,6 @@ namespace CryptoTA.Apis
         /// </summary>
         /// <returns></returns>
         public List<Balance> GetAccountBalance();
-
-        /// <summary>
-        /// Gets subset account balance assets as a list of currency-amount 
-        /// <c>Balance</c> objects which matches with given trading pair.
-        /// </summary>
-        /// <param name="tradingPair"></param>
-        /// <returns></returns>
-        public List<Balance> GetAccountBalance(TradingPair tradingPair);
 
         /// <summary>
         /// Gets market trading balance as a enumerable of currency-amount <c>Balance</c> 
@@ -170,6 +164,18 @@ namespace CryptoTA.Apis
         public List<Order> GetClosedOrders();
 
         /// <summary>
+        /// Gets info about orders of given transaction IDs.
+        /// It's best to keep query orders amount as low as possible, 
+        /// as a general safe limit, it is recommended to do not query 
+        /// more than 20 orders. 
+        /// Such limitation comes from the fact that markets may use 
+        /// different limitations for querying orders.
+        /// </summary>
+        /// <param name="transactionIds"></param>
+        /// <returns></returns>
+        public List<Order> GetOrdersInfo(string[] transactionIds);
+
+        /// <summary>
         /// Gets list of account's trades.
         /// </summary>
         /// <returns></returns>
@@ -225,9 +231,10 @@ namespace CryptoTA.Apis
         /// <summary>
         /// Async version of <c>GetTradingFees</c>.
         /// </summary>
-        /// <param name="tradingPair">One of available trading pairs.</param>
+        /// <param name="tradingPair"></param>
+        /// <param name="baseVolume"></param>
         /// <returns></returns>
-        public Task<List<Fees>> GetTradingFeesAsync(TradingPair tradingPair);
+        public Task<Fees> GetTradingFeesAsync(TradingPair tradingPair, double baseVolume);
 
         /// <summary>
         /// Async version of <c>GetWithdrawalFees</c>.
@@ -241,13 +248,6 @@ namespace CryptoTA.Apis
         /// </summary>
         /// <returns></returns>
         public Task<List<Balance>> GetAccountBalanceAsync();
-
-        /// <summary>
-        /// Async version of <c>GetAccountBalance</c>.
-        /// </summary>
-        /// <param name="tradingPair"></param>
-        /// <returns></returns>
-        public Task<List<Balance>> GetAccountBalanceAsync(TradingPair tradingPair);
 
         /// <summary>
         /// Async version of <c>GetTradingBalance</c>.
@@ -304,6 +304,13 @@ namespace CryptoTA.Apis
         /// </summary>
         /// <returns></returns>
         public Task<List<Order>> GetClosedOrdersAsync();
+
+        /// <summary>
+        /// Async version of <c>GetOrdersInfo</c>.
+        /// </summary>
+        /// <param name="transactionIds"></param>
+        /// <returns></returns>
+        public Task<List<Order>> GetOrdersInfoAsync(string[] transactionIds);
 
         /// <summary>
         /// Async version of <c>GetClosedOrders</c>.

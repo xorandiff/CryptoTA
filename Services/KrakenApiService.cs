@@ -13,6 +13,7 @@ using Websocket.Client;
 using System.Threading;
 using System.Windows;
 using System.Collections;
+using System.Web;
 
 namespace CryptoTA.Services
 {
@@ -45,7 +46,7 @@ namespace CryptoTA.Services
 
             foreach (DictionaryEntry parameterEntry in queryStringParams)
             {
-                paramList.Add(parameterEntry.Key.ToString() + "=" + parameterEntry.Value!.ToString());
+                paramList.Add(parameterEntry.Key.ToString() + "=" + HttpUtility.UrlEncode(parameterEntry.Value!.ToString()));
             }
 
             return string.Join("&", paramList);
@@ -91,20 +92,20 @@ namespace CryptoTA.Services
             return jTokenData;
         }
 
-        public string CreateAuthenticationSignature(string apiPath, string endpointName, string nonce, string inputParams, string? privateKey = null)
+        public static string CreateAuthenticationSignature(string apiPath, string endpointName, string nonce, UriParams bodyParams, string privateKey)
         {
-            byte[] sha256Hash = ComputeSha256Hash(nonce, inputParams);
-            byte[] sha512Hash = ComputeSha512Hash(privateKey ?? apiSecret, sha256Hash, apiPath, endpointName);
+            byte[] sha256Hash = ComputeSha256Hash(nonce, BuildQueryString(bodyParams).ToString());
+            byte[] sha512Hash = ComputeSha512Hash(privateKey, sha256Hash, apiPath, endpointName);
             string signatureString = Convert.ToBase64String(sha512Hash);
 
             return signatureString;
         }
 
-        private static byte[] ComputeSha256Hash(string nonce, string inputParams)
+        public static byte[] ComputeSha256Hash(string nonce, string urlEncodedBodyString)
         {
             byte[] sha256Hash;
 
-            string sha256HashData = nonce.ToString() + "nonce=" + nonce.ToString() + inputParams;
+            string sha256HashData = nonce.ToString() + urlEncodedBodyString.ToString();
 
             using (var sha = SHA256.Create())
             {
@@ -114,9 +115,8 @@ namespace CryptoTA.Services
             return sha256Hash;
         }
 
-        private static byte[] ComputeSha512Hash(string apiPrivateKey, byte[] sha256Hash, string apiPath, string endpointName)
+        public static byte[] ComputeSha512Hash(string apiPrivateKey, byte[] sha256Hash, string apiPath, string endpointName)
         {
-
             string apiEndpointPath = apiPath + endpointName;
 
             byte[] apiEndpointPathBytes = Encoding.UTF8.GetBytes(apiEndpointPath);
@@ -141,7 +141,7 @@ namespace CryptoTA.Services
             using (HttpClient client = new())
             {
                 client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA Client");
+                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA");
 
                 var request = new HttpRequestMessage(HttpMethod.Get, apiEndpointFullURL);
                 HttpResponseMessage response = client.Send(request);
@@ -166,9 +166,10 @@ namespace CryptoTA.Services
             using (HttpClient client = new())
             {
                 client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA Client");
+                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA");
 
-                HttpResponseMessage response = await client.GetAsync(apiEndpointFullURL);
+                var request = new HttpRequestMessage(HttpMethod.Get, apiEndpointFullURL);
+                HttpResponseMessage response = await client.SendAsync(request);
 
                 jsonData = response.Content.ReadAsStringAsync().Result;
             }
@@ -202,30 +203,24 @@ namespace CryptoTA.Services
 
         public JToken QueryPrivateEndpoint(string endpointName, string[]? responsePath = null, UriParams? bodyParams = null)
         {
-            string apiEndpointFullURL = $"{baseDomain}{privatePath}{endpointName}";
+            string apiEndpointFullURL = baseDomain + privatePath + endpointName;
 
             bodyParams ??= new();
-            string nonce = new Random().Next().ToString();
+            string nonce = (new Random().Next()).ToString();
+            bodyParams.Insert(0, "nonce", nonce.ToString());
 
-            string bodyParamsString = BuildQueryString(bodyParams);
-            string signature = CreateAuthenticationSignature(privatePath, endpointName, nonce, bodyParamsString);
-
-            if (!string.IsNullOrWhiteSpace(bodyParamsString))
-            {
-                bodyParamsString = "&" + bodyParamsString;
-            }
-            string bodyData = "nonce=" + nonce + bodyParamsString;
+            string signature = CreateAuthenticationSignature(privatePath, endpointName, nonce.ToString()!, bodyParams, apiSecret.ToString());
 
             string jsonData;
 
             using (HttpClient client = new())
             {
                 client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("API-Key", apiKey);
+                client.DefaultRequestHeaders.Add("API-Key", apiKey.ToString());
                 client.DefaultRequestHeaders.Add("API-Sign", signature);
-                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA Client");
+                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA");
 
-                StringContent data = new(bodyData, Encoding.UTF8, "application/x-www-form-urlencoded");
+                StringContent data = new(BuildQueryString(bodyParams), Encoding.UTF8, "application/x-www-form-urlencoded");
 
                 var request = new HttpRequestMessage(HttpMethod.Post, apiEndpointFullURL)
                 {
@@ -242,31 +237,31 @@ namespace CryptoTA.Services
 
         public async Task<JToken> QueryPrivateEndpointAsync(string endpointName, string[]? responsePath = null, UriParams? bodyParams = null)
         {
-            string apiEndpointFullURL = $"{baseDomain}{privatePath}{endpointName}";
+            string apiEndpointFullURL = baseDomain + privatePath + endpointName;
 
             bodyParams ??= new();
-            string nonce = new Random().Next().ToString();
+            string nonce = (new Random().Next()).ToString();
+            bodyParams.Insert(0, "nonce", nonce.ToString());
 
-            string bodyParamsString = BuildQueryString(bodyParams);
-            string signature = CreateAuthenticationSignature(privatePath, endpointName, nonce, bodyParamsString);
-
-            if (!string.IsNullOrWhiteSpace(bodyParamsString))
-            {
-                bodyParamsString = "&" + bodyParamsString;
-            }
-            string bodyData = "nonce=" + nonce + bodyParamsString;
+            string signature = CreateAuthenticationSignature(privatePath, endpointName, nonce.ToString()!, bodyParams, apiSecret.ToString());
 
             string jsonData;
 
             using (HttpClient client = new())
             {
                 client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("API-Key", apiKey);
+                client.DefaultRequestHeaders.Add("API-Key", apiKey.ToString());
                 client.DefaultRequestHeaders.Add("API-Sign", signature);
-                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA Client");
+                client.DefaultRequestHeaders.Add("User-Agent", "CryptoTA");
 
-                StringContent data = new(bodyData, Encoding.UTF8, "application/x-www-form-urlencoded");
-                HttpResponseMessage response = await client.PostAsync(apiEndpointFullURL, data);
+                StringContent data = new(BuildQueryString(bodyParams), Encoding.UTF8, "application/x-www-form-urlencoded");
+
+                var request = new HttpRequestMessage(HttpMethod.Post, apiEndpointFullURL)
+                {
+                    Content = data
+                };
+
+                HttpResponseMessage response = await client.SendAsync(request);
 
                 jsonData = response.Content.ReadAsStringAsync().Result;
             }
@@ -277,6 +272,11 @@ namespace CryptoTA.Services
         public async Task<Dictionary<string, T>> QueryPrivateEndpointAsync<T>(string endpointName, string[]? responsePath = null, UriParams? bodyParams = null)
         {
             var jToken = await QueryPrivateEndpointAsync(endpointName, responsePath, bodyParams);
+
+            if (jToken is null || !jToken.HasValues)
+            {
+                throw new KrakenApiException("Kraken API returned empty response.");
+            }
 
             if (JsonConvert.DeserializeObject<Dictionary<string, T>>(jToken.ToString()) is not Dictionary<string, T> resultDictionary)
             {
@@ -289,6 +289,11 @@ namespace CryptoTA.Services
         public Dictionary<string, T> QueryPrivateEndpoint<T>(string endpointName, string[]? responsePath = null, UriParams? bodyParams = null)
         {
             var jToken = QueryPrivateEndpoint(endpointName, responsePath, bodyParams);
+
+            if (jToken is null || !jToken.HasValues)
+            {
+                throw new KrakenApiException("Kraken API returned empty response.");
+            }
 
             if (JsonConvert.DeserializeObject<Dictionary<string, T>>(jToken.ToString()) is not Dictionary<string, T> resultDictionary)
             {

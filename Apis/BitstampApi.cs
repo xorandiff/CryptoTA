@@ -335,7 +335,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public List<Fees> GetTradingFees(TradingPair tradingPair)
+        public Fees GetTradingFees(TradingPair tradingPair, double baseVolume)
         {
             throw new NotImplementedException();
         }
@@ -415,7 +415,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<List<Fees>> GetTradingFeesAsync(TradingPair tradingPair)
+        public Task<Fees> GetTradingFeesAsync(TradingPair tradingPair, double baseVolume)
         {
             throw new NotImplementedException();
         }
@@ -486,6 +486,16 @@ namespace CryptoTA.Apis
         }
 
         public Task<List<Ledger>> GetLedgersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Order> GetOrdersInfo(string[] transactionIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Order>> GetOrdersInfoAsync(string[] transactionIds)
         {
             throw new NotImplementedException();
         }

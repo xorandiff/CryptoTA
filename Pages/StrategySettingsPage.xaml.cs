@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using static CryptoTA.Pages.StrategySettingsPage;
 
 namespace CryptoTA.Pages
 {
@@ -329,9 +330,16 @@ namespace CryptoTA.Pages
 
             using (var db = new DatabaseContext())
             {
-                foreach (TradingPair tradingPair in db.TradingPairs.Where(tp => tp.MarketId == market.MarketId).ToList())
+                int[] activeTradingPairIds = db.Strategies.Where(s => s.Active).Select(s => s.TradingPairId).ToArray();
+
+                var groupedTradingPairs = db.TradingPairs.Where(tp => tp.MarketId == market.MarketId).AsEnumerable().GroupBy(tp => activeTradingPairIds.Contains(tp.TradingPairId)).ToList();
+                
+                foreach (var tradingPairGroup in groupedTradingPairs)
                 {
-                    tradingPairs.Add(tradingPair);
+                    foreach (var tradingPair in tradingPairGroup)
+                    {
+                        tradingPairs.Add(tradingPair);
+                    }
                 }
             }
 
@@ -350,6 +358,17 @@ namespace CryptoTA.Pages
             var settingsMarket = await db.GetMarketFromSettings();
             market = markets.Where(m => m.MarketId == settingsMarket.MarketId).First();
             MarketsComboBox.SelectedItem = market;
+            if (!marketApis.setActiveApiByName(Market.Name))
+            {
+                throw new Exception("No market API found that correspond to database market name.");
+            }
+
+            tradingPairs.Clear();
+            foreach (var tradingPair in CreateTradingPairs())
+            {
+                tradingPairs.Add(tradingPair);
+            }
+            TradingPairComboBox.SelectedItem = tradingPairs.First();
         }
 
         private void MarketsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -439,19 +458,26 @@ namespace CryptoTA.Pages
                 BuyAmountCurrencyComboBox.ItemsSource = new ObservableCollection<TradingPair> { TradingPair, new TradingPair { CounterSymbol = "%" } };
                 BuyAmountCurrencyComboBox.SelectedIndex = 0;
 
-                var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync(tradingPair);
+                var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync();
+                var baseVolume = accountBalance.FirstOrDefault(b => b.Name == TradingPair.BaseSymbol)?.TotalAmount ?? 0;
+                var counterVolume = accountBalance.FirstOrDefault(b => b.Name == TradingPair.CounterSymbol)?.TotalAmount ?? 0;
 
-                if (accountBalance is null || !accountBalance.Any(b => b.TotalAmount > 0d))
+                if (baseVolume == 0 && counterVolume == 0)
                 {
                     FeedbackMessageContentControl.Content = new FeedbackMessage(MessageType.StrategyNoFunds);
                     strategyData.NoFunds = true;
                     return;
                 }
 
-                if (!accountBalance.Any(b => b.Name == TradingPair.BaseSymbol && b.TotalAmount > TradingPair.MinimalOrderAmount) &&
-                    !accountBalance.Any(b => b.Name == TradingPair.CounterSymbol && b.TotalAmount > TradingPair.MinimalOrderAmount * strategyData.currentTick.Close))
+                var baseMinimalOrder = tradingPair.MinimalOrderAmount;
+                var counterMinimalOrder = Math.Round(baseMinimalOrder * strategyData.currentTick.Close, tradingPair.CounterDecimals);
+
+                if (baseVolume < baseMinimalOrder && counterVolume < counterMinimalOrder)
                 {
-                    FeedbackMessageContentControl.Content = new FeedbackMessage(MessageType.StrategyNoMinimalAmount);
+                    string details = $"Minimal order is {baseMinimalOrder} {tradingPair.BaseName} ({counterMinimalOrder} {tradingPair.CounterName})";
+                    details += $", but your balance is {Math.Round(baseVolume, 5)} {tradingPair.BaseName} ({counterVolume} {tradingPair.CounterName}).";
+
+                    FeedbackMessageContentControl.Content = new FeedbackMessage(MessageType.StrategyNoMinimalAmount, details);
                     strategyData.NoFunds = true;
                     return;
                 }
@@ -463,11 +489,11 @@ namespace CryptoTA.Pages
 
         private async void CurrencyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CurrencyComboBox.SelectedItem is Asset)
+            if (CurrencyComboBox.SelectedItem is Asset asset)
             {
                 using var db = new DatabaseContext();
                 strategyData.currentTick = (await marketApis.ActiveMarketApi.GetTickAsync(TradingPair))!;
-                strategyData.Asset = (Asset)CurrencyComboBox.SelectedItem;
+                strategyData.Asset = asset;
             }
         }
 
@@ -481,10 +507,25 @@ namespace CryptoTA.Pages
 
                     try
                     {
-                        var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync(tradingPair);
-                        if (accountBalance is null || !accountBalance.Any(b => b.TotalAmount > 0d))
+                        var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync();
+                        var baseVolume = accountBalance.FirstOrDefault(b => b.Name == TradingPair.BaseSymbol)?.TotalAmount ?? 0;
+                        var counterVolume = accountBalance.FirstOrDefault(b => b.Name == TradingPair.CounterSymbol)?.TotalAmount ?? 0;
+
+                        strategyData.currentTick = (await marketApis.ActiveMarketApi.GetTickAsync(TradingPair))!;
+                        var baseMinimalOrder = TradingPair.MinimalOrderAmount;
+                        var counterMinimalOrder = Math.Round(baseMinimalOrder * strategyData.currentTick.Close, tradingPair.CounterDecimals);
+
+                        if (baseVolume == 0 && counterVolume == 0)
                         {
                             FeedbackMessageContentControl.Content = new FeedbackMessage(MessageType.StrategyNoFunds);
+                            return;
+                        }
+                        else if (baseVolume < baseMinimalOrder && counterVolume < counterMinimalOrder)
+                        {
+                            string details = $"Minimal order is {baseMinimalOrder} {tradingPair.BaseName} ({counterMinimalOrder} {tradingPair.CounterName})";
+                            details += $", but your balance is {Math.Round(baseVolume, 5)} {tradingPair.BaseName} ({counterVolume} {tradingPair.CounterName}).";
+
+                            FeedbackMessageContentControl.Content = new FeedbackMessage(MessageType.StrategyNoMinimalAmount, details);
                             return;
                         }
                         else

@@ -28,7 +28,7 @@ namespace CryptoTA.UserControls
         public string Header { get; set; }
         public string Text { get; set; }
 
-        public FeedbackMessage(MessageType messageType)
+        public FeedbackMessage(MessageType messageType, string? details = null)
         {
             InitializeComponent();
             DataContext = this;
@@ -52,6 +52,11 @@ namespace CryptoTA.UserControls
                     Header = "Unknown Error";
                     Text = "Unknown error occured.";
                     break;
+            }
+
+            if (details != null)
+            {
+                Text = $"{details}\n{Text}";
             }
         }
 

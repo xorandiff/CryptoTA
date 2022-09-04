@@ -165,6 +165,7 @@
                     Grid.Column="2"
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
+                    IsEnabled="{Binding Strategy.Inactive}" 
                 >
                     Currency
                 </Label>
@@ -174,6 +175,7 @@
                     Grid.Column="3"
                     Margin="10"
                     Padding="5" 
+                    IsEnabled="{Binding Strategy.Inactive}" 
                     SelectionChanged="CurrencyComboBox_SelectionChanged"
                 />
 

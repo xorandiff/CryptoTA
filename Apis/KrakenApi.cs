@@ -5,11 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CryptoTA.Database;
 using CryptoTA.Database.Models;
-using CryptoTA.Exceptions;
 using CryptoTA.Services;
 using CryptoTA.Utils;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace CryptoTA.Apis
@@ -162,9 +160,9 @@ namespace CryptoTA.Apis
             public string Fee { get; set; }
             public string Min_fee { get; set; }
             public string Max_fee { get; set; }
-            public string Next_fee { get; set; }
-            public string Tier_volume { get; set; }
-            public string Next_volume { get; set; }
+            public string? Next_fee { get; set; }
+            public string? Tier_volume { get; set; }
+            public string? Next_volume { get; set; }
         }
 
         public class KrakenTradingFeesResult
@@ -249,94 +247,6 @@ namespace CryptoTA.Apis
                     Name = balanceKvp.Key,
                     TotalAmount = double.Parse(balanceKvp.Value.ToString(), CultureInfo.InvariantCulture)
                 });
-            }
-
-            return accountBalance;
-        }
-
-        public List<Balance> GetAccountBalance(TradingPair tradingPair)
-        {
-            string? baseAltName = null;
-            string? counterAltName = null;
-
-            if (tradingPair.DisplayName is not null && tradingPair.DisplayName.Contains("/"))
-            {
-                var pairNames = tradingPair.DisplayName.Split("/");
-                baseAltName = pairNames[0];
-                counterAltName = pairNames[1];
-            }
-
-            var accountBalance = new List<Balance>
-            {
-                new() { Name = tradingPair.BaseName, TotalAmount = 0 },
-                new() { Name = tradingPair.CounterName, TotalAmount = 0 }
-            };
-
-            List<Balance> apiAccountBalance = GetAccountBalance() ?? new();
-
-            if (accountBalance.Count == 0)
-            {
-                return accountBalance;
-            }
-
-            var matchedBalances = apiAccountBalance
-                                    .Where(b => !string.IsNullOrWhiteSpace(b.Name) && tradingPair.Name.Contains(b.Name))
-                                    .ToList(); 
-            
-            foreach (var matchedBalance in matchedBalances)
-            {
-                if ((baseAltName is not null && baseAltName == matchedBalance.Name) || tradingPair.Name.StartsWith(matchedBalance.Name!))
-                {
-                    accountBalance[0].TotalAmount = matchedBalance.TotalAmount;
-                }
-                else if ((counterAltName is not null && counterAltName == matchedBalance.Name) || tradingPair.Name.EndsWith(matchedBalance.Name!))
-                {
-                    accountBalance[1].TotalAmount = matchedBalance.TotalAmount;
-                }
-            }
-
-            return accountBalance;
-        }
-
-        public async Task<List<Balance>> GetAccountBalanceAsync(TradingPair tradingPair)
-        {
-            string? baseAltName = null;
-            string? counterAltName = null;
-
-            if (tradingPair.DisplayName is not null && tradingPair.DisplayName.Contains("/"))
-            {
-                var pairNames = tradingPair.DisplayName.Split("/");
-                baseAltName = pairNames[0];
-                counterAltName = pairNames[1];
-            }
-
-            var accountBalance = new List<Balance>
-            {
-                new() { Name = tradingPair.BaseName, TotalAmount = 0 },
-                new() { Name = tradingPair.CounterName, TotalAmount = 0 }
-            };
-
-            List<Balance> apiAccountBalance = await GetAccountBalanceAsync() ?? new();
-
-            if (accountBalance.Count == 0)
-            {
-                return accountBalance;
-            }
-
-            var matchedBalances = apiAccountBalance
-                                    .Where(b => !string.IsNullOrWhiteSpace(b.Name) && tradingPair.Name.Contains(b.Name))
-                                    .ToList();
-
-            foreach (var matchedBalance in matchedBalances)
-            {
-                if ((baseAltName is not null && baseAltName == matchedBalance.Name) || tradingPair.Name.StartsWith(matchedBalance.Name!))
-                {
-                    accountBalance[0].TotalAmount = matchedBalance.TotalAmount;
-                }
-                else if ((counterAltName is not null && counterAltName == matchedBalance.Name) || tradingPair.Name.EndsWith(matchedBalance.Name!))
-                {
-                    accountBalance[1].TotalAmount = matchedBalance.TotalAmount;
-                }
             }
 
             return accountBalance;
@@ -742,34 +652,39 @@ namespace CryptoTA.Apis
             return tradingBalance;
         }
 
-        public List<Fees> GetTradingFees(TradingPair tradingPair)
+        public Fees GetTradingFees(TradingPair tradingPair, double baseVolume)
         {
-            var fees = new List<Fees>();
+            JToken jResult = api.QueryPublicEndpoint("AssetPairs", new string[] { "result" }, new UriParams { { "pair", tradingPair.Name } });
 
-            UriParams bodyParams = new() { { "pair", tradingPair.Name }, { "fee-info", "true" } };
+            var jTradingPair = jResult[tradingPair.Name];
 
-            JToken jResult = api.QueryPrivateEndpoint("TradeVolume", new string[] { "result" }, bodyParams);
+            var takerFeeTiers = jTradingPair!["fees"]!.ToArray();
+            var makerFeeTiers = jTradingPair!["fees_maker"]!.ToArray();
 
-            if (JsonConvert.DeserializeObject<KrakenTradingFeesResult>(jResult.ToString()) is not KrakenTradingFeesResult krakenTradingFeesResult)
+            double takerFee = 0;
+            double makerFee = 0;
+
+            foreach (var takerFeeTier in takerFeeTiers)
             {
-                throw new KrakenApiException("Error during deserializing response into dictionary.");
+                if (baseVolume > (double)takerFeeTier[0]!)
+                {
+                    takerFee = (double)takerFeeTier[1]!;
+                }
             }
 
-            var krakenTakerFees = krakenTradingFeesResult.Fees.First().Value;
-            var krakenMakerFees = krakenTradingFeesResult.Fees_maker.First().Value;
-
-            fees.Add(new Fees
+            foreach (var makerFeeTier in makerFeeTiers)
             {
-                MakerPercent = double.Parse(krakenMakerFees.Fee, CultureInfo.InvariantCulture),
-                MakerMin = double.Parse(krakenMakerFees.Min_fee ?? "0", CultureInfo.InvariantCulture),
-                MakerMax = double.Parse(krakenMakerFees.Max_fee ?? "0", CultureInfo.InvariantCulture),
+                if (baseVolume > (double)makerFeeTier[0]!)
+                {
+                    makerFee = (double)makerFeeTier[1]!;
+                }
+            }
 
-                TakerPercent = double.Parse(krakenTakerFees.Fee, CultureInfo.InvariantCulture),
-                TakerMin = double.Parse(krakenTakerFees.Min_fee ?? "0", CultureInfo.InvariantCulture),
-                TakerMax = double.Parse(krakenTakerFees.Max_fee ?? "0", CultureInfo.InvariantCulture),
-            });
-
-            return fees;
+            return new Fees
+            {
+                TakerPercent = takerFee,
+                MakerPercent = makerFee
+            };
         }
 
         public List<Asset> GetAssets(string[]? assetNames = null)
@@ -1160,34 +1075,39 @@ namespace CryptoTA.Apis
             };
         }
 
-        public async Task<List<Fees>> GetTradingFeesAsync(TradingPair tradingPair)
+        public async Task<Fees> GetTradingFeesAsync(TradingPair tradingPair, double baseVolume)
         {
-            var fees = new List<Fees>();
+            JToken jResult = await api.QueryPublicEndpointAsync("AssetPairs", new string[] { "result" }, new UriParams { { "pair", tradingPair.Name } });
 
-            UriParams bodyParams = new() { { "pair", tradingPair.Name }, { "fee-info", "true" } };
+            var jTradingPair = jResult[tradingPair.Name];
 
-            JToken jResult = await api.QueryPrivateEndpointAsync("TradeVolume", new string[] { "result" }, bodyParams);
+            var takerFeeTiers = jTradingPair!["fees"]!.ToArray();
+            var makerFeeTiers = jTradingPair!["fees_maker"]!.ToArray();
 
-            if (JsonConvert.DeserializeObject<KrakenTradingFeesResult>(jResult.ToString()) is not KrakenTradingFeesResult krakenTradingFeesResult)
+            double takerFee = 0;
+            double makerFee = 0;
+
+            foreach (var takerFeeTier in takerFeeTiers)
             {
-                throw new KrakenApiException("Error during deserializing response into dictionary.");
+                if (baseVolume > (double)takerFeeTier[0]!)
+                {
+                    takerFee = (double)takerFeeTier[1]!;
+                }
             }
 
-            var krakenTakerFees = krakenTradingFeesResult.Fees.First().Value;
-            var krakenMakerFees = krakenTradingFeesResult.Fees_maker.First().Value;
-
-            fees.Add(new Fees
+            foreach (var makerFeeTier in makerFeeTiers)
             {
-                MakerPercent = double.Parse(krakenMakerFees.Fee, CultureInfo.InvariantCulture),
-                MakerMin = double.Parse(krakenMakerFees.Min_fee ?? "0", CultureInfo.InvariantCulture),
-                MakerMax = double.Parse(krakenMakerFees.Max_fee ?? "0", CultureInfo.InvariantCulture),
+                if (baseVolume > (double)makerFeeTier[0]!)
+                {
+                    makerFee = (double)makerFeeTier[1]!;
+                }
+            }
 
-                TakerPercent = double.Parse(krakenTakerFees.Fee, CultureInfo.InvariantCulture),
-                TakerMin = double.Parse(krakenTakerFees.Min_fee ?? "0", CultureInfo.InvariantCulture),
-                TakerMax = double.Parse(krakenTakerFees.Max_fee ?? "0", CultureInfo.InvariantCulture),
-            });
-
-            return fees;
+            return new Fees
+            {
+                TakerPercent = takerFee,
+                MakerPercent = makerFee
+            };
         }
 
         public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount, double price)
@@ -1338,6 +1258,16 @@ namespace CryptoTA.Apis
             }
 
             return krakenOrderResult.Txid.First();
+        }
+
+        public List<Order> GetOrdersInfo(string[] transactionIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Order>> GetOrdersInfoAsync(string[] transactionIds)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -98,5 +98,42 @@ namespace CryptoTA.Database
                 throw new Exception("Couldn't find stored time interval in Settings table.");
             }
         }
+
+        public async Task<Strategy> GetStrategyFromSettings()
+        {
+            var settings = await Settings.FirstOrDefaultAsync();
+            if (settings is null || await GetTradingPairFromSettings() is not TradingPair tradingPair)
+            {
+                throw new Exception("Couldn't find stored settings or settings doesn't have trading pair.");
+            }
+
+            if (await Strategies.AnyAsync())
+            {
+                await Strategies.AddAsync(new Strategy
+                {
+                    TradingPairId = tradingPair.TradingPairId,
+                    MinimalGain = 1,
+                    MaximalLoss = 1,
+                    BuyAmount = 0,
+                    BuyPercentages = 100,
+                    StrategyCategoryId = 1,
+                    AskBeforeTrade = false,
+                    Active = false
+                });
+
+                await SaveChangesAsync();
+
+                settings.StrategyId = await Strategies.Select(s => s.StrategyId).FirstOrDefaultAsync();
+            }
+
+            if (await Strategies.Include(s => s.TradingPair).ThenInclude(tp => tp!.Market).Where(s => s.StrategyId == settings.StrategyId).FirstOrDefaultAsync() is Strategy dbStrategy)
+            {
+                return dbStrategy;
+            }
+            else
+            {
+                throw new Exception("Couldn't find stored strategy in Settings table.");
+            }
+        }
     }
 }

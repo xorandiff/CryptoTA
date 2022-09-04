@@ -14,8 +14,6 @@ using Newtonsoft.Json.Linq;
 
 namespace CryptoTA.Apis
 {
-    using UriParams = Dictionary<string, string>;
-
     public class KrakenApi : IMarketApi
     {
         private const string name = "Kraken";
@@ -34,24 +32,26 @@ namespace CryptoTA.Apis
 
         public uint RequestMaxTickCount { get => requestMaxTickCount; }
 
-        public class KrakenTradingPair
+        public class KrakenAssetPair
         {
-            public string? Name { get; set; }
-            public string? Altname { get; set; }
-            public string? Wsname { get; set; }
-            public string? Aclass_base { get; set; }
-            public string? Base { get; set; }
-            public string? Aclass_quote { get; set; }
-            public string? Quote { get; set; }
-            public string? Lot { get; set; }
-            public uint Decimals { get; set; }
-            public uint Pair_decimals { get; set; }
-            public uint Lot_decimals { get; set; }
-            public uint Lot_multiplier { get; set; }
-            public string? Fee_volume_currency { get; set; }
-            public uint Margin_call { get; set; }
-            public uint Margin_stop { get; set; }
-            public string? Ordermin { get; set; }
+            public string Altname { get; set; }
+            public string Wsname { get; set; }
+            public string Aclass_base { get; set; }
+            public string Base { get; set; }
+            public string Aclass_quote { get; set; }
+            public string Quote { get; set; }
+            public string Lot { get; set; }
+            public int Pair_decimals { get; set; }
+            public int Lot_decimals { get; set; }
+            public int Lot_multiplier { get; set; }
+            public int[] Leverage_buy { get; set; }
+            public int[] Leverage_sell { get; set; }
+            public double[][] Fees { get; set; }
+            public double[][] Fees_maker { get; set; }
+            public string Fee_volume_currency { get; set; }
+            public int Margin_call { get; set; }
+            public int Margin_stop { get; set; }
+            public string Ordermin { get; set; }
         }
 
         public class KrakenTickerData
@@ -71,8 +71,8 @@ namespace CryptoTA.Apis
         {
             public string? Aclass { get; set; }
             public string? Altname { get; set; }
-            public uint Decimals { get; set; }
-            public uint Display_decimals { get; set; }
+            public int Decimals { get; set; }
+            public int Display_decimals { get; set; }
         }
 
         public class KrakenTradeData
@@ -746,29 +746,43 @@ namespace CryptoTA.Apis
         {
             var fees = new List<Fees>();
 
-            UriParams bodyParams = new() { { "pair", tradingPair.Name } };
+            UriParams bodyParams = new() { { "pair", tradingPair.Name }, { "fee-info", "true" } };
 
-            var jResult = api.QueryPrivateEndpoint("TradeVolume", new string[] { "result" }, bodyParams);
+            JToken jResult = api.QueryPrivateEndpoint("TradeVolume", new string[] { "result" }, bodyParams);
 
             if (JsonConvert.DeserializeObject<KrakenTradingFeesResult>(jResult.ToString()) is not KrakenTradingFeesResult krakenTradingFeesResult)
             {
                 throw new KrakenApiException("Error during deserializing response into dictionary.");
             }
 
+            var krakenTakerFees = krakenTradingFeesResult.Fees.First().Value;
+            var krakenMakerFees = krakenTradingFeesResult.Fees_maker.First().Value;
+
             fees.Add(new Fees
             {
-                TakerFee = double.Parse(krakenTradingFeesResult.Fees.First().Value.Fee, CultureInfo.InvariantCulture),
-                MakerFee = double.Parse(krakenTradingFeesResult.Fees_maker.First().Value.Fee, CultureInfo.InvariantCulture),
+                MakerPercent = double.Parse(krakenMakerFees.Fee, CultureInfo.InvariantCulture),
+                MakerMin = double.Parse(krakenMakerFees.Min_fee ?? "0", CultureInfo.InvariantCulture),
+                MakerMax = double.Parse(krakenMakerFees.Max_fee ?? "0", CultureInfo.InvariantCulture),
+
+                TakerPercent = double.Parse(krakenTakerFees.Fee, CultureInfo.InvariantCulture),
+                TakerMin = double.Parse(krakenTakerFees.Min_fee ?? "0", CultureInfo.InvariantCulture),
+                TakerMax = double.Parse(krakenTakerFees.Max_fee ?? "0", CultureInfo.InvariantCulture),
             });
 
             return fees;
         }
 
-        public List<Asset> GetAssets()
+        public List<Asset> GetAssets(string[]? assetNames = null)
         {
-            var krakenAssets = api.QueryPublicEndpoint<KrakenAsset>("Assets", new string[] { "result" });
-
             List<Asset> assets = new();
+
+            UriParams? queryParams = null;
+            if (assetNames is not null)
+            {
+                queryParams = new() { { "asset", string.Join(",", assetNames) } };
+            }
+
+            var krakenAssets = api.QueryPublicEndpoint<KrakenAsset>("Assets", new string[] { "result" }, queryParams);
 
             if (krakenAssets == null)
             {
@@ -787,18 +801,25 @@ namespace CryptoTA.Apis
                     MarketName = krakenAssetKvp.Key,
                     Name = krakenAsset.Altname,
                     AlternativeSymbol = krakenAsset.Altname,
-                    Decimals = krakenAsset.Decimals
+                    Decimals = krakenAsset.Decimals,
+                    DisplayDecimals = krakenAsset.Display_decimals
                 });
             }
 
             return assets;
         }
 
-        public async Task<List<Asset>> GetAssetsAsync()
+        public async Task<List<Asset>> GetAssetsAsync(string[]? assetNames = null)
         {
-            var krakenAssets = await api.QueryPublicEndpointAsync<KrakenAsset>("Assets", new string[] { "result" });
-
             List<Asset> assets = new();
+
+            UriParams? queryParams = null;
+            if (assetNames is not null)
+            {
+                queryParams = new() { { "asset", string.Join(",", assetNames) } };
+            }
+
+            var krakenAssets = await api.QueryPublicEndpointAsync<KrakenAsset>("Assets", new string[] { "result" }, queryParams);
 
             if (krakenAssets == null)
             {
@@ -817,79 +838,96 @@ namespace CryptoTA.Apis
                     MarketName = krakenAssetKvp.Key,
                     Name = krakenAsset.Altname,
                     AlternativeSymbol = krakenAsset.Altname,
-                    Decimals = krakenAsset.Decimals
+                    Decimals = krakenAsset.Decimals,
+                    DisplayDecimals = krakenAsset.Display_decimals
                 });
             }
 
             return assets;
         }
 
-        public List<TradingPair> GetTradingPairs()
+        public List<TradingPair> GetTradingPairs(string[]? tradingPairNames = null)
         {
             var tradingPairs = new List<TradingPair>();
 
-            var response = api.QueryPublicEndpoint<KrakenTradingPair>("AssetPairs", new string[] { "result" });
-            if (response == null)
+            UriParams? queryParams = null;
+            if (tradingPairNames is not null)
             {
-                throw new Exception("Couldn't parse Kraken API trading pairs.");
+                queryParams = new() { { "pair", string.Join(",", tradingPairNames) } };
             }
 
-            foreach (var tradingPairKvp in response)
+            var assetPairsDictionary = api.QueryPublicEndpoint<KrakenAssetPair>("AssetPairs", new string[] { "result" }, queryParams);
+            if (assetPairsDictionary == null)
             {
-                var krakenTradingPair = tradingPairKvp.Value;
+                throw new Exception("Couldn't parse Kraken API asset pairs.");
+            }
 
-                if (krakenTradingPair.Wsname is not string wsname)
+            foreach (var assetPairKvp in assetPairsDictionary)
+            {
+                var assetPair = assetPairKvp.Value;
+
+                if (assetPair.Wsname is not string wsname)
                 {
-                    throw new Exception("Kraken trading pair has no wsname property.");
+                    throw new Exception("Kraken asset pair has no wsname property.");
                 }
-                var pairSymbols = krakenTradingPair.Wsname.Split("/");
+                var pairSymbols = assetPair.Wsname.Split("/");
 
                 tradingPairs.Add(new TradingPair
                 {
-                    Name = tradingPairKvp.Key,
-                    AlternativeName = krakenTradingPair.Altname,
-                    WebsocketName = krakenTradingPair.Wsname,
-                    BaseSymbol = pairSymbols[0],
-                    CounterSymbol = pairSymbols[1],
+                    Name = assetPairKvp.Key,
+                    AlternativeName = assetPair.Altname,
+                    WebsocketName = assetPair.Wsname,
+                    BaseSymbol = assetPair.Base,
+                    CounterSymbol = assetPair.Quote,
                     BaseName = pairSymbols[0],
                     CounterName = pairSymbols[1],
-                    MinimalOrderAmount = krakenTradingPair.Ordermin != null ? double.Parse(krakenTradingPair.Ordermin, CultureInfo.InvariantCulture) : 0,
+                    BaseDecimals = assetPair.Lot_decimals,
+                    CounterDecimals = assetPair.Pair_decimals,
+                    MinimalOrderAmount = assetPair.Ordermin != null ? double.Parse(assetPair.Ordermin, CultureInfo.InvariantCulture) : 0,
                 });
             }
 
             return tradingPairs;
         }
 
-        public async Task<List<TradingPair>> GetTradingPairsAsync()
+        public async Task<List<TradingPair>> GetTradingPairsAsync(string[]? tradingPairNames = null)
         {
             var tradingPairs = new List<TradingPair>();
 
-            var response = await api.QueryPublicEndpointAsync<KrakenTradingPair>("AssetPairs", new string[] { "result" });
-            if (response == null)
+            UriParams? queryParams = null;
+            if (tradingPairNames is not null)
             {
-                throw new Exception("Couldn't parse Kraken API trading pairs.");
+                queryParams = new() { { "pair", string.Join(",", tradingPairNames) } };
             }
 
-            foreach (var tradingPairKvp in response)
+            var assetPairsDictionary = await api.QueryPublicEndpointAsync<KrakenAssetPair>("AssetPairs", new string[] { "result" }, queryParams);
+            if (assetPairsDictionary == null)
             {
-                var krakenTradingPair = tradingPairKvp.Value;
+                throw new Exception("Couldn't parse Kraken API asset pairs.");
+            }
 
-                if (krakenTradingPair.Wsname is not string wsname)
+            foreach (var assetPairKvp in assetPairsDictionary)
+            {
+                var assetPair = assetPairKvp.Value;
+
+                if (assetPair.Wsname is not string wsname)
                 {
-                    throw new Exception("Kraken trading pair has no wsname property.");
+                    throw new Exception("Kraken asset pair has no wsname property.");
                 }
-                var pairSymbols = krakenTradingPair.Wsname.Split("/");
+                var pairSymbols = assetPair.Wsname.Split("/");
 
                 tradingPairs.Add(new TradingPair
                 {
-                    Name = tradingPairKvp.Key,
-                    AlternativeName = krakenTradingPair.Altname,
-                    WebsocketName = krakenTradingPair.Wsname,
-                    BaseSymbol = pairSymbols[0],
-                    CounterSymbol = pairSymbols[1],
+                    Name = assetPairKvp.Key,
+                    AlternativeName = assetPair.Altname,
+                    WebsocketName = assetPair.Wsname,
+                    BaseSymbol = assetPair.Base,
+                    CounterSymbol = assetPair.Quote,
                     BaseName = pairSymbols[0],
                     CounterName = pairSymbols[1],
-                    MinimalOrderAmount = krakenTradingPair.Ordermin != null ? double.Parse(krakenTradingPair.Ordermin, CultureInfo.InvariantCulture) : 0,
+                    BaseDecimals = assetPair.Lot_decimals,
+                    CounterDecimals = assetPair.Pair_decimals,
+                    MinimalOrderAmount = assetPair.Ordermin != null ? double.Parse(assetPair.Ordermin, CultureInfo.InvariantCulture) : 0,
                 });
             }
 
@@ -938,7 +976,7 @@ namespace CryptoTA.Apis
             {
                 fees.Add(new Fees
                 {
-                    TakerFee = double.Parse(feeKvp.Key.ToString(), CultureInfo.InvariantCulture)
+                    TakerPercent = double.Parse(feeKvp.Key.ToString(), CultureInfo.InvariantCulture)
                 });
             }
 
@@ -955,7 +993,7 @@ namespace CryptoTA.Apis
             {
                 fees.Add(new Fees
                 {
-                    TakerFee = double.Parse(feeKvp.Key.ToString(), CultureInfo.InvariantCulture)
+                    TakerPercent = double.Parse(feeKvp.Key.ToString(), CultureInfo.InvariantCulture)
                 });
             }
 
@@ -1038,32 +1076,6 @@ namespace CryptoTA.Apis
             }
 
             return trades;
-        }
-
-        public Asset GetAssetData(string assetName)
-        {
-            var queryParams = new UriParams { { "assets", assetName } };
-            var krakenAsset = api.QueryPublicEndpoint<string>("Assets", new string[] { "result", assetName }, queryParams);
-
-            if (krakenAsset == null)
-            {
-                throw new Exception("Error during requesting asset info from Kraken API.");
-            }
-
-            return new Asset { Name = assetName, AlternativeSymbol = krakenAsset["altname"], Decimals = uint.Parse(krakenAsset["decimals"]) };
-        }
-
-        public async Task<Asset> GetAssetDataAsync(string assetName)
-        {
-            var queryParams = new UriParams { { "assets", assetName } };
-            var krakenAsset = await api.QueryPublicEndpointAsync<string>("Assets", new string[] { "result", assetName }, queryParams);
-
-            if (krakenAsset == null)
-            {
-                throw new Exception("Error during requesting asset info from Kraken API.");
-            }
-
-            return new Asset { Name = assetName, AlternativeSymbol = krakenAsset["altname"], Decimals = uint.Parse(krakenAsset["decimals"]) };
         }
 
         public List<Ledger> GetLedgers()
@@ -1152,28 +1164,61 @@ namespace CryptoTA.Apis
         {
             var fees = new List<Fees>();
 
-            UriParams bodyParams = new() { { "pair", tradingPair.Name } };
+            UriParams bodyParams = new() { { "pair", tradingPair.Name }, { "fee-info", "true" } };
 
-            foreach (var feeKvp in await api.QueryPrivateEndpointAsync<string>("TradeVolume", new string[] { "result", "fees" }, bodyParams))
+            JToken jResult = await api.QueryPrivateEndpointAsync("TradeVolume", new string[] { "result" }, bodyParams);
+
+            if (JsonConvert.DeserializeObject<KrakenTradingFeesResult>(jResult.ToString()) is not KrakenTradingFeesResult krakenTradingFeesResult)
             {
-                fees.Add(new Fees
-                {
-                    TakerFee = double.Parse(feeKvp.Key.ToString(), CultureInfo.InvariantCulture)
-                });
+                throw new KrakenApiException("Error during deserializing response into dictionary.");
             }
+
+            var krakenTakerFees = krakenTradingFeesResult.Fees.First().Value;
+            var krakenMakerFees = krakenTradingFeesResult.Fees_maker.First().Value;
+
+            fees.Add(new Fees
+            {
+                MakerPercent = double.Parse(krakenMakerFees.Fee, CultureInfo.InvariantCulture),
+                MakerMin = double.Parse(krakenMakerFees.Min_fee ?? "0", CultureInfo.InvariantCulture),
+                MakerMax = double.Parse(krakenMakerFees.Max_fee ?? "0", CultureInfo.InvariantCulture),
+
+                TakerPercent = double.Parse(krakenTakerFees.Fee, CultureInfo.InvariantCulture),
+                TakerMin = double.Parse(krakenTakerFees.Min_fee ?? "0", CultureInfo.InvariantCulture),
+                TakerMax = double.Parse(krakenTakerFees.Max_fee ?? "0", CultureInfo.InvariantCulture),
+            });
 
             return fees;
         }
 
-        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount)
+        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount, double price)
         {
+            string krakenOrderType;
+            
+            switch (orderType)
+            {
+                case OrderType.Market:
+                    krakenOrderType = "market";
+                    break;
+                case OrderType.Limit:
+                    krakenOrderType = "limit";
+                    break;
+                default:
+                    krakenOrderType = "market";
+                    break;
+            }
+
             var bodyParams = new UriParams
             {
-                { "ordertype", orderType.ToString() },
-                { "type", "buy" },
-                { "volume", amount.ToString() },
                 { "pair", tradingPair.Name },
+                { "type", "buy" },
+                { "ordertype", krakenOrderType },
+                { "volume", amount.ToString(CultureInfo.InvariantCulture) },
             };
+
+            if (orderType == OrderType.Limit)
+            {
+                bodyParams.Add("price", price.ToString(CultureInfo.InvariantCulture));
+            }
 
             var krakenResult = api.QueryPrivateEndpoint<KrakenOrderResult>("AddOrder", null, bodyParams);
 
@@ -1187,12 +1232,27 @@ namespace CryptoTA.Apis
 
         public async Task<string> BuyOrderAsync(TradingPair tradingPair, OrderType orderType, double amount)
         {
+            string krakenOrderType;
+
+            switch (orderType)
+            {
+                case OrderType.Market:
+                    krakenOrderType = "market";
+                    break;
+                case OrderType.Limit:
+                    krakenOrderType = "limit";
+                    break;
+                default:
+                    krakenOrderType = "market";
+                    break;
+            }
+
             var bodyParams = new UriParams
             {
-                { "ordertype", orderType.ToString() },
-                { "type", "buy" },
-                { "volume", amount.ToString() },
                 { "pair", tradingPair.Name },
+                { "type", "buy" },
+                { "ordertype", krakenOrderType },
+                { "volume", amount.ToString() },
             };
 
             var krakenResult = await api.QueryPrivateEndpointAsync<KrakenOrderResult>("AddOrder", null, bodyParams);
@@ -1205,15 +1265,35 @@ namespace CryptoTA.Apis
             return krakenOrderResult.Txid.First();
         }
 
-        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount)
+        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount, double price)
         {
+            string krakenOrderType;
+
+            switch (orderType)
+            {
+                case OrderType.Market:
+                    krakenOrderType = "market";
+                    break;
+                case OrderType.Limit:
+                    krakenOrderType = "limit";
+                    break;
+                default:
+                    krakenOrderType = "market";
+                    break;
+            }
+
             var bodyParams = new UriParams
             {
-                { "ordertype", orderType.ToString() },
-                { "type", "sell" },
-                { "volume", amount.ToString() },
                 { "pair", tradingPair.Name },
+                { "type", "sell" },
+                { "ordertype", krakenOrderType },
+                { "volume", amount.ToString() },
             };
+
+            if (orderType == OrderType.Limit)
+            {
+                bodyParams.Add("price", price.ToString());
+            }
 
             var krakenResult = api.QueryPrivateEndpoint<KrakenOrderResult>("AddOrder", null, bodyParams);
 
@@ -1227,12 +1307,27 @@ namespace CryptoTA.Apis
 
         public async Task<string> SellOrderAsync(TradingPair tradingPair, OrderType orderType, double amount)
         {
+            string krakenOrderType;
+
+            switch (orderType)
+            {
+                case OrderType.Market:
+                    krakenOrderType = "market";
+                    break;
+                case OrderType.Limit:
+                    krakenOrderType = "limit";
+                    break;
+                default:
+                    krakenOrderType = "market";
+                    break;
+            }
+
             var bodyParams = new UriParams
             {
-                { "ordertype", orderType.ToString() },
-                { "type", "sell" },
-                { "volume", amount.ToString() },
                 { "pair", tradingPair.Name },
+                { "type", "sell" },
+                { "ordertype", krakenOrderType },
+                { "volume", amount.ToString() },
             };
 
             var krakenResult = await api.QueryPrivateEndpointAsync<KrakenOrderResult>("AddOrder", null, bodyParams);

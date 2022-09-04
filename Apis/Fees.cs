@@ -2,19 +2,22 @@
 namespace CryptoTA.Apis
 {
     /// <summary>
-    /// Class which contains maker and taker fees. Data for both 
-    /// type of fees is included, though in application, only taker fee will be used.
+    /// Class which contains maker and taker percentage fees 
+    /// and their respective min and max values.
     /// </summary>
     public class Fees
     {
-        /// <value>
-        /// Not used in application for the moment.
-        /// </value>
-        public double MakerFee { get; set; }
+        public double MakerPercent { get; set; }
 
-        /// <value>
-        /// Used as only fee in application.
-        /// </value>
-        public double TakerFee { get; set; }
+        public double MakerMin { get; set; }
+
+        public double MakerMax { get; set; }
+
+
+        public double TakerPercent { get; set; }
+
+        public double TakerMin { get; set; }
+
+        public double TakerMax { get; set; }
     }
 }

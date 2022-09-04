@@ -51,23 +51,20 @@ namespace CryptoTA.Apis
          ***************************************************************/
 
         /// <summary>
-        /// Gets all available assets.
+        /// Gets assets with given names. If no names are given, 
+        /// it gets all assets.
         /// </summary>
+        /// <param name="assetNames"></param>
         /// <returns></returns>
-        public List<Asset> GetAssets();
+        public List<Asset> GetAssets(string[]? assetNames = null);
 
         /// <summary>
-        /// Gets all available trading pairs.
+        /// Gets trading pairs with given names. If no names are given, 
+        /// it gets all trading pairs.
         /// </summary>
+        /// <param name="tradingPairNames"></param>
         /// <returns></returns>
-        public List<TradingPair> GetTradingPairs();
-
-        /// <summary>
-        /// Gets market asset data of given <param name="assetName">.
-        /// </summary>
-        /// <param name="assetName"></param>
-        /// <returns></returns>
-        public Asset GetAssetData(string assetName);
+        public List<TradingPair> GetTradingPairs(string[]? tradingPairNames = null);
 
         /// <summary>
         /// Gets OHLC data for given trading pair, start date and time interval. 
@@ -136,7 +133,7 @@ namespace CryptoTA.Apis
         /// <param name="orderType"></param>
         /// <param name="amount"></param>
         /// <returns>ID of created order.</returns>
-        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount);
+        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount, double price);
 
         /// <summary>
         /// Creates sell order with given type and amount (volume) and optional price.
@@ -145,7 +142,7 @@ namespace CryptoTA.Apis
         /// <param name="amount"></param>
         /// <param name="price">Used in orders of type <c>OrderType.Limit</c></param>
         /// <returns>ID of created order.</returns>
-        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount);
+        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount, double price);
 
         /// <summary>
         /// Cancells order of given ID.
@@ -198,21 +195,16 @@ namespace CryptoTA.Apis
         /// <summary>
         /// Async version of <c>GetAssets</c>.
         /// </summary>
+        /// <param name="assetNames"></param>
         /// <returns></returns>
-        public Task<List<Asset>> GetAssetsAsync();
+        public Task<List<Asset>> GetAssetsAsync(string[]? assetNames = null);
 
         /// <summary>
         /// Async version of <c>GetAssets</c>.
         /// </summary>
+        /// <param name="tradingPairNames"></param>
         /// <returns></returns>
-        public Task<List<TradingPair>> GetTradingPairsAsync();
-
-        /// <summary>
-        /// Async version of <c>GetAssetData</c>.
-        /// </summary>
-        /// <param name="assetName"></param>
-        /// <returns></returns>
-        public Task<Asset> GetAssetDataAsync(string assetName);
+        public Task<List<TradingPair>> GetTradingPairsAsync(string[]? tradingPairNames = null);
 
         /// <summary>
         /// Async version of <c>GetOhlcData</c>.

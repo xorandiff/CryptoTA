@@ -52,6 +52,29 @@ namespace CryptoTA.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Assets",
+                columns: table => new
+                {
+                    AssetId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MarketName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AlternativeSymbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Decimals = table.Column<long>(type: "bigint", nullable: false),
+                    MarketId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Assets", x => x.AssetId);
+                    table.ForeignKey(
+                        name: "FK_Assets_Markets_MarketId",
+                        column: x => x.MarketId,
+                        principalTable: "Markets",
+                        principalColumn: "MarketId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Credentials",
                 columns: table => new
                 {
@@ -85,8 +108,8 @@ namespace CryptoTA.Migrations
                     CounterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BaseSymbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CounterSymbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BaseDecimals = table.Column<long>(type: "bigint", nullable: false),
-                    CounterDecimals = table.Column<long>(type: "bigint", nullable: false),
+                    BaseDecimals = table.Column<int>(type: "int", nullable: false),
+                    CounterDecimals = table.Column<int>(type: "int", nullable: false),
                     MinimalOrderAmount = table.Column<double>(type: "float", nullable: false),
                     MarketId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -149,6 +172,7 @@ namespace CryptoTA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TimeIntervalIdChart = table.Column<int>(type: "int", nullable: false),
                     TimeIntervalIdIndicators = table.Column<int>(type: "int", nullable: false),
+                    StrategyId = table.Column<int>(type: "int", nullable: false),
                     TradingPairId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -263,6 +287,11 @@ namespace CryptoTA.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Assets_MarketId",
+                table: "Assets",
+                column: "MarketId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Credentials_MarketId",
                 table: "Credentials",
                 column: "MarketId");
@@ -305,6 +334,9 @@ namespace CryptoTA.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Assets");
+
             migrationBuilder.DropTable(
                 name: "Credentials");
 

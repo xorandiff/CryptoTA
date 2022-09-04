@@ -315,6 +315,10 @@ namespace CryptoTA.Database
                     var indexDivisor = (int)(ticksCount / ticksCountLimit);
                     return ticksQuery.AsEnumerable().Where((tick, i) => i % indexDivisor == 0).ToList();
                 }
+                else
+                {
+                    return ticksQuery.ToList();
+                }
             }
             catch (Exception ex)
             {

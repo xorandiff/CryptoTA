@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoTA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220831190340_InitialMigration")]
+    [Migration("20220903235326_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,39 @@ namespace CryptoTA.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("CryptoTA.Database.Models.Asset", b =>
+                {
+                    b.Property<int>("AssetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssetId"), 1L, 1);
+
+                    b.Property<string>("AlternativeSymbol")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Decimals")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("MarketId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MarketName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AssetId");
+
+                    b.HasIndex("MarketId");
+
+                    b.ToTable("Assets");
+                });
 
             modelBuilder.Entity("CryptoTA.Database.Models.Credentials", b =>
                 {
@@ -162,6 +195,9 @@ namespace CryptoTA.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SettingsId"), 1L, 1);
+
+                    b.Property<int>("StrategyId")
+                        .HasColumnType("int");
 
                     b.Property<int>("TimeIntervalIdChart")
                         .HasColumnType("int");
@@ -469,8 +505,8 @@ namespace CryptoTA.Migrations
                     b.Property<string>("AlternativeName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("BaseDecimals")
-                        .HasColumnType("bigint");
+                    b.Property<int>("BaseDecimals")
+                        .HasColumnType("int");
 
                     b.Property<string>("BaseName")
                         .IsRequired()
@@ -480,8 +516,8 @@ namespace CryptoTA.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("CounterDecimals")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CounterDecimals")
+                        .HasColumnType("int");
 
                     b.Property<string>("CounterName")
                         .IsRequired()
@@ -509,6 +545,17 @@ namespace CryptoTA.Migrations
                     b.HasIndex("MarketId");
 
                     b.ToTable("TradingPairs");
+                });
+
+            modelBuilder.Entity("CryptoTA.Database.Models.Asset", b =>
+                {
+                    b.HasOne("CryptoTA.Database.Models.Market", "Market")
+                        .WithMany()
+                        .HasForeignKey("MarketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Market");
                 });
 
             modelBuilder.Entity("CryptoTA.Database.Models.Credentials", b =>

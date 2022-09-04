@@ -194,6 +194,9 @@ namespace CryptoTA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SettingsId"), 1L, 1);
 
+                    b.Property<int>("StrategyId")
+                        .HasColumnType("int");
+
                     b.Property<int>("TimeIntervalIdChart")
                         .HasColumnType("int");
 
@@ -271,6 +274,28 @@ namespace CryptoTA.Migrations
                     b.HasKey("StrategyCategoryId");
 
                     b.ToTable("StrategyCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            StrategyCategoryId = 1,
+                            Name = "Rapid (less than an hour)"
+                        },
+                        new
+                        {
+                            StrategyCategoryId = 2,
+                            Name = "Short (less than a day)"
+                        },
+                        new
+                        {
+                            StrategyCategoryId = 3,
+                            Name = "Medium (less than 3 days)"
+                        },
+                        new
+                        {
+                            StrategyCategoryId = 4,
+                            Name = "Long (less than a week)"
+                        });
                 });
 
             modelBuilder.Entity("CryptoTA.Database.Models.Tick", b =>
@@ -330,6 +355,141 @@ namespace CryptoTA.Migrations
                     b.HasKey("TimeIntervalId");
 
                     b.ToTable("TimeIntervals");
+
+                    b.HasData(
+                        new
+                        {
+                            TimeIntervalId = 1,
+                            IsIndicatorInterval = false,
+                            Name = "1 day",
+                            Seconds = 86400L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 2,
+                            IsIndicatorInterval = false,
+                            Name = "3 days",
+                            Seconds = 259200L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 3,
+                            IsIndicatorInterval = false,
+                            Name = "1 week",
+                            Seconds = 604800L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 4,
+                            IsIndicatorInterval = false,
+                            Name = "2 weeks",
+                            Seconds = 1209600L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 5,
+                            IsIndicatorInterval = false,
+                            Name = "1 month",
+                            Seconds = 2678400L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 6,
+                            IsIndicatorInterval = false,
+                            Name = "3 months",
+                            Seconds = 8035200L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 7,
+                            IsIndicatorInterval = false,
+                            Name = "6 months",
+                            Seconds = 16070400L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 8,
+                            IsIndicatorInterval = false,
+                            Name = "1 year",
+                            Seconds = 32140800L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 9,
+                            IsIndicatorInterval = false,
+                            Name = "5 years",
+                            Seconds = 160704000L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 10,
+                            IsIndicatorInterval = true,
+                            Name = "1 minute",
+                            Seconds = 60L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 11,
+                            IsIndicatorInterval = true,
+                            Name = "5 minutes",
+                            Seconds = 300L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 12,
+                            IsIndicatorInterval = true,
+                            Name = "15 minutes",
+                            Seconds = 900L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 13,
+                            IsIndicatorInterval = true,
+                            Name = "30 minutes",
+                            Seconds = 1800L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 14,
+                            IsIndicatorInterval = true,
+                            Name = "1 hour",
+                            Seconds = 3600L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 15,
+                            IsIndicatorInterval = true,
+                            Name = "2 hours",
+                            Seconds = 7200L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 16,
+                            IsIndicatorInterval = true,
+                            Name = "4 hours",
+                            Seconds = 14400L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 17,
+                            IsIndicatorInterval = true,
+                            Name = "1 day",
+                            Seconds = 86400L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 18,
+                            IsIndicatorInterval = true,
+                            Name = "1 week",
+                            Seconds = 604800L
+                        },
+                        new
+                        {
+                            TimeIntervalId = 19,
+                            IsIndicatorInterval = true,
+                            Name = "1 month",
+                            Seconds = 2678400L
+                        });
                 });
 
             modelBuilder.Entity("CryptoTA.Database.Models.TradingPair", b =>
@@ -343,8 +503,8 @@ namespace CryptoTA.Migrations
                     b.Property<string>("AlternativeName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("BaseDecimals")
-                        .HasColumnType("bigint");
+                    b.Property<int>("BaseDecimals")
+                        .HasColumnType("int");
 
                     b.Property<string>("BaseName")
                         .IsRequired()
@@ -354,8 +514,8 @@ namespace CryptoTA.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("CounterDecimals")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CounterDecimals")
+                        .HasColumnType("int");
 
                     b.Property<string>("CounterName")
                         .IsRequired()

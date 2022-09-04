@@ -50,17 +50,12 @@ namespace CryptoTA.Apis
 
         public uint OhlcMaxDensityTimeInterval => throw new NotImplementedException();
 
-        public List<Asset> GetAssets()
+        public List<Asset> GetAssets(string[]? assetNames = null)
         {
             throw new NotImplementedException();
         }
 
-        public List<TradingPair> GetTradingPairs()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Asset GetAssetData(string assetName)
+        public List<TradingPair> GetTradingPairs(string[]? tradingPairNames = null)
         {
             throw new NotImplementedException();
         }
@@ -105,12 +100,12 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount)
+        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount, double price)
         {
             throw new NotImplementedException();
         }
 
-        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount)
+        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount, double price)
         {
             throw new NotImplementedException();
         }
@@ -150,17 +145,12 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<List<Asset>> GetAssetsAsync()
+        public Task<List<Asset>> GetAssetsAsync(string[]? assetNames = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<TradingPair>> GetTradingPairsAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Asset> GetAssetDataAsync(string assetName)
+        public Task<List<TradingPair>> GetTradingPairsAsync(string[]? tradingPairNames = null)
         {
             throw new NotImplementedException();
         }

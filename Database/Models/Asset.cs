@@ -43,15 +43,16 @@ namespace CryptoTA.Database.Models
         /// <value>
         /// Amount of decimal places of the asset's volume. Shouldn't be  
         /// more than 18 (database precision limit). 
-        /// 
-        /// WARNING: You should make sure this value matches the value  
-        /// given by the market. If it does not match, then for example, 
-        /// application may think that market's user has positive volume
-        /// of some asset, but if market precision is lower, then in  
-        /// fact, market rounds the volume to 0, so market sees no volume.
         /// </value>
         [Required]
-        public uint Decimals { get; set; }
+        public int Decimals { get; set; }
+
+        /// <value>
+        /// Amount of the display decimal places of the asset's volume. Shouldn't be  
+        /// more than 18 (database precision limit). 
+        /// </value>
+        [Required]
+        public int DisplayDecimals { get; set; }
 
         /// <value>
         /// Foreign key for Market model.

@@ -8,7 +8,8 @@ namespace CryptoTA.UserControls
     public enum MessageType
     {
         CredentialsMissing,
-        StrategyNoFunds
+        StrategyNoFunds,
+        StrategyNoMinimalAmount
     }
 
     public partial class FeedbackMessage : UserControl
@@ -42,6 +43,10 @@ namespace CryptoTA.UserControls
                 case MessageType.StrategyNoFunds:
                     Header = "Funds missing";
                     Text = "You have no funds in neither of current trading pair's assets.\nDeposit funds before activating strategy for chosen trading pair.";
+                    break;
+                case MessageType.StrategyNoMinimalAmount:
+                    Header = "Minimal amount not satisfied";
+                    Text = "Neither of your assets is in required minimal order amount.\nDeposit more funds before activating strategy for chosen trading pair.";
                     break;
                 default:
                     Header = "Unknown Error";

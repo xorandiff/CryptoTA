@@ -16,25 +16,6 @@ using System.Windows.Data;
 
 namespace CryptoTA.Pages
 {
-    [ValueConversion(typeof(double), typeof(string))]
-    public class CurrencyConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            double currency = (double)value;
-            return currency.ToString("0.########");
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (double.TryParse((string)value, out double currency))
-            {
-                return currency;
-            }
-            return DependencyProperty.UnsetValue;
-        }
-    }
-
     [ValueConversion(typeof(string), typeof(bool?))]
     public class SignConverter : IValueConverter
     {
@@ -124,10 +105,11 @@ namespace CryptoTA.Pages
 
                 foreach (var balance in accountBalance)
                 {
-                    var asset = await marketApis.ActiveMarketApi.GetAssetDataAsync(balance.Name!);
+                    var asset = await marketApis.ActiveMarketApi.GetAssetsAsync(new string[] { balance.Name! });
                     if (asset is not null)
                     {
-                        balance.Name = asset.Symbol;
+                        balance.Name = asset[0].Symbol;
+                        balance.TotalAmount = Math.Round(balance.TotalAmount, asset[0].DisplayDecimals);
                     }
                 }
 
@@ -144,10 +126,10 @@ namespace CryptoTA.Pages
                         Balance = ledger.Balance.ToString()
                     };
 
-                    var asset = await marketApis.ActiveMarketApi.GetAssetDataAsync(ledger.Asset);
+                    var asset = await marketApis.ActiveMarketApi.GetAssetsAsync(new string[] { ledger.Asset });
                     if (asset is not null)
                     {
-                        ledger.Asset = asset.Symbol;
+                        ledger.Asset = asset[0].Symbol;
                         string currencySymbol = CurrencyCodeMapper.GetSymbol(ledger.Asset);
 
                         ledgerDisplay.Amount = $"{ledgerDisplay.Amount} {currencySymbol}";

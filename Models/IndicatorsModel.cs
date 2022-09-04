@@ -21,7 +21,7 @@ namespace CryptoTA.Models
         {
             var marketApi = DatabaseModel.GetMarketApi(tradingPair);
 
-            var ticks = databaseModel.GetTicksBlocking(tradingPair.TradingPairId, startDate, marketApi.RequestMaxTickCount);
+            var ticks = databaseModel.GetTicksBlocking(tradingPair.TradingPairId, startDate);
             var currentTick = databaseModel.GetTickBlocking(tradingPair)!;
 
             var indicatorResults = indicators.Run(ticks, secondsIndicatorInterval, currentTick);

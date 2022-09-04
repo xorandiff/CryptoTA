@@ -244,7 +244,7 @@ namespace CryptoTA.Apis
             }
         }
 
-        public List<TradingPair> GetTradingPairs()
+        public List<TradingPair> GetTradingPairs(string[]? tradingPairNames = null)
         {
             var baseUrl = new Uri("https://www.bitstamp.net/api/v2/trading-pairs-info/");
             var client = new RestClient(baseUrl);
@@ -287,7 +287,7 @@ namespace CryptoTA.Apis
             }
         }
 
-        public async Task<List<TradingPair>> GetTradingPairsAsync()
+        public async Task<List<TradingPair>> GetTradingPairsAsync(string[]? tradingPairNames = null)
         {
             var baseUrl = new Uri("https://www.bitstamp.net/api/v2/trading-pairs-info/");
             var client = new RestClient(baseUrl);
@@ -330,12 +330,7 @@ namespace CryptoTA.Apis
             }
         }
 
-        public List<Asset> GetAssets()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Asset GetAssetData(string assetName)
+        public List<Asset> GetAssets(string[]? assetNames = null)
         {
             throw new NotImplementedException();
         }
@@ -370,12 +365,12 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount)
+        public string BuyOrder(TradingPair tradingPair, OrderType orderType, double amount, double price)
         {
             throw new NotImplementedException();
         }
 
-        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount)
+        public string SellOrder(TradingPair tradingPair, OrderType orderType, double amount, double price)
         {
             throw new NotImplementedException();
         }
@@ -415,12 +410,7 @@ namespace CryptoTA.Apis
             throw new NotImplementedException();
         }
 
-        public Task<List<Asset>> GetAssetsAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Asset> GetAssetDataAsync(string assetName)
+        public Task<List<Asset>> GetAssetsAsync(string[]? assetNames = null)
         {
             throw new NotImplementedException();
         }

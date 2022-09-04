@@ -1,3 +1,4 @@
+global using UriParams = System.Collections.Specialized.OrderedDictionary;
 using System.Windows;
 
 namespace CryptoTA

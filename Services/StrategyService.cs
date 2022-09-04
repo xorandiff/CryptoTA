@@ -14,9 +14,10 @@ namespace CryptoTA.Services
     public class StrategyService
     {
         // 15 minutes loop interval
-        private const int loopInterval = 60 * 15;
+        private const int loopInterval = 60 * 1;
 
         private readonly Dictionary<IMarketApi, Market> apis;
+        private readonly DatabaseModel databaseModel;
         private readonly IndicatorsModel indicatorsModel;
 
         public BackgroundWorker worker;
@@ -28,6 +29,7 @@ namespace CryptoTA.Services
             worker.WorkerSupportsCancellation = true;
 
             apis = new();
+            databaseModel = new();
             indicatorsModel = new();
 
             var marketApis = new MarketApis();
@@ -63,6 +65,8 @@ namespace CryptoTA.Services
 
             while (true)
             {
+                Thread.Sleep(1000 * loopInterval);
+
                 foreach (var api in apis)
                 {
                     var marketApi = api.Key;
@@ -82,8 +86,18 @@ namespace CryptoTA.Services
 
                         var accountBalance = marketApi.GetAccountBalance(tradingPair);
 
-                        var balance = accountBalance.Where(b => b.Name is not null && tradingPair.Name.Contains(b.Name)).FirstOrDefault();
-                        if (balance?.TotalAmount is not double availableBalance || availableBalance == 0d)
+                        var baseBalance = accountBalance.Where(b => b.Name is not null && tradingPair.BaseSymbol.Contains(b.Name)).FirstOrDefault();
+                        var counterBalance = accountBalance.Where(b => b.Name is not null && tradingPair.CounterSymbol.Contains(b.Name)).FirstOrDefault();
+
+                        if (baseBalance?.TotalAmount is not double availableBaseVolume || counterBalance?.TotalAmount is not double availableCounterVolume)
+                        {
+                            continue;
+                        }
+
+                        availableBaseVolume = Math.Round(availableBaseVolume, tradingPair.BaseDecimals);
+                        availableCounterVolume = Math.Round(availableCounterVolume, tradingPair.CounterDecimals);
+
+                        if (availableBaseVolume == 0d && availableCounterVolume == 0d)
                         {
                             continue;
                         }
@@ -110,73 +124,98 @@ namespace CryptoTA.Services
                         var startDate = currentDate.AddSeconds(-marketApi.OhlcMaxDensityTimeInterval * intervalMultiplier);
 
                         var indicatorsRatio = indicatorsModel.GetTotalRatio(tradingPair, startDate, secondsIndicatorInterval);
-                        double volume = strategy.BuyAmount == 0 ? availableBalance * (strategy.BuyPercentages / 100d) : strategy.BuyAmount;
 
-                        if (indicatorsRatio is null 
-                            || indicatorsRatio > 0.3d && indicatorsRatio < 0.7d
-                            || marketApi.GetTradingFees(tradingPair) is not List<Fees> fees
-                            || fees.First().MakerFee > strategy.MaximalLoss
-                            || db.Strategies.Find(strategy.StrategyId) is not Strategy dbStrategy
-                            || volume > availableBalance)
+                        if (indicatorsRatio is null || marketApi.GetTradingFees(tradingPair) is not List<Fees> fees || db.Strategies.Find(strategy.StrategyId) is not Strategy dbStrategy)
                         {
                             continue;
                         }
 
+                        var fee = fees.First();
 
-                        double orderFee = fees.First().TakerFee;
+                        if (databaseModel.GetTickBlocking(tradingPair) is not Tick currentTick)
+                        {
+                            continue;
+                        }
 
-                        if (indicatorsRatio >= 0.7d && (strategy.Order is null || strategy.Order.Type != "buy"))
+                        double buyVolume = strategy.BuyAmount == 0 ? availableCounterVolume * (strategy.BuyPercentages / 100d) / currentTick.Close : strategy.BuyAmount;
+                        double sellVolume = availableBaseVolume;
+
+                        buyVolume = Math.Round(buyVolume, tradingPair.BaseDecimals, MidpointRounding.ToZero);
+
+                        var buyFee = buyVolume * fee.TakerPercent;
+                        var sellFee = sellVolume * fee.MakerPercent;
+
+                        if (buyFee < fee.TakerMin)
+                        {
+                            buyFee = fee.TakerMin;
+                        }
+
+                        if (sellFee < fee.MakerMin)
+                        {
+                            sellFee = fee.MakerMin;
+                        }
+
+                        if (buyVolume <= 0d && sellVolume <= 0d || indicatorsRatio > 0.6d && indicatorsRatio < 0.8d)
+                        {
+                            continue;
+                        }
+
+                        var buyNetVolume = buyVolume - buyFee;
+                        var sellNetVolume = sellVolume - sellFee;
+
+                        buyNetVolume = tradingPair.MinimalOrderAmount > buyNetVolume ? tradingPair.MinimalOrderAmount : buyNetVolume;
+                        sellNetVolume = tradingPair.MinimalOrderAmount > sellNetVolume ? tradingPair.MinimalOrderAmount : sellNetVolume;
+                        continue;
+                        if (indicatorsRatio <= 0.6d && (strategy.Order is null || strategy.Order.Type != "buy") && buyVolume > 0)
                         {
                             // Buy
 
-                            if (marketApi.BuyOrder(tradingPair, OrderType.Instant, volume) is not string tradeId)
+                            if (marketApi.BuyOrder(tradingPair, OrderType.Market, buyVolume, currentTick.Close) is not string tradeId)
                             {
                                 continue;
                             }
 
-                            dbStrategy.Order = new Order
-                            {
-                                MarketOrderId = tradeId,
-                                Type = "buy",
-                                OrderType = "market",
-                                Status = "open",
-                                TotalCost = volume + orderFee,
-                                Fee = orderFee,
-                                Volume = volume,
-                                OpenDate = currentDate,
-                                StartDate = currentDate,
-                                TradingPairId = tradingPair.TradingPairId
-                            };
+                            //dbStrategy.Order = new Order
+                            //{
+                            //    MarketOrderId = tradeId,
+                            //    Type = "buy",
+                            //    OrderType = "market",
+                            //    Status = "open",
+                            //    TotalCost = buyVolume,
+                            //    Fee = buyFee,
+                            //    Volume = buyNetVolume,
+                            //    OpenDate = currentDate,
+                            //    StartDate = currentDate,
+                            //    TradingPairId = tradingPair.TradingPairId
+                            //};
                         }
-                        else if (indicatorsRatio <= 0.3d && (strategy.Order is null || strategy.Order.Type != "sell"))
+                        else if (indicatorsRatio >= 0.8d && (strategy.Order is null || strategy.Order.Type != "sell") && sellVolume > 0)
                         {
                             // Sell
 
-                            if (marketApi.SellOrder(tradingPair, OrderType.Instant, availableBalance) is not string tradeId)
+                            if (marketApi.SellOrder(tradingPair, OrderType.Market, sellNetVolume, currentTick.Close) is not string tradeId)
                             {
-                                continue;   
+                                continue;
                             }
 
-                            dbStrategy.Order = new Order
-                            {
-                                MarketOrderId = tradeId,
-                                Type = "sell",
-                                OrderType = "market",
-                                Status = "open",
-                                TotalCost = availableBalance + orderFee,
-                                Fee = orderFee,
-                                Volume = availableBalance,
-                                OpenDate = currentDate,
-                                StartDate = currentDate,
-                                TradingPairId = tradingPair.TradingPairId
-                            };
+                            //dbStrategy.Order = new Order
+                            //{
+                            //    MarketOrderId = tradeId,
+                            //    Type = "sell",
+                            //    OrderType = "market",
+                            //    Status = "open",
+                            //    TotalCost = sellVolume,
+                            //    Fee = sellFee,
+                            //    Volume = sellNetVolume,
+                            //    OpenDate = currentDate,
+                            //    StartDate = currentDate,
+                            //    TradingPairId = tradingPair.TradingPairId
+                            //};
                         }
 
                         db.SaveChanges();
                     }
                 }
-
-                Thread.Sleep(1000 * loopInterval);
             }
         }
     }

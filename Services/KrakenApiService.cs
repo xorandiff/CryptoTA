@@ -9,15 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using CryptoTA.Exceptions;
 using CryptoTA.Utils;
-using Microsoft.VisualBasic.Logging;
 using Websocket.Client;
 using System.Threading;
 using System.Windows;
+using System.Collections;
 
 namespace CryptoTA.Services
 {
-    using UriParams = Dictionary<string, string>;
-
     public class KrakenApiService
     {
         private const string baseDomain = "https://api.kraken.com";
@@ -36,7 +34,7 @@ namespace CryptoTA.Services
             apiSecret = privateKey;
         }
 
-        public string BuildQueryString(UriParams? queryStringParams = null, bool addQuestionMark = false)
+        public static string BuildQueryString(UriParams? queryStringParams = null)
         {
             if (queryStringParams is null || queryStringParams.Count == 0)
             {
@@ -45,22 +43,15 @@ namespace CryptoTA.Services
 
             List<string> paramList = new ();
 
-            foreach (var parameter in queryStringParams)
+            foreach (DictionaryEntry parameterEntry in queryStringParams)
             {
-                paramList.Add(parameter.Key + "=" + parameter.Value);
+                paramList.Add(parameterEntry.Key.ToString() + "=" + parameterEntry.Value!.ToString());
             }
 
-            string queryString = string.Join("&", paramList);
-
-            if (addQuestionMark && !string.IsNullOrWhiteSpace(queryString))
-            {
-                queryString = $"?{queryString}";
-            }
-
-            return queryString;
+            return string.Join("&", paramList);
         }
 
-        public JToken ParseJsonAndCheckForError(string jsonData, string[]? responsePath = null)
+        public static JToken ParseJsonAndCheckForError(string jsonData, string[]? responsePath = null)
         {
             if (JObject.Parse(jsonData) is null || JObject.Parse(jsonData) is not JToken jTokenData)
             {
@@ -138,7 +129,12 @@ namespace CryptoTA.Services
 
         public JToken QueryPublicEndpoint(string endpointName, string[]? responsePath = null, UriParams? queryParams = null)
         {
-            string apiEndpointFullURL = $"{baseDomain}{publicPath}{endpointName}{BuildQueryString(queryParams, true)}";
+            string queryParamsString = BuildQueryString(queryParams);
+            string apiEndpointFullURL = $"{baseDomain}{publicPath}{endpointName}";
+            if (!string.IsNullOrWhiteSpace(queryParamsString))
+            {
+                apiEndpointFullURL += $"?{queryParamsString}";
+            }
 
             string jsonData;
 
@@ -158,7 +154,12 @@ namespace CryptoTA.Services
 
         public async Task<JToken> QueryPublicEndpointAsync(string endpointName, string[]? responsePath = null, UriParams? queryParams = null)
         {
-            string apiEndpointFullURL = $"{baseDomain}{publicPath}{endpointName}{BuildQueryString(queryParams, true)}";
+            string queryParamsString = BuildQueryString(queryParams);
+            string apiEndpointFullURL = $"{baseDomain}{publicPath}{endpointName}";
+            if (!string.IsNullOrWhiteSpace(queryParamsString))
+            {
+                apiEndpointFullURL += $"?{queryParamsString}";
+            }
 
             string jsonData;
 
@@ -203,13 +204,17 @@ namespace CryptoTA.Services
         {
             string apiEndpointFullURL = $"{baseDomain}{privatePath}{endpointName}";
 
-            bodyParams ??= new UriParams();
-            string nonce = DateTimeUtils.ToTimestamp(DateTime.UtcNow).ToString();
+            bodyParams ??= new();
+            string nonce = new Random().Next().ToString();
 
-            string signature = CreateAuthenticationSignature(privatePath, endpointName, nonce, BuildQueryString(bodyParams));
+            string bodyParamsString = BuildQueryString(bodyParams);
+            string signature = CreateAuthenticationSignature(privatePath, endpointName, nonce, bodyParamsString);
 
-            bodyParams.Add("nonce", nonce);
-            string bodyData = BuildQueryString(bodyParams);
+            if (!string.IsNullOrWhiteSpace(bodyParamsString))
+            {
+                bodyParamsString = "&" + bodyParamsString;
+            }
+            string bodyData = "nonce=" + nonce + bodyParamsString;
 
             string jsonData;
 
@@ -239,13 +244,17 @@ namespace CryptoTA.Services
         {
             string apiEndpointFullURL = $"{baseDomain}{privatePath}{endpointName}";
 
-            bodyParams ??= new UriParams();
-            string nonce = DateTimeUtils.ToTimestamp(DateTime.UtcNow).ToString();
+            bodyParams ??= new();
+            string nonce = new Random().Next().ToString();
 
-            string signature = CreateAuthenticationSignature(privatePath, endpointName, nonce, BuildQueryString(bodyParams));
+            string bodyParamsString = BuildQueryString(bodyParams);
+            string signature = CreateAuthenticationSignature(privatePath, endpointName, nonce, bodyParamsString);
 
-            bodyParams.Add("nonce", nonce);
-            string bodyData = BuildQueryString(bodyParams);
+            if (!string.IsNullOrWhiteSpace(bodyParamsString))
+            {
+                bodyParamsString = "&" + bodyParamsString;
+            }
+            string bodyData = "nonce=" + nonce + bodyParamsString;
 
             string jsonData;
 

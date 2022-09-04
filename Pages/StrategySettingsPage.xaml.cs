@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.PerformanceData;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -31,7 +32,9 @@ namespace CryptoTA.Pages
 
         public class StrategyData : INotifyPropertyChanged, IDataErrorInfo
         {
+            public Tick currentTick;
             private TradingPair tradingPair;
+            private Asset asset;
             private double minimalGain;
             private double maximalLoss;
             private double buyAmount;
@@ -43,6 +46,21 @@ namespace CryptoTA.Pages
             private readonly ObservableCollection<StrategyCategory> strategyCategories;
             private Visibility hasCredentials;
 
+            public Asset Asset
+            {
+                get => asset;
+                set
+                {
+                    if (value != asset)
+                    {
+                        asset = value;
+                        NotifyPropertyChanged();
+                        NotifyPropertyChanged(nameof(Currency));
+                        NotifyPropertyChanged(nameof(MinimalOrderAmount));
+                    }
+                }
+            }
+
             public TradingPair TradingPair
             {
                 get => tradingPair;
@@ -52,14 +70,28 @@ namespace CryptoTA.Pages
                     {
                         tradingPair = value;
                         NotifyPropertyChanged();
-                        NotifyPropertyChanged(nameof(Currency));
                     }
                 }
             }
 
             public string Currency
             {
-                get => tradingPair.CounterSymbol;
+                get => asset.AlternativeSymbol;
+            }
+
+            public string MinimalOrderAmount
+            {
+                get
+                {
+                    var baseMinimalAmount = tradingPair.MinimalOrderAmount;
+
+                    if (asset.MarketName != tradingPair.BaseSymbol)
+                    {
+                        return (baseMinimalAmount * currentTick.Close).ToString();
+                    }
+
+                    return baseMinimalAmount.ToString();
+                }
             }
 
             public string MinimalGain
@@ -272,6 +304,8 @@ namespace CryptoTA.Pages
                 strategyCategories = new ObservableCollection<StrategyCategory>(db.StrategyCategories.ToList());
                 strategyCategory = strategyCategories.First();
 
+                currentTick = new();
+                asset = new();
                 tradingPair = new();
             }
 
@@ -391,18 +425,33 @@ namespace CryptoTA.Pages
                 strategyData.MinimalGain = dbStrategy.MinimalGain.ToString();
                 strategyData.BuyAmount = dbStrategy.BuyAmount.ToString();
                 strategyData.BuyPercentages = dbStrategy.BuyPercentages.ToString();
+                strategyData.currentTick = (await marketApis.ActiveMarketApi.GetTickAsync(TradingPair))!;
                 strategyData.TradingPair = TradingPair;
 
-                CurrencyComboBox.ItemsSource = new ObservableCollection<TradingPair> { TradingPair };
+                var baseAsset = new Asset { MarketName = TradingPair.BaseSymbol, AlternativeSymbol = TradingPair.BaseName, Decimals = TradingPair.BaseDecimals };
+                var counterAsset = new Asset { MarketName = TradingPair.CounterSymbol, AlternativeSymbol = TradingPair.CounterName, Decimals = TradingPair.CounterDecimals };
+
+                strategyData.Asset = counterAsset;
+
+                CurrencyComboBox.ItemsSource = new ObservableCollection<Asset> { baseAsset, counterAsset };
                 CurrencyComboBox.SelectedIndex = 0;
 
                 BuyAmountCurrencyComboBox.ItemsSource = new ObservableCollection<TradingPair> { TradingPair, new TradingPair { CounterSymbol = "%" } };
                 BuyAmountCurrencyComboBox.SelectedIndex = 0;
 
                 var accountBalance = await marketApis.ActiveMarketApi.GetAccountBalanceAsync(tradingPair);
+
                 if (accountBalance is null || !accountBalance.Any(b => b.TotalAmount > 0d))
                 {
                     FeedbackMessageContentControl.Content = new FeedbackMessage(MessageType.StrategyNoFunds);
+                    strategyData.NoFunds = true;
+                    return;
+                }
+
+                if (!accountBalance.Any(b => b.Name == TradingPair.BaseSymbol && b.TotalAmount > TradingPair.MinimalOrderAmount) &&
+                    !accountBalance.Any(b => b.Name == TradingPair.CounterSymbol && b.TotalAmount > TradingPair.MinimalOrderAmount * strategyData.currentTick.Close))
+                {
+                    FeedbackMessageContentControl.Content = new FeedbackMessage(MessageType.StrategyNoMinimalAmount);
                     strategyData.NoFunds = true;
                     return;
                 }
@@ -412,9 +461,14 @@ namespace CryptoTA.Pages
             }
         }
 
-        private void CurrencyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void CurrencyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            if (CurrencyComboBox.SelectedItem is Asset)
+            {
+                using var db = new DatabaseContext();
+                strategyData.currentTick = (await marketApis.ActiveMarketApi.GetTickAsync(TradingPair))!;
+                strategyData.Asset = (Asset)CurrencyComboBox.SelectedItem;
+            }
         }
 
         private async void StrategySwitchButton_Click(object sender, RoutedEventArgs e)

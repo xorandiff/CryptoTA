@@ -74,9 +74,10 @@
         >
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -94,7 +95,7 @@
                 </Label>
                 <Grid
                     Grid.Column="1" 
-                    Margin="10, 25"
+                    Margin="10"
                     IsEnabled="{Binding Strategy.Inactive}"
                 >
                     <Grid.ColumnDefinitions>
@@ -118,12 +119,12 @@
                     HorizontalAlignment="Right"
                     IsEnabled="{Binding Strategy.Inactive}"
                 >
-                    Sell if loss is at least
+                    Sell if loss is at most
                 </Label>
                 <Grid
                     Grid.Row="1"
                     Grid.Column="1" 
-                    Margin="10, 25"
+                    Margin="10"
                     IsEnabled="{Binding Strategy.Inactive}"
                 >
                     <Grid.ColumnDefinitions>
@@ -152,7 +153,7 @@
                     x:Name="StrategyCategoryComboBox"
                     Grid.Row="2"
                     Grid.Column="1"
-                    Margin="10, 25"
+                    Margin="10"
                     Padding="5"
                     ItemsSource="{Binding Strategy.StrategyCategories}"
                     SelectedItem="{Binding Strategy.StrategyCategory}"
@@ -169,10 +170,11 @@
                 </Label>
                 <ComboBox
                     x:Name="CurrencyComboBox"
-                    DisplayMemberPath="CounterSymbol"
+                    DisplayMemberPath="AlternativeSymbol"
                     Grid.Column="3"
-                    Margin="10, 25"
-                    Padding="5"
+                    Margin="10"
+                    Padding="5" 
+                    SelectionChanged="CurrencyComboBox_SelectionChanged"
                 />
 
                 <Label 
@@ -194,14 +196,14 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <TextBox 
-                        Margin="10, 25"
+                        Margin="10"
                         Padding="5"
                         Text="{Binding Strategy.BuyAmount, ValidatesOnDataErrors=True}"
                     />
                     <ComboBox
                         x:Name="BuyAmountCurrencyComboBox"
                         DisplayMemberPath="CounterSymbol"
-                        Margin="10, 25"
+                        Margin="10"
                         Padding="5"
                         Grid.Column="1"
                     />
@@ -224,6 +226,30 @@
                     IsChecked="{Binding Strategy.AskBeforeTrade}"
                     IsEnabled="{Binding Strategy.Inactive}"
                 />
+
+                <Label 
+                    Grid.Row="3"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                    IsEnabled="{Binding Strategy.Inactive}"
+                >
+                    Minimal order amount
+                </Label>
+                <WrapPanel
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    IsEnabled="{Binding Strategy.Inactive}"
+                >
+                    <Label 
+                        Padding="5"
+                        Content="{Binding Strategy.MinimalOrderAmount}"
+                    />
+                    <Label 
+                        Padding="5"
+                        Content="{Binding Strategy.Currency}"
+                    />
+                </WrapPanel>
             </Grid>
         </GroupBox>
 

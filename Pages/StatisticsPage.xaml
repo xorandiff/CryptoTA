@@ -12,7 +12,6 @@
       Loaded="Page_Loaded"
 >
     <Page.Resources>
-        <local:CurrencyConverter x:Key="currencyConverter"/>
         <local:SignConverter x:Key="signConverter"/>
         <DataTemplate x:Key="AccountBalanceTemplate">
             <Grid>
@@ -27,7 +26,7 @@
                 <Label 
                     Grid.Column="1"
                     HorizontalAlignment="Left"
-                    Content="{Binding TotalAmount, Converter={StaticResource currencyConverter}}"
+                    Content="{Binding TotalAmount}"
                 />
             </Grid>
         </DataTemplate>

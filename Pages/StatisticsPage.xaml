@@ -13,23 +13,80 @@
 >
     <Page.Resources>
         <local:SignConverter x:Key="signConverter"/>
+        
+        <local:VolumeConverter x:Key="volumeConverter"/>
+        
+        <Style x:Key="StackPanelHeaders" TargetType="StackPanel">
+            <Style.Resources>
+                <Style TargetType="Grid">
+                    <Setter Property="Margin" Value="20,5,20,5" />
+                    <Style.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="DarkGray" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="FontSize" Value="11" />
+                        </Style>
+                    </Style.Resources>
+                </Style>
+                <Style TargetType="ScrollViewer">
+                    <Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
+                    <Setter Property="CanContentScroll" Value="True" />
+                    <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+                    <Setter Property="Height" Value="150" />
+                    <Style.Resources>
+                        <Style TargetType="ItemsControl">
+                            <Setter Property="Margin" Value="20,0,20,20" />
+                        </Style>
+                    </Style.Resources>
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style x:Key="ColoredAmountStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger
+                    Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource signConverter}}"
+                    Value="true"
+                >
+                    <Setter 
+                        Property="Foreground" 
+                        Value="#FF73B973"
+                    />
+                </DataTrigger>
+                
+                <DataTrigger
+                    Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource signConverter}}"
+                    Value="false"
+                >
+                    <Setter 
+                        Property="Foreground" 
+                        Value="#FFFF7F7F"
+                    />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
         <DataTemplate x:Key="AccountBalanceTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Label 
-                    Content="{Binding Name}"
+
+                <TextBlock 
                     HorizontalAlignment="Center"
+                    Text="{Binding Name}"
                 />
-                <Label 
+                <TextBlock 
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    Content="{Binding TotalAmount}"
+                    HorizontalAlignment="Right"
+                    Text="{Binding TotalAmount, Converter={StaticResource volumeConverter}}"
+                    Style="{StaticResource ColoredAmountStyle}"
                 />
             </Grid>
         </DataTemplate>
+        
         <DataTemplate x:Key="TransactionTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -40,82 +97,38 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Label 
-                    Content="{Binding Date}"
+                <TextBlock 
                     HorizontalAlignment="Center"
+                    Text="{Binding Date}"
                 />
-                <Label 
+                <TextBlock 
                     Grid.Column="1"
-                    Content="{Binding Type}"
                     HorizontalAlignment="Center"
+                    Text="{Binding Type}"
                 />
-                <Label 
+                <TextBlock 
                     Grid.Column="2"
                     HorizontalAlignment="Center"
-                    Content="{Binding Asset}"
+                    Text="{Binding Asset}"
                 />
                 <TextBlock 
                     Grid.Column="3"
-                    x:Name="AmountTextBlock"
                     HorizontalAlignment="Right"
                     Text="{Binding Amount}"
+                    Style="{StaticResource ColoredAmountStyle}"
                 />
                 <TextBlock 
                     Grid.Column="4"
-                    x:Name="FeeTextBlock"
                     HorizontalAlignment="Right"
                     Text="{Binding Fee}"
                 />
                 <TextBlock 
                     Grid.Column="5"
-                    x:Name="BalanceTextBlock"
                     HorizontalAlignment="Right"
                     Text="{Binding Balance}"
+                    Style="{StaticResource ColoredAmountStyle}"
                 />
             </Grid>
-            <DataTemplate.Triggers>
-                <DataTrigger
-                    Binding="{Binding Path=Amount, Converter={StaticResource signConverter}}"
-                    Value="true"
-                >
-                    <Setter 
-                        Property="Foreground" 
-                        TargetName="AmountTextBlock" 
-                        Value="#FF73B973"
-                    />
-                </DataTrigger>
-                <DataTrigger
-                    Binding="{Binding Path=Amount, Converter={StaticResource signConverter}}"
-                    Value="false"
-                >
-                    <Setter 
-                        Property="Foreground" 
-                        TargetName="AmountTextBlock" 
-                        Value="#FFFF7F7F" 
-                    />
-                </DataTrigger>
-
-                <DataTrigger
-                    Binding="{Binding Path=Balance, Converter={StaticResource signConverter}}"
-                    Value="true"
-                >
-                    <Setter 
-                        Property="Foreground" 
-                        TargetName="BalanceTextBlock" 
-                        Value="#FF73B973" 
-                    />
-                </DataTrigger>
-                <DataTrigger
-                    Binding="{Binding Path=Balance, Converter={StaticResource signConverter}}"
-                    Value="false"
-                >
-                    <Setter 
-                        Property="Foreground" 
-                        TargetName="BalanceTextBlock" 
-                        Value="#FFFF7F7F" 
-                    />
-                </DataTrigger>
-            </DataTemplate.Triggers>
         </DataTemplate>
     </Page.Resources>
     <Grid>
@@ -126,8 +139,9 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
+        
         <GroupBox
             Header="Market API"
             Margin="20"
@@ -142,33 +156,52 @@
             />
         </GroupBox>
 
-        <Grid Grid.Column="1">
-            <ContentControl 
-                x:Name="MessageBoxGrid"
-            />
+        <Grid 
+            Grid.Column="1"
+            Margin="20"
+        >
+            <ContentControl x:Name="MessageBoxGrid" />
         </Grid>
 
         <GroupBox 
             Grid.Row="1"
-            Header="Current Balance"
             Margin="20"
-
+            Header="Current Balance"
         >
-            <ItemsControl 
-                x:Name="AccountBalanceListBox"
-                ItemTemplate="{StaticResource AccountBalanceTemplate}" 
-                Margin="20"
-            />
+            <StackPanel Style="{StaticResource StackPanelHeaders}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock>
+                        Currency
+                    </TextBlock>
+                    <TextBlock 
+                        Grid.Column="1" 
+                        HorizontalAlignment="Right"
+                    >
+                        Amount
+                    </TextBlock>
+                </Grid>
+                <ScrollViewer>
+                    <ItemsControl 
+                        x:Name="AccountBalanceListBox"
+                        ItemTemplate="{StaticResource AccountBalanceTemplate}" 
+                    />
+                </ScrollViewer>
+            </StackPanel>
         </GroupBox>
         
         <GroupBox 
             Grid.Row="1" 
             Grid.Column="1"
-            Header="Ledgers"
             Margin="20"
+            Header="Ledgers"
         >
-            <StackPanel>
-                <Grid Margin="20,5,20,5">
+            <StackPanel Style="{StaticResource StackPanelHeaders}">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
@@ -177,18 +210,39 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock FontSize="11" Text="Date" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock FontSize="11" Grid.Column="1" Text="Type" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock FontSize="11" Grid.Column="2" Text="Asset" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock FontSize="11" Grid.Column="3" Text="Amount" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                    <TextBlock FontSize="11" Grid.Column="4" Text="Fee" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                    <TextBlock FontSize="11" Grid.Column="5" Text="Balance" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    
+                    <TextBlock>
+                        Date
+                    </TextBlock>
+                    <TextBlock Grid.Column="1">
+                        Type
+                    </TextBlock>
+                    <TextBlock Grid.Column="2">
+                        Asset
+                    </TextBlock>
+                    <TextBlock 
+                        Grid.Column="3" 
+                        HorizontalAlignment="Right"
+                    >
+                        Amount
+                    </TextBlock>
+                    <TextBlock 
+                        Grid.Column="4" 
+                        HorizontalAlignment="Right"
+                    >
+                        Fee
+                    </TextBlock>
+                    <TextBlock 
+                        Grid.Column="5" 
+                        HorizontalAlignment="Right"
+                    >
+                        Balance
+                    </TextBlock>
                 </Grid>
-                <ScrollViewer VerticalScrollBarVisibility="Hidden" Height="150" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer>
                     <ItemsControl 
                         x:Name="TransactionsListBox"
                         ItemTemplate="{StaticResource TransactionTemplate}" 
-                        Margin="20,0,20,20"
                     />
                 </ScrollViewer>
             </StackPanel>
@@ -196,17 +250,17 @@
         
         <GroupBox 
             Grid.Row="2" 
-            Header="Income Results" 
             Margin="20"
+            Header="Forecast" 
         >
-
+            
         </GroupBox>
 
         <GroupBox 
-            Grid.Column="1"
             Grid.Row="2" 
-            Header="Forecast" 
+            Grid.Column="1"
             Margin="20"
+            Header="Latest Orders" 
         >
 
         </GroupBox>

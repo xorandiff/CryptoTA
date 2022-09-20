@@ -1,31 +1,31 @@
-﻿using System.Collections.ObjectModel;
+﻿using CryptoTA.Exceptions;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace CryptoTA.Apis
 {
     public class MarketApis : ObservableCollection<IMarketApi>
     {
         private IMarketApi activeMarketApi;
-        public IMarketApi ActiveMarketApi { get { return activeMarketApi; } }
+        public IMarketApi ActiveMarketApi => activeMarketApi;
 
         public MarketApis() : base()
         {
             Add(new BitstampApi());
             Add(new KrakenApi());
+
             activeMarketApi = this[0];
         }
 
-        public bool setActiveApiByName(string marketName)
+        public void SetActiveApiByName(string marketName)
         {
-            foreach (IMarketApi marketApi in this)
+            if (this.Where(a => a.Name == marketName).FirstOrDefault() is not IMarketApi marketApi)
             {
-                if (marketApi.Name == marketName)
-                {
-                    activeMarketApi = marketApi;
-                    return true;
-                }
+                throw new ApiException($"Market API with name {marketName} doesn't exist or hasn't been properly configured.");
             }
 
-            return false;
+            activeMarketApi = marketApi;
         }
     }
 }

@@ -53,7 +53,7 @@ namespace CryptoTA.Database
             }
             try
             {
-                marketApis.setActiveApiByName(dbTradingPair.Market!.Name);
+                marketApis.SetActiveApiByName(dbTradingPair.Market!.Name);
 
                 // Get maximum time interval (with maximum data density, in seconds) for single query,
                 // available in currently used API
@@ -71,8 +71,8 @@ namespace CryptoTA.Database
                 var maxDate = DateTime.Now.AddSeconds(-minTickInterval);
 
                 // Initialize progress tracking variables
-                int downloadRequestsCount = 0;
-                int completedRequests = 0;
+                var downloadRequestsCount = 0;
+                var completedRequests = 0;
                 var reportProgress = (int completed, int total) =>
                 {
                     if (total > 0)
@@ -212,7 +212,7 @@ namespace CryptoTA.Database
                     return result;
                 }
 
-                marketApis.setActiveApiByName(dbTradingPair.Market!.Name);
+                marketApis.SetActiveApiByName(dbTradingPair.Market!.Name);
 
                 // Get maximum time interval (with maximum data density, in seconds) for single query,
                 // available in currently used API
@@ -337,7 +337,7 @@ namespace CryptoTA.Database
                 return null;
             }
 
-            marketApis.setActiveApiByName(dbTradingPair.Market!.Name);
+            marketApis.SetActiveApiByName(dbTradingPair.Market!.Name);
 
             return await marketApis.ActiveMarketApi.GetTickAsync(tradingPair);
         }
@@ -351,7 +351,7 @@ namespace CryptoTA.Database
                 return null;
             }
 
-            marketApis.setActiveApiByName(dbTradingPair.Market!.Name);
+            marketApis.SetActiveApiByName(dbTradingPair.Market!.Name);
 
             return marketApis.ActiveMarketApi.GetTick(tradingPair);
         }

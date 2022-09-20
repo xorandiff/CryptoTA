@@ -2,33 +2,32 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace CryptoTA.Indicators
+namespace CryptoTA.Indicators;
+
+public class IndicatorsCollection : ObservableCollection<IIndicator>
 {
-    public class IndicatorsCollection : ObservableCollection<IIndicator>
+    private readonly MovingAverages movingAverages = new();
+    private readonly Oscillators oscillators = new();
+
+    public IndicatorsCollection() : base()
     {
-        private readonly MovingAverages movingAverages = new();
-        private readonly Oscillators oscillators = new();
+        var indicators = movingAverages.IndicatorsCollection;
+        indicators.AddRange(oscillators.IndicatorsCollection);
 
-        public IndicatorsCollection() : base()
+        foreach (IIndicator indicator in indicators)
         {
-            var indicators = movingAverages.IndicatorsCollection;
-            indicators.AddRange(oscillators.IndicatorsCollection);
-
-            foreach (IIndicator indicator in indicators)
-            {
-                Add(indicator);
-            }
+            Add(indicator);
         }
+    }
 
-        public List<IndicatorResult> Run(List<Tick> ticks, uint secondsInterval, Tick currentTick)
-        {
-            var movingAveragesResults = movingAverages.Run(ticks, secondsInterval, currentTick);
-            var oscillatorsResults = movingAverages.Run(ticks, secondsInterval, currentTick);
+    public List<IndicatorResult> Run(List<Tick> ticks, uint secondsInterval, Tick currentTick)
+    {
+        var movingAveragesResults = movingAverages.Run(ticks, secondsInterval, currentTick);
+        var oscillatorsResults = movingAverages.Run(ticks, secondsInterval, currentTick);
 
-            var results = movingAveragesResults;
-            results.AddRange(oscillatorsResults);
+        var results = movingAveragesResults;
+        results.AddRange(oscillatorsResults);
 
-            return results;
-        }
+        return results;
     }
 }

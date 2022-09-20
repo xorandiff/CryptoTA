@@ -100,40 +100,35 @@ namespace CryptoTA.UserControls
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            using (var db = new DatabaseContext())
+            using var db = new DatabaseContext();
+            markets.Clear();
+            foreach (var market in CreateMarkets())
             {
-                markets.Clear();
-                foreach (var market in CreateMarkets())
-                {
-                    markets.Add(market);
-                }
-                Market = await db.GetMarketFromSettings();
-                Market = markets.Where(m => m.MarketId == Market.MarketId).First();
-                MarketComboBox.SelectedItem = Market;
-
-                if (!marketApis.setActiveApiByName(Market.Name))
-                {
-                    throw new Exception("No market API found that correspond to database market name.");
-                }
-
-                tradingPairs.Clear();
-                foreach (var tradingPair in CreateTradingPairs())
-                {
-                    tradingPairs.Add(tradingPair);
-                }
-                TradingPair = await db.GetTradingPairFromSettings();
-                TradingPair = tradingPairs.Where(tp => tp.TradingPairId == TradingPair.TradingPairId).First();
-
-                timeIntervals.Clear();
-                foreach (var timeInterval in CreateTimeIntervals())
-                {
-                    timeIntervals.Add(timeInterval);
-                }
-                TimeInterval = await db.GetTimeIntervalFromSettings(false);
-                TimeInterval = timeIntervals.Where(ti => ti.TimeIntervalId == TimeInterval.TimeIntervalId).First();
-
-                await FetchTickData();
+                markets.Add(market);
             }
+            Market = await db.GetMarketFromSettings();
+            Market = markets.Where(m => m.MarketId == Market.MarketId).First();
+            MarketComboBox.SelectedItem = Market;
+
+            marketApis.SetActiveApiByName(Market.Name);
+
+            tradingPairs.Clear();
+            foreach (var tradingPair in CreateTradingPairs())
+            {
+                tradingPairs.Add(tradingPair);
+            }
+            TradingPair = await db.GetTradingPairFromSettings();
+            TradingPair = tradingPairs.Where(tp => tp.TradingPairId == TradingPair.TradingPairId).First();
+
+            timeIntervals.Clear();
+            foreach (var timeInterval in CreateTimeIntervals())
+            {
+                timeIntervals.Add(timeInterval);
+            }
+            TimeInterval = await db.GetTimeIntervalFromSettings(false);
+            TimeInterval = timeIntervals.Where(ti => ti.TimeIntervalId == TimeInterval.TimeIntervalId).First();
+
+            await FetchTickData();
         }
 
         public Market Market { get; set; } = new();
@@ -211,7 +206,7 @@ namespace CryptoTA.UserControls
             {
                 try
                 {
-                    marketApis.setActiveApiByName(market.Name);
+                    marketApis.SetActiveApiByName(market.Name);
 
                     using var db = new DatabaseContext();
                     if (!db.TradingPairs.Where(tp => tp.MarketId == market.MarketId).Any())
@@ -292,96 +287,94 @@ namespace CryptoTA.UserControls
             var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(2));
             while (await periodicTimer.WaitForNextTickAsync())
             {
-                using (var db = new DatabaseContext())
+                using var db = new DatabaseContext();
+                if (TradingPairComboBox.SelectedItem is TradingPair tradingPair)
                 {
-                    if (TradingPairComboBox.SelectedItem is TradingPair tradingPair)
+                    if (await marketApis.ActiveMarketApi.GetTickAsync(tradingPair) is not Tick tick)
                     {
-                        if (await marketApis.ActiveMarketApi.GetTickAsync(tradingPair) is not Tick tick)
+                        continue;
+                    }
+
+                    CurrentPriceText.Text = CurrencyCodeMapper.GetSymbol(tradingPair.CounterSymbol) + " " + tick.Close;
+                    CurrentBaseSymbolTextBlock.Text = "/" + tradingPair.BaseSymbol;
+
+                    tick.TradingPairId = TradingPair.TradingPairId;
+                    await db.Ticks.AddAsync(tick);
+
+                    await db.SaveChangesAsync();
+
+                    if (TimeInterval.Seconds <= 3600 * 24)
+                    {
+                        if (observableValues.Any())
                         {
-                            continue;
+                            observableValues.RemoveAt(0);
                         }
+                        observableValues.Add(tick);
 
-                        CurrentPriceText.Text = CurrencyCodeMapper.GetSymbol(tradingPair.CounterSymbol) + " " + tick.Close;
-                        CurrentBaseSymbolTextBlock.Text = "/" + tradingPair.BaseSymbol;
-
-                        tick.TradingPairId = TradingPair.TradingPairId;
-                        await db.Ticks.AddAsync(tick);
-
-                        await db.SaveChangesAsync();
-
-                        if (TimeInterval.Seconds <= 3600 * 24)
+                        if (observableLabels.Any())
                         {
-                            if (observableValues.Any())
-                            {
-                                observableValues.RemoveAt(0);
-                            }
-                            observableValues.Add(tick);
-
-                            if (observableLabels.Any())
-                            {
-                                observableLabels.RemoveAt(0);
-                            }
-                            observableLabels.Add(tick.Date.ToString("HH:mm"));
+                            observableLabels.RemoveAt(0);
                         }
+                        observableLabels.Add(tick.Date.ToString("HH:mm"));
+                    }
 
-                        var dayBefore = tick.Date.AddDays(-1);
-                        var dayBeforeTick = await db.Ticks
-                                            .Where(t => t.TradingPairId == TradingPair.TradingPairId && t.Date <= dayBefore)
-                                            .OrderByDescending(t => t.Date)
-                                            .FirstOrDefaultAsync();
+                    var dayBefore = tick.Date.AddDays(-1);
+                    var dayBeforeTick = await db.Ticks
+                                        .Where(t => t.TradingPairId == TradingPair.TradingPairId && t.Date <= dayBefore)
+                                        .OrderByDescending(t => t.Date)
+                                        .FirstOrDefaultAsync();
 
-                        if (dayBeforeTick != null)
+                    if (dayBeforeTick != null)
+                    {
+                        double percents = (tick.Close - dayBeforeTick.Close) / dayBeforeTick.Close * 100d;
+                        string percentString = string.Format("{0:N2}", percents) + "%";
+
+                        Color percentColor = Color.FromRgb(240, 240, 240);
+                        if (percents > 0)
                         {
-                            double percents = (tick.Close - dayBeforeTick.Close) / dayBeforeTick.Close * 100d;
-                            string percentString = string.Format("{0:N2}", percents) + "%";
-
-                            Color percentColor = Color.FromRgb(240, 240, 240);
-                            if (percents > 0)
+                            if (percents >= 15)
                             {
-                                if (percents >= 15)
-                                {
-                                    percentColor = Color.FromRgb(0, 255, 0);
-                                }
-                                else if (percents >= 10)
-                                {
-                                    percentColor = Color.FromRgb(41, 179, 41);
-                                }
-                                else if (percents >= 5)
-                                {
-                                    percentColor = Color.FromRgb(103, 165, 103);
-                                }
-                                else if (percents >= 1)
-                                {
-                                    percentColor = Color.FromRgb(181, 255, 181);
-                                }
+                                percentColor = Color.FromRgb(0, 255, 0);
                             }
-                            else if (percents < 0)
+                            else if (percents >= 10)
                             {
-                                if (percents <= -15)
-                                {
-                                    percentColor = Color.FromRgb(255, 0, 0);
-                                }
-                                else if (percents <= -10)
-                                {
-                                    percentColor = Color.FromRgb(179, 41, 41);
-                                }
-                                else if (percents <= -5)
-                                {
-                                    percentColor = Color.FromRgb(165, 103, 103);
-                                }
-                                else if (percents <= -1)
-                                {
-                                    percentColor = Color.FromRgb(255, 181, 181);
-                                }
+                                percentColor = Color.FromRgb(41, 179, 41);
                             }
-                            CurrentChangeText.Foreground = new SolidColorBrush(percentColor);
-
-                            if (percents > 0)
+                            else if (percents >= 5)
                             {
-                                percentString = "+" + percentString;
+                                percentColor = Color.FromRgb(103, 165, 103);
                             }
-                            CurrentChangeText.Text = percentString;
+                            else if (percents >= 1)
+                            {
+                                percentColor = Color.FromRgb(181, 255, 181);
+                            }
                         }
+                        else if (percents < 0)
+                        {
+                            if (percents <= -15)
+                            {
+                                percentColor = Color.FromRgb(255, 0, 0);
+                            }
+                            else if (percents <= -10)
+                            {
+                                percentColor = Color.FromRgb(179, 41, 41);
+                            }
+                            else if (percents <= -5)
+                            {
+                                percentColor = Color.FromRgb(165, 103, 103);
+                            }
+                            else if (percents <= -1)
+                            {
+                                percentColor = Color.FromRgb(255, 181, 181);
+                            }
+                        }
+                        CurrentChangeText.Foreground = new SolidColorBrush(percentColor);
+
+                        if (percents > 0)
+                        {
+                            percentString = "+" + percentString;
+                        }
+                        CurrentChangeText.Text = percentString;
                     }
                 }
             }

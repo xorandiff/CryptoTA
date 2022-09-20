@@ -72,9 +72,9 @@ namespace CryptoTA.Services
                 return jTokenData;
             }
 
-            string responsePathString = responsePath[0];
+            var responsePathString = responsePath[0];
 
-            foreach (string path in responsePath)
+            foreach (var path in responsePath)
             {
                 if (Array.IndexOf(responsePath, path) > 0)
                 {
